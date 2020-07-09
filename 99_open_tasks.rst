@@ -16,6 +16,9 @@ Unsolved, not mentioned Details in Requirements
    - Cape-ID or Node-ID could be coded in hardware (Resistor-bridges would be human readable, flashstorage can also contain calibration-data
    - variable TX-Power for multi-hop → is it enough to change firmware or do we need attenuation
    - should the gpios to target be individual switchable (connected, disconnected)
+   - 2x2x25 Pin-Header between BB and Shepherd is hard to (dis)assemble -> is there a need to forward all pins?
+      - improvement 1: used pins don't have to be forwarded
+      - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
 - Software
    - how dynamic do Nodes have to react on current environment (network access, gps attached)
       - i.e. system start → look for GPS and network → decide which role is used
@@ -38,28 +41,20 @@ Hardware
       - allow to share tasks with additional PRU of BB Black
       - max out pins to target (general purpose for programming and io)
       - allow recording of PPS signal via PRU
+      - reduce or bundle pins to shepherd (or another way to make disassembly easier)
    - how does the recorder measure real power if only voltage before converter and current after converter is measured?
       - does replay / emulation "just" rely on voltage-DAC and target-current-draw measurement?
-   - switches: multi-pin, low leakage, high data-rate
-   - switches: power, low leakage
-   - level-changer: high speed, low-power
-   - external (SMA) connector for PPS on Cape
-   - solid power-connector and possiblity to switch on/off
-- Capelet - System
-   - get rid of pin-headers for b2b-interconnect -> molex, flex cable, hirose ...
-   -
-- GPS Capelet
-   - look for similar gps-module with external antenna support
-   - backup power (LiPo / Supercap)
-- target Capelet
+   - target-relays/switches : multi-pin, low leakage, high data-rate
+   - power-switches: low leakage
+   - level-changer: high speed, low-power, possible combination with switch / programmable
+- look for similar gps-module with external antenna support
+
 
 Software - PRUs
 ---------------
 
 - does BB AI with TI AM5729 offer more pins?
    - https://www.ti.com/product/AM5729
-- SPI, use dedicated hardware and not bit-banging
--
 
 Software - Python
 -----------------
@@ -71,5 +66,3 @@ Software - OpenOCD
 
 Software - Web-Interface
 ------------------------
-
--
