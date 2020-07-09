@@ -4,11 +4,6 @@ Current Tasks
 Unsolved, not mentioned Details in Requirements
 -----------------------------------------------
 
-- Testbed, TODO
-   - Infrastructure of university sufficient and usable? ethernet-ports, power-sockets, ptp over ethernet-switch-cascade
-   - how to get server from ZIH
-   - what about interference with office WIFI -> rules and constraints of ZIH / university
-   - is it possible to put the nodes in cable canal
 - Hardware
    - nodes powered and controllable via POE
    - how to control distant long-Range-Nodes
@@ -26,12 +21,14 @@ Unsolved, not mentioned Details in Requirements
 Testbed
 -------
 
+- Infrastructure of university sufficient and usable? ethernet-ports, power-sockets, ptp over ethernet-switch-cascade
 - specs / prices for
    - ethernet-switch: poe, ptp, QoS, GPS
    - POE adapter
-- ZIH Server request
-- look for rules, ZIH, active RF-nw in buildings of university
+- ZIH Server request -> how to get a (virtual) server hosted there
+- look for rules, ZIH, active interfering RF-nw in buildings of university (office WIFI)
 - rules for using infrastructure of university (ethernet-ports, power-sockets, ptp)
+- is it possible to put the nodes in cable canal
 
 Hardware
 --------
