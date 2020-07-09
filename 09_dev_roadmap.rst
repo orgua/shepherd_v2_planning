@@ -9,4 +9,6 @@ Development-Roadmap
 - order some beaglebone AI to test new capabilities (if needed)
 - design new cape and capelets
 - manufacturing
-- software dev
+- software dev - python-api and pru
+- software dev - web-api
+- stretch-goals

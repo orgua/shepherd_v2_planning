@@ -16,7 +16,7 @@ Unsolved, not mentioned Details in Requirements
    - Cape-ID or Node-ID could be coded in hardware (Resistor-bridges would be human readable, flashstorage can also contain calibration-data
    - variable TX-Power for multi-hop → is it enough to change firmware or do we need attenuation
    - should the gpios to target be individual switchable (connected, disconnected)
-   - 2x2x25 Pin-Header between BB and Shepherd is hard to (dis)assemble -> is there a need to forward all pins?
+   - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
       - improvement 1: used pins don't have to be forwarded
       - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
 - Software
@@ -37,8 +37,8 @@ Hardware
 --------
 
 - Shepherd-Cape
-   - pinout on BB Black and AI, what's used and where to go
-      - allow to share tasks with additional PRU of BB Black
+   - pinout on beaglebone Black and AI, what's used and where to go
+      - allow to share tasks with additional PRU of beaglebone Black
       - max out pins to target (general purpose for programming and io)
       - allow recording of PPS signal via PRU
       - reduce or bundle pins to shepherd (or another way to make disassembly easier)
@@ -53,11 +53,16 @@ Hardware
 Software - PRUs
 ---------------
 
-- does BB AI with TI AM5729 offer more pins?
+- does beaglebone AI with TI AM5729 offer more pins?
    - https://www.ti.com/product/AM5729
+- fix device tree for current beagle-kernel
 
 Software - Python
 -----------------
+
+- figure out a system to bulk-initialize scenario, measurement, but also individualize certain nodes if needed
+   - build "default" one and deep-copy and individualize -> this could be part of a test-bed-module-handler
+      - test-bed instantiates beaglebone-nodes [1..30] and user can hand target and harvest module to selected nodes
 
 Software - OpenOCD
 ------------------
