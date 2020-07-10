@@ -6,17 +6,25 @@ Unsolved, not mentioned Details in Requirements
 
 - Hardware
    - nodes powered and controllable via POE
+      - already available: 20 external PoE-Splitter and 24 Port Zyxel Ethernet-Switch (with PoE)
    - how to control distant long-Range-Nodes
-      - mobile network for control backchannel, or just scheduled via pre-configuration
-   - Cape-ID or Node-ID could be coded in hardware (Resistor-bridges would be human readable, flashstorage can also contain calibration-data
-   - variable TX-Power for multi-hop → is it enough to change firmware or do we need attenuation
+      - idea 1: mobile network for control back-channel
+      - idea 2: scheduled via pre-configuration (and access to time-base)
+   - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
+      - input from kai: firmware should suffice
    - should the gpios to target be individual switchable (connected, disconnected)
+      - input from kai: no requirement, but current IC supports it (TI TXB03)
    - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
       - improvement 1: used pins don't have to be forwarded
       - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
+      - input from kai: gold plated pins should be easier to handle
+   - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
+   - does target-cape benefit from vinSHT+/-? seems like a noise-source
 - Software
    - how dynamic do Nodes have to react on current environment (network access, gps attached)
       - i.e. system start → look for GPS and network → decide which role is used
+      -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
+   - do all targets get the same firmware, is it precompiled? is it already individualized, or do we have to change IDs in binary?
 
 Testbed
 -------
@@ -30,28 +38,30 @@ Testbed
 - rules for using infrastructure of university (ethernet-ports, power-sockets, ptp)
 - is it possible to put the nodes in cable canal
 
-Hardware
---------
+Hardware - mostly shepherd Cape
+-------------------------------
 
-- Shepherd-Cape
-   - pinout on beaglebone Black and AI, what's used and where to go
-      - allow to share tasks with additional PRU of beaglebone Black
-      - max out pins to target (general purpose for programming and io)
-      - allow recording of PPS signal via PRU
-      - reduce or bundle pins to shepherd (or another way to make disassembly easier)
-   - how does the recorder measure real power if only voltage before converter and current after converter is measured?
-      - does replay / emulation "just" rely on voltage-DAC and target-current-draw measurement?
-   - target-relays/switches : multi-pin, low leakage, high data-rate
-   - power-switches: low leakage
-   - level-changer: high speed, low-power, possible combination with switch / programmable
+- target-relays/switches : multi-pin, low leakage, high data-rate
+  - current uni-direction (gpio) -> SN74LV4T125PWR -> diodes needed?
+  - current bi-direction (uart, swd) -> TXB0304RUTR
+- power-switches: low leakage
+- level-changer: high speed, low-power, possible combination with switch / programmable
+- is there a better power-path?
+  - find reason for substractor (EMU-I)
+  - why is uni-dir level switcher not on vdd-target -> it could get into undefined state
 - look for similar gps-module with external antenna support
-
+- draw digital version of float chart for power-stage
+   - where is V_CREF coming from, or is it flowing backwards from VOC_SAMP?
+   - is there a possibility that (CV)-LDO drives against MPPT-Converter?
+   -
 
 Software - PRUs
 ---------------
 
-- does beaglebone AI with TI AM5729 offer more pins?
+- does beaglebone AI with TI AM5729 offer more pins for PRU?
    - https://www.ti.com/product/AM5729
+- is it possible to use SPI-silicon?
+- would openOCD be able to access memory-mapped pins (tunneled through PRU)
 - fix device tree for current beagle-kernel
 
 Software - Python
@@ -60,11 +70,17 @@ Software - Python
 - figure out a system to bulk-initialize scenario, measurement, but also individualize certain nodes if needed
    - build "default" one and deep-copy and individualize -> this could be part of a test-bed-module-handler
       - test-bed instantiates beaglebone-nodes [1..30] and user can hand target and harvest module to selected nodes
+   - shepherd herd -> yaml -> per node config
 
 Software - OpenOCD
 ------------------
 
 - check for compatibility jtag, swd, spy-by-wire to new target ICs (tunneled through PRU)
+   - nRF52 (DFU / USB, SWD)
+   - STM32L4 (SWD)
+   - MSP430, MSP432, CC430 (JTAG, Serial, USB, Spy-By-Wire)
+- currently not routed through PRU, just normal beagle-GPIO
+
 
 Software - Web-Interface
 ------------------------

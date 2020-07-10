@@ -19,17 +19,23 @@ Emulation of Capacitor / DC-Converter
 More GPIO to Target
 -------------------
 
-- Problem: gpio must be real time in PRU, PRU Pins limited and almost
-- improvement 1: share programming-pins (if not already)
-- improvement 2: beaglebone AI offers one more PRU and hopefully with more usable pins
+- Problem: gpio must be real time in PRU, PRU Pin-count and workload limited
+- improvement 1: share programming-pins (currently not possible)
+- improvement 2: beaglebone AI offers one more PRU, hopefully with more usable pins
 - assessment:
-   - TODO: more reading
+   - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
 
-Bidirectional GPIO and fast/variable UART to Target
+Bidirectional GPIO and fast/variable UART / SPI to Target
 ---------------------------------------------------
 
 - Problem: logic signal must be level-shifted and detachable (possible energy transfer) and also high-speed
-- improvement: change level-changer and muxer if needed
+- current layout: Target-GPIO are output only, uart bi-dir & recorded in PRU, programmer is in user space (currently not recordable, dedicated pins on nRF52)
+- improvement: change level-changer and switches / muxer if needed
+- assessment:
+   - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api
+   - (high-speed) SPI is hardly possible, there are no further dedicated hw-spi that share pru-pins
+   - uart-speeds, TODO: must check with PRU-Documentation,
+
 
 Allow user-provided Energy-Traces
 ----------------------------------
@@ -76,7 +82,9 @@ Support for other Targets
 - Enabler 1: generalize programmer pins and GPIO-Pins to Target (specialize on target-carrier-pcb)
 - Enabler 2: bring usb to target device if possible (beaglebone-Pinheader does not have USB, but could be realized via cable)
 - assessment:
-   - TODO (more reading), but seems viable
+   - if openOCD supports targets and prog-protocol (or implementing them is easy), chances are good
+   - pin-sharing with target-gpio is hard -> device-tree seems pretty static
+   - general idea seems viable -> TODO: more reading
 
 Support for two selectable Targets
 ----------------------------------
@@ -89,6 +97,7 @@ Support for two selectable Targets
    - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
    - software could be more tricky -> py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
 
+
 GeneralPurpose-Capelet-Port
 ---------------------------
 
@@ -96,6 +105,7 @@ GeneralPurpose-Capelet-Port
 - Problem: unknown data-rate, use of GPIO, interfaces, programming interface
 - assessment:
    - a simple sensor interface with gpios, spi, i2c would be feasable
+      - there is a free uart5 and half uart4 that could be freed, and 20+ user space gpio
    - SDR exceeds limits of project -> would be better suited on a second beaglebone or PicoZed-Board (Zynq-FPGA + SDR)
 
 Separate RF-Interferer
