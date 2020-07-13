@@ -4,27 +4,31 @@ Current Tasks
 Unsolved, not mentioned Details in Requirements
 -----------------------------------------------
 
+- Testbed
+    - are targeted rooms limited to BAR II55 - II75 (`cfaed floor-plan <https://navigator.tu-dresden.de/etplan/bar/02>`_)
 - Hardware
-   - nodes powered and controllable via POE
-      - already available: 20 external PoE-Splitter and 24 Port Zyxel Ethernet-Switch (with PoE)
-   - how to control distant long-Range-Nodes
-      - idea 1: mobile network for control back-channel
-      - idea 2: scheduled via pre-configuration (and access to time-base)
-   - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
-      - -> input from kai: firmware should suffice
-   - should the gpios to target be individual switchable (connected, disconnected)
-      - input from kai: no requirement, but current IC supports it (TI TXB03)
-   - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
-      - improvement 1: used pins don't have to be forwarded
-      - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
-      - -> input from kai: gold plated pins should be easier to handle
-   - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
-   - does target-cape benefit from vinSHT+/-? seems like a noise-source
+    - nodes powered and controllable via POE
+        - already available: 20 external PoE-Splitter and 24 Port Zyxel Ethernet-Switch (with PoE)
+        - -> Kai preferes this solution
+    - how to control distant long-Range-Nodes
+        - idea 1: mobile network for control back-channel
+        - idea 2: scheduled via pre-configuration (and access to time-base)
+    - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
+        - -> input from kai: firmware should suffice
+    - should the gpios to target be individual switchable (connected, disconnected)
+        - input from kai: no requirement, but current IC supports it (TI TXB03)
+    - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
+        - improvement 1: used pins don't have to be forwarded
+        - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
+        - -> input from kai: gold plated pins should be easier to handle
+    - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
+        - there are still unused GPIO available, even a uart, but no SPI or I2C
+    - does target-cape benefit from vinSHT+/-? seems like a noise-source for the ADC
 - Software
-   - how dynamic do Nodes have to react on current environment (network access, gps attached)
-      - i.e. system start → look for GPS and network → decide which role is used
-      - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
-   - do all targets get the same firmware, is it precompiled? is it already individualized, or do we have to change IDs in binary?
+    - how dynamic do Nodes have to react on current environment (network access, gps attached)
+        - i.e. system start → look for GPS and network → decide which role is used
+        - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
+    - do all targets get the same firmware, is it precompiled? is it already individualized, or do we have to change IDs in binary?
 
 Testbed
 -------
@@ -53,7 +57,7 @@ Hardware - mostly shepherd Cape
 - draw digital version of float chart for power-stage
    - where is V_CREF coming from, or is it flowing backwards from VOC_SAMP?
    - is there a possibility that (CV)-LDO drives against MPPT-Converter?
-   -
+
 
 Software - RealTime-Code
 ------------------------

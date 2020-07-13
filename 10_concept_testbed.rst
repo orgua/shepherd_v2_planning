@@ -13,14 +13,14 @@ Administrative Info
 -------------------
 
 - ZIH offers hosting of (self provided) physical server and virtual ones
-    - [ZIH Server FAQ](https://tu-dresden.de/zih/dienste/service-katalog/zusammenarbeiten-und-forschen/server_hosting)
+    - `ZIH Server FAQ <https://tu-dresden.de/zih/dienste/service-katalog/zusammenarbeiten-und-forschen/server_hosting>`_
     - phyServer: gets power, ethernet, USV, cooling, ...
-    - vServer: prefered by ZIH, free of charge, 3-5 Days prepare -> [vServer via Self Service](https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste)
-    - ZIH offers Sub-Domains on Website -> [FAQ](https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/domains-dns/management)
+    - vServer: prefered by ZIH, free of charge, 3-5 Days prepare -> `vServer via Self Service <https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste>`_
+    - ZIH offers Sub-Domains on Website -> `FAQ Sub <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/domains-dns/management>`_
 - ZIH-Rules for using their infrastructure
-    - central dhcp: only by IT-Admin of facility [FAQ](https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/zentrale_ip_adressverwaltung)
-    - network access: IT-Admin .. [FAQ](https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz)
-    - [cfaed IT-Admin](https://cfaed.tu-dresden.de/it-support)
+    - central dhcp: only by IT-Admin of facility `FAQ DHCP <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/zentrale_ip_adressverwaltung>`_
+    - network access: IT-Admin .. `FAQ <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz>`_
+    - `cfaed IT-Admin <https://cfaed.tu-dresden.de/it-support>`_
     - WIFI interference und network capability undocumented online
 - Answer to inquiry, from IT / ZIH
     - we could use right side of nw-sockets (currently mostly unpatched) -> TODO: talk with the leaders of groups
@@ -34,7 +34,7 @@ Administrative Info
     - hardware > 150 € needs to be in inventory (sticker & database listing)
     - vServer gets monitored / managed with Centreon
     - passwords and access-data should be managed with "TeamPass" -> password manager for groups
-- [cfaed floor-plan](https://navigator.tu-dresden.de/etplan/bar/02)
+- `cfaed floor-plan <https://navigator.tu-dresden.de/etplan/bar/02>`_
 
 Anforderungen für das ZIH
 -------------------------
@@ -49,4 +49,4 @@ Projektbeschreibung
 
 Anforderungen
 - Info über Koexistenz-Regeln für Office-WLAN, Eduroam und anderen Uni-Systemen im ISM-Band
-- 
+
