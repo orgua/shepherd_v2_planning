@@ -11,19 +11,19 @@ Unsolved, not mentioned Details in Requirements
       - idea 1: mobile network for control back-channel
       - idea 2: scheduled via pre-configuration (and access to time-base)
    - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
-      - input from kai: firmware should suffice
+      - -> input from kai: firmware should suffice
    - should the gpios to target be individual switchable (connected, disconnected)
       - input from kai: no requirement, but current IC supports it (TI TXB03)
    - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
       - improvement 1: used pins don't have to be forwarded
       - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
-      - input from kai: gold plated pins should be easier to handle
+      - -> input from kai: gold plated pins should be easier to handle
    - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
    - does target-cape benefit from vinSHT+/-? seems like a noise-source
 - Software
    - how dynamic do Nodes have to react on current environment (network access, gps attached)
       - i.e. system start → look for GPS and network → decide which role is used
-      -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
+      - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
    - do all targets get the same firmware, is it precompiled? is it already individualized, or do we have to change IDs in binary?
 
 Testbed
@@ -33,8 +33,8 @@ Testbed
 - specs / prices for
    - ethernet-switch: poe, ptp, QoS, GPS
    - POE adapter
-- ZIH Server request -> how to get a (virtual) server hosted there
 - look for rules, ZIH, active interfering RF-nw in buildings of university (office WIFI)
+   - contact IT-Admin (
 - rules for using infrastructure of university (ethernet-ports, power-sockets, ptp)
 - is it possible to put the nodes in cable canal
 
@@ -55,14 +55,16 @@ Hardware - mostly shepherd Cape
    - is there a possibility that (CV)-LDO drives against MPPT-Converter?
    -
 
-Software - PRUs
----------------
+Software - RealTime-Code
+------------------------
 
-- does beaglebone AI with TI AM5729 offer more pins for PRU?
-   - https://www.ti.com/product/AM5729
-- is it possible to use SPI-silicon?
-- would openOCD be able to access memory-mapped pins (tunneled through PRU)
-- fix device tree for current beagle-kernel
+- PRU
+    - does beaglebone AI with TI AM5729 offer more pins for PRU?
+       - https://www.ti.com/product/AM5729
+    - is it possible to use SPI-silicon?
+    - would openOCD be able to access memory-mapped pins (tunneled through PRU)
+    - fix device tree for current beagle-kernel
+- FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
 
 Software - Python
 -----------------
