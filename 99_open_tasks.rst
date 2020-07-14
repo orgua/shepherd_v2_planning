@@ -23,8 +23,11 @@ Unsolved, not mentioned Details in Requirements
         - -> input from kai: gold plated pins should be easier to handle
     - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
         - there are still unused GPIO available, even a uart, but no SPI or I2C
+    - preferred casing choices: off-the-shelf case with custom front-plates or laser-cut-acrylic box?
+- questions regarding design-choices on shepherd v1.x
     - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
-    - prefered casing choices: off-the-shelf case with custom front-plates or laser-cut-acrylic box?
+    - what is the reason for the subtractor-bias / V_EMU_I
+    - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
 - Software
     - how dynamic do Nodes have to react on current environment (network access, gps attached)
         - i.e. system start → look for GPS and network → decide which role is used
@@ -34,14 +37,11 @@ Unsolved, not mentioned Details in Requirements
 Testbed
 -------
 
-- Infrastructure of university sufficient and usable? ethernet-ports, power-sockets, ptp over ethernet-switch-cascade
-- specs / prices for
-   - ethernet-switch: poe, ptp, QoS, GPS
-   - POE adapter
-- look for rules, ZIH, active interfering RF-nw in buildings of university (office WIFI)
-   - contact IT-Admin (
-- rules for using infrastructure of university (ethernet-ports, power-sockets, ptp)
-- is it possible to put the nodes in cable canal
+- when ZIH has vLAN ready: test if infrastructure of university is sufficient, mostly regarding ptp
+- for node-distribution
+    - talk with the leaders of groups that occupy offices
+    - examine offices with IT-Admin
+
 
 Hardware - mostly shepherd Cape
 -------------------------------
@@ -54,10 +54,9 @@ Hardware - mostly shepherd Cape
 - is there a better power-path?
   - find reason for substractor (EMU-I)
   - why is uni-dir level switcher not on vdd-target -> it could get into undefined state
-- look for similar gps-module with external antenna support
 - draw digital version of float chart for power-stage
    - where is V_CREF coming from, or is it flowing backwards from VOC_SAMP?
-   - is there a possibility that (CV)-LDO drives against MPPT-Converter?
+   - is there a possibility that (CV)-LDO drives against MPPT-Converter in a unwanted state?
 
 
 Software - RealTime-Code

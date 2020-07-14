@@ -21,9 +21,13 @@ Concept - Hardware - Shepherd-Cape
     - support for addressable i2c-flash for distinction and configuration
     - maybe rotate capelets, so they stick orthogonal on shepherd (would benefit antenna)
 - GPS Capelet
-    - look for similar gps-module with external antenna support (currently ublox SAM M8Q) -> ublox Neo M8Q, same but with external antenna
+    - look for similar gps-module with external antenna support (currently ublox SAM M8Q) -> ublox Neo M8Q, same but with external antenna, 30-60 ns accuracy
     - backup power (LiPo / Supercap)
-    -
+    - there are special timing modules
+        - uBlox ZED-F9T (~ 140 €, < 5ns clear sky)
+        - uBlox LEA-M8F (~60 €, < 20 ns clear sky)
+        - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky)
+        - trimble also offers precise timing gps modules
 - target Capelet
     - allow a second target -> switch inputs and power (could also lead to a third if space is available
     - allow different targets (probably limited by software)

@@ -10,6 +10,8 @@ Concept - Testbed
         - preferred if Nodes are connected to one switch (in BAR II65) for ~100 ns timing-constraint
         - preferred if PoE could be controlled to shut down nodes, safe energy
     - ZIH-Requirements: installed fusion-inventory (to scan for vulnerabilities)
+    - we can't use the cable canal (== structural change)
+    - for using
 - one control-server that contains: user data, web interface, shepherd controller
     - needs linux from debian-family, python 3.7+, ansible
     - 20 - 100 GB scratch area
@@ -82,7 +84,7 @@ Comparison D-Cube
 - `Overview <http://www.carloalbertoboano.com/documents/D-Cube_overview.pdf>`_
 - DBs: relational -> MariaDB, Time Series -> InfluxDB
 - user interface -> Grafana
-- gpio-tracing -> isolators for usb, power, bi-dir gpio (ISO7220M, ISO7221M, ADUM3160, NXE2)
+- gpio-tracing -> isolators for usb, power, bi-dir gpio (TI ISO7220M, ISO7221M, ADUM3160, NXE2)
 - latency profiling -> Navspark-GL, later uBlox Neo
 - power profiling -> TI LMP92064
 - interference generator -> JamLab-NG
