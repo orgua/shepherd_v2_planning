@@ -15,7 +15,7 @@ Unsolved, not mentioned Details in Requirements
         - idea 2: scheduled via pre-configuration (and access to time-base)
     - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
         - -> input from kai: firmware should suffice
-    - should the gpios to target be individual switchable (connected, disconnected)
+    - should the gpios to target be individually switchable (connected, disconnected) for less energy-interference
         - input from kai: no requirement, but current IC supports it (TI TXB03)
     - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
         - improvement 1: used pins don't have to be forwarded
@@ -23,12 +23,13 @@ Unsolved, not mentioned Details in Requirements
         - -> input from kai: gold plated pins should be easier to handle
     - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
         - there are still unused GPIO available, even a uart, but no SPI or I2C
-    - does target-cape benefit from vinSHT+/-? seems like a noise-source for the ADC
+    - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
+    - prefered casing choices: off-the-shelf case with custom front-plates or laser-cut-acrylic box?
 - Software
     - how dynamic do Nodes have to react on current environment (network access, gps attached)
         - i.e. system start → look for GPS and network → decide which role is used
         - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
-    - do all targets get the same firmware, is it precompiled? is it already individualized, or do we have to change IDs in binary?
+    - do all targets get the same firmware, is it precompiled? is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
 
 Testbed
 -------

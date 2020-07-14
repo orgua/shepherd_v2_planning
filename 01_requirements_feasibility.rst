@@ -112,7 +112,7 @@ Separate RF-Interferer
 ----------------------
 
 - more specific: controllable rf-standards as interference
-- enabler: modules for WIFI and BT could be added per USB / Hub and controlled via linux, defined traffic via iperf (for WIFI)
+- enabler: modules for WIFI and BT could be added per USB / Hub and controlled via linux, defined traffic via iperf (for WIFI) or JamLab-NG
 - assessment:
    - should not be main goal for shepherd V2, maybe stretch goal
    - has no influence on cape-hw-design or python-API, can be completely separate (even on extra beaglebone or server)
