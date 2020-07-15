@@ -24,15 +24,16 @@ Unsolved, not mentioned Details in Requirements
     - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
         - there are still unused GPIO available, even a uart, but no SPI or I2C
     - preferred casing choices: off-the-shelf case with custom front-plates or laser-cut-acrylic box?
-- questions regarding design-choices on shepherd v1.x
-    - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
-    - what is the reason for the subtractor-bias / V_EMU_I
-    - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
 - Software
     - how dynamic do Nodes have to react on current environment (network access, gps attached)
         - i.e. system start → look for GPS and network → decide which role is used
         - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
     - do all targets get the same firmware, is it precompiled? is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
+- questions regarding design-choices and limitations on shepherd v1.x
+    - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
+    - what is the reason for the subtractor-bias / V_EMU_I
+    - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
+    - @kai: do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex)
 
 Testbed
 -------
@@ -66,8 +67,9 @@ Software - RealTime-Code
     - does beaglebone AI with TI AM5729 offer more pins for PRU?
        - https://www.ti.com/product/AM5729
     - is it possible to use SPI-silicon?
-    - would openOCD be able to access memory-mapped pins (tunneled through PRU)
+    - would openOCD be able to access memory-mapped pins (tunneled through Memory/PRU)
     - fix device tree for current beagle-kernel
+    - vCap seems to contain the MPPT-Converter
 - FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
 
 Software - Python
@@ -81,11 +83,14 @@ Software - Python
 Software - OpenOCD
 ------------------
 
-- check for compatibility jtag, swd, spy-by-wire to new target ICs (tunneled through PRU)
+- check for compatibility jtag, swd, spy-by-wire to new target ICs (eventually tunneled through PRU)
    - nRF52 (DFU / USB, SWD)
    - STM32L4 (SWD)
    - MSP430, MSP432, CC430 (JTAG, Serial, USB, Spy-By-Wire)
 - currently not routed through PRU, just normal beagle-GPIO
+- bring https://github.com/geissdoerfer/openocd/commits/am3358gpio mainline
+    - git https://sourceforge.net/p/openocd/code/merge-requests/?status=open
+    - gerrit http://openocd.zylin.com/#/q/status:open
 
 
 Software - Web-Interface

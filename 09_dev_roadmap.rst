@@ -1,10 +1,10 @@
 Development-Roadmap
 -------------------
 
-- work out master plan / concept
-   - testbed
+- work out concept
+   - testbed, ZIH, Server
    - hardware
-   - basic software
+   - (basic) software
 - order hardware-devices (budget-availability is limited)
 - order some beaglebone AI to test new capabilities (if needed)
 - range tests on cfaed-floors

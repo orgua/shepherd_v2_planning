@@ -19,9 +19,12 @@ Emulation of Capacitor / DC-Converter
 More GPIO to Target
 -------------------
 
-- Problem: gpio must be real time in PRU, PRU Pin-count and workload limited
+- Problem1: gpio must be real time in PRU, PRU Pin-count and workload limited
 - improvement 1: share programming-pins (currently not possible)
 - improvement 2: beaglebone AI offers one more PRU, hopefully with more usable pins
+- Problem2: IO in PRU is largely predetermined I or O, decided in device-tree when mapping pins to registers
+- solution1: use two pins per PRU to allow IO
+- solution2: extend SPI to also talk to GPIO-Extender (would also make level-shifting-easier)
 - assessment:
    - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
 
@@ -33,9 +36,8 @@ Bidirectional GPIO and fast/variable UART / SPI to Target
 - improvement: change level-changer and switches / muxer if needed
 - assessment:
    - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api
-   - (high-speed) SPI is hardly possible, there are no further dedicated hw-spi that share pru-pins
+   - (high-speed) SPI to target is hardly possible, there are no further dedicated hw-spi that share pru-pins
    - uart-speeds, TODO: must check with PRU-Documentation,
-
 
 Allow user-provided Energy-Traces
 ----------------------------------
@@ -82,7 +84,7 @@ Support for other Targets
 - Enabler 1: generalize programmer pins and GPIO-Pins to Target (specialize on target-carrier-pcb)
 - Enabler 2: bring usb to target device if possible (beaglebone-Pinheader does not have USB, but could be realized via cable)
 - assessment:
-   - if openOCD supports targets and prog-protocol (or implementing them is easy), chances are good
+   - if openOCD supports targets and programming-protocol (or implementing them is doable), chances are good
    - pin-sharing with target-gpio is hard -> device-tree seems pretty static
    - general idea seems viable -> TODO: more reading
 
@@ -92,7 +94,7 @@ Support for two selectable Targets
 - Problem 1: gpios with PRU support are limited
 - enabler: relay-switching of targets by beaglebone (not necessarily PRU-Pins)
 - problem 2: how to distinguish between ICs automatically
-- enabler: software-defined PRU-openOCD could try to probe, get chip-ID with various methods (jtag, swd)
+- enabler: software-defined PRU-openOCD could try to probe, get chip-ID with various methods (jtag, swd), similar to JTAGulator
 - assessment:
    - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
    - software could be more tricky -> py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
