@@ -68,8 +68,8 @@ Mobility of Nodes
 - Improvement 1: allow external gps-antenna (not possible for current ublox SAM M8Q / 22 €)
 - Improvement 2: offer backup power to gps module, small LiPo or supercap
 - Improvement 3: offer software based scheduling and pre-config of measurements on nodes
-- Improvement 4: offer a robust power-connection
-- improvement 5: tweak linux for low power usage (turn off unused devices)
+- Improvement 4: offer a more robust power-connection (micro-USB is bad)
+- improvement 5: tweak linux for low power usage (turn off unused devices) and low sd-card usage (disable logging)
 - improvement 6: proper casing with interfaces (i.e. eth, power-switch/connector, gps-antenna, pps)
 - assessment:
    - low risk on hw-level

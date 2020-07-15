@@ -3,8 +3,10 @@ Concept - Testbed
 
 - infrastructure
     - 20 - 30 RF-Nodes (Beaglebone with custom RF-IC) with Ethernet-Backchannel
-    - distributed on one floor, several rooms / offices -> (BAR II55 - II75)
+    - distributed on cfaed-floors, several rooms / offices, maybe also on corridors
+        - BAR II55 - II75, III50 - III80, II52 - II54, II40A-II43A (end in another dispatch-room)
         - we could use right side of ethernet-socket (largely unpatched for now)
+        -
     - RF stays within ETSI Norms, mainly bluetooth
     - Nodes connected and powered via Ethernet-Backchannel, with PTP, QoS, POE-Support
         - preferred if Nodes are connected to one switch (in BAR II65) for ~100 ns timing-constraint
@@ -57,8 +59,10 @@ Projektbeschreibung Shepherd
 - Prüfstand für Funknetzwerk-Algorithmen, speziell im Bereich Energy-Harvesting
 - 20 - 30 Funkknoten mit Netzwerk-Backchannel, Basis sind Beaglebone Einplatinenrechner mit Linux / Debian-Derivat
     - erste Testknoten sind bereits einsatzfähig
-- Verteilung der Knoten auf einer Etage, mehrere Räume (CFAED, BAR II55 - II75)
+- Verteilung der Knoten auf den beiden cfaed-Etagen
+    - mehrere Räume, BAR II52 - II75, III50 - III80, zusätzlich eventuell II40A-II43A obwohl sie in einem anderen Verteilerraum enden
     - initial wären die Räume II59, II69-II71 der Gruppe für Tests ausreichend
+    - im Bestfall noch Knoten auf den Fluren
 - RF befindet sich im ISM-Band, bleibt innerhalb der ETSI-Norm, hauptsächlich Bluetooth
 - Ethernet-Rückkanal braucht Unterstützung für GBE, PoE, und wenn möglich PTP nativ im Switch, alternativ QoS
     - im Bestfall wäre PoE abschaltbar um das Netzwerk auszuschalten, da es nicht 24/7 laufen muss, oder einzelne Knoten neuzustarten
@@ -74,7 +78,7 @@ Projektbeschreibung Shepherd
 Anforderungen
 - Info über Koexistenz-Regeln für Office-WLAN, Eduroam und anderen Uni-Systemen im ISM-Band
 - möglichkeit PoE der Ports zu kontrollieren zum Stromsparen?
--
+- unter welchen Vorraussetzungen dürften die Knoten an die ZIH-NW-Dosen auf den Fluren (natürlich nur so lange die freien Dosen nicht anderweitig gebraucht werden)
 - TODO
 
 
