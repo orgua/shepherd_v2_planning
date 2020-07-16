@@ -1,24 +1,35 @@
 Concept - Software - RT Units
 =============================
 
-- SPI, use dedicated hardware and not bit-banging
-   - uart could also be a candidate for dedicated hardware
-- superficial code-analyse
-   - ringbuffer can be optimized
-      - modulo is expensive and not needed
-      - write more than 1 char if possible (both adc-values would be better)
-      - int-return is mostly const and not needed
-      - context switch by function calls are expensive (inline, variables via const ref)
+- SPI to adc/dac -> use dedicated hardware and not bit-banging (transfer takes 8 - 12 ticks per bit)
+    - no PRU-Peripheral is usable for it
+    - Host-SPI is accessible by PRU (~40 ticks read delay) -> Buffered, FIFO, allows 4-32 bit words, max 48 MHz,
+- uart -> seems to be only host-controlled
+    - could also be handled by PRU -> has dedicated UART (TL16C550) no autobaud, 192 Mbps, 16-bit FIFO
+    - HOST-UART is accessible by PRU (~40 ticks read delay) -> (16C750), 300 bps to 3.7 Mbps, autobaud up to 115.2 Kbps
+- TODO: vCAP, GPIO, MDIO 
 - try to benchmark the loop, maybe use timer, counter with min, max, mean
-   - maybe more useful than disassembling via godbolt
+    - maybe more useful than disassembling via godbolt
 - vCap, emulation of DC-converter and capacitor:
-   - it would be perfect to use constexpr-fn to pre-calculate LUTs (ti compiler not capable, see below)
+    - it would be perfect to use constexpr-fn to pre-calculate LUTs (ti compiler not capable, see below)
+- superficial code-analyse
+    - ringbuffer can be optimized
+        - modulo is expensive and not needed
+        - write more than 1 char if possible (both adc-values would be better)
+        - int-return is mostly const and not needed
+        - context switch by function calls are expensive (inline, variables via const ref)
+
 - one PRU should do time critical things, i.e. sampling into ringbuffer in shared PRU-Memory → other PRU-Core should handle transfer to cpu-memory
 
 BeagleBone PRU Features, Comparison
 -----------------------------------
 
-PRU ICSS `(High level Overview <https://elinux.org/Ti_AM33XX_PRUSSv2>`_
+.. _High-level-Overview: https://elinux.org/Ti_AM33XX_PRUSSv2
+.. _TI-Wiki: https://processors.wiki.ti.com/index.php/PRU-ICSS
+.. _PRU-Projects: https://processors.wiki.ti.com/index.php/PRU_Projects
+.. _feature-comparison:  http://www.ti.com/lit/sprac90
+
+PRU ICSS High-level-Overview_
     - 200 MHz cores
     - one 32bit-op per cycle
     - no division
@@ -28,11 +39,12 @@ PRU ICSS `(High level Overview <https://elinux.org/Ti_AM33XX_PRUSSv2>`_
     - access to host memory, L3 interconnect (expensive wait, see benchmark below)
     - INTC, 64 events, 10 channels
     - access to host periphery (QSPI, GPIO, even USB), ~ 40 cycles read latency
+    - CPU has mailbox system to send 4x 32-bit IRQ-messages to individual cores (also PRUs)
 
-`TI Wiki <https://processors.wiki.ti.com/index.php/PRU-ICSS>`_ contains datasheets for various sub-topics
+TI-Wiki_ contains datasheets for various sub-topics
     - PRU C/C++ optimization guide, presentations,
     - Subprocessor documentation
-    - `projects <https://processors.wiki.ti.com/index.php/PRU_Projects>`_, notably
+    - PRU-Projects_, notably
         - PyPRUSS (programming PRUs on beaglebone black),
         - libpruio (high speed data handling),
         - BeagleLogic (100 MHz, 14CH Logic Analyzer),
@@ -43,16 +55,19 @@ latency benchmarks (source: "sprace8a.pdf")
     - transfer shared RAM to DDR 5 cycles / 4 byte, to 65 cycles / 128 byte
     - transfer DDR to shared RAM 47 cycles / 4 byte, 107 cycles / 128 byte -> prefer large chunks
 
-PRUs (ICSS, ICSSG) Supported techniques (`feature comparison source <http://www.ti.com/lit/sprac90>`_)
+PRUs (ICSS, ICSSG) Supported techniques (feature-comparison_)
     - mostly called (enhanced) EGPIO:
-    - 16 bit parallel capture input for GPIO
-    - 28 bit shift input
-    - 3 Ch peripheral interface (should be enough for SPI) (on ICSS device dependent)
+    - 16 bit parallel capture input for GPIO, r31[15:0] are DataIn, r31[16] is ClockIn
+    - 28 bit shift input -> pru<n>_DATAIN, r31_status[27:0], with counter stats, internal clock source -> which pin?
+        - WARNING: this seems to leave only ONE input
+    - 3 Ch peripheral interface (on ICSS device dependent) - not found on BBB **??**
     - Shift output
-    - dedicated UART (with 16bit FIFO, 192 Mbps)
+    - **dedicated UART (with 16-bit FIFO, 192 Mbps) based on TL16C550**, no speedsense, but autoflow (cts, rts)
     - eCAP (enhanced Capture)
     - IEP (industrial Ethernet)
-    - 2x MII_RT (media independant interface), MDIO (management Data IO)
+    - 2x MII_RT (media independent interface), MDIO (management Data IO)
+        - each MII has 32 byte RX FIFO, 64 byte TX FIFO, even TX_EN (as Chip-select) but has clk input -> NO SPI
+        -
 
 
 Beagle Black -> AM3358

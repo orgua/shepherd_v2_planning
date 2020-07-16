@@ -28,14 +28,14 @@ Administrative Info
 -------------------
 
 - ZIH offers hosting of (self provided) physical server and virtual ones
-    - `ZIH Server FAQ <https://tu-dresden.de/zih/dienste/service-katalog/zusammenarbeiten-und-forschen/server_hosting>`_
+    - ZIH Server-FAQ_
     - phyServer: gets power, ethernet, USV, cooling, ...
-    - vServer: prefered by ZIH, free of charge, 3-5 Days prepare -> `vServer via Self Service <https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste>`_
-    - ZIH offers Sub-Domains on Website -> `FAQ Sub <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/domains-dns/management>`_
+    - vServer: prefered by ZIH, free of charge, 3-5 Days prepare -> vServer-SelfService_
+    - ZIH offers Sub-Domains on Website -> SubDomain-FAQ_
 - ZIH-Rules for using their infrastructure
-    - central dhcp: only by IT-Admin of facility `FAQ DHCP <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/zentrale_ip_adressverwaltung>`_
+    - central dhcp: only by IT-Admin of facility -> DHCP-FAQ_
     - network access: IT-Admin .. `FAQ <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz>`_
-    - `cfaed IT-Admin <https://cfaed.tu-dresden.de/it-support>`_
+    - `cfaed IT-Admin_
     - WIFI interference und network capability undocumented online
 - Answer to inquiry, from IT / ZIH
     - we could use right side of nw-sockets (currently mostly unpatched) -> TODO: talk with the leaders of groups that occupy offices
@@ -50,7 +50,14 @@ Administrative Info
     - hardware > 150 € needs to be in inventory (sticker & database listing)
     - vServer gets monitored / managed with Centreon
     - passwords and access-data should be managed with "TeamPass" -> password manager for groups
-- `cfaed floor-plan <https://navigator.tu-dresden.de/etplan/bar/02>`_
+- cfaed floor-plan_
+
+.. _Server-FAQ: https://tu-dresden.de/zih/dienste/service-katalog/zusammenarbeiten-und-forschen/server_hosting
+.. _DHCP-FAQ: https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/zentrale_ip_adressverwaltung
+.. _SubDomain-FAQ: https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/domains-dns/management
+.. _IT-Admin: https://cfaed.tu-dresden.de/it-support
+.. _vServer-SelfService: https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste>
+.. _floor-plan: https://navigator.tu-dresden.de/etplan/bar/02
 
 Anforderungen für das ZIH
 -------------------------
@@ -62,13 +69,13 @@ Projektbeschreibung Shepherd
 - Verteilung der Knoten auf den beiden cfaed-Etagen
     - mehrere Räume, BAR II52 - II75, III50 - III80, zusätzlich eventuell II40A-II43A obwohl sie in einem anderen Verteilerraum enden
     - initial wären die Räume II59, II69-II71 der Gruppe für Tests ausreichend
-    - im Bestfall noch Knoten auf den Fluren
+    - im Bestfall einige Knoten auf den Fluren
 - RF befindet sich im ISM-Band, bleibt innerhalb der ETSI-Norm, hauptsächlich Bluetooth
 - Ethernet-Rückkanal braucht Unterstützung für GBE, PoE, und wenn möglich PTP nativ im Switch, alternativ QoS
     - im Bestfall wäre PoE abschaltbar um das Netzwerk auszuschalten, da es nicht 24/7 laufen muss, oder einzelne Knoten neuzustarten
     - PTP-Anforderung: Synchronisationsabweichung < 1 us zwischen den Knoten, optimal wären 100 ns
     - Internet Zugang für Updates
-    - im Bestfall eigenes vLAN für die Knoten
+    - ein eigenes vLAN für die Knoten wäre hilfreich
 - Kontroll-Server in Form eines vServers
     - die engen Zeitsynchronisierungsvorgaben gelten hier nicht
     - Software die benötigt wird: python 3.7+, ansible
@@ -85,7 +92,7 @@ Anforderungen
 Comparison D-Cube
 -----------------
 
-- `Overview <http://www.carloalbertoboano.com/documents/D-Cube_overview.pdf>`_
+- D-Cube-Overview_
 - DBs: relational -> MariaDB, Time Series -> InfluxDB
 - user interface -> Grafana
 - gpio-tracing -> isolators for usb, power, bi-dir gpio (TI ISO7220M, ISO7221M, ADUM3160, NXE2)
@@ -94,6 +101,8 @@ Comparison D-Cube
 - interference generator -> JamLab-NG
 - supports binary patching
 - PoE via PEM1305
+
+.. _D-Cube-Overview: http://www.carloalbertoboano.com/documents/D-Cube_overview.pdf
 
 Inventory
 ---------

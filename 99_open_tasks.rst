@@ -4,9 +4,10 @@ Current Tasks
 Unsolved, not mentioned Details in Requirements
 -----------------------------------------------
 
-- Testbed
+Testbed
     - are targeted rooms limited to BAR II55 - II75 (`cfaed floor-plan <https://navigator.tu-dresden.de/etplan/bar/02>`_)
-- Hardware
+
+Hardware
     - nodes powered and controllable via POE
         - already available: 20 external PoE-Splitter and 24 Port Zyxel Ethernet-Switch (with PoE)
         - -> Kai preferes this solution
@@ -24,16 +25,20 @@ Unsolved, not mentioned Details in Requirements
     - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
         - there are still unused GPIO available, even a uart, but no SPI or I2C
     - preferred casing choices: off-the-shelf case with custom front-plates or laser-cut-acrylic box?
-- Software
+
+Software
     - how dynamic do Nodes have to react on current environment (network access, gps attached)
         - i.e. system start → look for GPS and network → decide which role is used
         - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
     - do all targets get the same firmware, is it precompiled? is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
-- questions regarding design-choices and limitations on shepherd v1.x
+
+questions regarding design-choices and limitations on shepherd v1.x, mostly for @kai
     - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
     - what is the reason for the subtractor-bias / V_EMU_I
     - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
-    - @kai: do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex)
+    - do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex) but there seems to be no possibility to access the Pad Control Registers from PRU
+    - uart to target is handled in target, not pru, correct?
+    - spi dac ~ 25 MHz or 8 ticks / bit, adc ~17 MHz or 12 ticks / bit
 
 Testbed
 -------
@@ -66,11 +71,13 @@ Software - RealTime-Code
 - PRU
     - does beaglebone AI with TI AM5729 offer more pins for PRU?
        - https://www.ti.com/product/AM5729
-    - is it possible to use SPI-silicon?
-    - would openOCD be able to access memory-mapped pins (tunneled through Memory/PRU)
-    - fix device tree for current beagle-kernel
+    - is it possible to use SPI-silicon from PRU?
+    - would openOCD be able to access memory-mapped pins (tunneled through Memory/PRU) -> seems not
+    - PRU-UART has no autobaud
+    -
     - vCap seems to contain the MPPT-Converter
-- FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
+- PRU replacement? FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
+- fix device tree for current beagle-kernel
 
 Software - Python
 -----------------

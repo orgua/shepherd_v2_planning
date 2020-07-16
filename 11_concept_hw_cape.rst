@@ -1,9 +1,9 @@
 Concept - Hardware - Shepherd-Cape
 ==================================
 
-- -> mostly documentation of changes to V1.x
+-> mostly documentation of changes to V1.x
 
-- shepherd Cape
+shepherd Cape
     - fixed & robust power-connector and possibility to switch system on/off, reverse polarity - detection
     - external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer -> record via PRU
     - bridge dc-converter and capacitor (to allow emulation)
@@ -13,14 +13,17 @@ Concept - Hardware - Shepherd-Cape
     - addressable i2c - flash storage for calibration and distinction
         - all flashes can share same bus, shepherd gets first address, target second, ...
     - current load solution seem a bit overkill and brings non-linearity with the LEDs
-- Energy-Recorder/Emulator:
+
+Energy-Recorder/Emulator:
     - easiest case: replay / emulation could "just" rely on voltage-DAC and target-current-draw measurement?
     - current implementation: recording with U/I before DC-Conv, emulation with U/I meas. after DC-Conv
-- Capelet - System
+
+Capelet - System
     - get rid of pin-headers for b2b / mezzanine - interconnect -> molex, flex cable, hirose ...
     - support for addressable i2c-flash for distinction and configuration
     - maybe rotate capelets, so they stick orthogonal on shepherd (would benefit antenna)
-- GPS Capelet
+
+GPS Capelet
     - look for similar gps-module with external antenna support (currently ublox SAM M8Q) -> ublox Neo M8Q, same but with external antenna, 30-60 ns accuracy
     - backup power (LiPo / Supercap)
     - there are special timing modules
@@ -28,7 +31,8 @@ Concept - Hardware - Shepherd-Cape
         - uBlox LEA-M8F (~60 €, < 20 ns clear sky)
         - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky)
         - trimble also offers precise timing gps modules
-- target Capelet
+
+target Capelet
     - allow a second target -> switch inputs and power (could also lead to a third if space is available
     - allow different targets (probably limited by software)
     - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasable)
@@ -37,10 +41,34 @@ Concept - Hardware - Shepherd-Cape
     - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
     - if there is low cost, make power-connection switchable (for on-off-pattern if power-emulation does not work)
     - if usb to target (via cable), then make it off-switchable
-- general-purpose capelet (port)
-    - if pins to pru suffice
-- beaglebone timekeeping
+
+general-purpose capelet (port)
+    - if pins to pru suffice, it is possible, mostly uni-dir
+    - non time critical pins can be handled in linux, bi-dir, even one uart
+    - but no SPI or I2C
+
+beaglebone timekeeping
     - test high precision, temperature compensated crystal oscillator
+    - same footprint
+    - test higher quality gps with lower jitter on pps line
+    - sync line could be supplied by gps cape in combination with schmitt-trigger-hub to power multiple targets
+
+CAD of Choice
+    - Eagle
+        - pro: holds current design, probably good enough
+        - con: not free for everyone, has no proper constraints and parameter handling (part properties, order number, bom generation)
+    - kiCAD
+        - pro: open source, can import eagle, several extensions
+        - con: still no proper constraints in V5, less intuitive GUI
+        - retour: something like skidl_ allows to program schematic in python and jump right to PCB Layout
+    - circuit maker
+        - pro: free, directly for open source projects, similar big altium brother
+        - con: deliberately crippled to be unproductive for large designs
+    - altium
+        - pro: tool of choice, free license with university-email, proper constraints and parameter manager, simulation
+        - con: most functionallity is overkill, windows only
+
+.. _skidl: https://xesscorp.github.io/skidl/docs/_site/index.html
 
 Concept - Hardware - PinOuts
 ============================
@@ -63,7 +91,7 @@ Concept - Hardware - PinOuts
 Concept - Hardware - Shepherd V1 Functionality
 ======================================
 
-- see beagle-pinout in excel-sheet (12_concept_..)
+- see beagle-pinout in excel-sheet (12_concept_hw..)
 - GPS: ublox SAM M8Q
 - Interfaces
     - Beaglebone 2x46 Pins

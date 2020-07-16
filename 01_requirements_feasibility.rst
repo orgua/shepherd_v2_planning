@@ -32,11 +32,12 @@ Bidirectional GPIO and fast/variable UART / SPI to Target
 ---------------------------------------------------
 
 - Problem: logic signal must be level-shifted and detachable (possible energy transfer) and also high-speed
-- current layout: Target-GPIO are output only, uart bi-dir & recorded in PRU, programmer is in user space (currently not recordable, dedicated pins on nRF52)
-- improvement: change level-changer and switches / muxer if needed
+- current layout: link from Target-GPIO is output only, uart bi-dir & recorded in PRU, programmer is in user space (currently not recordable, dedicated pins on nRF52)
+- improvement: change level-changer and switches / muxer if more speed is needed
+- solution 1: pru could access spi and uart from host-cpu, has delay-penalty, but gpio from host seems unreachable to PRU
 - assessment:
    - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api
-   - (high-speed) SPI to target is hardly possible, there are no further dedicated hw-spi that share pru-pins
+   - (high-speed) SPI to target is hardly possible, there are no further dedicated hw-spi that share pru-pins, but PRU could manage host-spi
    - uart-speeds, TODO: must check with PRU-Documentation,
 
 Allow user-provided Energy-Traces
@@ -59,6 +60,7 @@ Accuracy of time-base
 - Improvement 3: change crystal oscillators of beaglebone to temperature compensated ones (lower PPMs for drift and aging). Oven controlled crystals would be to big
 - Improvement 4: external sync port is already available for the gps-capelet, even if it is not used for time-keeping, it can be recorded for later trace-alignment
 - improvement 5: ptp has a lot of undocumented set-screws ...
+- improvement 6: at 100 kHz are 10 us between samples, with < 3 us deviation currently, the traces could be aligned afterwards per software
 - assessment:
    - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
    - no risk on hw-level, minimal more time expense in design-stage
