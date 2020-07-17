@@ -21,6 +21,7 @@ Concept - Testbed
     - Port 80 accessible from the internet
     - manageable from the intranet
     - needs access to vLAN of RF-Nodes (mostly ssh-based)
+    - ZIH Response -> for access from outside (internet) the server needs a security-concept
 - Casing in laser-acrylic or off-the-shelf case with custom front
 
 
@@ -49,6 +50,7 @@ Administrative Info
     - unix-nodes should host fusion-inventory (to scan for vulnerabilities)
     - hardware > 150 € needs to be in inventory (sticker & database listing)
     - vServer gets monitored / managed with Centreon
+        - for access from outside (internet) the server needs a security-concept
     - passwords and access-data should be managed with "TeamPass" -> password manager for groups
 - cfaed floor-plan_
 
@@ -103,6 +105,13 @@ Comparison D-Cube
 - PoE via PEM1305
 
 .. _D-Cube-Overview: http://www.carloalbertoboano.com/documents/D-Cube_overview.pdf
+
+Comparison Flocklab
+-------------------
+
+- 3 Targets
+- Target-GPIO with resolution of 100 ns with accuracy +- 200 ns
+
 
 Inventory
 ---------

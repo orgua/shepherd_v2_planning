@@ -5,6 +5,7 @@ Development-Roadmap
    - testbed, ZIH, Server
    - hardware
    - (basic) software
+- Begin to experiment on PRU-Code
 - order hardware-devices (budget-availability is limited)
 - order some beaglebone AI to test new capabilities (if needed)
 - range tests on cfaed-floors

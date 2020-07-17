@@ -9,12 +9,14 @@ Emulation of Capacitor / DC-Converter
 - Problem: PRU of beaglebone black is currently already quite occupied with measuring and replay of energy-trace, emulation means real time control loop, the PRU has limited capability for that (no division, ...)
 - Enabler 1: keep previous hw-design (fall-back), but add switches to bridge converter and cap (one additional pin - does not need to be connected to PRU)
 - Improvement 1: optimize PRU-Code, i.e. bitbanging of SPI
-- Improvement 2: current beaglebone AI offers two PRU and 2x dual-arm-cortex-M4 cores (price is 122 € instead of 60 €)
+- Improvement 2: current beaglebone AI offers two PRU and 2x dual-arm-cortex-M4 cores (price is 122 € instead of 40-60 €)
 - Improvement 3: try to find approach where same cape-pinout can be used with beaglebone black and beaglebone AI
+- improvement 4: it would be beneficial to make MPPT-Conv & Cap Modular
 - assessment:
-   - mostly critical is software / firmware implementation
-   - -> hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
-   - also allows On-Off-Pattern for target-power
+    - mostly critical is software / firmware implementation
+    - -> hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
+    - also allows On-Off-Pattern for target-power
+
 
 More GPIO to Target
 -------------------
@@ -26,7 +28,8 @@ More GPIO to Target
 - solution1: use two pins per PRU to allow IO
 - solution2: extend SPI to also talk to GPIO-Extender (would also make level-shifting-easier)
 - assessment:
-   - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
+    - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
+    - PRU should be limited to be gpio-recorder with its pins, a second pin is handled from host
 
 Bidirectional GPIO and fast/variable UART / SPI to Target
 ---------------------------------------------------
@@ -35,10 +38,11 @@ Bidirectional GPIO and fast/variable UART / SPI to Target
 - current layout: link from Target-GPIO is output only, uart bi-dir & recorded in PRU, programmer is in user space (currently not recordable, dedicated pins on nRF52)
 - improvement: change level-changer and switches / muxer if more speed is needed
 - solution 1: pru could access spi and uart from host-cpu, has delay-penalty, but gpio from host seems unreachable to PRU
+- improvement: PRU could be limited to be GPIO-recorder (see previous requirement)
 - assessment:
    - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api
-   - (high-speed) SPI to target is hardly possible, there are no further dedicated hw-spi that share pru-pins, but PRU could manage host-spi
-   - uart-speeds, TODO: must check with PRU-Documentation,
+   - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins offen fall together and limit the available pins
+   - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
 
 Allow user-provided Energy-Traces
 ----------------------------------
@@ -60,7 +64,7 @@ Accuracy of time-base
 - Improvement 3: change crystal oscillators of beaglebone to temperature compensated ones (lower PPMs for drift and aging). Oven controlled crystals would be to big
 - Improvement 4: external sync port is already available for the gps-capelet, even if it is not used for time-keeping, it can be recorded for later trace-alignment
 - improvement 5: ptp has a lot of undocumented set-screws ...
-- improvement 6: at 100 kHz are 10 us between samples, with < 3 us deviation currently, the traces could be aligned afterwards per software
+- improvement 6: if gpio sampling stays @ 100 kHz, there are 10 us between samples, with < 3 us deviation currently, the traces could be aligned to discrete timestamps
 - assessment:
    - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
    - no risk on hw-level, minimal more time expense in design-stage

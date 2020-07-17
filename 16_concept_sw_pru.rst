@@ -1,27 +1,57 @@
 Concept - Software - RT Units
 =============================
 
-- SPI to adc/dac -> use dedicated hardware and not bit-banging (transfer takes 8 - 12 ticks per bit)
-    - no PRU-Peripheral is usable for it
-    - Host-SPI is accessible by PRU (~40 ticks read delay) -> Buffered, FIFO, allows 4-32 bit words, max 48 MHz,
-- uart -> seems to be only host-controlled
+- SPI to adc/dac -> use dedicated hardware and not bit-banging
+    - bit-banging transfer takes 8 - 12 ticks per bit -> so 192 ticks for 24 bit at best (DAC) and 384 ticks for 32 bit (ADC)
+    - no PRU-Peripheral is utilizable for it
+    - Host-SPI is accessible by PRU (~40 ticks read delay for <= 32-bit, writing should take 1 tick) -> Buffered, FIFO, allows 4-32 bit words, max 48 MHz
+    - CS-Pins need precise timing, or at least repeatable (same delay, equidistant), so at beginning of IRQ-Loop
+        - no IRQ to synchronize transaction!
+        - start of transaction on host-spi can be half a SPI-Clock-Cycle accurate (Start Request -> CS Low)
+        - CS Pin could be PRU-Controlled/Monitored-Pin
+- GPIO to target
+    - PRU-GPIO pin direction is controlled by host, in linux via device tree
+    - PRU can't access host GPIO (i found no memory-mapping)
+    - a trick would be to reduce PRU to an observer with his separate pins -> linux can then program, control and listen on it's own pins
+    - one PRU could sample 16 bits with close to 100 MHz ...
+    - there is no interrupt for PRU-pin-changes, but for transitions on host-gpio-modules
+- UART to target -> seems to be only host-controlled
     - could also be handled by PRU -> has dedicated UART (TL16C550) no autobaud, 192 Mbps, 16-bit FIFO
     - HOST-UART is accessible by PRU (~40 ticks read delay) -> (16C750), 300 bps to 3.7 Mbps, autobaud up to 115.2 Kbps
-- TODO: vCAP, GPIO, MDIO 
-- try to benchmark the loop, maybe use timer, counter with min, max, mean
-    - maybe more useful than disassembling via godbolt
+    - could just be monitored by PRU (GPIO)
+- SPI to target
+    - control by userspace seems to be the way to go, so user can decide whether to use SPI or just the GPIO
+    - one additional SPI available
+    - monitor and timestamp by PRU
+- Programmer, currently for SWD, but also allow JTAG
+    - should stay in user-space, SWD needs flexible pin-direction
+- unify Pins to Target -> Programming, SPI, UART and GPIO
+    - would be possible if Pins are controlled and used in Linux, PRU is just recording Pins
+- I2C to dac (static voltage) handled by PRU, to minimize errors
+    - PRU could access host-I2C
+    - PRU can utilize MDIO-Interface for that
 - vCap, emulation of DC-converter and capacitor:
-    - it would be perfect to use constexpr-fn to pre-calculate LUTs (ti compiler not capable, see below)
+    - it would be perfect to use constexpr-fn to pre-calculate LUTs and literals for proper human readable unit conversion
+    - modularize, because vCap also contains MPPT-Converter
+    - unit-test critical parts
+    - demystify magic numbers
+    - TODO - read thesis, improve documentation
+- Scheduling
+    - one PRU should do time critical things, i.e. sampling into ringbuffer in shared PRU-Memory → other PRU-Core should handle transfer to cpu-memory
+    - work timer/interrupt-based with short transactions, could do pin-reading the rest of the time
 - superficial code-analyse
     - ringbuffer can be optimized
         - modulo is expensive and not needed
         - write more than 1 char if possible (both adc-values would be better)
         - int-return is mostly const and not needed
         - context switch by function calls are expensive (inline, variables via const ref)
+- try to add unit tests for critical code sections (vCap) -> make it more modular
+- benchmark the loop
+    - timer, counter with min, max, mean with copy to host
+    - or just use debug-pins to mark active parts and analyze like pwm
+    - maybe more useful than disassembling via godbolt
 
-- one PRU should do time critical things, i.e. sampling into ringbuffer in shared PRU-Memory → other PRU-Core should handle transfer to cpu-memory
-
-BeagleBone PRU Features, Comparison
+BeagleBone Features, Comparison
 -----------------------------------
 
 .. _High-level-Overview: https://elinux.org/Ti_AM33XX_PRUSSv2
@@ -67,8 +97,6 @@ PRUs (ICSS, ICSSG) Supported techniques (feature-comparison_)
     - IEP (industrial Ethernet)
     - 2x MII_RT (media independent interface), MDIO (management Data IO)
         - each MII has 32 byte RX FIFO, 64 byte TX FIFO, even TX_EN (as Chip-select) but has clk input -> NO SPI
-        -
-
 
 Beagle Black -> AM3358
     - 1 PRU = 2 Cores, 200 MHz, 8 KB IRAM (instructions) per Core, 8 KB DRAM per core, 12 KB shared DRAM, 17/17 GP-Inp, 16/16 GP-Out, 3 Banks Scratch Pad

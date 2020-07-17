@@ -31,6 +31,9 @@ Software
         - i.e. system start → look for GPS and network → decide which role is used
         - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
     - do all targets get the same firmware, is it precompiled? is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
+    - python framework: how do you like to control a measurement?
+        - Var1: Set Start with absolute timestamp and from then on relative?
+        - Var2: no absolute timestamp at all, just synched start, then relative timestamps for timing
 
 questions regarding design-choices and limitations on shepherd v1.x, mostly for @kai
     - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
@@ -39,6 +42,19 @@ questions regarding design-choices and limitations on shepherd v1.x, mostly for 
     - do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex) but there seems to be no possibility to access the Pad Control Registers from PRU
     - uart to target is handled in target, not pru, correct?
     - spi dac ~ 25 MHz or 8 ticks / bit, adc ~17 MHz or 12 ticks / bit
+    - should the current controller be replaceable? current jumpers almost allow it
+    - there is no switch for who drives the output-shunt (mppt or I2C-LDO), is it safe?
+
+most controversial (possible) changes to current platform
+- Power stage
+    - Var A: remove recording (and mppt-conv) and simplify power-stage with virtual Converter
+    - Var B: make converter modular
+    - Var C: keep everything like before + make MPPT-Conv bridgable (EMU-V-DAC will be connected to second shunt)
+- host offers SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
+- switch to beaglebone AI "just" because it has GBE and a more capable power-in (usb type c)
+- with vCap in mind, PRU would be best replaced by a teensy 4
+- switch to more more complex CAD-Software
+
 
 Testbed
 -------
@@ -57,6 +73,7 @@ Hardware - mostly shepherd Cape
   - current bi-direction (uart, swd) -> TXB0304RUTR
 - power-switches: low leakage
 - level-changer: high speed, low-power, possible combination with switch / programmable
+- find large pin-count gpio-switch (target-selector)
 - is there a better power-path?
   - find reason for substractor (EMU-I)
   - why is uni-dir level switcher not on vdd-target -> it could get into undefined state
@@ -68,14 +85,7 @@ Hardware - mostly shepherd Cape
 Software - RealTime-Code
 ------------------------
 
-- PRU
-    - does beaglebone AI with TI AM5729 offer more pins for PRU?
-       - https://www.ti.com/product/AM5729
-    - is it possible to use SPI-silicon from PRU?
-    - would openOCD be able to access memory-mapped pins (tunneled through Memory/PRU) -> seems not
-    - PRU-UART has no autobaud
-    -
-    - vCap seems to contain the MPPT-Converter
+- does beaglebone AI with TI AM5729 offer more pins for PRU? https://www.ti.com/product/AM5729
 - PRU replacement? FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
 - fix device tree for current beagle-kernel
 
@@ -102,3 +112,5 @@ Software - OpenOCD
 
 Software - Web-Interface
 ------------------------
+
+- security concept needed if interface should be globally accessible

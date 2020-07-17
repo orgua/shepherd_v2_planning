@@ -4,9 +4,9 @@ Concept - Hardware - Shepherd-Cape
 -> mostly documentation of changes to V1.x
 
 shepherd Cape
-    - fixed & robust power-connector and possibility to switch system on/off, reverse polarity - detection
+    - add fixed & robust power-connector and possibility to switch system on/off, reverse-polarity-detection
     - external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer -> record via PRU
-    - bridge dc-converter and capacitor (to allow emulation)
+    - bridge dc-converter and capacitor (to allow emulation with the one EMU-V-DAC)
     - easier (dis)assembly by reducing / removing pin-header-forwarding (only take what is needed)
         - reduce or bundle pins to shepherd (or another way to make disassembly easier)
     - compatibility with and optimization for beagle AI (dedicated concept-file)
@@ -36,7 +36,7 @@ target Capelet
     - allow a second target -> switch inputs and power (could also lead to a third if space is available
     - allow different targets (probably limited by software)
     - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasable)
-    - fast level-changer for >= 1 MBaud UART
+    - fast level-changer for >= 1 Mbps UART
     - bidirectional gpio-connection, tri-state (input, output, disconnected)
     - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
     - if there is low cost, make power-connection switchable (for on-off-pattern if power-emulation does not work)
@@ -48,12 +48,12 @@ general-purpose capelet (port)
     - but no SPI or I2C
 
 beaglebone timekeeping
-    - test high precision, temperature compensated crystal oscillator
-    - same footprint
+    - test high precision, temperature compensated crystal oscillator with same footprint
     - test higher quality gps with lower jitter on pps line
     - sync line could be supplied by gps cape in combination with schmitt-trigger-hub to power multiple targets
 
 CAD of Choice
+    - Problem: eagle has no proper constraints management (allows proper ERC, DRC) and user moderated part properties (Accuracy, max Power, max Gate Voltage ...)
     - Eagle
         - pro: holds current design, probably good enough
         - con: not free for everyone, has no proper constraints and parameter handling (part properties, order number, bom generation)
@@ -87,6 +87,16 @@ Concept - Hardware - PinOuts
 - PRU Tasks
     - PRU0 seems to handle SPI, Leds, load select
     - PRU1 seems to handle target gpios, uart, adc-reset
+- Host-Periphery
+    - SPI0: P9.17-22
+    - SPI1: P9.28-31,42
+    - UART1: P9.19,20,24,26
+    - UART2: P9.21-22
+    - UART4: P9.11,13 P8.33,35
+    - UART5: p8.31,32,37,38
+    - I2C1: P9.17-18 or P9.24,26
+    - I2C2: P9.19-20 or P9.21-22
+- BB-Pins seem to drive around 8mA (found in SPRS717L_)
 
 Concept - Hardware - Shepherd V1 Functionality
 ======================================
