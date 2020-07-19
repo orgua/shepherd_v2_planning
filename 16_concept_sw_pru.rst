@@ -30,12 +30,7 @@ Concept - Software - RT Units
 - I2C to dac (static voltage) handled by PRU, to minimize errors
     - PRU could access host-I2C
     - PRU can utilize MDIO-Interface for that
-- vCap, emulation of DC-converter and capacitor:
-    - it would be perfect to use constexpr-fn to pre-calculate LUTs and literals for proper human readable unit conversion
-    - modularize, because vCap also contains MPPT-Converter
-    - unit-test critical parts
-    - demystify magic numbers
-    - TODO - read thesis, improve documentation
+- vCap -> see sub-chapter below
 - Scheduling
     - one PRU should do time critical things, i.e. sampling into ringbuffer in shared PRU-Memory → other PRU-Core should handle transfer to cpu-memory
     - work timer/interrupt-based with short transactions, could do pin-reading the rest of the time
@@ -50,6 +45,23 @@ Concept - Software - RT Units
     - timer, counter with min, max, mean with copy to host
     - or just use debug-pins to mark active parts and analyze like pwm
     - maybe more useful than disassembling via godbolt
+
+vCap - Converter & Capacitor Emulation
+--------------------------------------
+
+- main future goals from the thesis regarding vCap
+    - dynamic capacitance -> allow capacitor sweeps, find optimum cost by benchmarking the target firmware
+    - energy aware debugging -> keep energy in capacitor constant during commands
+    - support more targets, mainly msp430
+- find a better name
+
+Code ToDo
+- it would be perfect to use constexpr-fn to pre-calculate LUTs and literals for proper human readable unit conversion
+- modularize code, because vCap also contains MPPT-Converter, they could be swappable
+- unit-test critical parts
+- demystify magic numbers
+- control loop should be faster than 100 kHz, to handle sudden TX-Spikes, depending on local-input-capacitance and pwr-consumption of target-board
+
 
 BeagleBone Features, Comparison
 -----------------------------------

@@ -47,13 +47,13 @@ questions regarding design-choices and limitations on shepherd v1.x, mostly for 
 
 most controversial (possible) changes to current platform
 - Power stage
-    - Var A: remove recording (and mppt-conv) and simplify power-stage with virtual Converter
-    - Var B: make converter modular
-    - Var C: keep everything like before + make MPPT-Conv bridgable (EMU-V-DAC will be connected to second shunt)
-- host offers SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
+    - Var A: remove recording (and mppt-conv) and simplify power-stage with virtual Converter (recorder can be a separate pcb, device)
+    - Var B: make converter modular (capelet)
+    - Var C: keep everything like before + make MPPT-Conv bridgeable (EMU-V-DAC will be connected to second shunt)
+- host-cpu offers SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
 - switch to beaglebone AI "just" because it has GBE and a more capable power-in (usb type c)
-- with vCap in mind, PRU would be best replaced by a teensy 4
-- switch to more more complex CAD-Software
+- with vCap in mind, PRU would be best replaced by a teensy 4.1 (lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM)
+- switch to more more complex CAD-Software (see sub-chapter in concept_hw)
 
 
 Testbed
@@ -63,13 +63,14 @@ Testbed
 - for node-distribution
     - talk with the leaders of groups that occupy offices
     - examine offices with IT-Admin
+- measure link quality around cfaed-floors
 
 
 Hardware - mostly shepherd Cape
 -------------------------------
 
 - target-relays/switches : multi-pin, low leakage, high data-rate
-  - current uni-direction (gpio) -> SN74LV4T125PWR -> diodes needed?
+  - current uni-direction (gpio) -> SN74LV4T125PWR -> are diodes needed?
   - current bi-direction (uart, swd) -> TXB0304RUTR
 - power-switches: low leakage
 - level-changer: high speed, low-power, possible combination with switch / programmable
@@ -87,7 +88,9 @@ Software - RealTime-Code
 
 - does beaglebone AI with TI AM5729 offer more pins for PRU? https://www.ti.com/product/AM5729
 - PRU replacement? FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
+    - https://www.pjrc.com/store/teensy40.html
 - fix device tree for current beagle-kernel
+- find a better name for vCap, like vEH, vPwr
 
 Software - Python
 -----------------
