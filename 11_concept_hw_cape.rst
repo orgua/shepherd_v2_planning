@@ -53,20 +53,33 @@ beaglebone timekeeping
     - sync line could be supplied by gps cape in combination with schmitt-trigger-hub to power multiple targets
 
 CAD of Choice
-    - Problem: eagle has no proper constraints management (allows proper ERC, DRC) and user moderated part properties (Accuracy, max Power, max Gate Voltage ...)
-    - Eagle
-        - pro: holds current design, probably good enough
-        - con: not free for everyone, has no proper constraints and parameter handling (part properties, order number, bom generation)
-    - kiCAD
-        - pro: open source, can import eagle, several extensions
-        - con: still no proper constraints in V5, less intuitive GUI
-        - retour: something like skidl_ allows to program schematic in python and jump right to PCB Layout
-    - circuit maker
-        - pro: free, directly for open source projects, similar big altium brother
-        - con: deliberately crippled to be unproductive for large designs
-    - altium
-        - pro: tool of choice, free license with university-email, proper constraints and parameter manager, simulation
-        - con: most functionallity is overkill, windows only
+-------------
+
+Problem:
+    - eagle has only simplified constraints management (important for proper ERC, DRC)
+    - no user moderated part properties (Accuracy, max Power, max Gate Voltage ...)
+    - no proper BOM management (in Altium one component equals one real / orderable part)
+
+Eagle
+    - pro: holds current design, probably good enough
+    - con: not free for everyone, has no proper constraints and parameter handling (part properties, order number, bom generation)
+
+kiCAD
+    - pro: open source, can import eagle, several extensions
+    - con: still no proper constraints in V5, less intuitive GUI
+    - detour: skidl_
+
+Skidl
+    - pro: offers a schematic design language in python -> jump right to kiCAD PCB Layout, seems to support user moderated properties, has constraints
+    - con: v0.2 - but it seems to be usable, documentation is loose
+
+altium
+    - pro: tool of choice, free license with university-email, proper constraints and parameter manager, simulation
+    - con: most functionality is overkill, windows-os only
+
+circuit maker
+    - pro: free, directly for open source projects, similar to big altium brother
+    - con: deliberately crippled to be unproductive for large designs
 
 .. _skidl: https://xesscorp.github.io/skidl/docs/_site/index.html
 

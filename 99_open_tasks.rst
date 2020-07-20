@@ -46,14 +46,19 @@ questions regarding design-choices and limitations on shepherd v1.x, mostly for 
     - there is no switch for who drives the output-shunt (mppt or I2C-LDO), is it safe?
 
 most controversial (possible) changes to current platform
+---------------------------------------------------------
+
 - Power stage
-    - Var A: remove recording (and mppt-conv) and simplify power-stage with virtual Converter (recorder can be a separate pcb, device)
+    - Var A: remove recording (and mppt-conv) and simplify power-stage with virtual Converter (recorder can be separated)
     - Var B: make converter modular (capelet)
     - Var C: keep everything like before + make MPPT-Conv bridgeable (EMU-V-DAC will be connected to second shunt)
-- host-cpu offers SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
+- host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
+    - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
 - switch to beaglebone AI "just" because it has GBE and a more capable power-in (usb type c)
-- with vCap in mind, PRU would be best replaced by a teensy 4.1 (lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM)
-- switch to more more complex CAD-Software (see sub-chapter in concept_hw)
+    - still not sure if the big bump is justified, but worst case: harvest-traces can only be transmitted with <<10x speed
+- with vCap in mind, PRU would be best replaced by a teensy 4.1 (keep it simple) or same uController
+    - teensy has lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM
+- switch to more more complex CAD-Software (see sub-chapter "CAD of Choice" in concept_hw)
 
 
 Testbed
