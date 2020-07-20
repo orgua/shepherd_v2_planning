@@ -118,5 +118,5 @@ Inventory
 
 - ~20 PoE Adapters
 - 10 - 15 Beaglebone Black, same amount of Shepherd V1.x Capes
-- ZyXEL Ethernet Switch GS1900-24HP
+- ZyXEL Ethernet Switch GS1900-24HP, with PoE
 - Linksys Router WRT54GL

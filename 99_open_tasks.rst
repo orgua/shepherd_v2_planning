@@ -4,16 +4,11 @@ Current Tasks
 Unsolved, not mentioned Details in Requirements
 -----------------------------------------------
 
-Testbed
-    - are targeted rooms limited to BAR II55 - II75 (`cfaed floor-plan <https://navigator.tu-dresden.de/etplan/bar/02>`_)
-
 Hardware
-    - nodes powered and controllable via POE
-        - already available: 20 external PoE-Splitter and 24 Port Zyxel Ethernet-Switch (with PoE)
-        - -> Kai preferes this solution
     - how to control distant long-Range-Nodes
         - idea 1: mobile network for control back-channel
-        - idea 2: scheduled via pre-configuration (and access to time-base)
+        - idea 2: scheduled via pre-configuration (node needs access to time-base)
+        - shouldn't be high priority, but considered in hw-design
     - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
         - -> input from kai: firmware should suffice
     - should the gpios to target be individually switchable (connected, disconnected) for less energy-interference
@@ -24,7 +19,9 @@ Hardware
         - -> input from kai: gold plated pins should be easier to handle
     - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
         - there are still unused GPIO available, even a uart, but no SPI or I2C
-    - preferred casing choices: off-the-shelf case with custom front-plates or laser-cut-acrylic box?
+    - preferred casing choices:
+        - Var1: off-the-shelf case with custom front-plates
+        - Var2: laser-cut-acrylic box?
 
 Software
     - how dynamic do Nodes have to react on current environment (network access, gps attached)
@@ -32,24 +29,24 @@ Software
         - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
     - do all targets get the same firmware, is it precompiled? is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
     - python framework: how do you like to control a measurement?
-        - Var1: Set Start with absolute timestamp and from then on relative?
+        - Var1: Set Start with absolute timestamp and from then on relative timestamps?
         - Var2: no absolute timestamp at all, just synched start, then relative timestamps for timing
 
 questions regarding design-choices and limitations on shepherd v1.x, mostly for @kai
-    - does target-cape benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
-    - what is the reason for the subtractor-bias / V_EMU_I
+    - does target-capelet benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
+    - what's the reason for the subtractor-bias / V_EMU_I
     - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
     - do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex) but there seems to be no possibility to access the Pad Control Registers from PRU
     - uart to target is handled in target, not pru, correct?
-    - spi dac ~ 25 MHz or 8 ticks / bit, adc ~17 MHz or 12 ticks / bit
+    - spi asm code implements hardcoded speeds -> dac ~ 25 MHz or 8 ticks / bit, adc ~17 MHz or 12 ticks / bit
     - should the current controller be replaceable? current jumpers almost allow it
-    - there is no switch for who drives the output-shunt (mppt or I2C-LDO), is it safe?
+    - there is no switch for who drives the output-shunt (mppt or I2C-LDO), is it 100% safe?
 
 most controversial (possible) changes to current platform
 ---------------------------------------------------------
 
 - Power stage
-    - Var A: remove / untie recording (and mppt-conv) and simplify "emulator" power-stage with virtual Converter (recorder can stay on pcb or be modularized)
+    - Var A: remove / untie recording (and mppt-conv) and simplify "emulator" power-stage with virtual Converter (recorder can stay on pcb or be even modularized)
     - Var B: keep everything like before + make MPPT-Conv bridgeable (EMU-V-DAC will be connected to second shunt)
 - host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
     - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
