@@ -49,9 +49,8 @@ most controversial (possible) changes to current platform
 ---------------------------------------------------------
 
 - Power stage
-    - Var A: remove recording (and mppt-conv) and simplify power-stage with virtual Converter (recorder can be separated)
-    - Var B: make converter modular (capelet)
-    - Var C: keep everything like before + make MPPT-Conv bridgeable (EMU-V-DAC will be connected to second shunt)
+    - Var A: remove / untie recording (and mppt-conv) and simplify "emulator" power-stage with virtual Converter (recorder can stay on pcb or be modularized)
+    - Var B: keep everything like before + make MPPT-Conv bridgeable (EMU-V-DAC will be connected to second shunt)
 - host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
     - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
 - switch to beaglebone AI "just" because it has GBE and a more capable power-in (usb type c)
