@@ -6,13 +6,18 @@ Concept - Hardware - Shepherd-Cape
 shepherd Cape
     - add fixed & robust power-connector and possibility to switch system on/off, reverse-polarity-detection
     - external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer -> record via PRU
-    - bridge dc-converter and capacitor (to allow emulation with the one EMU-V-DAC)
+    - power stage:
+        - remove / untie EH-recording (and mppt-conv) -> recorder can stay on pcb or be even modularized)
+        - EH-recording after Converter not absolutely needed
+        - current load solution seem a bit overkill and brings non-linearity with the LEDs
+        - simplify "emulator" power-stage with virtual Converter
     - easier (dis)assembly by reducing / removing pin-header-forwarding (only take what is needed)
-        - reduce or bundle pins to shepherd (or another way to make disassembly easier)
+        - reduce or bundle pins to shepherd (or another way to make disassembly easier) -> used pins don't have to be forwarded
+        - using a pointy thin rod that can get between pin-rows helps to non-destructive get cape off
     - compatibility with and optimization for beagle AI (dedicated concept-file)
     - addressable i2c - flash storage for calibration and distinction
         - all flashes can share same bus, shepherd gets first address, target second, ...
-    - current load solution seem a bit overkill and brings non-linearity with the LEDs
+
 
 Energy-Recorder/Emulator:
     - easiest case: replay / emulation could "just" rely on voltage-DAC and target-current-draw measurement?
@@ -29,8 +34,9 @@ GPS Capelet
     - there are special timing modules
         - uBlox ZED-F9T (~ 140 €, < 5ns clear sky)
         - uBlox LEA-M8F (~60 €, < 20 ns clear sky)
-        - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky)
+        - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky) -> already in inventory
         - trimble also offers precise timing gps modules
+    - preferred solution: module without antenna and sma-port, smd-antenna on same pcb with sma-port, short interconnect or remote antenna
 
 target Capelet
     - allow a second target -> switch inputs and power (could also lead to a third if space is available
@@ -41,6 +47,9 @@ target Capelet
     - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
     - if there is low cost, make power-connection switchable (for on-off-pattern if power-emulation does not work)
     - if usb to target (via cable), then make it off-switchable
+    - make gpio-connections to target switchable if possible -> no transfer of energy (if needed)
+    - routing of v_in_SHT+/- can be removed - it was never used and is a big noise-source for ADC
+
 
 general-purpose capelet (port)
     - if pins to pru suffice, it is possible, mostly uni-dir
@@ -59,6 +68,7 @@ Problem:
     - eagle has only simplified constraints management (important for proper ERC, DRC)
     - no user moderated part properties (Accuracy, max Power, max Gate Voltage ...)
     - no proper BOM management (in Altium one component equals one real / orderable part)
+    - constraint from kai: linux-support very much preferred
 
 Eagle
     - pro: holds current design, probably good enough
@@ -149,6 +159,11 @@ Concept - Hardware - Shepherd V1 Functionality
 - harvesting
     - G3VM-31HR22SOP -> low on-res switch to disconnect harvester
     - AD8422BRMZ -> precision OP-Amp, 2? Ohm Shunt Amperemeter
+- Special Constraints for parts
+    - subtractor for V_EMU_I needed, because DAC does not reach 0 -> differential DAC would be nice
+    - ADC is differential -> <0 currently not needed, one bit wasted
+
+
 
 Concept - Hardware - eagle project
 ==================================

@@ -62,8 +62,8 @@ Accuracy of time-base
 - Improvement 1: use ethernet switches with ptp-support, QoS and GPS-Interface
 - Improvement 2: GBE of beaglebone AI could bring advantage (faster processing in stack / switch, stricter timing constraints)
 - Improvement 3: change crystal oscillators of beaglebone to temperature compensated ones (lower PPMs for drift and aging). Oven controlled crystals would be to big
-- Improvement 4: external sync port is already available for the gps-capelet, even if it is not used for time-keeping, it can be recorded for later trace-alignment
-- improvement 5: ptp has a lot of undocumented set-screws ...
+- Improvement 4: "external" sync signal -> "sync port" is already available for the gps-capelet, and even if it is not used for time-keeping, it can be recorded for later trace-alignment
+- improvement 5: ptp has a lot of bad-undocumented set-screws to optimize performance ...
 - improvement 6: if gpio sampling stays @ 100 kHz, there are 10 us between samples, with < 3 us deviation currently, the traces could be aligned to discrete timestamps
 - assessment:
    - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage

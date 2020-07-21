@@ -5,36 +5,28 @@ Unsolved, not mentioned Details in Requirements
 -----------------------------------------------
 
 Hardware
-    - how to control distant long-Range-Nodes
-        - idea 1: mobile network for control back-channel
+    - how to control distant long-Range-Nodes or mobile ones
+        - idea 1: tcp based (mobile network) for control-back-channel
         - idea 2: scheduled via pre-configuration (node needs access to time-base)
-        - shouldn't be high priority, but considered in hw-design
-    - variable TX-Power for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
-        - -> input from kai: firmware should suffice
-    - should the gpios to target be individually switchable (connected, disconnected) for less energy-interference
-        - input from kai: no requirement, but current IC supports it (TI TXB03)
-    - 2x2x25 Pin-Header between beaglebone and Shepherd-cape is hard to (dis)assemble -> is there a need to forward all pins (additional cape)?
-        - improvement 1: used pins don't have to be forwarded
-        - improvement 2: do not forward at all -> capelets and targets get connected by better mezzanine-connector
-        - -> input from kai: gold plated pins should be easier to handle
-    - are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
+        - input marco: shouldn't be high priority, but considered in hw-design
+    - variable TX-Power of Target for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
+        - input kai: firmware should suffice
+    - GP-Capelet-Port: are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
         - there are still unused GPIO available, even a uart, but no SPI or I2C
     - preferred casing choices:
         - Var1: off-the-shelf case with custom front-plates
         - Var2: laser-cut-acrylic box?
 
 Software
-    - how dynamic do Nodes have to react on current environment (network access, gps attached)
-        - i.e. system start → look for GPS and network → decide which role is used
-        - -> input from kai: nodes don't have to be dynamic, can be reconfigured manually. currently done by ansible, roles per node, infrastructure service
-    - do all targets get the same firmware, is it precompiled? is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
-    - python framework: how do you like to control a measurement?
-        - Var1: Set Start with absolute timestamp and from then on relative timestamps?
-        - Var2: no absolute timestamp at all, just synched start, then relative timestamps for timing
+    - Target configuration
+        - do all targets get the same firmware, is it precompiled?
+        - is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
+    - how to switch between targets? (if there are two on the Cape)
+        - Var 1: in local python script, for every node individually
+        - Var 2: preselected on server
 
 questions regarding design-choices and limitations on shepherd v1.x, mostly for @kai
-    - does target-capelet benefit from routed v_in_SHT+/-? seems like a noise-source for the ADC
-    - what's the reason for the subtractor-bias / V_EMU_I
+
     - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
     - do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex) but there seems to be no possibility to access the Pad Control Registers from PRU
     - uart to target is handled in target, not pru, correct?
@@ -45,9 +37,6 @@ questions regarding design-choices and limitations on shepherd v1.x, mostly for 
 most controversial (possible) changes to current platform
 ---------------------------------------------------------
 
-- Power stage
-    - Var A: remove / untie recording (and mppt-conv) and simplify "emulator" power-stage with virtual Converter (recorder can stay on pcb or be even modularized)
-    - Var B: keep everything like before + make MPPT-Conv bridgeable (EMU-V-DAC will be connected to second shunt)
 - host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
     - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
 - switch to beaglebone AI "just" because it has GBE and a more capable power-in (usb type c)
@@ -60,19 +49,22 @@ most controversial (possible) changes to current platform
 Testbed
 -------
 
+- wait for ZIH-Answer regarding rules, (hw) requirements
 - when ZIH has vLAN ready: test if infrastructure of university is sufficient, mostly regarding ptp
 - for node-distribution
     - talk with the leaders of groups that occupy offices
     - examine offices with IT-Admin
 - measure link quality around cfaed-floors
+- for global server access -> security concept needed
 
 
 Hardware - mostly shepherd Cape
 -------------------------------
 
 - target-relays/switches : multi-pin, low leakage, high data-rate
-  - current uni-direction (gpio) -> SN74LV4T125PWR -> are diodes needed?
-  - current bi-direction (uart, swd) -> TXB0304RUTR
+    - current uni-direction (gpio) -> SN74LV4T125PWR -> are diodes needed?
+    - current bi-direction (uart, swd) -> TXB0304RUTR
+    - optimal specs: vin, v_ref_a, v_ref_b, IO-Ports
 - power-switches: low leakage
 - level-changer: high speed, low-power, possible combination with switch / programmable
 - find large pin-count gpio-switch (target-selector)
@@ -82,7 +74,8 @@ Hardware - mostly shepherd Cape
 - draw digital version of float chart for power-stage
    - where is V_CREF coming from, or is it flowing backwards from VOC_SAMP?
    - is there a possibility that (CV)-LDO drives against MPPT-Converter in a unwanted state?
-
+- test accessing GPIO Periphery via PRU, register address
+- look at https://github.com/cdsteinkuehler/beaglebone-universal-io
 
 Software - RealTime-Code
 ------------------------
@@ -92,6 +85,8 @@ Software - RealTime-Code
     - https://www.pjrc.com/store/teensy40.html
 - fix device tree for current beagle-kernel
 - find a better name for vCap, like vEH, vPwr
+- try to access host gpio peripheral via pru
+- try to benchmark the loop (debug-pin-high when processing)
 
 Software - Python
 -----------------

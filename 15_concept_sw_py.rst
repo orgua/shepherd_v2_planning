@@ -21,5 +21,6 @@ Concept - Software - Python API
 - bidirectional GPIO usage
    - allow to pass thread-function to nodes that handle reactions
 - start of measurement should be triggered by absolute timestamp and marks T=0
-   - after that it seems easier to use relative time increments for controlling submodules
-   - interact with cron-jobs or other linux-scheduler
+    - what if the absolute time was missed? -> synced start whenever start-signal comes, should be enough
+    - after that it seems easier to use relative time increments for controlling submodules
+    - interact with cron-jobs or other linux-scheduler

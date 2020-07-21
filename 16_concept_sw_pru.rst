@@ -10,11 +10,12 @@ Concept - Software - RT Units
         - start of transaction on host-spi can be half a SPI-Clock-Cycle accurate (Start Request -> CS Low)
         - CS Pin could be PRU-Controlled/Monitored-Pin
 - GPIO to target
-    - PRU-GPIO pin direction is controlled by host, in linux via device tree
+    - PRU-GPIO pin direction is controlled by host, in linux via device tree or alternatively via "cape-universal_"
     - PRU can't access host GPIO (i found no memory-mapping)
     - a trick would be to reduce PRU to an observer with his separate pins -> linux can then program, control and listen on it's own pins
     - one PRU could sample 16 bits with close to 100 MHz ...
     - there is no interrupt for PRU-pin-changes, but for transitions on host-gpio-modules
+    - NOTE: some pins allow hardware-timestamping via int-routine, maybe even all
 - UART to target -> seems to be only host-controlled
     - could also be handled by PRU -> has dedicated UART (TL16C550) no autobaud, 192 Mbps, 16-bit FIFO
     - HOST-UART is accessible by PRU (~40 ticks read delay) -> (16C750), 300 bps to 3.7 Mbps, autobaud up to 115.2 Kbps
@@ -45,6 +46,8 @@ Concept - Software - RT Units
     - timer, counter with min, max, mean with copy to host
     - or just use debug-pins to mark active parts and analyze like pwm
     - maybe more useful than disassembling via godbolt
+
+.. _cape-universal_: https://github.com/cdsteinkuehler/beaglebone-universal-io
 
 vCap - Converter & Capacitor Emulation
 --------------------------------------

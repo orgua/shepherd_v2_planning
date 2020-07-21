@@ -13,7 +13,6 @@ Concept - Testbed
         - preferred if PoE could be controlled to shut down nodes, safe energy
     - ZIH-Requirements: installed fusion-inventory (to scan for vulnerabilities)
     - we can't use the cable canal (== structural change)
-    - for using
 - one control-server that contains: user data, web interface, shepherd controller
     - needs linux from debian-family, python 3.7+, ansible
     - 20 - 100 GB scratch area
@@ -23,7 +22,7 @@ Concept - Testbed
     - needs access to vLAN of RF-Nodes (mostly ssh-based)
     - ZIH Response -> for access from outside (internet) the server needs a security-concept
 - Casing in laser-acrylic or off-the-shelf case with custom front
-
+- dynamic roles of nodes -> config can be "static" (network access, gps attached, mobile) -> ansible-roles
 
 Administrative Info
 -------------------
@@ -117,6 +116,7 @@ Inventory
 ---------
 
 - ~20 PoE Adapters
-- 10 - 15 Beaglebone Black, same amount of Shepherd V1.x Capes
+- 10 - 15 Beaglebone Black / green, same amount of Shepherd V1.x Capes
 - ZyXEL Ethernet Switch GS1900-24HP, with PoE
 - Linksys Router WRT54GL
+- uBlox Neo M8T
