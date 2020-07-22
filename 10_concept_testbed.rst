@@ -32,7 +32,7 @@ Misc
         - GBE is more than welcome
         - we get a more reliable power connection (type c instead of micro-usb)
         - CPU is hopefully drastically faster
-            - BBB brings 277 MIPS FP, 1600 MIPS Int (see 25_improve_sw_linux.rst)
+            - BBB brings 995 BogoMIPS, 277 MIPS FP, 1600 MIPS Int (numbers from internet, see 25_improve_sw_linux.rst)
             - BBAI TBD
     - with vCap in mind, PRU would be best replaced by a teensy 4.1 (keep it simple) or same uController
         - teensy has lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM
