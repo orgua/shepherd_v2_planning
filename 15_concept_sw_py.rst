@@ -5,7 +5,8 @@ Concept - Software - Python API
 - submodules as classes -> basic configuration at instantiation
 - lib could be compiled for speed
 - do we need exact timestamps for start and stop or is a global trigger enough
-- hdf5 seems a bit overkill -> maybe file-based numpy-data-containers suffice (conversion to csv, xls, ... is a one-liner)
+- hdf5 for fast storage, data can be segmented into several files, and written incrementally
+    - later converters for csv, saleae logic-analyzer-format would be nice
 - try to separate between scenario and measurement (reusability)
 - modules
    - harvesting-emulator: energy-trace(s), sampling-rate, playback (mirrored, loop)
@@ -24,3 +25,4 @@ Concept - Software - Python API
     - what if the absolute time was missed? -> synced start whenever start-signal comes, should be enough
     - after that it seems easier to use relative time increments for controlling submodules
     - interact with cron-jobs or other linux-scheduler
+    - currently implemented: absolute time start with scheduler, node needs no control after config

@@ -22,6 +22,8 @@ shepherd Cape
 Energy-Recorder/Emulator:
     - easiest case: replay / emulation could "just" rely on voltage-DAC and target-current-draw measurement?
     - current implementation: recording with U/I before DC-Conv, emulation with U/I meas. after DC-Conv
+    - if recorder stays: converter could be modular, interface would offer shunt_in (V_sIn, V_sOut) and V_cOut Converter output, and some control pins
+        - is the DAC for voltage reference really needed? LDO enough?
 
 Capelet - System
     - get rid of pin-headers for b2b / mezzanine - interconnect -> molex, flex cable, hirose ...
@@ -41,15 +43,17 @@ GPS Capelet
 target Capelet
     - allow a second target -> switch inputs and power (could also lead to a third if space is available
     - allow different targets (probably limited by software)
-    - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasable)
-    - fast level-changer for >= 1 Mbps UART
+    - interface handling:
+        - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasable)
+        - host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator (if PRU cant access host gpio periphery)
+        - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
+    - fast level-changer for >= 1 Mbps UART (BB-Uart max is 3.7 Mbps)
     - bidirectional gpio-connection, tri-state (input, output, disconnected)
     - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
     - if there is low cost, make power-connection switchable (for on-off-pattern if power-emulation does not work)
     - if usb to target (via cable), then make it off-switchable
     - make gpio-connections to target switchable if possible -> no transfer of energy (if needed)
     - routing of v_in_SHT+/- can be removed - it was never used and is a big noise-source for ADC
-
 
 general-purpose capelet (port)
     - if pins to pru suffice, it is possible, mostly uni-dir
@@ -60,6 +64,13 @@ beaglebone timekeeping
     - test high precision, temperature compensated crystal oscillator with same footprint
     - test higher quality gps with lower jitter on pps line
     - sync line could be supplied by gps cape in combination with schmitt-trigger-hub to power multiple targets
+
+Special Constraints for parts
+    - subtractor for V_EMU_I needed, because DAC does not reach 0 -> differential DAC would be nice
+    - ADC-mode is differential -> <0 currently not needed, one bit wasted, but not bad to have, for reversed current-flow
+    - Diodes between beagle-pins and level-changer needed on some pins, because they are active at boot
+
+
 
 CAD of Choice
 -------------
@@ -159,10 +170,6 @@ Concept - Hardware - Shepherd V1 Functionality
 - harvesting
     - G3VM-31HR22SOP -> low on-res switch to disconnect harvester
     - AD8422BRMZ -> precision OP-Amp, 2? Ohm Shunt Amperemeter
-- Special Constraints for parts
-    - subtractor for V_EMU_I needed, because DAC does not reach 0 -> differential DAC would be nice
-    - ADC is differential -> <0 currently not needed, one bit wasted
-
 
 
 Concept - Hardware - eagle project

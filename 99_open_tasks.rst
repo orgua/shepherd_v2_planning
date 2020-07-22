@@ -1,12 +1,9 @@
-Current Tasks
-=============
-
 Unsolved, not mentioned Details in Requirements
------------------------------------------------
+===============================================
 
 Hardware
     - how to control distant long-Range-Nodes or mobile ones
-        - idea 1: tcp based (mobile network) for control-back-channel
+        - idea 1: tcp based (mobile network) for control-side-channel
         - idea 2: scheduled via pre-configuration (node needs access to time-base)
         - input marco: shouldn't be high priority, but considered in hw-design
     - variable TX-Power of Target for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
@@ -25,26 +22,9 @@ Software
         - Var 1: in local python script, for every node individually
         - Var 2: preselected on server
 
-questions regarding design-choices and limitations on shepherd v1.x, mostly for @kai
 
-    - wouldn't it be better to have the uni-dir level switcher on vdd-target -> gpios could go into undefined state, when level is low enough
-    - do you see a chance to dynamically change pin-direction for PRU-Pins? seems to be hammered in mud in device-tree config (remuxing by cortex) but there seems to be no possibility to access the Pad Control Registers from PRU
-    - uart to target is handled in target, not pru, correct?
-    - spi asm code implements hardcoded speeds -> dac ~ 25 MHz or 8 ticks / bit, adc ~17 MHz or 12 ticks / bit
-    - should the current controller be replaceable? current jumpers almost allow it
-    - there is no switch for who drives the output-shunt (mppt or I2C-LDO), is it 100% safe?
-
-most controversial (possible) changes to current platform
----------------------------------------------------------
-
-- host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator
-    - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
-- switch to beaglebone AI "just" because it has GBE and a more capable power-in (usb type c)
-    - still not sure if the big bump is justified, but worst case: harvest-traces can only be transmitted with <<10x speed
-- with vCap in mind, PRU would be best replaced by a teensy 4.1 (keep it simple) or same uController
-    - teensy has lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM
-- switch to more more complex CAD-Software (see sub-chapter "CAD of Choice" in concept_hw)
-
+Current Tasks
+=============
 
 Testbed
 -------
@@ -57,14 +37,13 @@ Testbed
 - measure link quality around cfaed-floors
 - for global server access -> security concept needed
 
-
 Hardware - mostly shepherd Cape
 -------------------------------
 
 - target-relays/switches : multi-pin, low leakage, high data-rate
     - current uni-direction (gpio) -> SN74LV4T125PWR -> are diodes needed?
     - current bi-direction (uart, swd) -> TXB0304RUTR
-    - optimal specs: vin, v_ref_a, v_ref_b, IO-Ports
+    - optimal specs: v_in & v_ref_a & v_ref_b (3 separate levels), IO-Ports
 - power-switches: low leakage
 - level-changer: high speed, low-power, possible combination with switch / programmable
 - find large pin-count gpio-switch (target-selector)
@@ -76,6 +55,7 @@ Hardware - mostly shepherd Cape
    - is there a possibility that (CV)-LDO drives against MPPT-Converter in a unwanted state?
 - test accessing GPIO Periphery via PRU, register address
 - look at https://github.com/cdsteinkuehler/beaglebone-universal-io
+- some routine is driving gpio on boot -> input kai: not uboot
 
 Software - RealTime-Code
 ------------------------
@@ -85,7 +65,7 @@ Software - RealTime-Code
     - https://www.pjrc.com/store/teensy40.html
 - fix device tree for current beagle-kernel
 - find a better name for vCap, like vEH, vPwr
-- try to access host gpio peripheral via pru
+- try to access host gpio peripheral via pru -> would make pin-doubling redundant
 - try to benchmark the loop (debug-pin-high when processing)
 
 Software - Python

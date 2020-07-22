@@ -1,7 +1,7 @@
 Concept - Testbed
 =================
 
-- infrastructure
+infrastructure
     - 20 - 30 RF-Nodes (Beaglebone with custom RF-IC) with Ethernet-Backchannel
     - distributed on cfaed-floors, several rooms / offices, maybe also on corridors
         - BAR II55 - II75, III50 - III80, II52 - II54, II40A-II43A (end in another dispatch-room)
@@ -13,7 +13,9 @@ Concept - Testbed
         - preferred if PoE could be controlled to shut down nodes, safe energy
     - ZIH-Requirements: installed fusion-inventory (to scan for vulnerabilities)
     - we can't use the cable canal (== structural change)
-- one control-server that contains: user data, web interface, shepherd controller
+
+Control-Server
+    - one control-server that contains: user data, web interface, shepherd controller
     - needs linux from debian-family, python 3.7+, ansible
     - 20 - 100 GB scratch area
     - ZIH-Requirements: managed by ZIH with Centreon
@@ -21,8 +23,21 @@ Concept - Testbed
     - manageable from the intranet
     - needs access to vLAN of RF-Nodes (mostly ssh-based)
     - ZIH Response -> for access from outside (internet) the server needs a security-concept
-- Casing in laser-acrylic or off-the-shelf case with custom front
-- dynamic roles of nodes -> config can be "static" (network access, gps attached, mobile) -> ansible-roles
+
+Misc
+    - Casing in laser-acrylic or off-the-shelf case with custom front
+    - dynamic roles of nodes -> config can be "static" (network access, gps attached, mobile) -> ansible-roles
+    - switching to BB-AI seems to be an important step, but price increase is 3.5 fold
+        - focus is still on the PRUs, now 4 Cores
+        - GBE is more than welcome
+        - we get a more reliable power connection (type c instead of micro-usb)
+        - CPU is hopefully drastically faster
+            - BBB brings 277 MIPS FP, 1600 MIPS Int (see 25_improve_sw_linux.rst)
+            - BBAI TBD
+    - with vCap in mind, PRU would be best replaced by a teensy 4.1 (keep it simple) or same uController
+        - teensy has lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM
+    - web-interface should make clear that users are responsible to stay within ETSI-norm, monitoring and logging is active
+    - ssh-interface should also make clear about project, active monitoring and offer a contact-email
 
 Administrative Info
 -------------------
