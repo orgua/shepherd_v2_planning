@@ -19,6 +19,16 @@ General
     - how do we see if install is fine? -> journalctl -u shepherd
     - image could be run virtually
 
+System Feedback
+---------------
+
+BBB Leds
+    - USER0 is the heartbeat indicator from the Linux kernel.
+    - USER1 turns on when the SD card is being accessed
+    - USER2 is an activity indicator. It turns on when the kernel is not in the idle loop.
+    - USER3 turns on when the onboard eMMC is being accessed.
+
+
 System improvements
 -------------------
 
@@ -66,20 +76,28 @@ SSHd improvement::
 OpenSSL Benchmark::
 
     time openssl speed -evp aes-128-cbc
-        -> Benchmark of disabled module is ~3s
+
+    -> Benchmark of disabled module is ~3s
         Doing aes-128-cbc for 3s on 16 size blocks: 5618835 aes-128-cbc's in 2.94s
         Doing aes-128-cbc for 3s on 64 size blocks: 1886183 aes-128-cbc's in 2.98s
         Doing aes-128-cbc for 3s on 256 size blocks: 517655 aes-128-cbc's in 2.98s
         Doing aes-128-cbc for 3s on 1024 size blocks: 132735 aes-128-cbc's in 2.97s
         Doing aes-128-cbc for 3s on 8192 size blocks: 16702 aes-128-cbc's in 2.99s
         Doing aes-128-cbc for 3s on 16384 size blocks: 8359 aes-128-cbc's in 2.98s
-        -> Benchmark of enabled is 0.03s (CPU-Time)
-
-
+    -> Benchmark of enabled is <<1.00s (CPU-Time)
+        Doing aes-128-cbc for 3s on 16 size blocks: 410104 aes-128-cbc's in 0.38s
+        Doing aes-128-cbc for 3s on 64 size blocks: 348184 aes-128-cbc's in 0.28s
+        Doing aes-128-cbc for 3s on 256 size blocks: 37545 aes-128-cbc's in 0.02s
+        Doing aes-128-cbc for 3s on 1024 size blocks: 25658 aes-128-cbc's in 0.01s
+        Doing aes-128-cbc for 3s on 8192 size blocks: 5663 aes-128-cbc's in 0.01s
+        Doing aes-128-cbc for 3s on 16384 size blocks: 4040 aes-128-cbc's in 0.01s
 
 Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is stupidly unsecure)::
 
-    # add Cryptodev module / https://github.com/cryptodev-linux/cryptodev-linux
+    # compile and add Cryptodev module / https://github.com/cryptodev-linux/cryptodev-linux
+    # Manual1: https://lauri.võsandi.com/2014/07/cryptodev.html
+    # Manual2: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
+
     cd /usr/local/src/                    -> TODO: rethink that, it forces sudo on make, not good practice
     sudo wget https://github.com/cryptodev-linux/cryptodev-linux/archive/cryptodev-linux-1.10.tar.gz
     sudo tar zxf cryptodev-linux-1.10.tar.gz
@@ -104,20 +122,44 @@ Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is
        -> installed is /lib/arm-linux[...]/libcrypto.so.1.0.0 with 2 year old openSSL 1.1.1 (NOT current 1.1.1g)
        -> current is /usr/local/lib/libcrypto.so.1.1
 
-    # recompile openSSL with cryptodev-support
-    cd /usr/local/src/                    -> TODO: rethink that, it forces sudo on make, not good practice
-    sudo wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
-    sudo tar zxf openssl-1.1.1g.tar.gz
-    cd openssl...
-    sudo ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared
-    sudo make                             -> TODO: this takes ~33min
-    sudo make install                     -> will be in /usr/local/bin
-    # STOP TODO - everything finishes, but bin is not working at all
-        -> relocation error: openssl: symbol EVP_mdc2 version OPENSSL_1_1_0 not defined in file libcrypto.so.1.1 with link time reference
-    /etc/ssl/openssl.cnf                  -> TODO: maybe add/uncomment crypto in [engine]-section
+    # compile openSSL with cryptodev-support
+    # Manual: https://wiki.openssl.org/index.php/Compilation_and_Installation
 
-    # Manual1: https://lauri.võsandi.com/2014/07/cryptodev.html
-    # Manual2: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
+    cd ~/
+    wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
+    wget -O openssl.tar.gz https://github.com/openssl/openssl/archive/OpenSSL_1_1_1g.tar.gz
+    tar zxf openssl.tar.gz  -> TODO: still unpacks to full name with version nr.
+    cd openssl...
+    ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared enable-devcryptoeng no-sse2 --openssldir=/usr/local/ssl
+    perl configdata.pm --dump
+    make clean
+    make                                   -> TODO: this takes ~33min
+    sudo make install_sw                   -> will be in /usr/local/bin
+
+    # ubuntu has a strange behaviour: local/bin is used, local/lib gets ignored, so dirty fixing it
+    -> add "/usr/local/lib" as first active line in /etc/ld.so.conf.d/arm-gnueabihf.conf
+
+    # /etc/ssl/openssl.cnf                  -> TODO: maybe add/uncomment crypto in [engine]-section, seems not to be needed
+
+    # Problem: new openSSL gives us libcrypto.so.1.1. but sshd demands libcrypto.so.1.0.0
+    cd /usr/local/lib
+    # sudo ln -s libcrypto.so.1.1 libcrypto.so.1.0.0
+    # sudo shutdown -r now
+    # sudo cp libcrypto.so.1.1 libcrypto.so.1.0.0
+    -> symlinks and copy do not help, sshd relies on old version
+
+    # compile openSSH with openssl usage
+    # sources and readme: https://github.com/openssh/openssh-portable
+    cd ~/
+    wget https://github.com/openssh/openssh-portable/archive/V_8_3_P1.tar.gz
+    tar zxf V_
+    cd
+    configure --help
+    ./configure --with-pam
+    make
+    make tests
+
+    TODO: openssl config option: no-comp, no-sslv3, -DOPENSSL_NO_HEARTBEATS
 
 SSH benchmark::
 
@@ -274,6 +316,14 @@ disable terminal over serial (part2: grub)::
 disable terminal over serial (part3: ??)::
 
     dmesg still shouts "Kernel command line: console=ttyO0,115200n8" ...
+
+Find and disable world writable files::
+
+    # source: https://www.oreilly.com/library/view/linux-security-cookbook/0596003919/ch09s11.html
+    # find & disable
+    sudo find / -xdev -perm +o=w ! \( -type d -perm +o=t \) ! -type l -ok chmod -v o-w {} \;
+    # prevent newly created files from beeing world writable, for current user
+    umask 002
 
 Further actions:
 - clean cron jobs

@@ -36,7 +36,7 @@ Misc
             - BBAI TBD
     - with vCap in mind, PRU would be best replaced by a teensy 4.1 (keep it simple) or same uController
         - teensy has lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM
-    - web-interface should make clear that users are responsible to stay within ETSI-norm, monitoring and logging is active
+    - web-interface should make clear that users are responsible to stay within ETSI-norm, no misuse, no out-of-boundary, monitoring and logging is active
     - ssh-interface should also make clear about project, active monitoring and offer a contact-email
 
 Administrative Info
