@@ -28,6 +28,12 @@ BBB Leds
     - USER2 is an activity indicator. It turns on when the kernel is not in the idle loop.
     - USER3 turns on when the onboard eMMC is being accessed.
 
+BBB Readme
+    - up to date system information https://elinux.org/Beagleboard:BeagleBoneBlack_Debian
+        - updating kernel
+        - new device tree interface
+        -
+
 
 System improvements
 -------------------
@@ -39,6 +45,20 @@ Downgrade kernel (for now)::
         -> rt-kernel is possible, but A: not needed, B: bad for performance
         last updated bb-cape-overlays
     sudo apt list --installed | grep linux-  -> remove other
+
+Upgrade Kernel::
+
+    cd /opt/scripts/tools/
+    sudo git pull
+    sudo ./update_kernel.sh --lts-5_4       -> warning: does not work for BBB yet, just update to latest 4.19 release by ommiting --lts..
+    sudo reboot
+
+    sudo apt-get install linux-headers-`uname -r`
+
+Update Bootloader::
+
+    sudo /opt/scripts/tools/developers/update_bootloader.sh
+    reboot
 
 Storage Information::
 
@@ -92,7 +112,7 @@ OpenSSL Benchmark::
         Doing aes-128-cbc for 3s on 8192 size blocks: 5663 aes-128-cbc's in 0.01s
         Doing aes-128-cbc for 3s on 16384 size blocks: 4040 aes-128-cbc's in 0.01s
 
-Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is stupidly unsecure)::
+Add Driver for Crypto-Module of CPU::
 
     # compile and add Cryptodev module / https://github.com/cryptodev-linux/cryptodev-linux
     # Manual1: https://lauri.võsandi.com/2014/07/cryptodev.html
@@ -109,6 +129,8 @@ Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is
     lsmod                                 -> check, /dev/crypto now available
     add cryptodev to /etc/modules         -> permanent
     sudo sh -c 'echo cryptodev /etc/modules'
+
+Force OpenSSL to use Crypto-Module-Hardware (TODO: hard-coding openSSL-Version is stupidly unsecure)::
 
     # Check active OpenSSL Version
     apt list --installed | grep openssl   -> check current version
@@ -130,7 +152,7 @@ Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is
     wget -O openssl.tar.gz https://github.com/openssl/openssl/archive/OpenSSL_1_1_1g.tar.gz
     tar zxf openssl.tar.gz  -> TODO: still unpacks to full name with version nr.
     cd openssl...
-    ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared enable-devcryptoeng no-sse2 --openssldir=/usr/local/ssl
+    ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared enable-devcryptoeng no-sse2 no-com --openssldir=/usr/local/ssl
     perl configdata.pm --dump
     make clean
     make                                   -> TODO: this takes ~33min
@@ -148,8 +170,23 @@ Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is
     # sudo cp libcrypto.so.1.1 libcrypto.so.1.0.0
     -> symlinks and copy do not help, sshd relies on old version
 
+    # bypass: compile old version of libcrypto.ssl of openssl, could fail for ssh because of ABI-changes
+    # readme: https://github.com/openssl/openssl/issues/4597
+    cd ~/
+    wget https://github.com/openssl/openssl/archive/OpenSSL_1_1_1.tar.gz
+    tar zxf OpenSSL_1_1_1.tar.gz
+    cd OpenSSL
+    ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared enable-devcryptoeng no-sse2 no-com --openssldir=/usr/local/ssl
+    make build_generated && make libcrypto.a
+    sudo make install_sw
+
+    TODO: openssl config option: no-comp, no-sslv3, -DOPENSSL_NO_HEARTBEATS
+
+Compile SSHd with support for new openSSL-Version::
+
     # compile openSSH with openssl usage
     # sources and readme: https://github.com/openssh/openssh-portable
+    # info: installed is v7.6
     cd ~/
     wget https://github.com/openssh/openssh-portable/archive/V_8_3_P1.tar.gz
     tar zxf V_
@@ -158,8 +195,6 @@ Force OpenSSL to use CryptoModule-Hardware (TODO: hard-coding openSSL-Version is
     ./configure --with-pam
     make
     make tests
-
-    TODO: openssl config option: no-comp, no-sslv3, -DOPENSSL_NO_HEARTBEATS
 
 SSH benchmark::
 
@@ -230,14 +265,16 @@ Disable Devices in /boot/uEnv.txt::
 Further actions:
     - nix, https://nixos.org/ seems to be the better ansible (only future reference)
     - is active cooling improving the performance? IC is only warm to the touch, so no
-    - look at dmesg
+    - look at dmesg for oddities
         - console on ttyO0, 115200n8, ttyS0
         - spectre v2 -> not needed mitigation, cost performance
         - redundant drivers enabled: CAN driver, ALSA, Bluetooth,
         - unusual timer-jump, mounting mmc takes 20-25s each
             [    1.122421] Freeing unused kernel memory: 1024K
             [   18.463305] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
-    - systemd-analyze blame shows: 39.936s dev-mmcblk1p1.device -> kernel 4.14 seems to cut it more than in half
+    - "systemd-analyze blame" shows:
+        - v4.14: 39.936s dev-mmcblk1p1.device
+        - v4.19: 53.286s dev-mmcblk1p1.device, 29.013s generic-board-startup.service
     - look at power consumption
     - BBB has a crypto engine, but is it used by openSSL! This site has a benchmark: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
     - switch to more SD friendly filesystem, F2FS, YAFFS2
@@ -315,7 +352,9 @@ disable terminal over serial (part2: grub)::
 
 disable terminal over serial (part3: ??)::
 
-    dmesg still shouts "Kernel command line: console=ttyO0,115200n8" ...
+    dmesg | grep tty                            -> still shouts "Kernel command line: console=ttyO0,115200n8" ...
+    sudo grep -rinI  '/dev/tty' /etc /boot      -> finds entry in console-setup
+
 
 Find and disable world writable files::
 
@@ -333,4 +372,37 @@ Further actions:
 - drop root privilege for testbed-user, allow to handle hw-io with groups
 - sysctl contains several sockets
 - add concept for security
+
+Fixing Device Tree Drivers for newer Kernels
+--------------------------------------------
+
+
+- device Tree Versions
+    - v4.14.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/4a9c0a652f58090491319d27dac4bf76da7d6086
+    - v4.19.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/af07ef77cc6f8f94568a4c238cc6d41fb8c81931
+    - v5.4.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/26b4c9fea3ff919835ba27393d5781ca4dd0923f
+
+- found changes
+    - compatible was: "ti,beaglebone", "ti,beaglebone-black"
+    - newer dts files only speak of "ti,am335x-bone-black", "ti,am335x-bone-green", "ti,am335x-bone", "ti,am33xx"
+
+- shepherd firmware
+    - make && make install in device-tree sub-folder
+    - install in /lib/firmware/
+    - manual load::  echo BB-SHPRD >/sys/devices/bone_capemgr.7/slots
+
+Workflow shepherd firmware::
+
+    cd ~/
+    git clone git clone https://github.com/orgua/shepherd
+    cd shepherd/software/firmware/device-tree
+    make && make install
+
+    # add to /boot/uEnv.txt
+    # check after reboot if loaded
+    sudo /opt/scripts/tools/version.sh | grep UBOOT
+
+Backup Image::
+
+    dd if=/dev/mmcblk1 of=/media/stick/mmc_s0_v4.19.94_bootstrap_apt.img
 
