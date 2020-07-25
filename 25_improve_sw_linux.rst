@@ -353,8 +353,15 @@ disable terminal over serial (part2: grub)::
 disable terminal over serial (part3: ??)::
 
     dmesg | grep tty                            -> still shouts "Kernel command line: console=ttyO0,115200n8" ...
-    sudo grep -rinI  '/dev/tty' /etc /boot      -> finds entry in console-setup
+    sudo grep -rinI  'console=tty' /etc /boot      -> finds entry in console-setup
+        -> /etc/default/grub.ucf-dist
+        -> /etc/default/grub
+    sudo grep -rinI  'ttyO0' /etc /boot
+        -> /boot/SOC.sh:31:serial_tty=ttyO0
+        -> /etc/securetty:348
 
+    sudo rm /etc/default/grub.ucf-dist              -> copy of "grub" because of manual edit
+    sudo nano /boot/SOC.sh                          -> contains uboot start?
 
 Find and disable world writable files::
 
@@ -381,10 +388,16 @@ Fixing Device Tree Drivers for newer Kernels
     - v4.14.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/4a9c0a652f58090491319d27dac4bf76da7d6086
     - v4.19.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/af07ef77cc6f8f94568a4c238cc6d41fb8c81931
     - v5.4.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/26b4c9fea3ff919835ba27393d5781ca4dd0923f
+    - overlays: https://github.com/beagleboard/bb.org-overlays/tree/master/src/arm
 
 - found changes
     - compatible was: "ti,beaglebone", "ti,beaglebone-black"
     - newer dts files only speak of "ti,am335x-bone-black", "ti,am335x-bone-green", "ti,am335x-bone", "ti,am33xx"
+    - pinctrl-single,pins
+        - shprd:    0x034 0x06  /* P8.11, pr1_pru0_pru_r30_15 */
+        - bbuniv:   AM33XX_IOPAD(0x0834, PIN_OUTPUT | INPUT_EN | MUX_MODE6)
+    - exclusive-use
+    - target pruss overlay
 
 - shepherd firmware
     - make && make install in device-tree sub-folder
@@ -394,13 +407,17 @@ Fixing Device Tree Drivers for newer Kernels
 Workflow shepherd firmware::
 
     cd ~/
-    git clone git clone https://github.com/orgua/shepherd
+    git clone https://github.com/orgua/shepherd
     cd shepherd/software/firmware/device-tree
     make && make install
+
+    # change uboot_overlay_pru to 4-19 in /boot/uEnv.txt
 
     # add to /boot/uEnv.txt
     # check after reboot if loaded
     sudo /opt/scripts/tools/version.sh | grep UBOOT
+
+    Helper to show loaded overlays under: /proc/device-tree/chosen/overlays/
 
 Backup Image::
 
