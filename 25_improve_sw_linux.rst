@@ -38,7 +38,7 @@ BBB Readme
 System improvements
 -------------------
 
-Downgrade kernel (for now)::
+Downgrade kernel (deprecated and not correct way, see below)::
 
     sudo apt install linux-image-4.14.108-ti-r136, linux-headers-...
         currently installed 4.19.94-ti-r36
@@ -46,7 +46,7 @@ Downgrade kernel (for now)::
         last updated bb-cape-overlays
     sudo apt list --installed | grep linux-  -> remove other
 
-Upgrade Kernel::
+Upgrade Kernel (Included in ansible)::
 
     cd /opt/scripts/tools/
     sudo git pull
@@ -55,7 +55,7 @@ Upgrade Kernel::
 
     sudo apt-get install linux-headers-`uname -r`
 
-Update Bootloader::
+Update Bootloader (Included in ansible)::
 
     sudo /opt/scripts/tools/developers/update_bootloader.sh
     reboot
@@ -85,7 +85,7 @@ Storage benchmark::
 - note: sd is only in 4bit-bus-mode
 - learning: external USB seems to be the better choice for data storage,
 
-SSHd improvement::
+SSHd improvement (Included in ansible)::
 
     sudo nano /etc/ssh/sshd_config
         UseDNS no           -> disable dns lookup on server side
@@ -204,12 +204,12 @@ SSH benchmark::
         -> similar results with "external" sd-card
         -> cpu has most likely no crypto, or does not use it
 
-Switch to proper timezone (2h behind)::
+Switch to proper timezone - 2h behind (included in ansible)::
 
     sudo dpkg-reconfigure tzdata
     /etc/timezone       -> one line "Europe/Berlin", alternative to "reconfigure"
 
-Software cleanup::
+Software cleanup (included in ansible)::
 
     sudo apt list --installed
     sudo apt -y remove ...
@@ -225,6 +225,7 @@ Software cleanup::
 
         wireless-regdb -tools
         wpasupplicant
+        ofono
 
         libpython2.7 &-dev &-minimal &-stdlib
         libpython-dev &-stdlib
@@ -254,7 +255,7 @@ CPU-Info::
 
     cat /proc/cpuinfo | grep BogoMIPS
 
-Disable Devices in /boot/uEnv.txt::
+Disable Devices in /boot/uEnv.txt (included in shepherd package)::
 
     disable_uboot_overlay_video=1
     disable_uboot_overlay_audio=1
