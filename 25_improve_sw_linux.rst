@@ -233,12 +233,13 @@ Software cleanup (included in ansible)::
         wpasupplicant
         ofono
 
-        libpython2.7 &-dev &-minimal &-stdlib
-        libpython-dev &-stdlib
-        python
-        python-*
-        python2.7
-        python2.7-*
+    Ansible-Hard.To.Get.packets:
+        sudo apt remove linux-image-4.19.94-ti-r36
+        # dpkg shows a kernel, that isn't in apt...
+        # dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
+        sudo dpkg -P linux-image-5.4.24-armv7-x20
+
+        -> down to 1.4 GB usage
 
 Find biggest space waster::
 
@@ -246,6 +247,8 @@ Find biggest space waster::
         450 MB /lib -> /firmware -> intel 22 MB, netronome 24 MB, liquidio 24 MB, amdgpu 31 MB
         912 MB /usr
         190 MB /var
+
+       dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
 
 Switch dynamically between cpu-governors::
 
@@ -267,7 +270,6 @@ Disable Devices in /boot/uEnv.txt (included in shepherd package)::
     disable_uboot_overlay_audio=1
     disable_uboot_overlay_wireless=1
     disable_uboot_overlay_adc=1
-
 
 Further actions:
     - nix, https://nixos.org/ seems to be the better ansible (only future reference)
@@ -317,7 +319,7 @@ sshd-security-improvements [/etc/ssh/sshd_config] (included in ansible)::
 
     UsePAM yes
     PubkeyAuthentication yes
-    AuthorizedKeysFil .ssh/authorized_keys
+    AuthorizedKeysFile .ssh/authorized_keys
     RhostsRSAAuthentication no
     ChallengeResponseAuthentication no
 
