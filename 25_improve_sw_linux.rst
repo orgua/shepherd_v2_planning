@@ -19,6 +19,11 @@ General
     - how do we see if install is fine? -> journalctl -u shepherd
     - image could be run virtually
 
+playbook args::
+
+    -v              -> stdout
+    --check         -> dry run
+
 System Feedback
 ---------------
 
@@ -284,20 +289,20 @@ Further actions:
 Security Concept
 ----------------
 
-find open ports -> delete not needed services::
+find open ports -> delete not needed services (included in ansible)::
 
     sudo netstat -apn | grep LISTEN
         nginx (webserver)
         dnsmasq (dns and dhcp server)
 
-delete default users::
+delete default users (included in ansible)::
 
     /etc/passwd shows users: root, ubuntu, ansible-user
     sudo su
     userdel ubuntu
     exit
 
-sshd-security-improvements (/etc/ssh/sshd_config)::
+sshd-security-improvements [/etc/ssh/sshd_config] (included in ansible)::
 
     Protocol 2                    # default: 2, 1
     StrictModes yes               # regarding choice of libs
@@ -318,7 +323,7 @@ sshd-security-improvements (/etc/ssh/sshd_config)::
     X11Forwarding no
     # AllowUsers user1 user2    -> for later
 
-sshd-banner for login (/etc/issue.net)::
+sshd-banner for login (/etc/issue.net) (included in ansible)::
 
     This Node is part of project Shepherd of the NES LAB, https://nes-lab.org/
 
@@ -327,7 +332,7 @@ sshd-banner for login (/etc/issue.net)::
 
 
 
-disable terminal over serial (part1: services)::
+disable terminal over serial (part1: services) (included in ansible)::
 
     systemctl                                         -> shows current services
     systemctl list-unit-files                         -> shows current services
@@ -345,10 +350,10 @@ disable terminal over serial (part1: services)::
     sudo systemctl disable dbus-org.bluez.service
     sudo systemctl disable bluetooth.service
 
-disable terminal over serial (part2: grub)::
+disable terminal over serial (part2: grub) (included in ansible)::
 
     sudo nano /etc/default/grub
-        -> remove "console=..." part
+        -> remove "console=ttyO0,115200n8 " part
     sudo update-grub
 
 disable terminal over serial (part3: ??)::
@@ -364,7 +369,7 @@ disable terminal over serial (part3: ??)::
     sudo rm /etc/default/grub.ucf-dist              -> copy of "grub" because of manual edit
     sudo nano /boot/SOC.sh                          -> contains uboot start?
 
-Find and disable world writable files::
+Find and disable world writable files (included in ansible)::
 
     # source: https://www.oreilly.com/library/view/linux-security-cookbook/0596003919/ch09s11.html
     # find & disable
