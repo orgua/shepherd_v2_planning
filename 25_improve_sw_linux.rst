@@ -41,8 +41,13 @@ BBB Readme
         -
 
 
-System improvements
--------------------
+System improvements 
+---------------------------------------------------
+
+System-Info
+	- Ubuntu 18.04, bionic
+	- official image from 2020-03-12
+	- Beaglebone Green
 
 Downgrade kernel (deprecated and not correct way, see below)::
 
@@ -124,9 +129,9 @@ Add Driver for Crypto-Module of CPU::
     # Manual1: https://lauri.võsandi.com/2014/07/cryptodev.html
     # Manual2: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
 
-    cd /usr/local/src/                    -> TODO: rethink that, it forces sudo on make, not good practice
-    sudo wget https://github.com/cryptodev-linux/cryptodev-linux/archive/cryptodev-linux-1.10.tar.gz
-    sudo tar zxf cryptodev-linux-1.10.tar.gz
+    cd ~/
+    wget https://github.com/cryptodev-linux/cryptodev-linux/archive/cryptodev-linux-1.10.tar.gz
+    tar zxf cryptodev-linux-1.10.tar.gz
     cd crypt...
     make
     sudo make install
@@ -178,13 +183,16 @@ Force OpenSSL to use Crypto-Module-Hardware (TODO: hard-coding openSSL-Version i
 
     # bypass: compile old version of libcrypto.ssl of openssl, could fail for ssh because of ABI-changes
     # readme: https://github.com/openssl/openssl/issues/4597
+    apt list --installed | grep sll             -> shows 1.0.2n
     cd ~/
-    wget https://github.com/openssl/openssl/archive/OpenSSL_1_1_1.tar.gz
-    tar zxf OpenSSL_1_1_1.tar.gz
+    wget https://github.com/openssl/openssl/archive/OpenSSL_1_0_2n.tar.gz
+    tar zxf OpenSSL_1_0_2n.tar.gz
     cd OpenSSL
     ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared enable-devcryptoeng no-sse2 no-com --openssldir=/usr/local/ssl
     make build_generated && make libcrypto.a
     sudo make install_sw
+    sudo cp /usr/local/ssl/lib/libcrypto.so.1.0.0 /usr/lib/arm-linux-gnueabihf/libcrypto.so.1.0.0
+    # -> WORKS but is slow (see benchmark)
 
     TODO: openssl config option: no-comp, no-sslv3, -DOPENSSL_NO_HEARTBEATS
 
@@ -192,7 +200,7 @@ Compile SSHd with support for new openSSL-Version::
 
     # compile openSSH with openssl usage
     # sources and readme: https://github.com/openssh/openssh-portable
-    # info: installed is v7.6
+    # info: installed is v7.6p1-4
     cd ~/
     wget https://github.com/openssh/openssh-portable/archive/V_8_3_P1.tar.gz
     tar zxf V_
@@ -209,6 +217,7 @@ SSH benchmark::
         6.x - 7.0 MB/s at 66% cpu usage after optimizations
         -> similar results with "external" sd-card
         -> cpu has most likely no crypto, or does not use it
+        1.5 - 2.8 MB/s  with 50% usage
 
 Switch to proper timezone - 2h behind (included in ansible)::
 
@@ -225,6 +234,8 @@ Software cleanup (included in ansible)::
         dnsmasq
         dnsmasq-base
         nginx &-common &-core
+        can-utils
+        rfkill
 
         linux-headers-4.15.0*
         linux-image-5.4.24
@@ -239,7 +250,7 @@ Software cleanup (included in ansible)::
         # dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
         sudo dpkg -P linux-image-5.4.24-armv7-x20
 
-        -> down to 1.4 GB usage
+    -> down to 1.4 GB MMC & 41 MB RAM usage
 
 Find biggest space waster::
 
@@ -271,14 +282,24 @@ Disable Devices in /boot/uEnv.txt (included in shepherd package)::
     disable_uboot_overlay_wireless=1
     disable_uboot_overlay_adc=1
 
+Switch to Ubuntu 20.04 (bionic to focal)y::
+
+    sudo apt update && sudo apt upgrade
+    sudo reboot
+    sudo apt install update-manager-core
+    sudo do-release-upgrade -d
+    sudo reboot
+    # Some third party entries in your sources.list were disabled.
+    # new unwanted sw: libasound* alsa* ubuntu-release-upgrader* update-manager* ti-sgx* iw gfortran* eject
+    # haveged, rf, pci, vpdma, x11
 Further actions:
     - nix, https://nixos.org/ seems to be the better ansible (only future reference)
     - is active cooling improving the performance? IC is only warm to the touch, so no
     - look at dmesg for oddities
-        - console on ttyO0, 115200n8, ttyS0
+        - console on ttyO0, 115200n8, ttyS0 -> see security concept
         - spectre v2 -> not needed mitigation, cost performance
-        - redundant drivers enabled: CAN driver, ALSA, Bluetooth,
-        - unusual timer-jump, mounting mmc takes 20-25s each
+        - redundant drivers enabled: CAN driver, ALSA, Bluetooth -> uninstalled
+        - unusual timer-jump, mounting mmc takes 20-25s each -> ext4-mount takes forever
             [    1.122421] Freeing unused kernel memory: 1024K
             [   18.463305] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
     - "systemd-analyze blame" shows:
@@ -288,6 +309,7 @@ Further actions:
     - BBB has a crypto engine, but is it used by openSSL! This site has a benchmark: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
     - switch to more SD friendly filesystem, F2FS, YAFFS2
     - benchmark cpu BOINC
+    - switch from -ti-kernel to -bone?
 
 Security Concept
 ----------------
@@ -372,6 +394,9 @@ disable terminal over serial (part3: ??)::
     sudo rm /etc/default/grub.ucf-dist              -> copy of "grub" because of manual edit
     sudo nano /boot/SOC.sh                          -> contains uboot start?
 
+    # there is a /bbb-uEnv.txt and /nfs-uEnv.txt
+    remove >>console=tty0 console=${console} <<
+
 Find and disable world writable files (included in ansible)::
 
     # source: https://www.oreilly.com/library/view/linux-security-cookbook/0596003919/ch09s11.html
@@ -391,7 +416,6 @@ Further actions:
 
 Fixing Device Tree Drivers for newer Kernels
 -------------------------------------------_
-
 
 - device Tree Versions
     - v4.14.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/4a9c0a652f58090491319d27dac4bf76da7d6086
@@ -427,5 +451,5 @@ Workflow shepherd firmware::
 
 Backup Image::
 
-    sudo dd if=/dev/mmcblk1 of=/media/stick/mmc_s0_v4.19.94_bootstrap_apt.img
+    sudo dd if=/dev/mmcblk1 of=/media/mmc_s0_v4.19.94_bootstrap_apt.img
 
