@@ -63,7 +63,7 @@ Software - RealTime-Code
 - does beaglebone AI with TI AM5729 offer more pins for PRU? https://www.ti.com/product/AM5729
 - PRU replacement? FPGA, CPLD would be overkill, but what is with a teensy 4? lots of iO, SPI with DMA, FPU, 600 MHz
     - https://www.pjrc.com/store/teensy40.html
-- fix device tree for current beagle-kernel
+- test shepherd and make PR for shepherd1
 - find a better name for vCap, like vEH, vPwr
 - try to access host gpio peripheral via pru -> would make pin-doubling redundant
 - try to benchmark the loop (debug-pin-high when processing)
