@@ -15,6 +15,7 @@ General
     - playbook workflow - why "changed", and not all "ok"
     - when is deploy needed? -> better document all scripts
     - is there a way to accelerate ansible?
+        - Accelerated mode is deprecated. Consider using SSH with ControlPersist and pipelining enabled instead.
     - can bash-out be saved to file?
     - how do we see if install is fine? -> journalctl -u shepherd
     - image could be run virtually
