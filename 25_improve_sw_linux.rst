@@ -5,25 +5,35 @@ bootstrap
     - "Set authorized key from local file" -> script stops, no ssh pub key generated before trying to access it, on host!
         - give better error message
         - fix: ssh-keygen
-    - remove ubuntu-default-user
     - why "ansible_become_password", what is the meaning? script sets no pw when creating new user
     - user should add (maybe)
-        generate_ssh_key: yes
-        state: present
+        ``generate_ssh_key: yes``
+        ``state: present``
 
 General	
     - playbook workflow - why "changed", and not all "ok"
     - when is deploy needed? -> better document all scripts
-    - is there a way to accelerate ansible?
-        - Accelerated mode is deprecated. Consider using SSH with ControlPersist and pipelining enabled instead.
+    - accelerate ansible: allow pipelining in ``ansible.cfg`` with ``pipelining = True`` in SSH-Section
     - can bash-out be saved to file?
-    - how do we see if install is fine? -> journalctl -u shepherd
+    - how do we see if install is fine? -> ``journalctl -u shepherd``
     - image could be run virtually
 
 playbook args::
 
     -v              -> stdout
     --check         -> dry run
+
+Improve Speed of SSH and Ansible by tuning local ``~/.ssh/config``::
+
+    Host *
+        AddressFamily inet
+        Protocol 2
+        Compression no
+        ServerAliveInterval 60
+        ControlMaster auto
+        ControlPath ~/.ssh/sockets/%r@%h-%p
+        ControlPersist 6000
+
 
 System Feedback
 ---------------
@@ -38,16 +48,15 @@ BBB Readme
     - up to date system information https://elinux.org/Beagleboard:BeagleBoneBlack_Debian
         - updating kernel
         - new device tree interface
-        -
 
 
 System improvements 
 ---------------------------------------------------
 
 System-Info
-	- Ubuntu 18.04, bionic
-	- official image from 2020-03-12
-	- Beaglebone Green
+    - Ubuntu 18.04, bionic
+    - official image from 2020-03-12
+    - Beaglebone Green
 
 Downgrade kernel (deprecated and not correct way, see below)::
 
@@ -250,7 +259,7 @@ Software cleanup (included in ansible)::
         # dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
         sudo dpkg -P linux-image-5.4.24-armv7-x20
 
-    -> down to 1.4 GB MMC & 41 MB RAM usage
+    -> down to 1.4 GB MMC & <41 MB RAM usage
 
 Find biggest space waster::
 
@@ -284,6 +293,7 @@ Disable Devices in /boot/uEnv.txt (included in shepherd package)::
 
 Switch to Ubuntu 20.04 (bionic to focal)y::
 
+    # pro: brings fresh gcc 10, python 3.8, sshd 8.2,
     sudo apt update && sudo apt upgrade
     sudo reboot
     sudo apt install update-manager-core
@@ -291,7 +301,9 @@ Switch to Ubuntu 20.04 (bionic to focal)y::
     sudo reboot
     # Some third party entries in your sources.list were disabled.
     # new unwanted sw: libasound* alsa* ubuntu-release-upgrader* update-manager* ti-sgx* iw gfortran* eject
-    # haveged, rf, pci, vpdma, x11
+    sudo apt-get remove '^namestart.*'
+    # general things to look out for gfx, rf, wifi, wlan, sound, alsa
+
 Further actions:
     - nix, https://nixos.org/ seems to be the better ansible (only future reference)
     - is active cooling improving the performance? IC is only warm to the touch, so no
@@ -367,8 +379,9 @@ disable terminal over serial (part1: services) (included in ansible)::
 
     # also handle the issuing source of the console in /boot/grub/grub.cfg, as kernel command line parameter "console="
 
-    # additional things to disable
-    sudo systemctl disable ofono.service
+    # additional things to disable (resource saving)
+    systemctl set-default multi-user                      -> prereq to turn of graphical.target
+    sudo systemctl disable ofono.service                  -> most of these better be handled by apt
     sudo systemctl disable motd-news.service              -> TODO: could be helpful later to show stats on logon
     sudo systemctl disable motd-news.timer
     sudo systemctl disable graphical.target
@@ -381,7 +394,7 @@ disable terminal over serial (part2: grub) (included in ansible)::
         -> remove "console=ttyO0,115200n8 " part
     sudo update-grub
 
-disable terminal over serial (part3: ??)::
+disable terminal over serial (part3: all failures)::
 
     dmesg | grep tty                            -> still shouts "Kernel command line: console=ttyO0,115200n8" ...
     sudo grep -rinI  'console=tty' /etc /boot      -> finds entry in console-setup
@@ -396,6 +409,19 @@ disable terminal over serial (part3: ??)::
 
     # there is a /bbb-uEnv.txt and /nfs-uEnv.txt
     remove >>console=tty0 console=${console} <<
+
+disable terminal over serial (part4: u-boot)::
+
+    # to access config download u-boot-tools and adapt config
+    sudo nano /etc/fw_env.config
+        /dev/mmcblk1boot1 0x0000 0x20000 0x20000
+        # -> hint: there is nothing there, check with ``sudo hexdump /dev/mmcblk1boot1`` or ``hexedit``
+        # seems to be on mmcblk1 0x20000 0x20000
+        CONFIG_BOOT_ENV =
+    sudo fw_printenv
+    sudo fw_setenv
+    # if that fails ``echo 0 > /sys/block/mmcblkXbootY/force_ro``
+
 
 Find and disable world writable files (included in ansible)::
 
