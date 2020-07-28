@@ -48,9 +48,10 @@ BBB Readme
     - up to date system information https://elinux.org/Beagleboard:BeagleBoneBlack_Debian
         - updating kernel
         - new device tree interface
+    - improve system and boot performance: https://embexus.com/2017/05/16/embedded-linux-fast-boot-techniques/
+    - official boot optimization: https://processors.wiki.ti.com/index.php/Sitara_Linux_Training:_Boot_Time_Reduction
 
-
-System improvements 
+System improvements
 ---------------------------------------------------
 
 System-Info
@@ -259,7 +260,7 @@ Software cleanup (included in ansible)::
         # dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
         sudo dpkg -P linux-image-5.4.24-armv7-x20
 
-    -> down to 1.4 GB MMC & <41 MB RAM usage
+    -> down to          1.4 GB MMC &   <41 MB RAM usage      (with shepherd)
 
 Find biggest space waster::
 
@@ -304,24 +305,35 @@ Switch to Ubuntu 20.04 (bionic to focal)y::
     sudo apt-get remove '^namestart.*'
     # general things to look out for gfx, rf, wifi, wlan, sound, alsa
 
+Fix long boot (included in ansible)::
+
+    sudo rm /boot/initrd.img-*
+    # file is not needed and is putting a 20s wait on kernel
+
+
 Further actions:
     - nix, https://nixos.org/ seems to be the better ansible (only future reference)
     - is active cooling improving the performance? IC is only warm to the touch, so no
-    - look at dmesg for oddities
+    - look at ``dmesg`` for oddities
         - console on ttyO0, 115200n8, ttyS0 -> see security concept
         - spectre v2 -> not needed mitigation, cost performance
         - redundant drivers enabled: CAN driver, ALSA, Bluetooth -> uninstalled
         - unusual timer-jump, mounting mmc takes 20-25s each -> ext4-mount takes forever
             [    1.122421] Freeing unused kernel memory: 1024K
             [   18.463305] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
-    - "systemd-analyze blame" shows:
+    - ``systemd-analyze blame`` shows:
         - v4.14: 39.936s dev-mmcblk1p1.device
         - v4.19: 53.286s dev-mmcblk1p1.device, 29.013s generic-board-startup.service
     - look at power consumption
     - BBB has a crypto engine, but is it used by openSSL! This site has a benchmark: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
     - switch to more SD friendly filesystem, F2FS, YAFFS2
     - benchmark cpu BOINC
-    - switch from -ti-kernel to -bone?
+    - switch from ``-ti-kernel`` to ``-bone``?
+        - see https://groups.google.com/forum/#!topic/beagleboard/sAefubfDqco
+        - ``-bone`` is from Robert Nelson, mainly for BB and BBB, PRU with UIO
+        - ``-ti-kernel`` is for all TI CPUs, PRU with remoteproc
+        - ``-xenomai`` is dual kernel, realtime, 40 us
+        - ``-rt`` uses preemt features to reduce latency to about 100 us
 
 Security Concept
 ----------------
@@ -412,7 +424,7 @@ disable terminal over serial (part3: all failures)::
 
 disable terminal over serial (part4: u-boot)::
 
-    # to access config download u-boot-tools and adapt config
+    # DEPRECATED - to access config download u-boot-tools and adapt config
     sudo nano /etc/fw_env.config
         /dev/mmcblk1boot1 0x0000 0x20000 0x20000
         # -> hint: there is nothing there, check with ``sudo hexdump /dev/mmcblk1boot1`` or ``hexedit``
@@ -422,6 +434,14 @@ disable terminal over serial (part4: u-boot)::
     sudo fw_setenv
     # if that fails ``echo 0 > /sys/block/mmcblkXbootY/force_ro``
 
+    # now you have to interrupt u-boot to get to it's console (use serial on J1)
+    saveenv         -> will create /boot/uboot.env
+    # this is no handy way for remote management -> maybe the first image could be modified for that
+
+    # uEnv.txt can run cmds! (TODO: figure out the right command, these are wrong)
+    uenvcmd=run saveenv;
+    bootcmd=saveenv; run saveenv;
+    cmdline= ...
 
 Find and disable world writable files (included in ansible)::
 
@@ -441,7 +461,7 @@ Further actions:
 - add concept for security
 
 Fixing Device Tree Drivers for newer Kernels
--------------------------------------------_
+--------------------------------------------
 
 - device Tree Versions
     - v4.14.x https://github.com/beagleboard/BeagleBoard-DeviceTrees/commit/4a9c0a652f58090491319d27dac4bf76da7d6086
