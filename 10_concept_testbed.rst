@@ -1,6 +1,12 @@
 Concept - Testbed
 =================
 
+General Philosophy
+    - only as complex as needed
+    - most bang for the buck, not to expensive and to specialized design, hardware, etc
+    - possibility to build on your own
+    - unique selling point is the replay of energy (harvesting) sources and emulation of power converters with high temporal resolution
+
 infrastructure
     - 20 - 30 RF-Nodes (Beaglebone with custom RF-IC) with Ethernet-Backchannel
     - distributed on cfaed-floors, several rooms / offices, maybe also on corridors
@@ -26,6 +32,7 @@ Control-Server
 
 Misc
     - Casing in laser-acrylic or off-the-shelf case with custom front
+        - input Marco: open and transparent is fine
     - dynamic roles of nodes -> config can be "static" (network access, gps attached, mobile) -> ansible-roles
     - switching to BB-AI seems to be an important step, but price increase is 3.5 fold
         - focus is still on the PRUs, now 4 Cores

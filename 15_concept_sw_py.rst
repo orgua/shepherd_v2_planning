@@ -8,6 +8,7 @@ Concept - Software - Python API
 - hdf5 for fast storage, data can be segmented into several files, and written incrementally
     - later converters for csv, saleae logic-analyzer-format would be nice
 - try to separate between scenario and measurement (reusability)
+- individualize target firmware by manipulating ELF-file: tx power and ID/softMAC as variable,
 - modules
    - harvesting-emulator: energy-trace(s), sampling-rate, playback (mirrored, loop)
       - or skip emulator by using constant voltage module

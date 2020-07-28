@@ -22,23 +22,28 @@ Test-procedure
 Hardware - Cape & Capelets
 --------------------------
 
-- >= 2 Target-Ports with preselection before measurement
-- record traces for >= 4 Target-GPIOs (better 8 - 16)
+- >= 2 Target-Ports with preselection before measurement (software defined targets)
+    - nice to have: second target continues to get powered, so there would be a choice to support two different targets or one target and a monitoring device
+- record traces for >= 4 Target-GPIOs (better 8 - 16), if 8 then 8+1 would be perfect
 - Target-GPIO-Connection bidirectional, usable per script
 - Target-UART-Connection support for several baud-rates, if possible >= 1MBit
 - additional synchronous serial interface (i.e. SPI) for target
-- general purpose capelet port
-   - SDR-Capelet (with user programmable FPGA)
+- mostly standardized data interfaces to all kind of targets
+    - SDR-Target (with user programmable FPGA)
+    - interferer
 - reliable timebase (<=100ns deviation)
    - support for external sync-Line
 - support for other Targets beside nRF52 (i.e. Long Range) and programmer (JTAG, SWD, ..)
-- mobility of nodes
+- mobility of nodes (low prio), means two things moving system as well as distant long range nodes
+    - req 1: tcp based (mobile network) for control-side-channel
+    - req 2: scheduler via pre-configuration (node needs access to time-base)
 - virtual capacitor and DC-Converter (real ones are either removed or bridged)
    - harvesting-traces remain basic input source
 - support for On-Off-Pattern for power source (capacitor is currently interfering)
 - Remote-Debugging not needed
 - recording of harvesting traces not part of big testbeds → saves some money for parts
 - variable TX-Power for multi-hop-scenario
+- simple and fast to modify casing is ok
 
 Software - Script-Support / API
 -------------------------------
@@ -48,6 +53,7 @@ Software - Script-Support / API
 - control GPIOs (copy, for reference)
 - dynamic addressing of targets (firmware-manipulation before flashing)
 - API modular and encapsulated -> separation between scenario and measurement, for reusability
+- allow switching between targets
 
 Software - Website / Frontend
 ------------------------------
@@ -59,7 +65,17 @@ Software - Website / Frontend
 - Scratch-Area for user-data
 - integrated tests for measurement: test for plausibility, pre-run in software (abstract virtual hardware)
 - scheduler for measurement, time to prepare and follow up (data transfer, conversion, compression, ...)
+- manipulation of target-firmware to individualize ID and TX-Power
 - results downloadable by user, for a certain time
 - feedback via e-mail - measurement start, data available, error, shortly before deletion
 - grafana-visualisation
 - documentation and instructions
+
+
+Unsolved, not mentioned Details in Requirements
+===============================================
+
+    - how to switch between targets? (if there are two on the Cape)
+        - Var 1: in local python script, for every node individually
+        - Var 2: preselected on server
+

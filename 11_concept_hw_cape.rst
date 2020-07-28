@@ -3,6 +3,31 @@ Concept - Hardware - Shepherd-Cape
 
 -> mostly documentation of changes to V1.x
 
+Computing Power and Accuracy Constraints - a pro and contra
+    - Beaglebone Green
+        - pro: 40 €, HW-Timestamping, 2 real time Cores, awesome support and community, stable and fairly low energy consumption
+        - con: fairly old CPU, 100 MBit Ethernet, RTUs could be to slow for the requirements, storage is slow, encrypted network traffic is slow (< 50 MBit)
+        - biggest challenges:
+            - pre and post data-transfer
+            - high speed emulation in PRUs with the slow L3-Access, unflexible GPIO, missing FPU and int-division
+    - Beaglebone AI
+        - pro: same as BBG, GBE, faster CPU, 4 Real time Cores
+        - con: 3x Price of BBG, still the same PRU IP with its limitations
+        - unknown: faster storage, faster network traffic
+    - Zynq 7020
+        - pro: similar price as BBAI, 1 GBE, FPGA in same Package, hw-timestamping
+        - con: xilinx-toolchain, documentation is overwhelming, community small, long dev-cycle
+        - https://shop.trenz-electronic.de/de/30195-MYC-C7Z020-CPU-Modul-mit-XC7Z020-2CLG400I-industrieller-Temperaturbereich?c=238
+    - PRU replacement or extension
+        - CPLD would be overkill
+        - Teensy 4 -> lots of iO, SPI with DMA, interrupts for everything, FPU, 600 MHz, proper toolchain, https://www.pjrc.com/store/teensy40.html
+        - FPGA in between embedded CPU and Shepherd
+            - some lattice even have a open source toolchain
+            - FPGA could be transparent if not needed
+        - argument to keep everything as is for now: "inbetween" could be added later by sandwiching PCBs
+
+
+
 shepherd Cape
     - add fixed & robust power-connector and possibility to switch system on/off, reverse-polarity-detection
     - external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer -> record via PRU
@@ -41,26 +66,25 @@ GPS Capelet
     - preferred solution: module without antenna and sma-port, smd-antenna on same pcb with sma-port, short interconnect or remote antenna
 
 target Capelet
-    - allow a second target -> switch inputs and power (could also lead to a third if space is available
-    - allow different targets (probably limited by software)
-    - interface handling:
+    - allow a second target -> switch inputs and power (could also lead to a third if space is available)
+    - try to keep power (constant) for the not connected target, so it can run independently
+    - allow different targets (probably limited by software) even fpga or other untypical combinations
+    - handling with standardized data interfaces:
         - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasable)
         - host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator (if PRU cant access host gpio periphery)
         - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
+    - target could also use i2c-bus to enable eprom-storage for config- and ID-Data
     - fast level-changer for >= 1 Mbps UART (BB-Uart max is 3.7 Mbps)
     - bidirectional gpio-connection, tri-state (input, output, disconnected)
-    - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
-    - if there is low cost, make power-connection switchable (for on-off-pattern if power-emulation does not work)
+        - perfect if also flexible muxer included
+        - make gpio-connections to target switchable if possible -> no transfer of energy (if needed)
+        - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
+    - if there is low cost one, make power-connection switchable (for on-off-pattern if power-emulation does not work)
     - if usb to target (via cable), then make it off-switchable
-    - make gpio-connections to target switchable if possible -> no transfer of energy (if needed)
     - routing of v_in_SHT+/- can be removed - it was never used and is a big noise-source for ADC
+    - low prio: rf attenuator and connector for antenna -> depending on target capabilities
 
-general-purpose capelet (port)
-    - if pins to pru suffice, it is possible, mostly uni-dir
-    - non time critical pins can be handled in linux, bi-dir, even one uart
-    - but no SPI or I2C
-
-beaglebone timekeeping
+Beaglebone timekeeping
     - test high precision, temperature compensated crystal oscillator with same footprint
     - test higher quality gps with lower jitter on pps line
     - sync line could be supplied by gps cape in combination with schmitt-trigger-hub to power multiple targets

@@ -40,7 +40,7 @@ Bidirectional GPIO and fast/variable UART / SPI to Target
 - solution 1: pru could access spi and uart from host-cpu, has delay-penalty, but gpio from host seems unreachable to PRU
 - improvement: PRU could be limited to be GPIO-recorder (see previous requirement)
 - assessment:
-   - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api
+   - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api (ok, because main purpose is monitoring)
    - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins offen fall together and limit the available pins
    - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
 
@@ -53,7 +53,8 @@ Allow user-provided Energy-Traces
 - improvement 2: U/I-Values could be partial linear dependent and therefore compressible (data-compression-algorithm, vectorization, delta-conversion)
 - improvement 3: beaglebone AI has GBE instead of 100 mbit, that makes data-handling a lot smoother
 - assessment:
-   - no hardware-changes needed, lib-changes seem manageable
+    - no hardware-changes needed, lib-changes seem manageable
+    - traces seem to be compressible by factor 10 to 100 (input Kai), which is fine for playback
 
 Accuracy of time-base
 ---------------------
@@ -64,10 +65,10 @@ Accuracy of time-base
 - Improvement 3: change crystal oscillators of beaglebone to temperature compensated ones (lower PPMs for drift and aging). Oven controlled crystals would be to big
 - Improvement 4: "external" sync signal -> "sync port" is already available for the gps-capelet, and even if it is not used for time-keeping, it can be recorded for later trace-alignment
 - improvement 5: ptp has a lot of bad-undocumented set-screws to optimize performance ...
-- improvement 6: if gpio sampling stays @ 100 kHz, there are 10 us between samples, with < 3 us deviation currently, the traces could be aligned to discrete timestamps
 - assessment:
-   - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
-   - no risk on hw-level, minimal more time expense in design-stage
+    - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
+    - no risk on hw-level, minimal more time expense in design-stage
+    - gpio sampling is already asynchronous @ ~20 MHz
 
 Mobility of Nodes
 -----------------
@@ -102,19 +103,9 @@ Support for two selectable Targets
 - problem 2: how to distinguish between ICs automatically
 - enabler: software-defined PRU-openOCD could try to probe, get chip-ID with various methods (jtag, swd), similar to JTAGulator
 - assessment:
-   - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
-   - software could be more tricky -> py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
-
-
-GeneralPurpose-Capelet-Port
----------------------------
-
-- more specific: usable for SDR / FPGA
-- Problem: unknown data-rate, use of GPIO, interfaces, programming interface
-- assessment:
-   - a simple sensor interface with gpios, spi, i2c would be feasable
-      - there is a free uart5 and half uart4 that could be freed, and 20+ user space gpio
-   - SDR exceeds limits of project -> would be better suited on a second beaglebone or PicoZed-Board (Zynq-FPGA + SDR)
+    - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
+    - software could be more tricky -> py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
+    - with some effort even both targets could be powered, one with CV, to allow use as interferer (see next subject) or independent node
 
 Separate RF-Interferer
 ----------------------
@@ -129,28 +120,3 @@ Channel-Monitoring
 ------------------
 
 - problem: analog to rf-interferer
-
-
-Unsolved, not mentioned Details in Requirements
-===============================================
-
-Hardware
-    - how to control distant long-Range-Nodes or mobile ones
-        - idea 1: tcp based (mobile network) for control-side-channel
-        - idea 2: scheduled via pre-configuration (node needs access to time-base)
-        - input marco: shouldn't be high priority, but considered in hw-design
-    - variable TX-Power of Target for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
-        - input kai: firmware should suffice
-    - GP-Capelet-Port: are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
-        - there are still unused GPIO available, even a uart, but no SPI or I2C
-    - preferred casing choices:
-        - Var1: off-the-shelf case with custom front-plates
-        - Var2: laser-cut-acrylic box?
-
-Software
-    - Target configuration
-        - do all targets get the same firmware, is it precompiled?
-        - is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
-    - how to switch between targets? (if there are two on the Cape)
-        - Var 1: in local python script, for every node individually
-        - Var 2: preselected on server
