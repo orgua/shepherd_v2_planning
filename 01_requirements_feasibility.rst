@@ -32,7 +32,7 @@ More GPIO to Target
     - PRU should be limited to be gpio-recorder with its pins, a second pin is handled from host
 
 Bidirectional GPIO and fast/variable UART / SPI to Target
----------------------------------------------------
+---------------------------------------------------------
 
 - Problem: logic signal must be level-shifted and detachable (possible energy transfer) and also high-speed
 - current layout: link from Target-GPIO is output only, uart bi-dir & recorded in PRU, programmer is in user space (currently not recordable, dedicated pins on nRF52)
@@ -45,7 +45,7 @@ Bidirectional GPIO and fast/variable UART / SPI to Target
    - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
 
 Allow user-provided Energy-Traces
-----------------------------------
+---------------------------------
 
 - assumption: 8 byte timestamp, 2x 4 byte U/I-ADC-Value, 100 kHz -> ~ 1.6 MB/s
 - Problem: traces for an hour or day become hard to handle via internet
@@ -129,3 +129,28 @@ Channel-Monitoring
 ------------------
 
 - problem: analog to rf-interferer
+
+
+Unsolved, not mentioned Details in Requirements
+===============================================
+
+Hardware
+    - how to control distant long-Range-Nodes or mobile ones
+        - idea 1: tcp based (mobile network) for control-side-channel
+        - idea 2: scheduled via pre-configuration (node needs access to time-base)
+        - input marco: shouldn't be high priority, but considered in hw-design
+    - variable TX-Power of Target for multi-hop → is it enough to change firmware or do we need (programmable) attenuation?
+        - input kai: firmware should suffice
+    - GP-Capelet-Port: are there any future-extensions (sensors, actors) that would require a general purpose capelet-Port (SDR-Extension is not feasible for shepherd nodes)
+        - there are still unused GPIO available, even a uart, but no SPI or I2C
+    - preferred casing choices:
+        - Var1: off-the-shelf case with custom front-plates
+        - Var2: laser-cut-acrylic box?
+
+Software
+    - Target configuration
+        - do all targets get the same firmware, is it precompiled?
+        - is it already individualized, is it done by hardware / MAC, or do we have to change IDs in binary?
+    - how to switch between targets? (if there are two on the Cape)
+        - Var 1: in local python script, for every node individually
+        - Var 2: preselected on server
