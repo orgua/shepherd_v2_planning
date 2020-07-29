@@ -511,6 +511,8 @@ Backup Image::
 Install custom Shepherd-Code and check install
 ----------------------------------------------
 
+-> TODO: refactor this into general documentation / dev
+
 Install::
 
     # on sheep

@@ -1,8 +1,6 @@
 Shepherd-Sheep
 --------------
 
-- help-output could also mention additional parameters for each option
-- crash more gracefully, and earlier (ie. missing su)
 - options and their paramters
     - eeprom
     - emulate
@@ -21,3 +19,13 @@ Shepherd-Sheep
 - parameters
     -v verbose: int[0:2]
 - mode: emulation, virtcap, debug
+
+TODO
+----
+
+- help-output could also mention additional parameters for each option
+- crash more gracefully, and earlier (ie. missing su)
+- test for sudo upfront
+- print current config / parameters before starting to do anything
+- add timestamp to measurement data, instead of rec[.#.].h5
+- notify user that ctrl+c ends the program

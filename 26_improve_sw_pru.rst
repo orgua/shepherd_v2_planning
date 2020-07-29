@@ -1,22 +1,18 @@
 Beaglebone PRU - Code Improvements
 ==================================
 
+handling PRUs (in ansible: dev_rebuild_pru.yml)::
 
-dmesg output::
+    sudo su
 
-    [   60.635451] remoteproc remoteproc0: Booting fw image am335x-pm-firmware.elf, size 217168
-    [   60.635726] remoteproc remoteproc0: remote processor wkup_m3 is now up
-    [   60.635753] wkup_m3_ipc 44e11324.wkup_m3_ipc: CM3 Firmware Version = 0x193
-    [   64.826893] PM: bootloader does not support rtc-only!
-    [   65.452427] remoteproc remoteproc1: 4a334000.pru is available
-    [   65.452596] pru-rproc 4a334000.pru: PRU rproc node pru@4a334000 probed successfully
-    [   65.467028] remoteproc remoteproc2: 4a338000.pru is available
-    [   65.467191] pru-rproc 4a338000.pru: PRU rproc node pru@4a338000 probed successfully
+    # stopping PRUs
+    echo "stop" > /sys/class/remoterproc/remoteproc1/state
+    echo "stop" > /sys/class/remoterproc/remoteproc2/state
 
-handling prus
+    # stop and start kernel module -> warning: some states are not reset this way
+    modprobe -r shepherd
+    modprobe -a shepherd
+    # fw gets flashed and PRUs started by module
 
-    - stopping ``echo "stop" > /sys/class/remoterproc/remoteproc1/state``
-    - start ...
-    - reload kernel-module
-
-
+    # test code on live system
+    shepherd-sheep -vv run --config /etc/shepherd/config.yml
