@@ -311,6 +311,15 @@ Fix long boot (included in ansible)::
     # file is not needed and is putting a 20s wait on kernel
 
 
+Unnecessary kernel modules, ``lsmod`` shows
+
+    - wkup_m3_ipc               -> Cortex M3 Co-Processor, misbehaving in dmesg, loaded to early
+    - virtio, virtio-ring       -> IO-Virtualization in KVM
+    - uio, uio_pdrv_genirq      -> should be user-space IO
+    - u_serial, usb_f_acm       -> serial emulation on USB
+    - sch_fq_codel              -> Fair Queue controlled delay
+    - libcomposite              -> usb HID and massstorage
+
 Further actions:
     - nix, https://nixos.org/ seems to be the better ansible (only future reference)
     - is active cooling improving the performance? IC is only warm to the touch, so no
@@ -499,3 +508,54 @@ Backup Image::
 
     sudo dd if=/dev/mmcblk1 of=/media/mmc_s0_v4.19.94_bootstrap_apt.img
 
+Install custom Shepherd-Code and check install
+----------------------------------------------
+
+Install::
+
+    # on sheep
+    cd /opt
+    sudo git clone https://github.com/orgua/shepherd
+    exit
+
+    # on server
+    cd /shepherd
+    ansible-playbook ./deploy/deploy.yml
+
+Check (on sheep)::
+
+    # DT-Overlay: there should be an BB-SHPRD-... -> overlay is active
+    ll /proc/device-tree/chosen/overlays/
+
+    # Custom-Services: should show 4x shepherd entries, only shepherd-launcher.service enabled
+    systemctl list-unit-files | grep shep
+
+    # Timesync-Services: both should be active and running
+    systemctl | grep ptp
+    systemctl | grep phc
+
+    # PRUs: two pru-rproc available and probed successfully
+    dmesg | grep pru
+
+    # PRUs: should show remoteproc1 and 2
+    ll /sys/class/remoteproc/
+
+    # KernelModule: it should probably be active - but isn't (sudo modprobe shepherd)
+    lsmod | grep shep
+
+    # KernelModule: should talk "shprd: found device", "found PRU0/1", "PRUs started"
+    dmesg | grep shp
+
+    # KernelModule: ``state`` should exist
+    ll /sys/shepherd/
+
+    # Shepherd program: >
+    cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
+    shepherd-sheep -vv run --config /etc/shepherd/config.yml
+        -> error, no /sys/shepherd/state
+            there is /sys/module/shepherd, without "state"
+
+Open Questions
+
+    - vCap -> what else is there to do to activate it? DT-Overlay, probably switch in pru-firmware, board-modification?
+    - how do is see that pru got the right firmware?

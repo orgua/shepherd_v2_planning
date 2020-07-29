@@ -27,7 +27,6 @@ Computing Power and Accuracy Constraints - a pro and contra
         - argument to keep everything as is for now: "inbetween" could be added later by sandwiching PCBs
 
 
-
 shepherd Cape
     - add fixed & robust power-connector and possibility to switch system on/off, reverse-polarity-detection
     - external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer -> record via PRU
@@ -64,6 +63,7 @@ GPS Capelet
         - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky) -> already in inventory
         - trimble also offers precise timing gps modules
     - preferred solution: module without antenna and sma-port, smd-antenna on same pcb with sma-port, short interconnect or remote antenna
+    - PPS currently on Timer4 P8_7, GPS on UART2
 
 target Capelet
     - allow a second target -> switch inputs and power (could also lead to a third if space is available)

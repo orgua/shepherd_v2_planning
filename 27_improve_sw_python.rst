@@ -1,0 +1,23 @@
+Shepherd-Sheep
+--------------
+
+- help-output could also mention additional parameters for each option
+- crash more gracefully, and earlier (ie. missing su)
+- options and their paramters
+    - eeprom
+    - emulate
+    - record
+        - no_calib: bool            -> TODO: why negation, use default
+        - force: bool               -> overwrite exiting file
+        - init_voltage: float
+        - load: artificial, node
+        - mode: harvesting, load    -> TODO: make more clear, this one is recorded
+        - output: string-folder /var/sheph
+    - targetpower
+        - on/off
+        - --voltage: float
+    - run
+    - rpc, launcher
+- parameters
+    -v verbose: int[0:2]
+- mode: emulation, virtcap, debug

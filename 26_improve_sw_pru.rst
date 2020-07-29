@@ -18,3 +18,5 @@ handling prus
     - stopping ``echo "stop" > /sys/class/remoterproc/remoteproc1/state``
     - start ...
     - reload kernel-module
+
+
