@@ -110,9 +110,34 @@ SSHd improvement (Included in ansible)::
 
     sudo nano /etc/ssh/sshd_config
         UseDNS no           -> disable dns lookup on server side
-        Compression no      -> default is "delayed" after login
+        Compression no      -> default is "delayed" (yes) after login
 
     # Client side: use ipv4, one single tcp-connection (controlMaster auto) on Client-side
+
+SCP Improvement::
+
+    # Idea: handshake is secure and fully crypted, after that the encryption could be lowered, maybe even with fast crypto-module-support
+    # switching crypto cipher -> man ssh_config shows for local ``~/.ssh/config``, global ``/etc/ssh/ssh_config`` and ``sshd_config``
+
+    Specifies the ciphers allowed and their order of preference.  Multiple ciphers must be comma-separated.  If the specified list begins with a
+    ‘+’ character, then the specified ciphers will be appended to the default set instead of replacing them.  If the specified list begins with a
+    ‘-’ character, then the specified ciphers (including wildcards) will be removed from the default set instead of replacing them.  If the spec‐
+    ified list begins with a ‘^’ character, then the specified ciphers will be placed at the head of the default set.
+
+    The supported ciphers are:
+        3des-cbc, aes128-cbc, aes192-cbc, aes256-cbc, aes128-ctr, aes192-ctr, aes256-ctr
+        aes128-gcm@openssh.com, aes256-gcm@openssh.com, chacha20-poly1305@openssh.com
+
+    The default is:
+        chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr,
+        aes128-gcm@openssh.com,aes256-gcm@openssh.com
+
+    The list of available ciphers may also be obtained using "ssh -Q cipher".
+
+    OpenSSH 7.3 are:
+        3des-cbc, aes128-cbc, aes192-cbc, aes256-cbc, aes128-ctr, aes192-ctr,
+        aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com, arcfour,
+        arcfour128, arcfour256, blowfish-cbc, cast128-cbc, chacha20-poly1305@openssh.com.
 
 OpenSSL Benchmark::
 
@@ -132,6 +157,35 @@ OpenSSL Benchmark::
         Doing aes-128-cbc for 3s on 1024 size blocks: 25658 aes-128-cbc's in 0.01s
         Doing aes-128-cbc for 3s on 8192 size blocks: 5663 aes-128-cbc's in 0.01s
         Doing aes-128-cbc for 3s on 16384 size blocks: 4040 aes-128-cbc's in 0.01s
+
+    # compact benchmark:
+    openssl speed -elapsed -evp aes-128-cbc aes-192-cbc aes-256-cbc
+    openssl speed -elapsed -evp aes-128-ctr aes-192-ctr aes-256-ctr
+    openssl speed -elapsed -evp aes-128-gcm aes-256-gcm des-ede3-cbc chacha20-poly1305
+
+    The 'numbers' are in 1000s of bytes per second processed.
+    type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes
+
+    aes-128-cbc      30229.13k    40065.07k    43963.48k    45118.46k    45378.22k    45416.45k  --> Insecure
+    aes-192-cbc      26305.07k    33554.03k    36051.20k    36890.97k    37188.95k    37191.68k  --> Insecure
+    aes-256-cbc      24307.25k    30221.35k    32434.60k    33024.34k    33161.22k    33166.68k  --> Insecure
+
+    aes-128-ctr      24565.01k    36514.28k    41899.95k    47885.31k    49993.05k    50173.27k
+    aes-192-ctr      22875.85k    32318.14k    35530.50k    40397.14k    42265.26k    42341.72k
+    aes-256-ctr      21166.89k    29006.49k    30876.16k    35073.37k    36560.90k    36580.01k
+
+    aes-128-gcm      21461.14k    28427.01k    31007.74k    34032.30k    34802.35k    34794.15k
+    aes-256-gcm      18821.07k    23611.90k    24569.51k    27030.19k    27661.65k    27634.35k
+
+    des-ede3-cbc      5420.43k     5722.56k     5799.77k     5807.45k     5829.97k     5821.78k
+    chacha20-poly    22729.05k    52835.75k    96532.65k   107768.83k   112194.90k   112361.47k
+                     128-cbc        chacha     chacha      chacha       chacha         chacha
+
+    # real test:
+    scp -o Cipher=chacha20-poly1305@openssh.com ./rec.2.h5 10.0.0.52:/home/hans/
+    # TI-Website about CryptoModule and performance on this CPU: https://processors.wiki.ti.com/index.php/AM335x_Crypto_Performance
+    # TI-Support shows that Module also handles basic compression: https://e2e.ti.com/support/processors/f/791/t/349219?AM335x-Hardware-Crypto-Engine
+    # TODO: change packet size for scp, try basic compression and fastest cipher for module
 
 Add Driver for Crypto-Module of CPU::
 
@@ -363,7 +417,7 @@ delete default users (included in ansible)::
 sshd-security-improvements [/etc/ssh/sshd_config] (included in ansible)::
 
     Protocol 2                    # default: 2, 1
-    StrictModes yes               # regarding choice of libs
+    StrictModes yes               # regarding choice of libs and world writables
 
     LoginGraceTime 1m
     MaxAuthTries 1
@@ -379,7 +433,14 @@ sshd-security-improvements [/etc/ssh/sshd_config] (included in ansible)::
     ChallengeResponseAuthentication no
 
     X11Forwarding no
-    # AllowUsers user1 user2    -> for later
+    AllowUsers user1 user2    -> for later
+
+    # the following ones with "-" in front of list are not recommended (weak, broken) and will be excluded (ssh-audit)
+    KexAlgorithms -ecdh-sha2*,diffie-hellman-group-exchange*,diffie-hellman-group14-sha1
+    HostKeyAlgorithms -ecda-sha2*,ecdsa-sha2*
+    Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr
+    MACs -umac-64*,hmac-sha1*,hmac-sha2-256,hmac-sha2-512,umac-128@open*
+
 
 sshd-banner for login (/etc/issue.net) (included in ansible)::
 

@@ -42,20 +42,24 @@ Software - RealTime-Code
 ------------------------
 
 - does beaglebone AI with TI AM5729 offer more pins for PRU? https://www.ti.com/product/AM5729
-- test shepherd and make PR for shepherd1
+- make PR for shepherd1 with fixes
+- is dev-branch in shepherd1 important? two pins are swapped, and some scripts refined
 - find a better name for vCap, like vEH, vPwr
 - try to access host gpio peripheral via pru -> would make pin-doubling redundant
 - try to benchmark the loop (debug-pin-high when processing)
 - check out other testbeds
     - tracelab 200 ns accuracy - https://pub.tik.ee.ethz.ch/people/rlim/LMDBT2015.pdf
 
-Software - Python
------------------
+Software - Linux, Python
+------------------------
 
 - figure out a system to bulk-initialize scenario, measurement, but also individualize certain nodes if needed
    - build "default" one and deep-copy and individualize -> this could be part of a test-bed-module-handler
       - test-bed instantiates beaglebone-nodes [1..30] and user can hand target and harvest module to selected nodes
    - shepherd herd -> yaml -> per node config
+- SSH speedproblem: cpu-encryption is slow, transfer is ~ 50 MBit with 100% CPU Usage
+    - Crypto-Module brings ~ 25 MBit with < 30% CPU Usage
+    - ssh should allow to switch to lower crypto after handshake, maybe even something that is fast for Crypto-Module
 
 Software - OpenOCD
 ------------------

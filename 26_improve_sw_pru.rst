@@ -1,7 +1,7 @@
-Beaglebone PRU - Code Improvements
+Beaglebone PRU
 ==================================
 
-handling PRUs (in ansible: dev_rebuild_pru.yml)::
+Getting started - handling PRUs (in ansible: dev_rebuild_pru.yml)::
 
     sudo su
 
@@ -16,3 +16,16 @@ handling PRUs (in ansible: dev_rebuild_pru.yml)::
 
     # test code on live system
     shepherd-sheep -vv run --config /etc/shepherd/config.yml
+
+
+Code Improvements
+
+    - firmware should do self-tests for its key components
+        - both cores running
+        - ram-interface to cpu responsive
+        - dac and adc available
+        - setting voltage is measurable
+    - switch to gcc
+    - update pru-software-support-package-5.4.0 to
+        - official v5.7, or
+        - gcc version https://github.com/dinuxbg/pru-software-support-package (fork of V4), with cherry-picking
