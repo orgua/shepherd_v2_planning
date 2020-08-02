@@ -401,6 +401,8 @@ Further actions:
 Security Concept
 ----------------
 
+Goal: mostly secure beaglebone, but it is also partly for the vServer
+
 find open ports -> delete not needed services (included in ansible)::
 
     sudo netstat -apn | grep LISTEN
@@ -420,10 +422,10 @@ sshd-security-improvements [/etc/ssh/sshd_config] (included in ansible)::
     StrictModes yes               # regarding choice of libs and world writables
 
     LoginGraceTime 1m
-    MaxAuthTries 1
+    MaxAuthTries 2
 
     PermitRootLogin no
-    PasswordAuthentication no
+    PasswordAuthentication no       # for the Server we should at least allow secure PWs
     PermitEmptyPasswords no
 
     UsePAM yes

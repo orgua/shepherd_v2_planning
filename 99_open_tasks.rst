@@ -17,6 +17,7 @@ Testbed
     - examine offices with IT-Admin
 - measure link quality around cfaed-floors
 - for global server access -> security concept needed
+- distribution - git for debian package seems possible -> https://wiki.debian.org/GitPackaging
 
 Hardware - mostly shepherd Cape
 -------------------------------
@@ -42,13 +43,16 @@ Software - RealTime-Code
 ------------------------
 
 - does beaglebone AI with TI AM5729 offer more pins for PRU? https://www.ti.com/product/AM5729
-- make PR for shepherd1 with fixes
-- is dev-branch in shepherd1 important? two pins are swapped, and some scripts refined
 - find a better name for vCap, like vEH, vPwr
 - try to access host gpio peripheral via pru -> would make pin-doubling redundant
 - try to benchmark the loop (debug-pin-high when processing)
 - check out other testbeds
     - tracelab 200 ns accuracy - https://pub.tik.ee.ethz.ch/people/rlim/LMDBT2015.pdf
+- GIT, for Kai
+    - make PR for shepherd1 with fixes
+    - is dev-branch in shepherd1 important? two pins are swapped, and some scripts refined
+    - where is python-periphery v2 reacting wrong? can we work around it? character device VS sysfs
+        - device tree allows to define standard behaviour of pins
 
 Software - Linux, Python
 ------------------------

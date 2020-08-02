@@ -35,12 +35,6 @@ Concept - Software - RT Units
 - Scheduling
     - one PRU should do time critical things, i.e. sampling into ringbuffer in shared PRU-Memory → other PRU-Core should handle transfer to cpu-memory
     - work timer/interrupt-based with short transactions, could do pin-reading the rest of the time
-- superficial code-analyse
-    - ringbuffer can be optimized
-        - modulo is expensive and not needed
-        - write more than 1 char if possible (both adc-values would be better)
-        - int-return is mostly const and not needed
-        - context switch by function calls are expensive (inline, variables via const ref)
 - try to add unit tests for critical code sections (vCap) -> make it more modular
 - benchmark the loop
     - timer, counter with min, max, mean with copy to host
@@ -57,14 +51,6 @@ vCap - Converter & Capacitor Emulation
     - energy aware debugging -> keep energy in capacitor constant during commands
     - support more targets, mainly msp430
 - find a better name
-
-Code ToDo
-- it would be perfect to use constexpr-fn to pre-calculate LUTs and literals for proper human readable unit conversion
-- modularize code, because vCap also contains MPPT-Converter, they could be swappable
-- unit-test critical parts
-- demystify magic numbers
-- control loop should be faster than 100 kHz, to handle sudden TX-Spikes, depending on local-input-capacitance and pwr-consumption of target-board
-
 
 BeagleBone Features, Comparison
 -----------------------------------
@@ -144,3 +130,13 @@ CCS Compiler Switches
     - opt_level=[1-4]
     - opt_for_speed=[0-5]
     - fp_mode=[strict] -> disable fp-usage
+
+Current Program Flow PRU0
+-------------------------
+
+
+
+Current Program Flow PRU1
+-------------------------
+
+
