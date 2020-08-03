@@ -21,8 +21,6 @@ Getting started - handling PRUs (in ansible: dev_rebuild_pru.yml)::
 Code Improvements
 -----------------
 
-
-
 Toolchain
 
     - switch to gcc-pru, cmake?
@@ -30,7 +28,8 @@ Toolchain
         - official v5.7, or
         - gcc version https://github.com/dinuxbg/pru-software-support-package (fork of V4), with cherry-picking
             - updating fork: http://www.bartread.com/2014/02/12/git-basics-how-to-merge-changes-from-a-different-fork-into-your-own-branch/
-    - add all gpio to lib, 
+    - add all gpio to lib,
+    - ``global`` include should be named ``shared``
 
 pru1
 
@@ -60,6 +59,12 @@ pru0 - superficial code-analyse
         - setting voltage is measurable
         - bring it down to kernel module or (if not possible, or additionally) as blink-codes
         - show printf as kernelmsg, but don't spam too much
+    - ``init_ring`` should be ``ringbuffer_init``, consistency
+    - int_source is global, it shouldn't -> it can be reduced to a local bool ``got_sig_block_end``
+    - free_buffers is global, but then passed by pointer
+    - shared_mem is global,
+    - so many magic numbers! config seems not like a config, because it needs to know what is in ``resource_table_def``
+
 
 pru0 vCap
 
@@ -75,6 +80,12 @@ Code Questions
 
     - where does printf() go? down to kernel i assume
     - is there a reason for goto in pru1?
-    - why lib and not normal include, monolith should be better optimized
+    - why lib and not normal include, monolith should be better optimized, who wrote lib? seems like a wrapper of support package
     - is timer 0 reset by pru0?
-
+    - build system by choice? c++, cmake ok?
+    - in pru0-event-loop-while: can the interrupt be cleared later? is it for all interrupts?
+    - who is maintaining the sample-index in pru0? is it same as sample_counter in pru1 (no it seems to be gpio_sample_counter, but event2 is confusing)
+    - there is no real ISR?
+    - 1 SampleBuffer contains space for 10'000 ADC-Samples and 16'384 GPIO-Edges -> where is it stored, not in SharedMem
+    - what does the ringbuffer store? char
+    - compile with debug symbols for decompiler
