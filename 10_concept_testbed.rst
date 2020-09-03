@@ -91,14 +91,16 @@ Projektbeschreibung Shepherd
     - erste Testknoten sind bereits einsatzfähig
 - Verteilung der Knoten auf den beiden cfaed-Etagen
     - mehrere Räume, BAR II52 - II75, III50 - III80, zusätzlich eventuell II40A-II43A obwohl sie in einem anderen Verteilerraum enden
-    - initial wären die Räume II59, II69-II71 der Gruppe für Tests ausreichend
+    - initial wären jeweils ein Port in den Räumen II59, II69-II71 der Gruppe für Tests ausreichend
     - im Bestfall einige Knoten auf den Fluren
-- RF befindet sich im ISM-Band, bleibt innerhalb der ETSI-Norm, hauptsächlich Bluetooth
+- RF befindet sich im 2.4 GHz ISM-Band, bleibt innerhalb der ETSI-Norm, hauptsächlich Bluetooth
+    - Bluetooth belegt 81x 1 MHz breite Kanäle von 2400 - 2480 MHz und benutzt Frequency-Hopping, d.h jedes Paket wird auf einem anderen Kanal gesendet, mehrere tausend Sprünge pro Sekunde
 - Ethernet-Rückkanal braucht Unterstützung für GBE, PoE, und wenn möglich PTP nativ im Switch, alternativ QoS
     - im Bestfall wäre PoE abschaltbar um das Netzwerk auszuschalten, da es nicht 24/7 laufen muss, oder einzelne Knoten neuzustarten
     - PTP-Anforderung: Synchronisationsabweichung < 1 us zwischen den Knoten, optimal wären 100 ns
     - Internet Zugang für Updates
     - ein eigenes vLAN für die Knoten wäre hilfreich
+    - die Kommunikation zu den Knoten wird aktuell per SSH (TCP Port 22) realisiert (aber es wird noch eine temporäre Datenverbindung wie z.B. hinzukommen)
 - Kontroll-Server in Form eines vServers
     - die engen Zeitsynchronisierungsvorgaben gelten hier nicht
     - Software die benötigt wird: python 3.7+, ansible

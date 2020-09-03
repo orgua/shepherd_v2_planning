@@ -4,7 +4,7 @@ Concept - Software - RT Units
 - SPI to adc/dac -> use dedicated hardware and not bit-banging
     - bit-banging transfer takes 8 (DAC) - 12 (ADC) ticks per bit -> so 192 ticks for 24 bit at best (DAC) and 384 ticks for 32 bit (ADC)
     - no PRU-Peripheral is utilizable for it
-    - Host-SPI is accessible by PRU (~40 ticks read delay for <= 32-bit writing should take 1 tick) -> Buffered, FIFO, allows 4-32 bit words, max 48 MHz
+    - Host-SPI is accessible by PRU (~40 ticks read delay for <= 32-bit, writing should take 1 tick) -> Buffered, FIFO, allows 4-32 bit words, max 48 MHz
     - CS-Pins need precise timing, or at least repeatable (same delay, equidistant), so at beginning of IRQ-Loop
         - no IRQ to synchronize transaction!
         - start of transaction on host-spi can be half a SPI-Clock-Cycle accurate (Start Request -> CS Low)
