@@ -51,12 +51,24 @@ Toolchain
     - statistics
         - PRU0-Codesize shrank from 161 KB to 99 KB
         - PRU1-Codesize shrank from 131 KB to 91 KB
-        - GPIO-Sampling is now at around 5.5 MHz, the routine only needs 100 ns, 720 ns when writing (was 360, 1500), tasks around it are faster too
-        - mutex part in buffer-exchange was reduced from 2700 ns to 460 ns)
+        - GPIO-Sampling is now at around 5.5 MHz, the routine only needs 100 ns, 720 ns when writing (was originally 360, 1500)
+        - pru1-loop takes around 220 to 260 ns on average (with ~30-50 ns debug-overhead), max is 5700 ns
+            - event 1 takes 200 ns
+            - event 2 takes 250 ns
+            - event 3 takes 540 ns (reply-pending-part) without control reply, and 4550 ns with reply (was originally 5200 ns)
+        - pru0
+            - 560 ns for handle_rpmsg(), sometimes 1020 ns
+            - 4340 ns sampling() / harvesting & load
+            - 6860 ns sampling() / emulation
+            - 4220 ns sampling() / vcap
+            - blocking mutex part in buffer-exchange (handling block end) was reduced from 2700 ns to 460 ns
+            - sampling happens with 100 kHz, every 10 us, but due to pru1 as a trigger, the jitter is at least the min-loop-timing (~200ns) and increases on gpio-value-writing (~900ns)
 
 
 pru1
 
+    - most of the control state-machine should be on PRU0 -> get spi-readout triggered by tmr_cmp1 for high precision readout timing
+    - virtqueue / rpmsg is heavily unoptimized for 2-8 byte transfers (~5 us)
     - timer-defines in config and main are codependent, it would be easier to base them on the CLK
     - clean up timecalc, it seems complicated, at least the naming of vars
     - fast loop could be more consistent if there would be a "continue" at the end of the events
@@ -68,11 +80,9 @@ pru1
         - typecasting for defines, or just literals
         - event 3 should be on position 1 (if possible), highest prio
 
-pru0 - superficial code-analyse
 
-    - write more than 1 char if possible (both adc-values would be better)
-    - int-return is mostly const and not needed
-    - context switch by function calls are expensive (inline, variables via const ref)
+pru0
+
     - firmware should do self-tests for its key components
         - both cores running
         - ram-interface to cpu responsive
@@ -86,7 +96,10 @@ pru0 - superficial code-analyse
         - ``init_ring`` should be ``ringbuffer_init``, consistency
         - int_source is global, it shouldn't -> it can be reduced to a local bool ``got_sig_block_end``
         - free_buffers is global, but then passed by pointer
-        - shared_mem is global,
+        - shared_mem is global
+        - int-return is mostly const and not needed
+        - context switch by function calls are expensive (inline, variables via const ref)
+
 
 pru0 vCap
 
@@ -95,8 +108,10 @@ pru0 vCap
     - unit-test critical parts (add from teensy project)
     - demystify magic numbers
     - control loop should be faster than 100 kHz, to handle sudden TX-Spikes, depending on local-input-capacitance and pwr-consumption of target-board
+        - adc/dac transfer could happen simultaneously with 17 MHz, so data is read, control is calculated and written on next tick
     - find a better name
     - allow freezing energy in capacitor
+
 
 Code Questions
 

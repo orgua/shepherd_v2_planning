@@ -155,6 +155,20 @@ Concept - Hardware - PinOuts
     - I2C1: P9.17-18 or P9.24,26
     - I2C2: P9.19-20 or P9.21-22
 - BB-Pins seem to drive around 8mA (found in SPRS717L_)
+- system SPI
+    - P9_17, gpio0[05], SPI0_cs0
+    - P9_18, gpio0[04], SPI0_d1
+    - P9_19, gpio0[13], SPI1_cs1
+    - P9_20, gpio0[12], SPI1_cs0
+    - P9_21, gpio0[03], SPI0_d0
+    - P9_22, gpio0[02], SPI0_clk
+    - P9_28, gpio3[17], SPI1_cs0
+    - P9_29, gpio3[15], SPI1_d0
+    - P9_30, gpio3[16], SPI1_d1
+    - P9_31, gpio3[14], SPI1_clk
+    - P9_42A, gpio0[7], SPI1_clk, SPI1_cs1
+
+
 
 Concept - Hardware - Shepherd V1 Functionality
 ======================================

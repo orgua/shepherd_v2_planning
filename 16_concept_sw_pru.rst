@@ -9,6 +9,9 @@ Concept - Software - RT Units
         - no IRQ to synchronize transaction!
         - start of transaction on host-spi can be half a SPI-Clock-Cycle accurate (Start Request -> CS Low)
         - CS Pin could be PRU-Controlled/Monitored-Pin
+    - alternative: DAC needs no MISO, so one extra PIN would allow to talk to both ICs at the same time
+        - clk can be shared and would be reduced to the lower one (ADC is slower and has longer registers, so improvement would be 1/3 less time)
+        -
 - GPIO to target
     - PRU-GPIO pin direction is controlled by host, in linux via device tree or alternatively via "cape-universal_"
     - PRU can't access host GPIO (i found no memory-mapping)
@@ -125,6 +128,9 @@ PRU Good Practice
     - a more efficient (single instruction) access to local memory in the lower 16-bits (__near), can be used
     - variables in shared memory always "volatile"
     - const helps, at least to save RAM (if defined at compile-time)
+    - compiler switch can decide if char is signed or unsigned
+    - don't mix signed and unsigned variables -> expensive typecast
+    - don't bring signed variable <32bit into code -> expensive typecast and handling
 
 CCS Compiler Switches
     - opt_level=[1-4]
@@ -134,9 +140,10 @@ CCS Compiler Switches
 Current Program Flow PRU0
 -------------------------
 
+    - only drawing on paper atm
 
 
 Current Program Flow PRU1
 -------------------------
 
-
+    - only drawing on paper atm
