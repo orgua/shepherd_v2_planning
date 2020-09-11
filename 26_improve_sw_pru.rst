@@ -28,6 +28,8 @@ Toolchain
     - switch to gcc-pru, cmake?
     - add all gpio to lib,
     - ``global`` include should be named ``shared``
+    - sometimes precedence could be made more clear: https://en.cppreference.com/w/c/language/operator_precedence
+    - PRU could control MUX by using pad control registers, in control module (SPRUH73Q, p1458) 0x44E1_0000, 128 kB
     - currently already implemented
         - update pru-software-support-package-5.4.0 to
             - official v5.7, or

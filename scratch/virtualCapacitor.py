@@ -29,7 +29,7 @@ for i in range(20):
         V_cap = V_cap_min
     print(f"V = {V_cap} incl \t dV = {dV_cap}")
 
-# switching on supply with output capacitor
+# switching on supply with output capacitor -> try to model a more correct approach
 # E = C*V^2 / 2
 # E_new = E_old - E_output
 # C_cap * V_cap_new^2 / 2 = C_cap * V_cap_old^2 / 2 - C_out * V_out^2 / 2
@@ -39,9 +39,9 @@ C_cap = 200e-6
 C_out = 22e-6
 V_upper_thres = 3.5
 V_out = 2.3
-V_cCode = V_upper_thres * sqrt((C_cap - C_out) / C_cap)
-V_thesis = V_upper_thres * sqrt(C_cap / (C_cap + C_out))
-V_ingmar = sqrt(pow(V_upper_thres, 2) - C_out * pow(V_out, 2) / C_cap)
+V_cCode = V_upper_thres * sqrt((C_cap - C_out) / C_cap)     # = 3.302 V
+V_thesis = V_upper_thres * sqrt(C_cap / (C_cap + C_out))    # = 3.322 V
+V_ingmar = sqrt(pow(V_upper_thres, 2) - C_out * pow(V_out, 2) / C_cap)  # = 3.416 V
 print(V_cCode)
 print(V_thesis)
 print(V_ingmar)

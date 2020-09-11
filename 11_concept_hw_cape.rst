@@ -155,7 +155,7 @@ Concept - Hardware - PinOuts
     - I2C1: P9.17-18 or P9.24,26
     - I2C2: P9.19-20 or P9.21-22
 - BB-Pins seem to drive around 8mA (found in SPRS717L_)
-- system SPI
+- system SPI, 33 Ohm in series close to processor recommended, to avoid reflections
     - P9_17, gpio0[05], SPI0_cs0
     - P9_18, gpio0[04], SPI0_d1
     - P9_19, gpio0[13], SPI1_cs1
