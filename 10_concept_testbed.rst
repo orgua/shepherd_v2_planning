@@ -12,23 +12,37 @@ infrastructure
     - distributed on cfaed-floors, several rooms / offices, maybe also on corridors
         - BAR II55 - II75, III50 - III80, II52 - II54, II40A-II43A (end in another dispatch-room)
         - we could use right side of ethernet-socket (largely unpatched for now)
-        -
-    - RF stays within ETSI Norms, mainly bluetooth
-    - Nodes connected and powered via Ethernet-Backchannel, with PTP, QoS, POE-Support
-        - preferred if Nodes are connected to one switch (in BAR II65) for ~100 ns timing-constraint
-        - preferred if PoE could be controlled to shut down nodes, safe energy
-    - ZIH-Requirements: installed fusion-inventory (to scan for vulnerabilities)
-    - we can't use the cable canal (== structural change)
+    - RF stays within ETSI Norms, mainly bluetooth (Nordic nRF-Modules) or other IEEE 802.15.4 based standard
+    - Nodes connected and powered via Ethernet-Backchannel, optional with PTP, QoS, POE-Support
+        - preferred if Nodes are connected to one switch (in BAR II65) for low jitter for ~100 ns PTP timing-constraint
+        - preferred if PoE could be controlled to shut down and reset nodes (mainly to safe energy)
+    - ZIH-Requirements:
+        - installed fusion-inventory (to scan for vulnerabilities)
+    - ZIH-Response:
+        - no QoS on Campus
+        - Access to Switch only when used exclusively for this vLAN
+            - alternative: wake on LAN (WOL) -> no native beaglebone support
+        - current Switches should have very low jitter under low load, time in ASIC-Stack ~ 300 ns
+            - lower latency ZIH alternative: infiniband
+        - we can't use the cable canal (== structural change)
+        - wifi is used on channel 1, 6, 11, self managed with varying tx-power, often < 20 mW
+        - nodes are allowed to use the 2.4 GHz Band without restrictions, ZIH also offers to disable Wifi on these channels either for one floor or based on a schedule
+        - cisco offers "clean air"-Service -> for II57 it reports 100% Quality with < 10 % non Wifi
+        - ports on corridors can be used but ZIH-Infrastructure has higher priority
+        - nodes may not get direct internet connection (relayed)
 
 Control-Server
     - one control-server that contains: user data, web interface, shepherd controller
     - needs linux from debian-family, python 3.7+, ansible
     - 20 - 100 GB scratch area
-    - ZIH-Requirements: managed by ZIH with Centreon
     - Port 80 accessible from the internet
     - manageable from the intranet
     - needs access to vLAN of RF-Nodes (mostly ssh-based)
-    - ZIH Response -> for access from outside (internet) the server needs a security-concept
+    - ZIH-Requirements:
+        - managed by ZIH with Centreon
+        - for access from internet the server needs a security-concept -> needs to pass Greenbone Security Manager Test (GSM-Test)
+        - access via subdomain, cfaed, tu-website
+        - no SSH from Internet
 
 Misc
     - Casing in laser-acrylic or off-the-shelf case with custom front
@@ -57,7 +71,7 @@ Administrative Info
 - ZIH-Rules for using their infrastructure
     - central dhcp: only by IT-Admin of facility -> DHCP-FAQ_
     - network access: IT-Admin .. `FAQ <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz>`_
-    - `cfaed IT-Admin_
+    - cfaed IT-Admin_
     - WIFI interference und network capability undocumented online
 - Answer to inquiry, from IT / ZIH
     - we could use right side of nw-sockets (currently mostly unpatched) -> TODO: talk with the leaders of groups that occupy offices
@@ -86,8 +100,9 @@ Anforderungen für das ZIH
 -------------------------
 
 Projektbeschreibung Shepherd
+
 - Prüfstand für Funknetzwerk-Algorithmen, speziell im Bereich Energy-Harvesting
-- 20 - 30 Funkknoten mit Netzwerk-Backchannel, Basis sind Beaglebone Einplatinenrechner mit Linux / Debian-Derivat
+- 20-30 Funkknoten mit Netzwerk-Backchannel, Basis sind Beaglebone Einplatinenrechner mit Linux / Debian-Derivat
     - erste Testknoten sind bereits einsatzfähig
 - Verteilung der Knoten auf den beiden cfaed-Etagen
     - mehrere Räume, BAR II52 - II75, III50 - III80, zusätzlich eventuell II40A-II43A obwohl sie in einem anderen Verteilerraum enden
@@ -108,6 +123,7 @@ Projektbeschreibung Shepherd
     - Port 80 erreichbar aus dem Internet für Web-Interface, im Bestfall mit Sub-Domain oder eingebettet in CFAED-Seite
 
 Anforderungen
+
 - Info über Koexistenz-Regeln für Office-WLAN, Eduroam und anderen Uni-Systemen im ISM-Band
 - möglichkeit PoE der Ports zu kontrollieren zum Stromsparen?
 - unter welchen Vorraussetzungen dürften die Knoten an die ZIH-NW-Dosen auf den Fluren (natürlich nur so lange die freien Dosen nicht anderweitig gebraucht werden)
