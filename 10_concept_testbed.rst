@@ -156,28 +156,35 @@ Projektbeschreibung Shepherd
 
 Anforderungen
 
-- NW-Switch in Raum II65
-    - GBE (maximal benötigte Geschwindigkeit)
-    - optimal ist ein dediziertes Gerät mit >= 30 Ports -> Ziel: sehr geringer Jitter bei PTP-Zeitsynchronisierung der Knoten
-    - vLan-Zugriff für Knoten
-    - wenn möglich Kontrolle über POE der Ports zum Energiesparen, da embedded Knoten zwar runtergefahren werden können, aber kein WOL beherrschen
+- vLan
+    - Zugriff vom Kontroll-Server aus, SSH (TCP Port 22)
+    - Internet-Zugriff der Knoten für Linux-Updates
+    - maximale Größe 45 Geräte
+    - Campusgeroutet, ...
+    - TODO: MAC-Adress-Liste
+- vServer als Kontroll- und Web-Interface
+    - (die engen Zeitsynchronisierungsvorgaben gelten hier nicht)
+    - Software die benötigt wird: Debian Linux Derivat, python 3.7+, ansible
+    - 100 - 200 GB scratch-area
+    - Port 80 erreichbar aus dem Internet für Web-Interface, im Bestfall mit Sub-Domain oder eingebettet in CFAED-Seite
 - Cisco-Wifi-Router
     - das ZIH hat ein temporäres Abschalten von WLAN im 2.4 GHz Band angeboten
     - wir würden das Angebot gerne Annehmen, aktuell halten wir beispielsweise ein regelmäßiges Scheduling für Samstag / Sonntag ab sinnvollsten
-    - betroffene Router
-        - TODO
-- vLan
-    - Zugriff vom Kontroll-Server aus, SSH (TCP Port 22)
-    - Internet-Zugriff der Knoten für Updates
-- vServer als Kontroll- und Web-Interface
-    - die engen Zeitsynchronisierungsvorgaben gelten hier nicht
-    - Software die benötigt wird:  Debian Linux Derivat, python 3.7+, ansible
-    - 20 - 100 GB scratch-area
-    - Port 80 erreichbar aus dem Internet für Web-Interface, im Bestfall mit Sub-Domain oder eingebettet in CFAED-Seite
+    - betroffene sechs Router (+NW-Dose)
+        - BAR-AP-A-II52 (II65_S2_K_21)
+        - BAR-AP-A-II56 (II65_S2_K_13)
+        - BAR-AP-A-II57 (II65_S2_J_7)
+        - BAR-AP-A-II62 (II65_S2_H_13)
+        - BAR-AP-A-II69 (II65_S3_B_15)
+        - BAR-AP-A-II73 (II65_S3_C_17)
 - zu beschaltene NW-Dosen
     - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren benutzen
-    - TODO
-
+    - siehe Liste unter https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods
+- NW-Switch in Raum II65
+    - GBE (maximal benötigte Geschwindigkeit)
+    - optimal ist ein dediziertes Gerät mit >= 40 Ports -> Ziel: sehr geringer Jitter bei PTP-Zeitsynchronisierung der Knoten
+    - vLan-Zugriff für Knoten
+    - wenn möglich Kontrolle über POE der Ports zum Energiesparen, da embedded Knoten zwar runtergefahren werden können, aber kein WOL beherrschen
 
 
 
