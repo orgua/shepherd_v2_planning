@@ -1,5 +1,5 @@
 Concept - Testbed
-=================
+-----------------
 
 General Philosophy
     - only as complex as needed
@@ -37,7 +37,6 @@ RF-Network-Design
     - the 3 consecutive NES-Rooms should be center of a cluster / group (something like 7 Offices with 3 Nodes each)
     - remaining network can be more sparse (1 in each office, or 1 every two)
     - there could be nodes with higher tx power and special antennas to directly link II59 and II71 (cut through II800)
-    -> results in
 
 Control-Server
     - one control-server that contains: user data, web interface, shepherd controller
@@ -213,8 +212,27 @@ Comparison Flocklab
 Inventory
 ---------
 
-- ~20 PoE Adapters
+- ~20 PoE Adapters (100 MBit)
 - 10 - 15 Beaglebone Black / green, same amount of Shepherd V1.x Capes
 - ZyXEL Ethernet Switch GS1900-24HP, with PoE
 - Linksys Router WRT54GL
 - uBlox Neo M8T
+
+Order List
+----------
+
+- GBE PoE Adapter, 20 €
+    - https://geizhals.de/?cat=switchgi&xf=12885_PoE-Splitter
+- >=Cat5e Cables white, 10 €
+    - https://geizhals.de/?cat=kabelnw&xf=2374_0.25%7E2375_wei%DF%7E8252_1
+- Beaglebone AI, 110 €
+    - 93 € / 107 €, https://de.rs-online.com/web/p/entwicklungstools-prozessor/1901825/?relevancy-data=7365617263685F636173636164655F6F726465723D31267365617263685F696E746572666163655F6E616D653D4931384E53656172636847656E65726963267365617263685F6C616E67756167655F757365643D6465267365617263685F6D617463685F6D6F64653D6D61746368616C6C7061727469616C267365617263685F7061747465726E5F6D6174636865643D5E2E2A24267365617263685F7061747465726E5F6F726465723D313333267365617263685F73745F6E6F726D616C697365643D59267365617263685F726573706F6E73655F616374696F6E3D267365617263685F747970653D43415443485F414C4C5F44454641554C54267365617263685F7370656C6C5F636F72726563745F6170706C6965643D59267365617263685F77696C645F63617264696E675F6D6F64653D4E4F4E45267365617263685F6B6579776F72643D626561676C65626F6E65206169267365617263685F6B6579776F72645F6170703D626561676C65626F6E65206169267365617263685F636F6E6669673D3026&searchHistory=%7B%22enabled%22%3Atrue%7D
+    - 107 €, https://www.arrow.de/products/bbone-ai/beagleboardorg?utm_currency=EUR
+    - 115 €, https://eu.mouser.com/ProductDetail/BeagleBoard/BBONE-AI?qs=%252B6g0mu59x7IfEw1Zb81%252B%252BQ%3D%3D
+    - the cheaper BBG without HDMI and WIFI came 3 years after BBB, so we don't have to wait for cheaper BBAI
+- Shepherd Cape, 15 €
+- Shepherd Parts
+- Target Capelet
+- Target Parts
+- Casing
+- [48 Port Managed Cisco NW Switch]
