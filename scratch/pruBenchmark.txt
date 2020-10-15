@@ -1,0 +1,56 @@
+PRU0	PRU1	Changes
+161620	131324	original code
+161440	131228	cgt231, pssp540
+161248	130998	cgt231, pssp570
+161620	131324  cgt233, pssp570
+116424	108636	-O4 baseline
+162116	131824  char to fixed
+162632  131948  (unsigned) int to fixed
+162052	131824	-O2 and revert last (int to fixed)
+162244 	129348	-O3
+116140	108444  -O4
+161564	131364	-O2 revert fixed width types
+161352	131188	pssp570g
+162416 	131780  switch to fixed width, for real this time
+162532	131408  cleanup type-system and constness (lib+pru1)
+116032	107892	-O4 (only to check results)
+114920			avoid global vars
+114892			ringbuffer opt
+114100			sampling and virtcap optimized, partly
+114044			main is cleaner
+114056	108232	cleanup printf & rpmsg
+100844	95716	no debug, char = unsigned
+99896	94748	?? original pssp?
+99916	91368	some days later (01.08 or even before seemed fine)
+108020	94292	wtf? pru0 increase is strange
+
+<<<PRU1>>>
+Benchmark debug-pin around gpio-read from pru1 - state was offline :(
+	legacy	 -> 1.5 .. 2.9 MHz, on 60/80ns
+	new code -> 2.4 .. 5.5 MHz, on 40/60ns 
+Benchmark, same premise, for GPIO with normal routine / forced writing
+	~1490 ns / ~360 ns	(base) new code, sometimes 620 ns for normal routine
+	~720 ns / ~100 ns	reduce reads to far-ram to one 
+	~80 ns for checking events
+Benchmark, code after gpio-read 
+	140ns	regular
+	~360ns	regular on adc-trigger
+	80 ns	iep-optimization
+	300 ns 	adc-trigger
+	5500 ns ?? buffer exchange?
+->	2.5 to 5.5 MHz / 180 ns on normal Operation (with Pin-DBG on, without 170 ns / 5.9 MHz)
+Event1 takes about 200 ns, 10 Hz apart
+Event2 takes about 250 ns, 30 us after Event1
+Event3(expensive part):
+- 540 ns for check control reply, ~ 16us after Event2, repeated with 100 kHz, finished after <=306 us after E2
+- 4550 ns for complete part (control reply arrived)
+- 5200 ns for unoptimized complete part, 3.7 us alone for check_control_reply
+SysGpio
+- 220 ns for check and compare, 
+
+<<<PRU0>>>
+560 ns 	handle_rpmsg(), sometimes (before long E3) 1020 ns
+4340 ns sampling() / harvesting & load
+6860 ns sampling() / emulation
+4220 ns sampling() / vcap
+2740 ns handling block end -> pru1-blocking part was reduced to 460 ns
