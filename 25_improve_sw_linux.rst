@@ -316,6 +316,17 @@ Software cleanup (included in ansible)::
 
     -> down to          1.4 GB MMC &   <41 MB RAM usage      (with shepherd)
 
+Software Cleanup Part2::
+
+    gcc-pru
+    gdb-dbg
+    gdb
+    cmake
+    btrfs-progs
+    bluez
+    alsa
+
+
 Find biggest space waster::
 
     sudo du -s * | sort -n
@@ -323,7 +334,9 @@ Find biggest space waster::
         912 MB /usr
         190 MB /var
 
-       dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
+    dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
+    # better (part of debian-goodies):
+    dpigs -n20
 
 Switch dynamically between cpu-governors::
 

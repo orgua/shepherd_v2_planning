@@ -17,6 +17,9 @@ Getting started - handling PRUs (in ansible: dev_rebuild_pru.yml)::
     # test code on live system
     sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
 
+    # test suite in /opt/shepherd/software/python-package
+    sudo python3 setup.py test --addopts "-vv"
+
     # helpful when build-system was used with sudo
     sudo chown -R user ./
 
@@ -124,3 +127,37 @@ Code Questions
     - 1 SampleBuffer contains space for 10'000 ADC-Samples and 16'384 GPIO-Edges -> where is it stored, not in SharedMem
     - what does the ringbuffer store? char
     - compile with debug symbols for decompiler
+
+PyTest-Fixes
+------------
+
+Tests fail for::
+
+    test_emulation.py/test_emulation, realHW
+    test_emulation.py/test_virtcap_emulation, realHW
+    test_emulation.py/test_emulate_fn, realHW
+
+Manual Config::
+
+    command: emulate
+    parameters:
+      input: /var/shepherd/recordings/rec.0.h5
+      length: 80
+      no_calib: true
+      force: true
+      ldo_voltage: 2.5
+      load: artificial
+      output: /var/shepherd/recordings/emuRes.h5
+    verbose: 2
+
+Software sporadically stops with::
+
+    shepherd started!
+    ShepherdIOException(ID=3, val=9999): Got incomplete buffer
+    exiting analog shepherd_io
+    flushing and closing hdf5 file
+    [...]
+      File "/usr/local/lib/python3.6/dist-packages/shepherd-0.2.0-py3.6.egg/shepherd/shepherd_io.py", line 659, in get_buffer
+    shepherd.shepherd_io.ShepherdIOException: Got incomplete buffer
+
+
