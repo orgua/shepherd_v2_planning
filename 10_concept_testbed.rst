@@ -39,9 +39,9 @@ RF-Network-Design
     - there could be nodes with higher tx power and special antennas to directly link II59 and II71 (cut through II800)
 
 Control-Server
-    - one control-server that contains: user data, web interface, shepherd controller
+    - one control-server that contains: user accounts, web interface, shepherd controller, measurement data
     - needs linux from debian-family, python 3.7+, ansible
-    - 20 - 100 GB scratch area
+    - >>100 GB scratch area
     - Port 80 accessible from the internet
     - manageable from the intranet
     - needs access to vLAN of RF-Nodes (mostly ssh-based)
@@ -50,6 +50,13 @@ Control-Server
         - for access from internet the server needs a security-concept -> needs to pass Greenbone Security Manager Test (GSM-Test)
         - access via subdomain, cfaed, tu-website
         - no SSH from Internet
+
+Data-Storage Constraints
+    - 1 node, 1 min -> 54 MiB of measurement data
+        - 7z compressable to 12 MiB (22%)
+        - zip -> 23 MiB
+        - tar -> 12 MiB
+    - 1 Hour, 30 Nodes -> 100 GiB uncompressed
 
 Misc
     - Casing in laser-acrylic or off-the-shelf case with custom front
@@ -160,12 +167,14 @@ Anforderungen
     - Internet-Zugriff der Knoten für Linux-Updates
     - maximale Größe 45 Geräte
     - Campusgeroutet, ...
+    - autorisierte MAC-Adressen landen automatisch im vLAN
     - TODO: MAC-Adress-Liste
 - vServer als Kontroll- und Web-Interface
     - (die engen Zeitsynchronisierungsvorgaben gelten hier nicht)
     - Software die benötigt wird: Debian Linux Derivat, python 3.7+, ansible
-    - 100 - 200 GB scratch-area
+    - >>100 GB scratch-area
     - Port 80 erreichbar aus dem Internet für Web-Interface, im Bestfall mit Sub-Domain oder eingebettet in CFAED-Seite
+    - Personenbezogene Daten: später werden für die User-Accounts eventuell Email-Adressen gespeichert, eventuell umgehbar mit OAuth
 - Cisco-Wifi-Router
     - das ZIH hat ein temporäres Abschalten von WLAN im 2.4 GHz Band angeboten
     - wir würden das Angebot gerne Annehmen, aktuell halten wir beispielsweise ein regelmäßiges Scheduling für Samstag / Sonntag ab sinnvollsten
@@ -179,6 +188,7 @@ Anforderungen
 - zu beschaltene NW-Dosen
     - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren benutzen
     - siehe Liste unter https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods
+    - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
 - NW-Switch in Raum II65
     - GBE (maximal benötigte Geschwindigkeit)
     - optimal ist ein dediziertes Gerät mit >= 40 Ports -> Ziel: sehr geringer Jitter bei PTP-Zeitsynchronisierung der Knoten
