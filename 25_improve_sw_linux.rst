@@ -584,7 +584,9 @@ Workflow shepherd firmware::
 
 Backup Image::
 
+    sudo mount /dev/sda1 /media
     sudo dd if=/dev/mmcblk1 of=/media/mmc_s0_v4.19.94_bootstrap_apt.img
+    sudo umount /media
 
 Install custom Shepherd-Code and check install
 ----------------------------------------------
@@ -593,12 +595,8 @@ Install custom Shepherd-Code and check install
 
 Install::
 
-    # on sheep
-    cd /opt
-    sudo git clone https://github.com/orgua/shepherd
-    exit
-
     # on server
+    sudo git clone https://github.com/orgua/shepherd
     cd /shepherd
     ansible-playbook ./deploy/deploy.yml
 
@@ -607,7 +605,7 @@ Check (on sheep)::
     # DT-Overlay: there should be an BB-SHPRD-... -> overlay is active
     ll /proc/device-tree/chosen/overlays/
 
-    # Custom-Services: should show 4x shepherd entries, only shepherd-launcher.service enabled
+    # Custom-Services: should show 3x shepherd entries, only shepherd-launcher.service enabled, also: shepherd-rpc, shepherd
     systemctl list-unit-files | grep shep
 
     # Timesync-Services: both should be active and running
@@ -634,6 +632,25 @@ Check (on sheep)::
     shepherd-sheep -vv run --config /etc/shepherd/config.yml
         -> error, no /sys/shepherd/state
             there is /sys/module/shepherd, without "state"
+
+Tests for preparing software-release
+
+    - use a fresh ubuntu lts host and newest fresh ubuntu image for BB
+    - follow install instructions (install ansible, bootstrap, deploy)
+    - let pytests run
+
+Useful commands on a fresh system::
+
+    pip install --upgrade ansible
+
+    sudo chown -R user /opt/shepherd
+    sudo passwd user
+    cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
+    sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
+
+    cd /opt/shepherd/software/python-package/
+    sudo python3 setup.py test --addopts "-vv"
+    bump2version --tag patch
 
 Open Questions
 

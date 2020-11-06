@@ -22,7 +22,8 @@ PRU0	PRU1	Changes
 100844	95716	no debug, char = unsigned
 99896	94748	?? original pssp?
 99916	91368	some days later (01.08 or even before seemed fine)
-108020	94292	wtf? pru0 increase is strange
+108020	94292	wtf? pru0 increase is strange (were undeleted refactor-fragments)
+101568  91456   cleaner trigger system for pru0, rpmsg-replacement for pru1
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
@@ -45,6 +46,8 @@ Event3(expensive part):
 - 540 ns for check control reply, ~ 16us after Event2, repeated with 100 kHz, finished after <=306 us after E2
 - 4550 ns for complete part (control reply arrived)
 - 5200 ns for unoptimized complete part, 3.7 us alone for check_control_reply
+- 40 ns for check ctrl reply (rpms-replacement)
+- 1140 ns for for complete part (control reply arrived) (rpmsg-replacement)
 SysGpio
 - 220 ns for check and compare, 
 
