@@ -117,6 +117,19 @@ pru0 vCap
     - find a better name
     - allow freezing energy in capacitor
 
+PRU-Changes for after HW-Completion
+
+    - Control-Code from PRU1 would be partly more suited for PRU0 now
+    - could the buffer swap be more efficient? it should be just a switch of base-address
+    - is the gpio-buffer properly initialized or nulled in between? or only partially in hdf5 saved by py-routines
+    - vCap still needs a lot of care
+    - add asserts, simple define-version is enough: https://interrupt.memfault.com/blog/asserts-in-embedded-systems
+    - prepare power-down options to save more energy
+    - add new hardware as abstract layer
+    - add option to preCharge Target or just begin with full Cap
+    - Presence-Check SPI ADC (ID or similar)
+    - downsampling (pyCode)
+    - measure sync-offset-limits
 
 Code Questions
 

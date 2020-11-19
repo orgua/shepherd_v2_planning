@@ -28,7 +28,8 @@ PRU0	PRU1	Changes
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
 	legacy	 -> 1.5 .. 2.9 MHz, on 60/80ns
-	new code -> 2.4 .. 5.5 MHz, on 40/60ns 
+	new code -> 2.4 .. 5.5 MHz, on 40/60ns (general speed improvements)
+	newer code -> relatively stable 4.03 MHz (uncorrected meas via gpio-trigger), min: 602 kHz, max: 4.55 MHz (rpmsg-replacement)
 Benchmark, same premise, for GPIO with normal routine / forced writing
 	~1490 ns / ~360 ns	(base) new code, sometimes 620 ns for normal routine
 	~720 ns / ~100 ns	reduce reads to far-ram to one 

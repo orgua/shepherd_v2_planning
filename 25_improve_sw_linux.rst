@@ -650,7 +650,7 @@ Useful commands on a fresh system::
 
     cd /opt/shepherd/software/python-package/
     sudo python3 setup.py test --addopts "-vv"
-    bump2version --tag patch
+    # bump2version --tag patch # -> just hand in PR or hash
 
 Open Questions
 
