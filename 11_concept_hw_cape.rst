@@ -200,7 +200,7 @@ Concept - Hardware - Shepherd V1 Functionality
     - LMP7701MF -> OP-Amp, bias subtractor
 - current & voltage measurement (harvesting & load)
     - ADS8694TSSOP38 -> 4CH SPI-ADC
-    - OPA2388DGK8 -> OP-Amp, 3x voltage buffers
+    - OPA2388DGK8 -> OP-Amp, 2x voltage buffers
     - AD8422BRMZ -> precision OP-Amp, 2? Ohm Shunt Amperemeter
 - dummy load
     - OPA2388DGK8_L -> dual OP-Amp, voltage buffer & Schmitt Trigger to switch on two LEDs
