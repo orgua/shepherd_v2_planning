@@ -41,14 +41,14 @@ RF-Network-Design
 Control-Server
     - one control-server that contains: user accounts, web interface, shepherd controller, measurement data
     - needs linux from debian-family, python 3.7+, ansible
-    - >>100 GB scratch area
+    - 4 - 20 TB scratch area
     - Port 80 accessible from the internet
     - manageable from the intranet
     - needs access to vLAN of RF-Nodes (mostly ssh-based)
     - **ZIH-Requirements**:
         - managed by ZIH with Centreon
         - for access from internet the server needs a security-concept -> needs to pass Greenbone Security Manager Test (GSM-Test)
-        - access via subdomain, cfaed, tu-website
+        - access via subdomain, cfaed, tu-website -> SSL-Certificate
         - no SSH from Internet
 
 Data-Storage Constraints
@@ -84,6 +84,7 @@ Administrative Info
     - phyServer: gets power, ethernet, USV, cooling, ...
     - vServer: prefered by ZIH, free of charge, 3-5 Days prepare -> vServer-SelfService_
     - ZIH offers Sub-Domains on Website -> SubDomain-FAQ_
+    - extended storage can be requested for research-groups: Gruppenlaufwerk_
 - ZIH-Rules for using their infrastructure
     - central dhcp: only by IT-Admin of facility -> DHCP-FAQ_
     - network access: IT-Admin .. `FAQ <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz>`_
@@ -111,6 +112,7 @@ Administrative Info
 .. _IT-Admin: https://cfaed.tu-dresden.de/it-support
 .. _vServer-SelfService: https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste
 .. _floor-plan: https://navigator.tu-dresden.de/etplan/bar/02
+.. _Gruppenlaufwerk: https://selfservice.zih.tu-dresden.de/l/index.php/spor/request-form/
 
 RF-Measurement
 --------------
@@ -247,16 +249,19 @@ dismissed
     - >=Cat5e Cables white, 10 €, https://geizhals.de/?cat=kabelnw&xf=2374_0.25%7E2375_wei%DF%7E8252_1
 
 TODO
-    - 3-5 uSD-Cards for fast flashing Firmware
+    - 3-5 uSD-Cards for fast flashing Firmware, min 8 GB, 30 MB/s RW,
+        - https://geizhals.de/?cat=sm_sdhc&xf=15024_microSD%7E2455_30%7E2456_30%7E307_8%7E8281_128&sort=p#productlist
     - GPS-Module with external Antenna, uBlox LEA-M8F
     - nRF-Target, preferred with 32.768 Hz crystal
         - dongle-kit nRF52840 -> must be modded on back for low voltage, https://www.digikey.de/product-detail/de/nordic-semiconductor-asa/NRF52840-DONGLE/1490-1073-ND/9491124
         - ublox bmd-340, already with crystal https://www.mouser.de/ProductDetail/u-blox/BMD-340-A-R?qs=%2Fha2pyFaduh5puKd80a2%252BxNay0XTXM1gZjYgTBrwSh3foS6gIJUSvg%3D%3D
         - panasonic enw-8985, already with 32k Crystal, https://www.mouser.de/ProductDetail/Panasonic/ENW-89854A1KF?qs=B6kkDfuK7%2FD%2F8POzJ9tJcg==
+        - panasonic included in BOM
     - final GBE PoE Adapter, 20 €
         - https://geizhals.de/?cat=switchgi&xf=12885_PoE-Splitter
         - Possible Copy of POE-Splitter RPi-Hat https://www.raspberrypi.org/forums/viewtopic.php?t=266617
-    - 256 GB USB-Sticks
+    - 256 GB USB-Sticks, min 40 MB/s writing
+        - https://geizhals.de/?cat=sm_usb&xf=2938_262144%7E309_262144%7E476_40
     - Shepherd Cape, 15 €
     - Shepherd Parts
     - Target Capelet
