@@ -2,51 +2,41 @@ Design - Hardware - Shepherd-Cape
 =================================
 
 schematics Open
-    - STOP, until here
-    - sync to pps
-    - power in via vdd_5v (P5/6) -> Test shows: BB does not power up via sys_5v
-    - reboot / boot via Pin-Toggle (Shutdown via command), we should trigger both (RESn->PD,PWR->PD), Test shows: Reset works while PWR is in PD
-    - internal calibration? with 2 switches and 1 calibration-linear-power-supply
-    - not needed now
-        - OP-Amp, bias Subtractor: LMP7701MF
-    - (processed 11_concept.file)
-    - add 256 GB USB-Stick
-    - manual button with LED -> connector
-    - find better level translator, less current (best if near 0)
-    - extend harvest-Port, add option to measure VSense, and output VCap (V_A of Emulator)
-    - Harvester needs second channel ADC with very low input current, 1MOhm is too low
-    - negative voltage for gain-OpAmp
-    - Debug-Pins with Ground
-    - don't shut down individual Emu / Rec - Parts (delete or just disable all at once)
-    - is the gps capable of alarm (wake up sys)
-    - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech
-    - switch to smaller IC-Packages and 0402
-    - order / add GPS
-    - our 5V analogue should be stabilized more! Add A5V with 2 Stage Bead, or real coil
     - check against shepherd v1.5
-    - add target port (comparator-include?) System will be a nRF52840
-    - connect BB-Pins
-    - add alarm-feature, something SPI-programmable, that can act like a watchdog, with at least max 1-4h windows
-    - it would be wise to detach a5v even further from 5V, with a low-drop diode
-    - EMI-guard SPI, currentlimit at pinheader, terminate at ICs, 33 Ohms close to cpu recommended (avoid reflections)
-    - give INA190 a negative supply (>1mV would be enough) on GND-pin, ref stays on common gnd, extra decouple
+    - don't shut down individual Emu / Rec - Parts (delete or just disable all at once) -> done by Pwr-control
+    - Harvester needs second channel ADC with very low input current, 1MOhm is too low
+    - manual button with LED -> connector S4B-ZR-SM4A-TF, P1 3V3, P2 LED ODrain, P3 SenseButton with PU, P4-6 GND
     - add ultra low noise LDO to A5V, and possibly a boost-converter upfront
-    - add footprint for layer-windows
-    - add footprint for shepherd-logo
-    - add footprint for quality-control-panel
 
-Design-Changes
-    - DAC could be simpler, but should not, because it can also simulate directly tapping into V_Cap of supply
+    - STOP, until here
+    - (processed 11_concept.file)
+    - find better level translator, less current (best if near 0)
+    - check if target-io leveltranslater has low enough leak current
+    - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech
+    - add target port (comparator-include?) System will be a nRF52840
+    - connect BB-Pins, 500 Ohm to input pins that could be driven from both sides
+    - add footprint for quality-control-panel
+    - check output limits of opax388
+    - compare lowNoise LDO to LM27762
+
+Design-Changes, mostly advantages
     - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
     - 2 separate fast ADCs are perfect for parallel and faster data acquisition
-    - is there a reason 50.25 factor?
     - Analog-Switch to target had 4 Ohms Resistance?
-    - is there samething odd on auto-sensing level-translators?
+    - old biDir Level-Translaters needed 3mA drive strength, and even leaked 1-2uA when off
+    - ultra low noise LDO for all analog ICs
+    - EMI-Cage for recorder and emulator
+    - rugged external input power on shepherd module
+    - watchdog-timer to trigger boot and reset
+    - extra low leakage recording
+    - high speed low power gpio to target
+    - support for two targets
+    -
 
-TODO
-    - DAC needs special reference, is output of ADC enough?
-    - compare all the rails of the chain
-
+schematics Postponed
+    - internal calibration? with 2 switches and 1 calibration-linear-power-supply
+    - OP-Amp, bias Subtractor: LMP7701MF, not needed now
+    - sync to pps -> external pcb
 
 schematics Closed
     - Beaglebone
@@ -116,6 +106,21 @@ schematics Closed
         - OPAmp OPA388ID, pin-compatible with LTC2050HV
         - nMOS SI2374DS, test with BSH103
         - ShuntOPAmp Ina190A1IDCKR
+    - power in via vdd_5v (P5/6) -> Test shows: BB does not power up via sys_5v
+    - reboot / boot via Pin-Toggle (Shutdown via command), we should trigger both (RESn->PD,PWR->PD), Test shows: Reset works while PWR is in PD
+    - add 256 GB USB-Stick
+    - switch to smaller IC-Packages and 0402
+    - order / add GPS
+    - is the gps capable of alarm (wake up sys)
+    - our 5V analogue should be stabilized more! Add A5V with 2 Stage Bead, or real coil
+    - add footprint for layer-windows
+    - add footprint for shepherd-logo
+    - give INA190 a negative supply (>1mV would be enough) on GND-pin, ref stays on common gnd, extra decouple
+    - Debug-Pins with Ground
+    - extend harvest-Port, add option to measure VSense, and output VCap (V_A of Emulator)
+    - it would be wise to detach a5v even further from 5V, with a low-drop diode
+    - EMI-guard SPI, currentlimit at pinheader, terminate at ICs, 33 Ohms close to cpu recommended (avoid reflections)
+    - add alarm-feature, something SPI-programmable, that can act like a watchdog, with at least max 1-4h windows
 
 
 PCB Open
