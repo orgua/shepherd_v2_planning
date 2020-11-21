@@ -2,16 +2,8 @@ Design - Hardware - Shepherd-Cape
 =================================
 
 schematics Open
-    - check against shepherd v1.5
-    - don't shut down individual Emu / Rec - Parts (delete or just disable all at once) -> done by Pwr-control
-    - Harvester needs second channel ADC with very low input current, 1MOhm is too low
-    - manual button with LED -> connector S4B-ZR-SM4A-TF, P1 3V3, P2 LED ODrain, P3 SenseButton with PU, P4-6 GND
-    - add ultra low noise LDO to A5V, and possibly a boost-converter upfront
-
     - STOP, until here
     - (processed 11_concept.file)
-    - find better level translator, less current (best if near 0)
-    - check if target-io leveltranslater has low enough leak current
     - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech
     - add target port (comparator-include?) System will be a nRF52840
     - connect BB-Pins, 500 Ohm to input pins that could be driven from both sides
@@ -23,7 +15,9 @@ Design-Changes, mostly advantages
     - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
     - 2 separate fast ADCs are perfect for parallel and faster data acquisition
     - Analog-Switch to target had 4 Ohms Resistance?
-    - old biDir Level-Translaters needed 3mA drive strength, and even leaked 1-2uA when off
+    - old biDir Level-Translaters Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
+        - TI: TXS and TXB need side A to have a higher Vin as side B because of a protection diode
+        - TI: LSF needs side B to be higher Voltage
     - ultra low noise LDO for all analog ICs
     - EMI-Cage for recorder and emulator
     - rugged external input power on shepherd module
@@ -121,7 +115,12 @@ schematics Closed
     - it would be wise to detach a5v even further from 5V, with a low-drop diode
     - EMI-guard SPI, currentlimit at pinheader, terminate at ICs, 33 Ohms close to cpu recommended (avoid reflections)
     - add alarm-feature, something SPI-programmable, that can act like a watchdog, with at least max 1-4h windows
-
+    - check against shepherd v1.5
+    - don't shut down individual Emu / Rec - Parts (delete or just disable all at once) -> done by Pwr-control
+    - Harvester needs second channel ADC with very low input current, 1MOhm is too low
+    - manual button with LED -> connector S4B-ZR-SM4A-TF, P1 3V3, P2 LED ODrain, P3 SenseButton with PU, P4-6 GND
+    - add ultra low noise LDO to A5V, and possibly a boost-converter upfront
+    - find better level translator, less current (best if near 0)
 
 PCB Open
     - 4 Layer! Sig, GND, 5V, 3V3
