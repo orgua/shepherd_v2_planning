@@ -2,14 +2,11 @@ Design - Hardware - Shepherd-Cape
 =================================
 
 schematics Open
-    - STOP, until here
-    - (processed 11_concept.file)
     - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech
-    - add target port (comparator-include?) System will be a nRF52840
     - connect BB-Pins, 500 Ohm to input pins that could be driven from both sides
     - add footprint for quality-control-panel
-    - check output limits of opax388
-    - compare lowNoise LDO to LM27762
+    - separate PCBs for PPS-Source, Recorder, Emulator
+
 
 Design-Changes, mostly advantages
     - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
@@ -43,6 +40,8 @@ schematics Closed
                 - https://www.mouser.de/Semiconductors/Data-Converter-ICs/Digital-to-Analog-Converters-DAC/_/N-4c44d?P=1z0w8k6Z1z0w2wwZ1z0w2wvZ1z0w2wtZ1z0z7ptZ1yz5pwlZ1yzmm10Z1yzml2aZ1yzmm18Z1yzmlprZ1yzmm0yZ1yzmm13Z1yzmlr9Z1yzmlh1Z1yzmlwtZ1yzmm16Z1yzmm0zZ1yyh4l4Z1z0zls6Z1yzxao2&Ns=Pricing%7c0
             - replacement: AD5663ARMZ-REEL7, mouser 584-AD5663ARMZ-R7
                 - 50 MHz SPI, 4 us Settling, Zero-Scale-Error<1mV, 30mA Shor-Circuit-Current, needs voltage reference, WATCH OUT - there are versions with midpoint-start
+            - replacement: DAC8830, 1-CH, 50 MHz, 16bit, 10nV/sqrtHz, 1us Settling,
+            - replacement: AD5545B, 2-CH, 50
         - OpAmp for V-BUF 2CH?
             - previous: **OPA2388IDGKT**, digikey 296-50277-2-ND
                 - 30-60 mA perm, 5 V/us, 7 nV / sqrtHz, 0.25 uV Offset,
@@ -61,6 +60,9 @@ schematics Closed
             - constraints: 1 CH, > 2 MHz Gain-BW-Product, Supply ~ 2-5 V, >75 dB CMRR, Low input offset voltage
             - replacement: **INA331AIDGKR**, mouser 595-INA331AIDGKR, in combination with **LM7705** (-0.23V) on V-, mouser 926-LM7705MMX/NOPB
                 - ref: https://e2e.ti.com/support/amplifiers/f/14/t/700003
+            - proper replacement: ad8429B
+                - https://tools.analog.com/en/diamond/#difL=0&difR=0.05&difSl=0&gain=100&l=0&pr=AD8429&r=5&sl=0&tab=1&ty=2&vn=-8&vp=9&vr=0
+                - https://training.ti.com/system/files/docs/1312%20-%20Noise%202%20-%20slides.pdf
         - ADC 2CH
             - previous: ADS8694TSSOP38 4 CH
                 - 18 bit, 4 CH, two V-Rails for A&D, 500 kSPS, 18 MHz SPI, variable LPF, 1175 ns Acq & 825 ns Conv.
@@ -121,6 +123,20 @@ schematics Closed
     - manual button with LED -> connector S4B-ZR-SM4A-TF, P1 3V3, P2 LED ODrain, P3 SenseButton with PU, P4-6 GND
     - add ultra low noise LDO to A5V, and possibly a boost-converter upfront
     - find better level translator, less current (best if near 0)
+    - reprocessed 11_concept.file
+    - switched Ina190 for AD8421
+    - added boost/Inverter for proper voltage rail
+    - add target port (comparator-include?) System will be a nRF52840 and most likely a MSP430
+        - try to make it compatible with breadboard / dev-Kit
+        - is spy-by-wire physically compatible with swd -> it is, TClock is uni-dir, TDIO is bi-dir
+    - replace 100nF/16, 1uF/16, 10uF/16
+    - BOM, more precise alternative - BB uses 32.768 kHz osci MC-306 (20 ppm, 8x3.8mm) or similar, package says 327A5M
+        - alternative: 5 ppm, 12.5pF, 50 kOhm, https://www.mouser.de/ProductDetail/Citizen-FineDevice/CM200C32768HZFT?qs=rkhjVJ6%2F3ELrGt3qchcVtQ%3D%3D
+        - BB also uses 24.576 MHz
+    - check output limits of opax388 and DAC
+    - compare lowNoise LDO to LM27762
+    - 750 kOhm 1%,  667-ERJ-2RKF7503X, 5 + 32
+
 
 PCB Open
     - 4 Layer! Sig, GND, 5V, 3V3
