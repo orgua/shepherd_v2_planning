@@ -233,12 +233,24 @@ Inventory
 Order List
 ----------
 
-already ordered
+ordered 2020-11
     - 30x BBG, 47 € -> 1410 € (w/o tax)
     - 40x NW Cable, 0.5 / 1.0 / 1.5 / 2.0 m, 10 of each, 2-4 € -> 31 + 37 + 19 + 47 = 134 € (w/o tax)
     - different 128 GB USB-Sticks (Samsung, Kingston, Philips), from Expensive to Cheap, -> 15 + 17 + 21 = 53 €
     - 2x Compact mountable POE-Splitters, 11 - 20 € -> 31 €
     - Solder Paste, 23 €
+
+ordered 2020-12
+    - 3-5 uSD-Cards for fast flashing Firmware, min 8 GB, 30 MB/s RW,
+        - https://geizhals.de/?cat=sm_sdhc&xf=15024_microSD%7E2455_30%7E2456_30%7E307_8%7E8281_128&sort=p#productlist
+    - nRF-Target, preferred with 32.768 Hz crystal
+        - dongle-kit nRF52840 -> must be modded on back for low voltage, https://www.digikey.de/product-detail/de/nordic-semiconductor-asa/NRF52840-DONGLE/1490-1073-ND/9491124
+        - ublox bmd-340, already with crystal https://www.mouser.de/ProductDetail/u-blox/BMD-340-A-R?qs=%2Fha2pyFaduh5puKd80a2%252BxNay0XTXM1gZjYgTBrwSh3foS6gIJUSvg%3D%3D
+        - panasonic enw-8985, already with 32k Crystal, https://www.mouser.de/ProductDetail/Panasonic/ENW-89854A1KF?qs=B6kkDfuK7%2FD%2F8POzJ9tJcg==
+        - panasonic included in BOM
+    - some BB-Crystals: https://www.mouser.de/ProductDetail/Citizen-FineDevice/CM200C32768HZFT?qs=rkhjVJ6%2F3ELrGt3qchcVtQ%3D%3D
+    - 256 GB USB-Sticks, min 40 MB/s writing
+        - https://geizhals.de/?cat=sm_usb&xf=2938_262144%7E309_262144%7E476_40
 
 dismissed
     - Beaglebone AI, 110 €
@@ -249,19 +261,10 @@ dismissed
     - >=Cat5e Cables white, 10 €, https://geizhals.de/?cat=kabelnw&xf=2374_0.25%7E2375_wei%DF%7E8252_1
 
 TODO
-    - 3-5 uSD-Cards for fast flashing Firmware, min 8 GB, 30 MB/s RW,
-        - https://geizhals.de/?cat=sm_sdhc&xf=15024_microSD%7E2455_30%7E2456_30%7E307_8%7E8281_128&sort=p#productlist
-    - GPS-Module with external Antenna, uBlox LEA-M8F
-    - nRF-Target, preferred with 32.768 Hz crystal
-        - dongle-kit nRF52840 -> must be modded on back for low voltage, https://www.digikey.de/product-detail/de/nordic-semiconductor-asa/NRF52840-DONGLE/1490-1073-ND/9491124
-        - ublox bmd-340, already with crystal https://www.mouser.de/ProductDetail/u-blox/BMD-340-A-R?qs=%2Fha2pyFaduh5puKd80a2%252BxNay0XTXM1gZjYgTBrwSh3foS6gIJUSvg%3D%3D
-        - panasonic enw-8985, already with 32k Crystal, https://www.mouser.de/ProductDetail/Panasonic/ENW-89854A1KF?qs=B6kkDfuK7%2FD%2F8POzJ9tJcg==
-        - panasonic included in BOM
+    - GPS-Module with external Antenna, uBlox LEA-M8F or ZED-F9T
     - final GBE PoE Adapter, 20 €
         - https://geizhals.de/?cat=switchgi&xf=12885_PoE-Splitter
         - Possible Copy of POE-Splitter RPi-Hat https://www.raspberrypi.org/forums/viewtopic.php?t=266617
-    - 256 GB USB-Sticks, min 40 MB/s writing
-        - https://geizhals.de/?cat=sm_usb&xf=2938_262144%7E309_262144%7E476_40
     - Shepherd Cape, 15 €
     - Shepherd Parts
     - Target Capelet
