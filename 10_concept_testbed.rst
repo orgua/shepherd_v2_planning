@@ -141,26 +141,70 @@ RF-Measurement
 .. image:: 10_concept_floor_plan_bar_3.png
     :alt: floor plan bar 3
 
-Anforderungen für das ZIH
+Anforderungen / Netzkonzept für das ZIH
 -------------------------
 
-Projektbeschreibung Shepherd
-
-- Prüfstand für Funknetzwerk-Algorithmen, speziell im Bereich Energy-Harvesting
-- ~ 30 Funkknoten mit Netzwerk-Backchannel, Basis sind Beaglebone Einplatinenrechner mit Linux / Debian-Derivat
-    - erste Testknoten sind bereits einsatzfähig
-- Verteilung der Knoten auf der unteren cfaed-Etage im Barkhausen Bau
+- Projektbeschreibung
+    - Prüfstand für Funknetzwerk-Algorithmen, speziell im Bereich Energy-Harvesting
+    - Nachbildung verschiedener Funktopologien und Energie-Szenarien
+- Start des Projekts
+    - 01.02.2021 (falls ein direktes Datum benötigt wird)
+    - es läuft bereits, daher so bald wie möglich
+- Projektlaufzeit
+    - drei Doktoranden benötigen das Projekt für ihre Forschung für 3-5 Jahre
+- Gerätetypen, Menge, Kategorien
+    - ~ 30 autonome Funkknoten mit Netzwerk-Backchannel, Basis sind Beaglebone Green, Einplatinenrechner mit Linux / Debian-Derivat
+    - die ersten 10 Testknoten sind bereits einsatzfähig
+    - die Linux-Knoten haben ihr eigenes vLAN und wurden gegen Zugriff abgesichert (keine offenen Ports, kein UART, starke PW)
+    - Kategorisierung am ehesten als Laborgerät?
+- Einsatzort
+    - Verteilung der Knoten auf der unteren cfaed-Etage im Barkhausen Bau
     - mehrere Räume, BAR II52 - II75
-    - einige Knoten auf den Fluren, Etage 2 hat vier freie Ports
-- RF Netzwerk befindet sich im 2.4 GHz ISM-Band, bleibt innerhalb der ETSI-Norm, hauptsächlich IEEE 802.15.4, beispiel Bluetooth
+    - einige Knoten auf den Fluren, Kopierraum, Postraum, Konferenzraum
+    - Problem: durch den großen Lüftungsraum II800 wird das Funknetzwerk sehr fragmentiert, sodass ein Nutzen oben angesprochenen Räume wünschenswert ist
+- Schutzbedarf
+    - Geräte zeichnen nur Energieverläufe der Funkknoten und deren GPIO-Traces auf
+    - keine sonstigen Sensoren werden ausgewertet
+    - keine Nutzerbezogenen Daten
+- Dienste, Zugriff
+    - Koten befinden sich in eigenem vLAN,
+    - Knoten bauen SSH-Verbindung (Port 22) zum virtuellen ZIH Kontroll-Server auf um Roh-Messdaten zu übertragen
+    - PTP (Port 319/320) zur Synchronisierung der Knoten untereinander, t_delta <= 100 ns
+    - Internet-Zugriff für die Knoten wäre wünschenswert (für Updates, bzw. für die Einrichtung)
+- Funknetzwerk des Prüfstandes
+    - RF Netzwerk befindet sich im 2.4 GHz ISM-Band, bleibt innerhalb der ETSI-Norm, hauptsächlich IEEE 802.15.4, beispiel Bluetooth
     - Bluetooth belegt 81x 1 MHz breite Kanäle von 2400 - 2480 MHz und benutzt Frequency-Hopping, d.h jedes Paket wird auf einem anderen Kanal gesendet, mehrere tausend Sprünge pro Sekunde
-- Ethernet-Rückkanal braucht Unterstützung für GBE, PoE, wenn möglich PTP nativ im Switch
-    - im Bestfall wäre PoE abschaltbar um das Netzwerk auszuschalten, da es nicht 24/7 laufen muss, oder einzelne Knoten neuzustarten
-    - PTP-Anforderung: Synchronisationsabweichung < 1 us zwischen den Knoten, optimal wären 100 ns
-    - Internet Zugang für Updates
-    - ein eigenes vLAN für die Knoten
-    - die Kommunikation zu den Knoten wird aktuell per SSH (TCP Port 22) realisiert (aber es wird noch eine temporäre Datenverbindung wie z.B. hinzukommen)
+- Besondere Anforderungen
+    - Ethernet-Rückkanal der Knoten braucht Unterstützung für GBE, PoE, wenn möglich PTP nativ im Switch
+    - im Bestfall wäre PoE abschaltbar (vom Kontrollserver) um das Netzwerk auszuschalten (Energiesparen), oder einzelne Knoten neuzustarten
+    - PTP-Anforderung: Synchronisationsabweichung << 1 us zwischen den Knoten, optimal wären 10-100 ns
 - wir sind offen für alle administrativen bzw. Sicherheits-Auflagen die notwendig sind zur Erfüllung der Anforderungen
+
+Gesprächsprotokoll mit dem Treffen von Herrn Fleck
+------------------------------------
+
+- unsere Anforderungen wurden kommuniziert und angenommen, Punkte die mehr diskutiert wurden sind hier angeführt
+- Cisco-Wifi-Router
+    - das ZIH hat ein temporäres (sowie dauerhaftes) Abschalten von WLAN im 2.4 GHz Band auf der Etage angeboten
+    - wir würden das Angebot gerne Annehmen, aktuell halten wir beispielsweise ein regelmäßiges Scheduling für Samstag / Sonntag ab sinnvollsten
+    - betroffene sechs Router (+NW-Dose)
+        - BAR-AP-A-II52 (II65_S2_K_21)
+        - BAR-AP-A-II56 (II65_S2_K_13)
+        - BAR-AP-A-II57 (II65_S2_J_7)
+        - BAR-AP-A-II62 (II65_S2_H_13)
+        - BAR-AP-A-II69 (II65_S3_B_15)
+        - BAR-AP-A-II73 (II65_S3_C_17)
+- zu beschaltene NW-Dosen
+    - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren bzw. öffentlich genutzen Räumen benutzen
+    - siehe Liste unter https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods
+    - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
+- Kontrolle über POE
+    - laut ZIH denkbar, wenn ein dedizierter Switch für den Prüfstand zum Einsatz kommt
+- PTP-Zeitsynchronisation
+    - laut ZIH optimal, wenn ein dedizierter Switch für den Prüfstand zum Einsatz käme
+    - Jitter der Switches unter geringer Last angeblich sehr gering, im Datenblatt spezifiziert
+
+
 
 Anforderungen
 
@@ -251,6 +295,10 @@ ordered 2020-12
     - some BB-Crystals: https://www.mouser.de/ProductDetail/Citizen-FineDevice/CM200C32768HZFT?qs=rkhjVJ6%2F3ELrGt3qchcVtQ%3D%3D
     - 256 GB USB-Sticks, min 40 MB/s writing
         - https://geizhals.de/?cat=sm_usb&xf=2938_262144%7E309_262144%7E476_40
+
+order 2020-12B
+    - 30x Tl-POE10R
+    - short NW-Cables <= 10cm
 
 dismissed
     - Beaglebone AI, 110 €
