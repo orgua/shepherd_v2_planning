@@ -2,27 +2,44 @@ Design - Hardware - Shepherd-Cape
 =================================
 
 schematics Open
-    - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech
-    - connect BB-Pins, 500 Ohm to input pins that could be driven from both sides
-    - add footprint for quality-control-panel
     - separate PCBs for PPS-Source, Recorder, Emulator
+    - prepare calibration
+    - add production-constraints
+    - update BOM
+    - increase restring / holesize, sheph seems to have 0.15mm holes?, target 0.075 ring
+
+Part Changes (after Mouser-Order - NOW already ordered)
+    - DAC       100nF -> 1uF
+    - Boost     10uF -> 10uF (inv)
+    - Inv       +47uF
+    - Rec       2x 10k 0603 -> 0402
+    - All       34x 1uF/16V/0603 -> 1uF/25V/0402
+    - final Shield, cover & frame
+    - all       4x 15uH/4mm -> 15uH/3mm
+    - parts of nRF-Target
 
 
 Design-Changes, mostly advantages
     - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
-    - 2 separate fast ADCs are perfect for parallel and faster data acquisition
-    - Analog-Switch to target had 4 Ohms Resistance?
-    - old biDir Level-Translaters Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
+    - 2 separate fast ADCs are perfect for parallel and faster data acquisition, up to 50 MHz SPI
+    - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm
+    - old biDir Level-Translators Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
         - TI: TXS and TXB need side A to have a higher Vin as side B because of a protection diode
         - TI: LSF needs side B to be higher Voltage
     - ultra low noise LDO for all analog ICs
     - EMI-Cage for recorder and emulator
-    - rugged external input power on shepherd module
-    - watchdog-timer to trigger boot and reset
-    - extra low leakage recording
-    - high speed low power gpio to target
+    - rugged external input power on shepherd module, protected for reverse polarity
+    - watchdog-timer to trigger boot and reset if bbone unresponsive or POE-Switching fails or is not allowed
+    - extra low leakage recording and emulation
+        - 500 pA for OpAmp
+        - < 40 nA for Diodes
+        - < 50 nA for Mosfet
+        - ~1 nA for analogue switches
+        - 1-5 uA for level translators (behind switches)
+    - extra low noise OpAmps, DAC and ADC
+    - high speed, low power gpio to target
     - support for two targets
-    -
+
 
 schematics Postponed
     - internal calibration? with 2 switches and 1 calibration-linear-power-supply
@@ -136,9 +153,28 @@ schematics Closed
     - check output limits of opax388 and DAC
     - compare lowNoise LDO to LM27762
     - 750 kOhm 1%,  667-ERJ-2RKF7503X, 5 + 32
-
+    - connect BB-Pins, 500 Ohm to input pins that could be driven from both sides
+    - complete ERC
+    - 1uF/16V is still 0603, change to 0402, there are 34x (incl. Recorder)
+    - redistribute capacitors
+    - replace coil with smaller one, check recommended direction
+    - add 1kR & 100R high precision for current measurement, EMU
+    - order digikey (extBut, samtec), mouser, csv
+    - add footprint for quality-control-panel
+    - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech, design is now divided
 
 PCB Open
-    - 4 Layer! Sig, GND, 5V, 3V3
+
+
+PCB Closed
+    - 4 Layer! Planes for Sig, GND, A5V, (3V3)
     - decide Manufacturer, EC, Aisler, Betalayout
     - add design rules
+    - add layer stackup
+    - add default vias
+    - divide in groups / rooms
+    - optimize surroundings of ICs
+    - change vias of pson50, dfn-10 (by lt3487 spec)
+    - move lvlchangers to the left
+    - change pads of pinheaders in inner layers
+    - thermal pad of switch unused? yes, no word of use in datasheet
