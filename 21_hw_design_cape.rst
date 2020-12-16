@@ -4,9 +4,9 @@ Design - Hardware - Shepherd-Cape
 schematics Open
     - separate PCBs for PPS-Source, Recorder, Emulator
     - prepare calibration
-    - add production-constraints
-    - update BOM
-    - increase restring / holesize, sheph seems to have 0.15mm holes?, target 0.075 ring
+    - ordered not enough 15uH Coils, need 30 more
+    - check remainder of BOM for emu-only assembly
+
 
 Part Changes (after Mouser-Order - NOW already ordered)
     - DAC       100nF -> 1uF
@@ -162,6 +162,8 @@ schematics Closed
     - order digikey (extBut, samtec), mouser, csv
     - add footprint for quality-control-panel
     - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech, design is now divided
+    - add production-constraints
+    - update BOM
 
 PCB Open
 
@@ -178,3 +180,4 @@ PCB Closed
     - move lvlchangers to the left
     - change pads of pinheaders in inner layers
     - thermal pad of switch unused? yes, no word of use in datasheet
+    - increase restring / holesize, sheph seems to have 0.15mm holes?, target 0.075 ring
