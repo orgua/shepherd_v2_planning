@@ -165,6 +165,8 @@ Manual Config::
 
 Software sporadically stops with::
 
+    sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
+
     shepherd started!
     ShepherdIOException(ID=3, val=9999): Got incomplete buffer
     exiting analog shepherd_io
