@@ -6,6 +6,10 @@ schematics Open
     - prepare calibration
     - ordered not enough 15uH Coils, need 30 more
     - check remainder of BOM for emu-only assembly
+	- full version has 276 parts, 42 unique, without recorder 219 / 39
+		- previous design had 160 parts, 59 unique
+    - shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
+	- add open source hardware logo?
 
 
 Part Changes (after Mouser-Order - NOW already ordered)
@@ -19,7 +23,7 @@ Part Changes (after Mouser-Order - NOW already ordered)
     - parts of nRF-Target
 
 
-Design-Changes, mostly advantages
+Design-Changes for rev2, mostly advantages
     - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
     - 2 separate fast ADCs are perfect for parallel and faster data acquisition, up to 50 MHz SPI
     - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm
@@ -45,6 +49,65 @@ schematics Postponed
     - internal calibration? with 2 switches and 1 calibration-linear-power-supply
     - OP-Amp, bias Subtractor: LMP7701MF, not needed now
     - sync to pps -> external pcb
+	
+Changes after v2r1:
+- only 5 diodes of type PMEG in order?
+
+- silkscreen - 10k array are 1k
+- 3d-Step: shield transparent for better view below
+- same orientation for transistors
+- silk. "P3" designator is below component
+- pads of 0402 bigger, 1.2x1.2 as min area for pads? paste 0.8x0.8? got some tombstones on current revision
+   - half a pad distance to neighbour (keepout)
+- improve connection betwenn pads (esp. 0402)
+- change 100 uF to 47? one less component
+- feducial seems massive, shrink it?
+- SPI-CS with at least 33R to lower chance of interference
+- R for BatteryGood is wrong (handled by PRU), should it also be routed to userspace?
+- Testpad should be square for GND, half-circle for Signal or similar
+- TC7WH-Footprint is to large
+- HC2G-comment (Name) is wrong / twisted
+- DAC pads could be longer, reach more under the IC
+- MP32 has no dot on package, just [ABC], lower left is pin1
+- NSR (or all diodes) could get a line on the 3d-file (current dot is confusing, because the actual package has line and dot)
+- the orange led is red! ... bad UI for general blinking
+- improve marking on Voltages, maybe with an arrow
+- reverse diode of mosfet is too weak - already destroyed the reverse polarity protection
+- some popular Flag-Markers on backside for pinheader
+- Pin1 dot should be a shallow/sharp triangle, pointing in the right direction (less confusing in dense layouts)
+- describe gain of OP-Amp in schematic
+- 100R, accuracy is missing in description / constraints
+- Silk for L9/L10 
+- essential silk-numbers on headers can be bigger/bold, a bit more distance from header
+- r3 (dac, emu)
+- rename rec to harvest, port on pcb more obvious
+- harvest dAC ch-b - drain power source OK?
+- vias came back only weak tainted (make it less severe if that happens), mainly for target pcb
+- switch to thinner stencil, bigger pads (paste is good for it)
+- header-row on target has paste, it should not
+- Font/Writing in copper is unreadable on target (slighly below spec)
+- qr code is not readable, blurred, reduce size of "pixel"
+- usb-socket is impossible to hand-solder right now
+- transistor-footprint is not conform to datasheet, it is slighly bigger and just misses the pads?!?
+- u13 thermal to wide, reduce a bit to avoid shorts (u15 has same possible weaknes)
+- rework als Pin-Descriptions (already mentioned)
+- add layer for manual / pick'and'place descriptions (m15, m?)
+- 
+
+
+General rule for assembly-drawings
+- origin orientation
+	- keepout
+	- assembly notes (mech15)
+- designator
+	- keepout
+	- top designator (mech 2?)
+- Copper / Silk
+	- L1 Pads / Via
+	- Keepout
+	- Top Overlay
+-> print in Color
+
 
 schematics Closed
     - Beaglebone
@@ -164,6 +227,7 @@ schematics Closed
     - BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech, design is now divided
     - add production-constraints
     - update BOM
+    - v2r1 ordered
 
 PCB Open
 
