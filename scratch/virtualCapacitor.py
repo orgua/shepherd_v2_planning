@@ -30,8 +30,8 @@ for i in range(20):
     print(f"V = {V_cap} incl \t dV = {dV_cap}")
 
 # switching on supply with output capacitor -> try to model a more correct approach
-# E = C*V^2 / 2
 # E_new = E_old - E_output
+# E = C*V^2 / 2
 # C_cap * V_cap_new^2 / 2 = C_cap * V_cap_old^2 / 2 - C_out * V_out^2 / 2
 # V_cap_new^2 = V_cap_old^2 - (C_out / C_cap) * V_out^2
 
