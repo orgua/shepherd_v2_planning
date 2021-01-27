@@ -58,3 +58,34 @@ SysGpio
 6860 ns sampling() / emulation
 4220 ns sampling() / vcap
 2740 ns handling block end -> pru1-blocking part was reduced to 460 ns
+550-630 ns for ADC reading in HW rev 2 (instead of ~2060)
+450-550 ns for ADC reading (further improvement)
+720 ns for DAC write (instead of 980 ns)
+1250 ns sampling() / harvesting (2 ADC, store)
+2000 ns sampling() / harvesting (2x ADC, store, calc, 1x DAC)
+xxxx ns sampling() / virtualSource, 21/36 us, including 2x ADC, 1x DAC (~2 us) -> prototype
+    -> 8 us makes ~ 1600 instructions
+
+Sampling-VSource-Performance
+- Baseline (21.01.20)
+    - 17000 ns init vsource -> 5cmd 1900ns, 5cmd 1220ns, 5cmd 1440ns, 2cmd 660 ns, 7cmd 11740ns
+    -   600 ns enter sampling, choose emulation, get 2x u32 out of ram
+    -   500 ns ADC reading
+    -  1500 ns calculate P_in
+    -  3300 ns calculate P_out
+    -  3240 ns calculate P_sum
+    -    60 ns handle events
+    -   750 ns DAC writing
+- Init
+    - 17'000 ns init vsource -> 5cmd 1900ns, 5cmd 1220ns, 5cmd 1440ns, 2cmd 660 ns, 7cmd 11740ns
+    - 10'940 ns init vsource -> 5cmd   80ns, 5cmd  320ns, 5cmd  960ns, 2cmd 320 ns, 7cmd 10260ns
+    - 10'940 ns init vsource -> argcopy 80ns, boost 1260ns, buck 340ns, dV-sq 4300ns, sqrt 5960ns
+    -  1'740 ns init vsource -> argcopy 80ns, boost 1260ns, buck 340ns (outsource rest to py)
+    -  3'320 ns copy vs_cfg completely
+- Sampling
+    - 1500 ns P_in, 3300 ns P_out, 3240 ns P_sum -> baseline
+    - 1240 ns P_in, 5540 ns P_out, 3240 ns P_sum -> first improvement
+    - 1380 ns P_in, 4340 ns P_out, 2960 ns P_sum -> second improvements
+    - 1440 ns P_in, 4340 ns P_out, 3240 ns P_sum -> ufloat uses num1 as result, optimal fn (except equalize & mult)
+    - 1440 ns P_in, 2540 ns P_out, 1940 ns P_sum, 540 ns events -> optimize ufloat equalize & mult, LUT-FNs
+    - sum = 6500 ns
