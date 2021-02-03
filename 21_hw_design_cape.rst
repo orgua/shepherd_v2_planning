@@ -6,10 +6,10 @@ schematics Open
     - prepare calibration
     - ordered not enough 15uH Coils, need 30 more
     - check remainder of BOM for emu-only assembly
-	- full version has 276 parts, 42 unique, without recorder 219 / 39
-		- previous design had 160 parts, 59 unique
+    - full version has 276 parts, 42 unique, without recorder 219 / 39
+        - previous design had 160 parts, 59 unique
     - shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
-	- add open source hardware logo?
+    - add open source hardware logo?
 
 
 Part Changes (after Mouser-Order - NOW already ordered)
@@ -92,20 +92,64 @@ Changes after v2r1:
 - u13 thermal to wide, reduce a bit to avoid shorts (u15 has same possible weaknes)
 - rework als Pin-Descriptions (already mentioned)
 - add layer for manual / pick'and'place descriptions (m15, m?)
-- 
-
+- round and divided (big) paste pads
+- add general power-led when shepherd is on? maybe on 6V line
+- Shepherd2 + BB powering
+    - starts 390 mA on VDD-5V line, booted: 170-240 mA
+    - note Voltages from sheet -
+    - sudden 66 mA increase on shepherd EN is no problem
+    - WD-Pins could be a problem - my current test-BB is sensitive for power-button and shuts down -> use jumper?
+    - P8-43 or 44 is sensible for input - BB does not boot when connected
+        - both are for boot-config
+- warning for harvest V_sense -> Voltage floats if not connected and will most likely show V-Max in this state
+- (maybe) add PU to watchdog outputs,
+- ADC nRST should not get A5V, only 3.3, also there is no need for a resistor-switch
+- Connector for external switch was copied from old schematic, but this one had inversed pin-numbering on connector, different from datasheet
+- Testpoint on RVS-Pin of
+- proper naming for TP if there is space
+- Noise from Outside
+    - BB 5V Lines (both) show cutting 1V Spikes every 23.6 ms, around 400 us long (quickshot 73/74/80)
+    - entry-filtering is not doing much for these rails
+    - 6V has +120/-80 mV Spikes (qs77, 78)
+    - 5V and 6V are only used as intermediate voltage steps
+    - 10V  +46/-30 mV
+    - -6V +42/-30 mV
+    - A5V +36/-28
+    - 36 us, +-10mV Spikes, 500 ns long (qs82, 84)
+    - -> add a big external Cap on 5V
+    - diode-connection between the two 5V-Rails could be the problem - there are no voltage-spikes over the diode, so the current seemed to be constant
+        - without diode: Big Spikes are gone, 5V has now max -200 mV and other (qs85)
+        - -6V & 10v & A5V are cleaner, delta 30mV (qs86-88)
+    - a Cap, 1F 5V5, before the ferrites, does not improve the situation
+- Performance:
+    - 0 to 5V Target A, with 1 kOhm Load, 75 us for 80%, ~100 us for 100% (QS92 & 94)
+    - 5V to 0V T-A, ...., 75 us for 80%, 400 us for 100%?, qs93
+    - Recorder is following, with 5V in, 1k pre-resistor, the op-amp switches from 0..3V with 20us
+    -
+- protect GND better around Pinheaders
+- U25A, Inputs are switched
+- more distance to gnd-plane (soldering is hard, even with thermals
+- TPs should have bigger hole, so probes stick
+- 3V3 should also be switched - maybe even the 5V0 in, so the PU that hinder bootup are meaningless
+- Current PCB-Mods:
+    - P8-43/44 disconnected, messes with boot
+    - P9-9/10 possible problem
+    - 2x 1k-PU from EMU/REC EN routed to 3V3 (easy), ADCs still work
+    - 2x 1k-PU for boot, reset pins, only on shep-pcb als external jumper
+    - switched inputs of R13, Shunt of Recorder, 2 lines cut and rerouted
+    - diode over reverse-pol-mosfet
 
 General rule for assembly-drawings
 - origin orientation
-	- keepout
-	- assembly notes (mech15)
+    - keepout
+    - assembly notes (mech15)
 - designator
-	- keepout
-	- top designator (mech 2?)
+    - keepout
+    - top designator (mech 2?)
 - Copper / Silk
-	- L1 Pads / Via
-	- Keepout
-	- Top Overlay
+    - L1 Pads / Via
+    - Keepout
+    - Top Overlay
 -> print in Color
 
 
