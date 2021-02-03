@@ -204,6 +204,29 @@ Gesprächsprotokoll mit dem Treffen von Herrn Fleck
     - laut ZIH optimal, wenn ein dedizierter Switch für den Prüfstand zum Einsatz käme
     - Jitter der Switches unter geringer Last angeblich sehr gering, im Datenblatt spezifiziert
 
+Weitere Entwicklung zur Infrastruktur, 2021-01-29
+------------------------------------
+
+- Switch vom ZIH gestellt und gemanaged - WS-C2960X-48FPD-L
+- 10 GBit Uplink zum Server, wenn Port frei ist (ist er)
+- Nur NES-Lab-Netz auf den gewünschten Dosen
+- Switch erlaubt POE mit insgesamt 740 W, also 40 Geräte a 15 Watt sind abgedeckt, BB brauchen ~3 W
+- POE nicht dynamisch vom Server schaltbar, sondern nur händisch von IT
+- PTP nicht nativ vom Switch unterstützt, aber der ist später austauschbar (Eigenleistung von uns)
+- Dosen im öffentlichen Raum weiterhin generell ok, aber explizit untergeordnet und erst nach Begehung mit OK vom ZIH
+
+- 10 TB Gruppenlaufwerk
+    - self-service, funktionslogin
+    - dom.ts.[].zih.... - account hinzufügen, admins volle Rechte, mehr Gruppenmitglieder hinzufügen
+    - zugangsdaten im tu-passwortspeicher ablegen
+    - einbinden über fstab als smb-lw, spezielle root-rechte
+- Server Roadmap
+    - mit fake ssl zum laufen bekommen
+    - self service -> sicherheits-prüfung kontinierlich durchgeführt
+    - subdomain shepherd.cfaed. ... beantragen
+    - ssl-zertifikat anfordern (anleitung ZIH) -> kein pW-Schutz beim private Key, sonst ist bei jedem boot ein PW erforderlich
+- Webseite
+    - Barrierefreiheit und Impressum, sonst keine Weltweite freigabe (und ssl-force, subdomain)
 
 
 Anforderungen
