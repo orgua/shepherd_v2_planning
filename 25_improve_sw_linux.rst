@@ -546,6 +546,7 @@ Further actions:
 - drop root privilege for testbed-user, allow to handle hw-io with groups
 - sysctl contains several sockets
 - add concept for security
+- allow shepherd without need for sudo
 
 Fixing Device Tree Drivers for newer Kernels
 --------------------------------------------
@@ -587,6 +588,18 @@ Backup Image::
     sudo mount /dev/sda1 /media
     sudo dd if=/dev/mmcblk1 of=/media/mmc_s0_v4.19.94_bootstrap_apt.img
     sudo umount /media
+
+    # alternative to local sd-card
+    sudo dd if=/dev/mmcblk1 of=/dev/mmcblk0
+
+Delete Kernel-Image on MMC::
+
+    sudo mount /dev/mmcblk1p1 /media
+    cd /media/lib/modules/.../extra
+    sudo rm shepherd.ko
+
+    # better way: do not load module on startup
+    sudo nano /etc/modules
 
 Install custom Shepherd-Code and check install
 ----------------------------------------------
