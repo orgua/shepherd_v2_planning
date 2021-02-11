@@ -22,122 +22,37 @@ Part Changes (after Mouser-Order - NOW already ordered)
     - all       4x 15uH/4mm -> 15uH/3mm
     - parts of nRF-Target
 
-
-Design-Changes for rev2, mostly advantages
-    - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
-    - 2 separate fast ADCs are perfect for parallel and faster data acquisition, up to 50 MHz SPI
-    - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm
-    - old biDir Level-Translators Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
-        - TI: TXS and TXB need side A to have a higher Vin as side B because of a protection diode
-        - TI: LSF needs side B to be higher Voltage
-    - ultra low noise LDO for all analog ICs
-    - EMI-Cage for recorder and emulator
-    - rugged external input power on shepherd module, protected for reverse polarity
-    - watchdog-timer to trigger boot and reset if bbone unresponsive or POE-Switching fails or is not allowed
-    - extra low leakage recording and emulation
-        - 500 pA for OpAmp
-        - < 40 nA for Diodes
-        - < 50 nA for Mosfet
-        - ~1 nA for analogue switches
-        - 1-5 uA for level translators (behind switches)
-    - extra low noise OpAmps, DAC and ADC
-    - high speed, low power gpio to target
-    - support for two targets
-
-
 schematics Postponed
     - internal calibration? with 2 switches and 1 calibration-linear-power-supply
     - OP-Amp, bias Subtractor: LMP7701MF, not needed now
     - sync to pps -> external pcb
-	
+
 Changes after v2r1:
 - only 5 diodes of type PMEG in order?
-
-- silkscreen - 10k array are 1k
-- 3d-Step: shield transparent for better view below
 - same orientation for transistors
-- silk. "P3" designator is below component
-- pads of 0402 bigger, 1.2x1.2 as min area for pads? paste 0.8x0.8? got some tombstones on current revision
-   - half a pad distance to neighbour (keepout)
-- improve connection betwenn pads (esp. 0402)
 - change 100 uF to 47? one less component
-- feducial seems massive, shrink it?
-- SPI-CS with at least 33R to lower chance of interference
-- R for BatteryGood is wrong (handled by PRU), should it also be routed to userspace?
 - Testpad should be square for GND, half-circle for Signal or similar
-- TC7WH-Footprint is to large
-- HC2G-comment (Name) is wrong / twisted
-- DAC pads could be longer, reach more under the IC
-- MP32 has no dot on package, just [ABC], lower left is pin1
-- NSR (or all diodes) could get a line on the 3d-file (current dot is confusing, because the actual package has line and dot)
-- the orange led is red! ... bad UI for general blinking
-- improve marking on Voltages, maybe with an arrow
-- reverse diode of mosfet is too weak - already destroyed the reverse polarity protection
-- some popular Flag-Markers on backside for pinheader
-- Pin1 dot should be a shallow/sharp triangle, pointing in the right direction (less confusing in dense layouts)
-- describe gain of OP-Amp in schematic
-- 100R, accuracy is missing in description / constraints
-- Silk for L9/L10 
-- essential silk-numbers on headers can be bigger/bold, a bit more distance from header
 - r3 (dac, emu)
-- rename rec to harvest, port on pcb more obvious
-- harvest dAC ch-b - drain power source OK?
-- vias came back only weak tainted (make it less severe if that happens), mainly for target pcb
-- switch to thinner stencil, bigger pads (paste is good for it)
-- header-row on target has paste, it should not
-- Font/Writing in copper is unreadable on target (slighly below spec)
-- qr code is not readable, blurred, reduce size of "pixel"
 - usb-socket is impossible to hand-solder right now
-- transistor-footprint is not conform to datasheet, it is slighly bigger and just misses the pads?!?
-- u13 thermal to wide, reduce a bit to avoid shorts (u15 has same possible weaknes)
-- rework als Pin-Descriptions (already mentioned)
-- add layer for manual / pick'and'place descriptions (m15, m?)
-- round and divided (big) paste pads
-- add general power-led when shepherd is on? maybe on 6V line
-- Shepherd2 + BB powering
-    - starts 390 mA on VDD-5V line, booted: 170-240 mA
-    - note Voltages from sheet -
-    - sudden 66 mA increase on shepherd EN is no problem
-    - WD-Pins could be a problem - my current test-BB is sensitive for power-button and shuts down -> use jumper?
-    - P8-43 or 44 is sensible for input - BB does not boot when connected
-        - both are for boot-config
-- warning for harvest V_sense -> Voltage floats if not connected and will most likely show V-Max in this state
+- TEST Watchdog, make compatible with BB
+- TEST GPIO to and from target
+- TEST boot with all pins except 3v3 & 5V
 - (maybe) add PU to watchdog outputs,
-- ADC nRST should not get A5V, only 3.3, also there is no need for a resistor-switch
-- Connector for external switch was copied from old schematic, but this one had inversed pin-numbering on connector, different from datasheet
-- Testpoint on RVS-Pin of
 - proper naming for TP if there is space
-- Noise from Outside
-    - BB 5V Lines (both) show cutting 1V Spikes every 23.6 ms, around 400 us long (quickshot 73/74/80)
-    - entry-filtering is not doing much for these rails
-    - 6V has +120/-80 mV Spikes (qs77, 78)
-    - 5V and 6V are only used as intermediate voltage steps
-    - 10V  +46/-30 mV
-    - -6V +42/-30 mV
-    - A5V +36/-28
-    - 36 us, +-10mV Spikes, 500 ns long (qs82, 84)
-    - -> add a big external Cap on 5V
-    - diode-connection between the two 5V-Rails could be the problem - there are no voltage-spikes over the diode, so the current seemed to be constant
-        - without diode: Big Spikes are gone, 5V has now max -200 mV and other (qs85)
-        - -6V & 10v & A5V are cleaner, delta 30mV (qs86-88)
-    - a Cap, 1F 5V5, before the ferrites, does not improve the situation
-- Performance:
-    - 0 to 5V Target A, with 1 kOhm Load, 75 us for 80%, ~100 us for 100% (QS92 & 94)
-    - 5V to 0V T-A, ...., 75 us for 80%, 400 us for 100%?, qs93
-    - Recorder is following, with 5V in, 1k pre-resistor, the op-amp switches from 0..3V with 20us
-    -
-- protect GND better around Pinheaders
-- U25A, Inputs are switched
-- more distance to gnd-plane (soldering is hard, even with thermals
+
 - TPs should have bigger hole, so probes stick
-- 3V3 should also be switched - maybe even the 5V0 in, so the PU that hinder bootup are meaningless
-- Current PCB-Mods:
-    - P8-43/44 disconnected, messes with boot
-    - P9-9/10 possible problem
-    - 2x 1k-PU from EMU/REC EN routed to 3V3 (easy), ADCs still work
-    - 2x 1k-PU for boot, reset pins, only on shep-pcb als external jumper
-    - switched inputs of R13, Shunt of Recorder, 2 lines cut and rerouted
-    - diode over reverse-pol-mosfet
+- but make sure that shepherd-EN (p8-13) stays low during boot
+- switching main power to both targets shows, that the routes seem to have different current-readings for the same load! odd
+- oscillating opAmp should be outside of cage
+- 1k for LEDs, NO, ~ 500 Ohm is fine
+- check surroundings of mosfets, size has changed
+- OSHW Logo
+- allow install of a big cap on A5V or 5V to
+- mosfet of watchdog-wake could be tied to 3V3 with additional 1k resistor (so that button stays usable)
+    - 100k PD for wd-pin (or keep 10k)
+    - 3V3 goes low on powerdown, so watchdog can enable (pull low wake) BB again,
+    - polling has no effect during normal operation
+    - TEST if 1k is enough to pull line low to enable
 
 General rule for assembly-drawings
 - origin orientation
@@ -152,8 +67,54 @@ General rule for assembly-drawings
     - Top Overlay
 -> print in Color
 
+Done Changes after v2r1:
+- silkscreen - 10k array are 1k
+- 3d-Step: shield transparent for better view below
+- silk. "P3" designator is below component
+- pads of 0402 bigger, 1.2x1.2 as min area for pads? paste 0.8x0.8? got some tombstones on current revision
+   - half a pad distance to neighbour (keepout)
+- improve connection betwenn pads (esp. 0402)
+- feducial seems massive, shrink it?
+- SPI-CS with at least 33R to lower chance of interference
+- R for BatteryGood is wrong (handled by PRU), should it also be routed to userspace?
+- TC7WH-Footprint is to large
+- HC2G-comment (Name) is wrong / twisted
+- DAC pads could be longer, reach more under the IC
+- MP32 has no dot on package, just [ABC], lower left is pin1
+- NSR (or all diodes) could get a line on the 3d-file (current dot is confusing, because the actual package has line and dot)
+- the orange led is red! ... bad UI for general blinking
+- describe gain of OP-Amp in schematic
+- 100R, accuracy is missing in description / constraints
+- Silk for L9/L10
+- essential silk-numbers on headers can be bigger/bold, a bit more distance from header
+- rename rec to harvest, port on pcb more obvious
+- harvest dAC ch-b - drain power source OK?
+- improve marking on Voltages, maybe with an arrow
+- reverse diode of mosfet is too weak - already destroyed the reverse polarity protection
+- some popular Flag-Markers on backside for pinheader
+- Pin1 dot should be a shallow/sharp triangle, pointing in the right direction (less confusing in dense layouts)
+- transistor-footprint is not conform to datasheet, it is slighly bigger and just misses the pads?!?
+- u13 thermal to wide, reduce a bit to avoid shorts (u15 has same possible weakness)
+- rework als Pin-Descriptions (already mentioned)
+- round and divided (big) paste pads
+- add general power-led when shepherd is on? maybe on 6V line
+- switch to thinner stencil, bigger pads (paste is good for it)
+- header-row on target has paste, it should not
+- Font/Writing in copper is unreadable on target (slighly below spec)
+- add layer for manual / pick'and'place descriptions (m15, m?)
+- qr code is not readable, blurred, reduce size of "pixel"
+- warning for harvest V_sense -> Voltage floats if not connected and will most likely show V-Max in this state
+- ADC nRST should not get A5V, only 3.3, also there is no need for a resistor-switch
+- Connector for external switch was copied from old schematic, but this one had inversed pin-numbering on connector, different from datasheet
+- Testpoint on RVS-Pin of
+- protect GND better around Pinheaders
+- U25A, Inputs are switched
+- diode between both 5V-lines should be two diodes that feed the watchdog
+- 3V3 should also be switched - maybe even the 5V0 in, so the PU that hinder bootup are meaningless
+- vias came back only weak tainted (make it less severe if that happens), mainly for target pcb
+- more distance to gnd-plane (soldering is hard, even with thermals
 
-schematics Closed
+schematics v2.0r1 Closed
     - Beaglebone
     - Emulator
         - DAC
