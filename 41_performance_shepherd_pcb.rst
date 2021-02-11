@@ -1,0 +1,28 @@
+Design-Changes for HW-Rev2, mostly advantages
+    - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
+    - 2 separate fast ADCs are perfect for parallel and faster data acquisition, up to 50 MHz SPI
+    - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm
+    - old biDir Level-Translators Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
+        - TI: TXS and TXB need side A to have a higher Vin as side B because of a protection diode
+        - TI: LSF needs side B to be higher Voltage
+        - TODO: specs of new one
+    - ultra low noise LDO for all analog ICs
+    - EMI-Cage for recorder and emulator
+    - rugged external input power on shepherd module, protected for reverse polarity
+    - watchdog-timer to trigger boot and reset if bbone unresponsive or POE-Switching fails or is not allowed
+    - extra low leakage recording and emulation
+        - 500 pA for OpAmp
+        - < 40 nA for Diodes
+        - < 50 nA for Mosfet
+        - ~1 nA for analogue switches
+        - 1-5 uA for level translators (behind switches)
+    - extra low noise OpAmps, DAC and ADC
+    - high speed, low power gpio to target
+    - support for two targets
+    - Target-GPIO performance without target
+        - target voltage 3v3, triggering from user-space-pins
+        - (quickshot102/103)  < 2 us from 0 to 2V, but last 1/2 Volt can take 100 us
+        - (qs104) < 5 us for complete transition, < 2 us for first 2 V
+        - -> performance should be good for at least 500 kHz
+        - pru-pins - rising edge - first 2V ~ 1us, complete in 2-3 us
+        - pru-pins - falling edge - first 2V ~ 1us, complete in 3-4 us
