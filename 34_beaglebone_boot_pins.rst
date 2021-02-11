@@ -27,6 +27,8 @@ BOOT5   P8-42   5       HIGH    p9-26   uart-rx     14/uart1_rx HIGH
 BOOT6   P8-39   6       LOW     p9-17   swd_clk     5/i2c1_scl  HIGH    boot: dont care
 BOOT7   P8-40   7       LOW     p9-18   swd_io      4/i2c1_sda  HIGH    boot: dont care
 
+batOK   P8-27   8       LOW
+gpio4   P8-28   9       LOW
 
 Test & Improve
 - 1k input resistance is fine
@@ -51,8 +53,8 @@ Test & Improve
     - BOOT[4:7] high during boot (7.7), then low
 - booting with shepherd works with
     - P8-44/45 disconnected, OR
-    - P8-15/16 disconnected
-
+    - P8-15/16 disconnected, OR
+    - switching P8-15/16 (LOW) with P9-17/18 (HIGH) works!
 
 
 Changes to System (TODO):
@@ -60,10 +62,9 @@ Changes to System (TODO):
 - uart1 is disabled for now (to access pins in linux)
 - switch Boot[2:3] with other PRU-Pins that are high during boot
     - OR disconnect pins when disabled
+    - switch P8-15/16 (LOW) with P9-17/18 (HIGH)
 - increase resistance of pru-pins, 10k should be fine, when only input
-- bat_ok can be at the back, because it is write-only
-
-
+- bat_ok can be at the end (of PRU-Pins), because it is write-only
 
 
 HW-Tests::
