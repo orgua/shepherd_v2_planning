@@ -2,15 +2,12 @@ Design - Hardware - Shepherd-Cape
 =================================
 
 schematics Open
-    - separate PCBs for PPS-Source, Recorder, Emulator
     - prepare calibration
     - ordered not enough 15uH Coils, need 30 more
     - check remainder of BOM for emu-only assembly
     - full version has 276 parts, 42 unique, without recorder 219 / 39
         - previous design had 160 parts, 59 unique
     - shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
-    - add open source hardware logo?
-
 
 Part Changes (after Mouser-Order - NOW already ordered)
     - DAC       100nF -> 1uF
@@ -26,33 +23,22 @@ schematics Postponed
     - internal calibration? with 2 switches and 1 calibration-linear-power-supply
     - OP-Amp, bias Subtractor: LMP7701MF, not needed now
     - sync to pps -> external pcb
+    - usb-socket is impossible to hand-solder right now
+    - (maybe) add PU to watchdog outputs
+    - separate PCBs for PPS-Source, Recorder, Emulator
 
 Changes after v2r1:
 - only 5 diodes of type PMEG in order?
-- same orientation for transistors
-- change 100 uF to 47? one less component
+- change 100 uF to 47u? one less component
 - Testpad should be square for GND, half-circle for Signal or similar
 - r3 (dac, emu)
-- usb-socket is impossible to hand-solder right now
-- TEST Watchdog, make compatible with BB
-- TEST GPIO to and from target
-- TEST boot with all pins except 3v3 & 5V
-- (maybe) add PU to watchdog outputs,
 - proper naming for TP if there is space
 
 - TPs should have bigger hole, so probes stick
-- but make sure that shepherd-EN (p8-13) stays low during boot
-- switching main power to both targets shows, that the routes seem to have different current-readings for the same load! odd
 - oscillating opAmp should be outside of cage
-- 1k for LEDs, NO, ~ 500 Ohm is fine
-- check surroundings of mosfets, size has changed
-- OSHW Logo
-- allow install of a big cap on A5V or 5V to
-- mosfet of watchdog-wake could be tied to 3V3 with additional 1k resistor (so that button stays usable)
-    - 100k PD for wd-pin (or keep 10k)
-    - 3V3 goes low on powerdown, so watchdog can enable (pull low wake) BB again,
-    - polling has no effect during normal operation
-    - TEST if 1k is enough to pull line low to enable
+- add open source hardware logo?
+- allow install of a big cap on A5V or 5V, 5v5 1F is cheap
+
 
 General rule for assembly-drawings
 - origin orientation
@@ -113,6 +99,21 @@ Done Changes after v2r1:
 - 3V3 should also be switched - maybe even the 5V0 in, so the PU that hinder bootup are meaningless
 - vias came back only weak tainted (make it less severe if that happens), mainly for target pcb
 - more distance to gnd-plane (soldering is hard, even with thermals
+- TEST Watchdog, make compatible with BB
+- TEST GPIO to and from target
+- same orientation for transistors
+- switch p8-27 and 29 (batOK / GPIO4) for cleaner readout
+- switch p8-43/44 with p8-39/40 for proper boot
+- TEST boot with all pins except 3v3 & 5V
+- but make sure that shepherd-EN (p8-13) stays low during boot
+- switching main power to both targets shows, that the routes seem to have different current-readings for the same load! odd
+- 1k for LEDs
+- check surroundings of mosfets, size has changed
+- mosfet of watchdog-wake could be tied to 3V3 with additional 1k resistor or diode (so that button stays usable)
+    - 100k PD for wd-pin (or keep 10k)
+    - 3V3 goes low on powerdown, so watchdog can enable (pull low wake) BB again,
+    - polling has no effect during normal operation
+    - TEST if 1k is enough to pull line low to enable -> it is
 
 schematics v2.0r1 Closed
     - Beaglebone
