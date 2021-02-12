@@ -5,8 +5,6 @@ schematics Open
     - prepare calibration
     - ordered not enough 15uH Coils, need 30 more
     - check remainder of BOM for emu-only assembly
-    - full version has 276 parts, 42 unique, without recorder 219 / 39
-        - previous design had 160 parts, 59 unique
     - shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
 
 Part Changes (after Mouser-Order - NOW already ordered)
@@ -36,9 +34,10 @@ Changes after v2r1:
 
 - TPs should have bigger hole, so probes stick
 - oscillating opAmp should be outside of cage
-- add open source hardware logo?
 - allow install of a big cap on A5V or 5V, 5v5 1F is cheap
+- add longer pinheader for p8/p9 23-46
 
+- add open source hardware logo?
 
 General rule for assembly-drawings
 - origin orientation
