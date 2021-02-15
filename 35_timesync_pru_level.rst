@@ -2,21 +2,21 @@ Timesync
 ========
 
 Problem
-- ptp4l runs, but two sheeps don't seem to be in sync when comparing ADC-CS-Trigger-Edges
-- spoiler: it was a slow switch and untuned ptp
+    - ptp4l runs, but two sheeps don't seem to be in sync when comparing ADC-CS-Trigger-Edges
+    - spoiler: it was a slow switch and untuned ptp
 
 Setup
-- two beaglebones are connected via ethernet to same switch
-    - one beaglebone is default dev-environment, the other is freshly installed
-    - both have shepherd-code from https://github.com/orgua/shepherd installed
-    - both beaglebones were restarted more than once and had plenty of time to sync
-- switch
-    - fritzbox, up to date and even restarted
-    - later an additional Cisco Catalyst 2960-S was added to same network
+    - two beaglebones are connected via ethernet to same switch
+        - one beaglebone is default dev-environment, the other is freshly installed
+        - both have shepherd-code from https://github.com/orgua/shepherd installed
+        - both beaglebones were restarted more than once and had plenty of time to sync
+    - switch
+        - fritzbox, up to date and even restarted
+        - later an additional Cisco Catalyst 2960-S was added to same network
 
 Mechanism
-- two services (ptp4l, phc2sys) are keeping time between Beaglebones, with hardwaretimestamping
-- shepherd-kernel-module and pru-code are syncing the low level hardware-timer that triggers the sampling
+    - two services (ptp4l, phc2sys) are keeping time between Beaglebones, with hardwaretimestamping
+    - shepherd-kernel-module and pru-code are syncing the low level hardware-timer that triggers the sampling
 
 Running services::
 
@@ -101,15 +101,15 @@ Good Network Switch (Cisco Catalyst 2960-S in same network)::
 
 
 Signs of a bad network switch
-- path delay on fritzbox was 10x as high as the cisco-switch and the values show variance of 126 to 118 us
-- master-offset is jumping, logs even show 70 us offsets
-    - the cisco switch is after 30 mins down to <200 ns corrections
+    - path delay on fritzbox was 10x as high as the cisco-switch and the values show variance of 126 to 118 us
+    - master-offset is jumping, logs even show 70 us offsets
+        - the cisco switch is after 30 mins down to <200 ns corrections
 
 On PRU Level
-- sync in kernel-module and pru-code works and keeps correcting
-- oszi shows that client is mostly behind (mean is ~ 500ns, max seems to be 1 us)
-    - quickshot 105-108
-- capture from logic analyzer could be visualized
+    - sync in kernel-module and pru-code works and keeps correcting
+    - oszi shows that client is mostly behind (mean is ~ 500ns, max seems to be 1 us)
+        - quickshot 105-108
+    - capture from logic analyzer could be visualized
 
 TODO
-- tune ptp-parameters
+    - tune ptp-parameters
