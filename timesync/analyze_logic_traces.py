@@ -7,18 +7,19 @@ import matplotlib.pyplot as plt
 # 7.642110550000000, 1, 0
 
 files = [
-    "timesync2BB_n20_12_pru_opt.csv",
-    #"timesync2BB_n20_11_pru_opt.csv",
-    #"timesync2BB_n20_10_pru_opt.csv",
-    #"timesync2BB_n20_08_pru_opt.csv",
-    #"timesync2BB_n20_07_kernel_opt.csv",
-    #"timesync2BB_n20_06_kernel_opt.csv",
-    #"timesync2BB_n20_05_pru_opt.csv",
-    #"timesync2BB_n20_crystal_2h.csv",
-    #"timesync2BB_n20_4h.csv",
-    #"timesync2BB_n20_30min.csv",
-    "timesync2BB_n10_30min.csv",
+    "sync_2BB_12_pru_opt.csv",
+    #"sync_2BB_11_pru_opt.csv",
+    #"sync_2BB_10_pru_opt.csv",
+    #"sync_2BB_08_pru_opt.csv",
+    "sync_2BB_07_kernel_opt.csv",
+    #"sync_2BB_06_kernel_opt.csv",
+    "sync_2BB_05_pru_opt.csv",
+    "sync_2BB_04_crystal_2h.csv",
+    #"sync_2BB_03_n20_4h.csv",
+    "sync_2BB_02_n20_30min.csv",
+    "sync_2BB_01_n10_30min.csv",
 ]
+files_short = [file.split(".")[0][9:] for file in files]  # reduces to "04_crystal_2h"
 
 sample_frequency = 100e6
 data_list = list([])
@@ -48,6 +49,7 @@ for file in files:
     # - first calc the derivative (current value - previous value)
     # - second filter for "-1" and keep only these
     # - now subtract the timestamps
+    file = file.split(".")[0]
     dtime = data["Time[s]"].iloc[1:]
     ch0 = data.loc[:, "Channel 0"]
     ch0d = pd.Series(ch0.values[1:] - ch0.values[:-1], index=ch0.index[1:])
@@ -77,9 +79,9 @@ for file in files:
     plot_graph(ch1t.values[:22000], ch1td.values[:22000], file + "_trigger_period_ch1.png", (30,8))
     data_list.append(time_delta)
 
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(20, 8))
 df = pd.concat(data_list, axis=1)
-df.columns = files
-df.plot.box()
+df.columns = files_short
+df.plot.box(figsize=(20, 8))
 plt.savefig("statistic_boxplot.png")
 plt.close()
