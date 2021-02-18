@@ -7,15 +7,19 @@ import matplotlib.pyplot as plt
 # 7.642110550000000, 1, 0
 
 files = [
+    "sync_2BB_16_tuning.csv",
+    "sync_2BB_15_sawtooth_fix.csv",
+    "sync_2BB_14_delay_p350.csv",
+    #"sync_2BB_13_trigger_opt.csv",
     "sync_2BB_12_pru_opt.csv",
-    #"sync_2BB_11_pru_opt.csv",
-    #"sync_2BB_10_pru_opt.csv",
-    #"sync_2BB_08_pru_opt.csv",
+    ##"sync_2BB_11_pru_opt.csv",
+    ##"sync_2BB_10_pru_opt.csv",
+    ##"sync_2BB_08_pru_opt.csv",
     "sync_2BB_07_kernel_opt.csv",
-    #"sync_2BB_06_kernel_opt.csv",
+    ##"sync_2BB_06_kernel_opt.csv",
     "sync_2BB_05_pru_opt.csv",
     "sync_2BB_04_crystal_2h.csv",
-    #"sync_2BB_03_n20_4h.csv",
+    ##"sync_2BB_03_n20_4h.csv",
     "sync_2BB_02_n20_30min.csv",
     "sync_2BB_01_n10_30min.csv",
 ]
@@ -37,7 +41,8 @@ def series_statistics(data: pd.Series, name: str):
 
 def plot_graph(x:list, y: list, filename: str, size:tuple = (18, 8)):
     plt.figure(figsize=size)
-    plt.plot(x, y)
+    len_min = min(len(x), len(y))
+    plt.plot(x[:len_min], y[:len_min])
     plt.savefig(filename)
     plt.close()
 
@@ -49,6 +54,7 @@ for file in files:
     # - first calc the derivative (current value - previous value)
     # - second filter for "-1" and keep only these
     # - now subtract the timestamps
+    # data = data[data["Time[s]"] > 1]
     file = file.split(".")[0]
     dtime = data["Time[s]"].iloc[1:]
     ch0 = data.loc[:, "Channel 0"]
