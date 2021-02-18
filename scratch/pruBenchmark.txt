@@ -44,6 +44,8 @@ Benchmark, code after gpio-read
 ->	2.5 to 5.5 MHz / 180 ns on normal Operation (with Pin-DBG on, without 170 ns / 5.9 MHz)
 Event1 takes about 200 ns, 10 Hz apart
 - seems to be down to 120 after cleanup / sync code moved to kernel
+- 160 ns after also sending sync_request right away
+    - currently scheduled 105 us before timer-wrap, kernel answers 15 us after :)
 Event2 takes about 250 ns, 30 us after Event1
 - 360 ns after sync code moved to kernel, some more variables to write
 Event3(expensive part):
@@ -53,7 +55,7 @@ Event3(expensive part):
 - 40 ns for check ctrl reply (rpms-replacement)
 - 1140 ns for for complete part (control reply arrived) (rpmsg-replacement)
 Event3 NEW - complete routine (with setting cmp-timer)
-- 100 - 140 ns -> for setting timer and checking inbox
+- 140 ns -> for setting timer and checking inbox
 - 460 ns -> incl receiving a msg -> expensive code is now in kernel
 SysGpio
 - 220 ns for check and compare, 

@@ -150,4 +150,6 @@ TODO:
     - try to check SERVO_LOCKED_STABLE, clock enters this state when timing is considered ok
         - config: servo_offset_threshold, servo_num_offset_values
     - a higher filter length, shows very slow asymptotic behaviour, but clock seems more stable -> try higher pi_integral_value
-
+    - try "delayAsymmetry": The time difference in nanoseconds of the transmit and receive paths. This value should be positive when the master-to-slave propagation time is longer and negative when the slave-to-master time is longer. The default is 0 nanoseconds.
+        - client lacks behind ~400, try correcting it with +200 (half)
+        - seems to be improving, maybe a bit to much. will set to 100 for now

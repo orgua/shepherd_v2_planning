@@ -125,11 +125,18 @@ PRU-Code
     - a method was added that distributes the correction steps equally over remaining sample-triggers
     - sampling was strictly aligned to 0
     - old intc-code was disabled / removed
+    - latest improvements made sync_state useless -> intc-routine just sends out timer-count right away
+        - no need to wait for timer wrap before sending out msg
+    - the previous compensation attempts all produced a sawtooth -> fixed
+
 
 Kernel-Module
     - bit-shift with int found (seemed to be harmless, because correction is mostly positive)
     - expensive PRU-Sync-Code ported to Kernel (frees pru1 a lot)
     - slowed down PI-Controller, +-20 ticks jitter, there is now only +-3
+    - sync-routine aimed intc for time_comparing right on timer_wrap (50% chance that pru takes a worthless counter-reading after wrap)
+        - now 100 us before, enough time get proper counter-value
+    -
 
 Debug Output Kernel Module::
 
@@ -146,7 +153,19 @@ Debug Output Kernel Module::
     [112523.406718] shprd_kM: buf_period=20001329, as_period=2000, comp_n=1329, comp_d=7, corr=1329, last_peri=20001329
     [112543.508054] shprd_kM: buf_period=20001329, as_period=2000, comp_n=1329, comp_d=7, corr=1329, last_peri=20001329
 
+Current result / improvements::
+
+    FILE: sync_2BB_16_tuning
+            [  min    <|  q05%  ||  mean   ||  q95%  |>  max  ]
+    dt_ns 	[ -470.0  <| -240.0 || 23.7127 || 290.0  |> 520.0 ]
+    Ch0_us 	[ 9.74    <| 9.86   || 10.0004 || 10.18  |> 10.3  ]
+    Ch1_us 	[ 9.74    <| 9.79   || 10.0004 || 10.11  |> 10.32 ]
+
+        FILE: sync_2BB_01_n10_30min
+            [  min    <|  q05%  ||  mean   ||  q95%  |>  max   ]
+    dt_ns 	[ -590.0  <| -30.0  || 394.754 || 790.0  |> 1320.0 ]
+    Ch0_us 	[ 9.5     <| 9.86   || 10.0004 || 10.12  |> 10.55  ]
+    Ch1_us 	[ 9.46    <| 9.8    || 10.0004 || 10.19  |> 10.57  ]
 
 TODO
-    - ptp-client is consistently lacking behind -> hints to a unsymmetric path-delay on network level
-    - n
+    - PI controller or ptp are oscillating with 0.2 Hz -> could be improved for reulting ~ +-200ns-jitter (now +-500)
