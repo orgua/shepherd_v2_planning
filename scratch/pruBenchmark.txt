@@ -27,9 +27,10 @@ PRU0	PRU1	Changes
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
-	legacy	 -> 1.5 .. 2.9 MHz, on 60/80ns
+	legacy	 -> 1.5 .. 2.9 MHz, on 60/80ns, lowest freq. estimated ~ 160 kHz
 	new code -> 2.4 .. 5.5 MHz, on 40/60ns (general speed improvements)
 	newer code -> relatively stable 4.03 MHz (uncorrected meas via gpio-trigger), min: 602 kHz, max: 4.55 MHz (rpmsg-replacement)
+    afterSynckernel-Update -> min-frequency should now be a bit over 1 MHz
 Benchmark, same premise, for GPIO with normal routine / forced writing
 	~1490 ns / ~360 ns	(base) new code, sometimes 620 ns for normal routine
 	~720 ns / ~100 ns	reduce reads to far-ram to one 
@@ -42,13 +43,18 @@ Benchmark, code after gpio-read
 	5500 ns ?? buffer exchange?
 ->	2.5 to 5.5 MHz / 180 ns on normal Operation (with Pin-DBG on, without 170 ns / 5.9 MHz)
 Event1 takes about 200 ns, 10 Hz apart
+- seems to be down to 120 after cleanup / sync code moved to kernel
 Event2 takes about 250 ns, 30 us after Event1
+- 360 ns after sync code moved to kernel, some more variables to write
 Event3(expensive part):
 - 540 ns for check control reply, ~ 16us after Event2, repeated with 100 kHz, finished after <=306 us after E2
 - 4550 ns for complete part (control reply arrived)
 - 5200 ns for unoptimized complete part, 3.7 us alone for check_control_reply
 - 40 ns for check ctrl reply (rpms-replacement)
 - 1140 ns for for complete part (control reply arrived) (rpmsg-replacement)
+Event3 NEW - complete routine (with setting cmp-timer)
+- 100 - 140 ns -> for setting timer and checking inbox
+- 460 ns -> incl receiving a msg -> expensive code is now in kernel
 SysGpio
 - 220 ns for check and compare, 
 
