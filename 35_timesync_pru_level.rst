@@ -46,7 +46,7 @@ Get log-data from sync::
 
 Sync-Log from the Fritzbox::
 
-    sudo journalctl -u ptp4l
+    sudo journalctl -f -u ptp4l
 
     Feb 15 20:04:04 sheep1 ptp4l[383]: [24.634] master offset     -10931 s2 freq  +16451 path delay    154478
     Feb 15 20:04:05 sheep1 ptp4l[383]: [25.634] master offset      47850 s2 freq  +71953 path delay    126215
@@ -77,7 +77,7 @@ Sync-Log from the Fritzbox::
 
 Good Network Switch (Cisco Catalyst 2960-S in same network)::
 
-    sudo journalctl -u ptp4l
+    sudo journalctl -f -u ptp4l
 
     Feb 15 20:52:42 sheep1 ptp4l[383]: [2942.858] master offset        173 s2 freq  +57987 path delay     12467
     Feb 15 20:52:43 sheep1 ptp4l[383]: [2943.859] master offset        -82 s2 freq  +57784 path delay     12467
@@ -102,6 +102,7 @@ Good Network Switch (Cisco Catalyst 2960-S in same network)::
 
 Signs of a bad network switch
     - path delay on fritzbox was 10x as high as the cisco-switch and the values show variance of 126 to 118 us
+        - the cisco switch is very consistent in its path delay, down to 30 ns jitter
     - master-offset is jumping, logs even show 70 us offsets
         - the cisco switch is after 30 mins down to <200 ns corrections
 
@@ -109,7 +110,43 @@ On PRU Level
     - sync in kernel-module and pru-code works and keeps correcting
     - oszi shows that client is mostly behind (mean is ~ 500ns, max seems to be 1 us)
         - quickshot 105-108
-    - capture from logic analyzer could be visualized
+    - visuals of logic analyzer traces are in ./timesync-folder::
+
+    FILE: timesync2BB_n20_12_pru_opt.csv
+            [  min  <|  q05%  ||  mean  ||  q95%  |>  max  ]
+    dt_ns 	[ -100.0 <| 160.0 || 481.8494 || 820.0 |> 1060.0 ]
+            [  min  <|  q05%  ||  mean  ||  q95%  |>  max  ]
+    Ch0_us 	[ 9.74 <| 9.84 || 10.0004 || 10.16 |> 10.28 ]
+            [  min  <|  q05%  ||  mean  ||  q95%  |>  max  ]
+    Ch1_us 	[ 9.72 <| 9.78 || 10.0004 || 10.1 |> 10.26 ]
+
+
+PRU-Code
+    - a method was added that distributes the correction steps equally over remaining sample-triggers
+    - sampling was strictly aligned to 0
+    - old intc-code was disabled / removed
+
+Kernel-Module
+    - bit-shift with int found (seemed to be harmless, because correction is mostly positive)
+    - expensive PRU-Sync-Code ported to Kernel (frees pru1 a lot)
+    - slowed down PI-Controller, +-20 ticks jitter, there is now only +-3
+
+Debug Output Kernel Module::
+
+    [94227.285824] shprd: KMod - error=-175, ns_iep=-5089, ns_sys=-4914, errsum=170244, old_period=20001327, corr=1325
+    [94227.385838] shprd: KMod - error=-43, ns_iep=3039, ns_sys=3082, errsum=170201, old_period=20001325, corr=1328
+    [94227.485838] shprd: KMod - error=211, ns_iep=-4459, ns_sys=-4670, errsum=170412, old_period=20001328, corr=1337
+    [94227.585834] shprd: KMod - error=22, ns_iep=3349, ns_sys=3327, errsum=170434, old_period=20001337, corr=1331
+    [94227.685835] shprd: KMod - error=105, ns_iep=-1779, ns_sys=-1884, errsum=170539, old_period=20001331, corr=1335
+    [94227.785849] shprd: KMod - error=-115, ns_iep=6789, ns_sys=6904, errsum=170424, old_period=20001335, corr=1328
+
+    [112463.102718] shprd_kM: buf_period=20001331, as_period=2000, comp_n=1331, comp_d=7, corr=1331, last_peri=20001331
+    [112483.204054] shprd_kM: buf_period=20001331, as_period=2000, comp_n=1331, comp_d=7, corr=1331, last_peri=20001331
+    [112503.305380] shprd_kM: buf_period=20001332, as_period=2000, comp_n=1332, comp_d=7, corr=1332, last_peri=20001334
+    [112523.406718] shprd_kM: buf_period=20001329, as_period=2000, comp_n=1329, comp_d=7, corr=1329, last_peri=20001329
+    [112543.508054] shprd_kM: buf_period=20001329, as_period=2000, comp_n=1329, comp_d=7, corr=1329, last_peri=20001329
+
 
 TODO
-    - tune ptp-parameters
+    - ptp-client is consistently lacking behind -> hints to a unsymmetric path-delay on network level
+    - n
