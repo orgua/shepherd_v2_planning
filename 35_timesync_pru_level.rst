@@ -112,13 +112,11 @@ On PRU Level
         - quickshot 105-108
     - visuals of logic analyzer traces are in ./timesync-folder::
 
-    FILE: timesync2BB_n20_12_pru_opt.csv
-            [  min  <|  q05%  ||  mean  ||  q95%  |>  max  ]
-    dt_ns 	[ -100.0 <| 160.0 || 481.8494 || 820.0 |> 1060.0 ]
-            [  min  <|  q05%  ||  mean  ||  q95%  |>  max  ]
-    Ch0_us 	[ 9.74 <| 9.84 || 10.0004 || 10.16 |> 10.28 ]
-            [  min  <|  q05%  ||  mean  ||  q95%  |>  max  ]
-    Ch1_us 	[ 9.72 <| 9.78 || 10.0004 || 10.1 |> 10.26 ]
+    FILE: sync_2BB_13_trigger_opt
+            [  min <|  q05% ||  mean   ||  q95% |>  max  ]
+    dt_ns 	[ -540 <| -100  || 356.83  || 760   |> 1120  ]
+    Ch0_ns 	[ 9740 <| 9840  || 10000.4 || 10180 |> 10300 ]
+    Ch1_ns 	[ 9740 <| 9780  || 10000.4 || 10100 |> 10340 ]
 
 
 PRU-Code
@@ -155,17 +153,30 @@ Debug Output Kernel Module::
 
 Current result / improvements::
 
-    FILE: sync_2BB_16_tuning
-            [  min    <|  q05%  ||  mean   ||  q95%  |>  max  ]
-    dt_ns 	[ -470.0  <| -240.0 || 23.7127 || 290.0  |> 520.0 ]
-    Ch0_us 	[ 9.74    <| 9.86   || 10.0004 || 10.18  |> 10.3  ]
-    Ch1_us 	[ 9.74    <| 9.79   || 10.0004 || 10.11  |> 10.32 ]
+    FILE: sync_2BB_18b_new_trigger
+            [  min <|  q05% ||  mean   ||  q95% |>  max ]
+    dt_ns 	[ -280 <| -110  || 45.39   || 230   |> 320   ]
+    Ch0_ns 	[ 9910 <| 9960  || 10000.4 || 10060 |> 10090 ]
+    Ch1_ns 	[ 9910 <| 9960  || 10000.4 || 10060 |> 10090 ]
+    -> trigger min/max-jitter is smaller then previous 5% quantiles
 
-        FILE: sync_2BB_01_n10_30min
-            [  min    <|  q05%  ||  mean   ||  q95%  |>  max   ]
-    dt_ns 	[ -590.0  <| -30.0  || 394.754 || 790.0  |> 1320.0 ]
-    Ch0_us 	[ 9.5     <| 9.86   || 10.0004 || 10.12  |> 10.55  ]
-    Ch1_us 	[ 9.46    <| 9.8    || 10.0004 || 10.19  |> 10.57  ]
+    FILE: sync_2BB_15_sawtooth_fix
+            [  min <|  q05% ||  mean    ||  q95% |>  max  ]
+    dt_ns 	[ -550 <| -370  || -89.1    || 190   |> 420   ]
+    Ch0_ns 	[ 9740 <| 9860  || 10000.41 || 10180 |> 10310 ]
+    Ch1_ns 	[ 9740 <| 9790  || 10000.41 || 10110 |> 10310 ]
+    -> greatly improvement static offset and min/max outliers
+
+    FILE: sync_2BB_01_n10_30min
+            [  min <|  q05% ||  mean    ||  q95% |>  max  ]
+    dt_ns 	[ -590 <| -30   || 394.75   || 790   |> 1320  ]
+    Ch0_ns 	[ 9500 <| 9860  || 10000.43 || 10120 |> 10550 ]
+    Ch1_ns 	[ 9460 <| 9800  || 10000.43 || 10190 |> 10570 ]
+    -> already improved in comparison to untouched shepherd-v1 code
+
+.. image:: timesync_media/improvement_sync_statistics_boxplot.png
+.. image:: timesync_media/improvement_trigger_statistics_boxplot.png
 
 TODO
     - PI controller or ptp are oscillating with 0.2 Hz -> could be improved for reulting ~ +-200ns-jitter (now +-500)
+    - measure between two or more clients

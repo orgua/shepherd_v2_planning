@@ -5,6 +5,7 @@ Problem
     - ptp seems to sync too fast - the client is oscillating around 500 ns offset with +- 500 ns jitter
     - ptp seems to loose sync from time to time
         - logs show a big jump in frequency and the node needs some minutes to recover
+    - setup - like in last doc "timesync_pru_level"
 
 Log of Loosing Sync::
 
@@ -146,10 +147,32 @@ Clock-Crystal on BB
             - CL = C_12/2 + C_Pin + C_pcb = 18/2 + 1 + 4 = 14 pF -> next best match is the 12.5 pF Version
     - replaced client, master kept running, resync only took 80s and it was on a level that is similar to the previous 4h period
 
+Tuning Config with DelayAsymmetry for ptp4l
+    - try "delayAsymmetry": The time difference in nanoseconds of the transmit and receive paths. This value should be positive when the master-to-slave propagation time is longer and negative when the slave-to-master time is longer. The default is 0 nanoseconds.
+    - only relevant if ptp-master is also measuring
+    - client lacks behind ~400 ns, try correcting it with +200 (half of value)
+    - seems to be improving, maybe a bit to much. will set to 100 for now
+
+Tuning Config with delay_filter_length for ptp4l
+    - a higher filter length, shows very slow asymptotic behaviour, but clock seems more stable -> try higher pi_integral_value
+    - change from 10 to 20 had huge success
+    - change to 30 and restart of both nodes brought a very slow startup. 1800 s (30min) for sub 1 us (CS-edges)
+        - could be improved by raising limit for clock-skew
+        - -> ptp4l-log does not show any improvements
+
+Switch Comparison
+    - current tests: 2012 Cisco Catalyst 2960-S / WS-C2960S-24PS-L
+        - ~ 11 us path delay (ptp4l)
+    - testbed: Cisco Catalyst 2960-X / WS-C2960X-48FPD-L
+        - 48 Ports, 1 GBE, 2x 10 GBit SFP+
+        - 740 W PoE+
+        - remote: SNMP 1, RMON 1, RMON 2, RMON 3, RMON 9, Telnet, SNMP 3, SNMP 2c, HTTP, TFTP, SSH, CLI
+        - 2500 €
+        - -X version seems to be the newer Model (compared to -S) with layer 3 routing and >doubled spec
+            - https://ipwithease.com/cisco-2960-x-vs-2960-s/
+    - -> no ptp-capable switches found (grandmaster clock, boundary clock)
+
 TODO:
     - try to check SERVO_LOCKED_STABLE, clock enters this state when timing is considered ok
         - config: servo_offset_threshold, servo_num_offset_values
-    - a higher filter length, shows very slow asymptotic behaviour, but clock seems more stable -> try higher pi_integral_value
-    - try "delayAsymmetry": The time difference in nanoseconds of the transmit and receive paths. This value should be positive when the master-to-slave propagation time is longer and negative when the slave-to-master time is longer. The default is 0 nanoseconds.
-        - client lacks behind ~400, try correcting it with +200 (half)
-        - seems to be improving, maybe a bit to much. will set to 100 for now
+    - there seem to be ptp-options in the switch
