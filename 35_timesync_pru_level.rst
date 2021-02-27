@@ -174,6 +174,7 @@ Current result / improvements::
     Ch1_ns 	[ 9460 <| 9800  || 10000.43 || 10190 |> 10570 ]
     -> already improved in comparison to untouched shepherd-v1 code
 
+
 .. image:: timesync_media/improvement_sync_statistics_boxplot.png
 .. image:: timesync_media/improvement_trigger_statistics_boxplot.png
 
