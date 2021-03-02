@@ -69,11 +69,33 @@ Single Supply Calculation (Maxima)::
     R2 = R3 * R1 * VRefA / ((R3 + R1)*(VB - VRefA) - VFet * R1);
     solve(R2, VRefA);
 
-    VRefA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 * R2*R3);
+    VRefA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 + R2*R3);
     VRefA = 0.89 V for TI, 0.85 V for Nexperia
 
 
 .. image:: media/leveltranslator_schematic_fixed.png
+
+Single Supply Verification
+- schematic above was recreated
+- Ref A settles at 1.079 V, Ref B at 1.673 V -> fet-diode seems to drop ~ 600 mV
+- as soon as one side is above ~ 1.2 V (only tested 0.1 V steps), the other voltage is controlled by PU on that side
+- Source-Meter on B-Side shows about 1 MOhm for High Signal (with PU of same voltage) down to ~ 1.2 V (< 0.4 uA)
+- below 1.2 V the source meter controlles the voltage on both channels (Pulldown)
+    - from -8.3 uA at 1.1 V the sink-current grows to -45 uA at 0.0V (almost linear)
+    - Side-A PU is 100k to 3.3 V  and Side-B PU is 100k to 1.3 V, results in
+        - 33 + 13 uA to GND -> matches closely with source-meter reading
+        - 22 + 2 uA to 1.1 V -> seems to flow into largely in B-Side-PU, because SM-Reading is lower
+- without PU on B-Side the source meter supplied the following currents into B-Side
+    - 1.5 uA @ 1.2 V (800 kOhm)
+    - 5.3 uA @ 1.5 V (283 kOhm)
+    - 9.2 uA @ 2.0 V (217 kOhm)
+    - 13 uA @ 2.5 V (192 kOhm)
+    - 17 uA @ 3.0 V (176 kOhm)
+    - 21 uA @ 3.5 V (167 kOhm)
+    - 25 uA @ 4.0 V (160 kOhm)
+    - 29 uA @ 4.5 V (155 kOhm)
+    - 32 uA @ 5.0 V (156 kOhm)
+
 
 Inner Workings
 --------------
