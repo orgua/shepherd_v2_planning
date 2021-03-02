@@ -15,7 +15,6 @@ Setup
 - Side A has constant supply voltage of 3.3 V
 - side B supply is dynamic, 0 to 5 V, but voltages below 1 V are not expected to be covered by the translator
 
-
 .. image:: media/leveltranslator_schematic.png
 
 Nexperia LSF0108
@@ -27,13 +26,15 @@ Nexperia LSF0108
 
 Measurements
 ------------
-- V_RefA = 3v3, V_RefB = 4v5
+- Low to high
+    - V_RefA = 3v3, V_RefB = 4v5
     - both sides highZ, only PUs working -> V_A and V_B settle at 1.2 V -> UNEXPECTED, should be VRef
     - Side A tied to GND -> V_B = 0 V
     - Side A tied to 3v3 -> V_B = 3v3 -> UNEXPECTED, V_B is capped at 3v3
     - Side B tied to GND -> V_A = 0
     - Side B tied to 4V5 -> V_A = 3 V
-- V_RefA = 3v3, V_RefB = 2v0
+- High to Low
+    - V_RefA = 3v3, V_RefB = 2v0
     - both sides highZ, only PUs working -> V_A and V_B settle at 0.9 V -> UNEXPECTED, should be VRef
     - Side A tied to GND -> V_B = 0 V
     - Side A tied to 2v0 -> V_B = 1v9 -> UNEXPECTED, but ok
@@ -44,19 +45,21 @@ Measurements
 Fixing the LSF
 --------------
 - most answers are implied by: https://training.ti.com/multi-voltage-translation-lsf-family
-- proper Bias Voltage -> V_B (B for Bias?) needs 200 kOhm PU and V_B > V_A + 0.8 (TI-Rules don't hurt)
+- Bias Voltage
+    - V_B (B for Bias?) needs 200 kOhm PU and V_B > V_A + 0.8 (TI-Rules don't hurt)
     - current will flow from B to A, limited by the 200 kOhm
     - voltage between RefA-to-B will be threshold voltage of FETs (V_B = V_Bias = V_A + V_thres)
     - video 8 in the series even shows a single VB supply schematic with a voltage divider on A-Side -> see below
 - V_A should be lowest voltage in System, so V_A gets 1V from an additional supply
-- PUs are possible on neither, one, both sides
+- PUs
+    - PUs are possible on neither, one, both sides
     - not needed on sides that only drive (push pull)
     - not needed on receiving low side with input leakage lower 1 uA
     - needed when level is not on corresponding level V_A or driver is only open drain
 - both Ref-Voltages are independent from real voltages used on each side
 - PUs on target side should not be driven by current-sensed line
 
-Single Supply Calculation (Maxima)::
+**Single Supply Calculation (Maxima)**::
 
     # available parts, R1/R2 are part of a voltage divider on RefA-Side, R1 is the high side, R3 is current limiter of RefB:
     R1: 1e6;
@@ -76,16 +79,19 @@ Single Supply Calculation (Maxima)::
 .. image:: media/leveltranslator_schematic_fixed.png
 
 Single Supply Verification
+--------------------------
 - schematic above was recreated
 - Ref A settles at 1.079 V, Ref B at 1.673 V -> fet-diode seems to drop ~ 600 mV
 - as soon as one side is above ~ 1.2 V (only tested 0.1 V steps), the other voltage is controlled by PU on that side
 - Source-Meter on B-Side shows about 1 MOhm for High Signal (with PU of same voltage) down to ~ 1.2 V (< 0.4 uA)
-- below 1.2 V the source meter controlles the voltage on both channels (Pulldown)
+- below threshold voltage
+    - below 1.2 V the source meter controls the voltage on both channels (Pulldown)
     - from -8.3 uA at 1.1 V the sink-current grows to -45 uA at 0.0V (almost linear)
     - Side-A PU is 100k to 3.3 V  and Side-B PU is 100k to 1.3 V, results in
         - 33 + 13 uA to GND -> matches closely with source-meter reading
         - 22 + 2 uA to 1.1 V -> seems to flow into largely in B-Side-PU, because SM-Reading is lower
-- without PU on B-Side the source meter supplied the following currents into B-Side
+- without B-Side-PU
+    - on B-Side the source meter supplied the following currents into B-Side
     - 1.5 uA @ 1.2 V (800 kOhm)
     - 5.3 uA @ 1.5 V (283 kOhm)
     - 9.2 uA @ 2.0 V (217 kOhm)
