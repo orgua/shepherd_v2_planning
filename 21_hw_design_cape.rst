@@ -6,6 +6,7 @@ schematics Open
     - ordered not enough 15uH Coils, need 30 more
     - check remainder of BOM for emu-only assembly
     - shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
+    - explain schematics,
 
 Part Changes (after Mouser-Order - NOW already ordered)
     - DAC       100nF -> 1uF
@@ -37,7 +38,26 @@ Changes after v2r1:
 - allow install of a big cap on A5V or 5V, 5v5 1F is cheap
 - add longer pinheader for p8/p9 23-46
 
-- add open source hardware logo?
+Changes after v2r2:
+- level translators get single voltage supply
+    - additional 240k, 1M
+- Target-IO-PUs get powered by unmonitored voltage buffer
+    - additional NLAS4684
+- make sure shepherd works (theoretically) with BB Black (not only Green)
+- add 3v3 converter (linear), because BB provides very noisy power (both 5V & 3V)
+    - power budget says:
+- consider ultra low noise ldo for -6 and 10V
+- allow to run completely from external power
+- recheck which IC gets which voltage (5V Sys is exceptional noisy)
+- 6V Regulator overdrive is edgy, sw-pin is good for +8V, currently there are ~ 7.14 V
+- additional PCB for POE
+    - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
+    - ferrite for input
+    - switching regulator for 12/9 to 6V
+    - linear regulator with proper noise resistance for 6 to 5V
+
+
+
 
 General rule for assembly-drawings
 - origin orientation
@@ -113,6 +133,7 @@ Done Changes after v2r1:
     - 3V3 goes low on powerdown, so watchdog can enable (pull low wake) BB again,
     - polling has no effect during normal operation
     - TEST if 1k is enough to pull line low to enable -> it is
+- add open source hardware logo?
 
 schematics v2.0r1 Closed
     - Beaglebone
