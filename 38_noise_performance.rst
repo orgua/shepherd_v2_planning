@@ -16,9 +16,9 @@ Setup
 - 50 cm radius free of additional metal
 - Power-Supplies
     - setup1: 5V to BB via benchsupply with 1mF on input
-    - setup2: as setup 1, but shepherd 5V and 3v3 powered by keithley sourcemeter
+    - setup2: as setup 1, but shepherd 5V and 3v3 powered by keithley sourcemeter, 1m 4-Port Cables, not buffered by Cap
     - setup3: BB powered by NoName POE-Splitter (EC-PD0520USB)
-    - setup4: BB powered by TP-Link POE-Splitter (TL-POE10R)
+    - setup4: BB powered by TP-Link POE-Splitter (TL-POE10R), buffered by 1 mF on Input
 - Measurement
     - scope input set to AC to analyse ripple, internal 20 MHz low pass active
     - probe set to 1x for low noise
@@ -88,7 +88,7 @@ Measurements
     - QuickPrint 80-87
 - A5V (setup1) - on biggest cap after regulator
     - Vpp = 1.9 mV
-    - no abnormalities, some 1.3 MHz switching noise, 1.6 mVpp
+    - no abnormalities, some ripple ~1.3 MHz, 1.6 mVpp
     - QuickPrint 101-106
 - BBone 3v3 (setup1) - on pinheader
     - Vpp = 51 mV
@@ -106,20 +106,58 @@ Measurements
     - Vpp = 20 mV
     - switching noise 4 kHz
     - QuickPrint 131-137
-
+- **SETUP 3**
+- BBone 5V Input (setup3), TP-Link Poe
+    - Vpp = 22 mV
+    - switching noise 10 Hz, 50 Hz, 16 kHz, 256 kHz
+    - QuickPrint 201-207
+- VTargetA = 3.3 V (setup3), no load
+    - Vpp = 2.7 mV
+    - no abnormalities, but some oscillation around ~ 1 MHz
+    - QuickPrint 208-215
+- A5V (setup1) - on biggest cap after regulator
+    - Vpp = 3.3 mV
+    - no abnormalities, but some oscillation around 1.3 MHz
+    - QuickPrint 216-224
+- **SETUP 4**
+- BBone 5V VCC P9-5/6 (setup4), NoName Poe
+    - Vpp = 7.6 mV
+    - heavy switching noise ~ 75 kHz
+    - QuickPrint 225-232
+- VTargetA = 3.3 V (setup4), no load
+    - Vpp = 12.2 mV
+    - heavy switching noise ~75 kHz
+    - QuickPrint 233-239
+- A5V (setup4) - on biggest cap after regulator
+    - Vpp = 11 mV
+    - ramps with 50 kHz and the additional switching noise
+    - QuickPrint 240-246
 
 
 Analysis
 --------
-- A5V seems stable
+- disclaimer
+    - some noise is very close to the scopes lower threshold (~ 1.2 mVpp)
+    - A5V-LDO should have ~ 18 uV Noise with 60 dB Ripple Rejection
+    - -> measurements can't be trusted when looking at individual values, but comparisons should be valid
+    - amplifying active probe should be prefered
+- A5V and VTargetA are very similar -> further analysis will take maximum of these two
+- setup comparison (worst to best)
+    - setup4 (NoName POE) shows heavy artifacts, Noise VTarget = 12 mVpp
+    - setup3 (TPLink POE) shows some oscillations, Noise A5V = 3.3 mVpp
+    - setup2 (Shepherd pwrd by sourcemeter) shows minor ripple, noise A5V = 2.1 mVpp
+    - setup1 (benchPowered BB) shows minor ripple, Noise A5V = 1.9 mVpp
+- Sys_5V-Line is surprisingly noisy, but has limited influence on VTarget
 
 
-
-Results
--------
-- TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm -> may shorten life-expectancy
-    - there is no cheap alternative for this unit
-- BB-Power
+Conclusion
+----------
+- BB-Power should be avoided
+    - Sys-5V was already used in previous shepherd pcb
     - switch to VDD_5V (less noisy)
     - avoid 3v3, generate on shepherd
-
+- use very low noise ldo for InAmp
+- POE-Input should be allowed to be > 5V, and filtered by ldo
+- Side Note
+    - TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm -> may shorten life-expectancy
+    - there is no cheap alternative for this unit
