@@ -157,7 +157,9 @@ Conclusion
     - switch to VDD_5V (less noisy)
     - avoid 3v3, generate on shepherd
 - use very low noise ldo for InAmp
-- POE-Input should be allowed to be > 5V, and filtered by ldo
+- POE-Input
+    - should be allowed to be > 5V, and filtered by ldo
+    - **TP-Link TL-POE10R V5.0** is rated for 1A @ 9/12V, 2A @ 5V -> ~ 10 W
 - Side Note
     - TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm -> may shorten life-expectancy
     - there is no cheap alternative for this unit
