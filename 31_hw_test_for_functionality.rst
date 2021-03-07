@@ -53,8 +53,9 @@ Documentation for functionality-test (QA)
 Current PCB-Mods (v2r1):
     - P8-43/44 disconnected, messes with boot
     - P9-9/10 possible problem, unconnected for now
-    - 2x 1k-PU from EMU/REC EN routed to 3V3 (easy) instead of 5V, ADCs still work
+    - 2x 10k-PU from EMU/REC EN routed to 3V3 (easy) instead of 5V, ADCs still work
     - 2x 1k-PU for boot, reset pins, only on shep-pcb als external jumper
     - switched inputs of R13, Shunt of Recorder, 2 lines cut and rerouted
     - diode over reverse-pol-mosfet
-    - 1k for LEDs
+    - 1k for LEDs -> OK
+    - 1 Level Translator fixed (single supply & lower threshold voltage ~ 900 mV)
