@@ -45,25 +45,30 @@ Changes for v2.0r2
 Changes for v2.1r0
 ------------------
 - consider ultra low noise ldo for -6 and 10V
-- allow to run completely from external power
+- sensitive lines should get more distance from gnd-polygon
+- add >= 1mF 16V
+- main power switch not needed
+- mark ext input
 - additional PCB for POE
     - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
     - ferrite for input
     - switching regulator for 12/9 to 6V
     - linear regulator with proper noise resistance for 6 to 5V
-- sensitive lines should get more distance from gnd-polygon
-- add >= 1mF 16V
-- main power switch not needed
 
 Done Changes for v2.1r0
 -------------------------
 - level translators - implement single voltage supply
-- smooth 6v-boost -> larger capacitors, ferrite, lower boost-voltage
+- smooth 6v-boost -> larger capacitors 58uF to 158uF, ferrite, lower boost-voltage 5.38 V instead of 6.766
+    - typical on A5V are 38mA for Quiet/On, 150mA max, mp3221 gives formular for upper thresholds of Vpp
+    - old config: 164 uVpp (38mA) to 645 uVpp (150mA)
+    - new config: 27 uVpp (38mA) to 104 uVpp (150mA) -> effect of ferrite not included
+    - LDO is rated for 60 dB dampening, but measurements show a factor of ~ 500x of ripple rejection
 - 6V Regulator overdrive is edgy, sw-pin is good for +8V, currently there are ~ 7.14 V
 - Target-IO-PUs - get powered by unmonitored voltage buffer
 - add 3v3 converter (linear), because BB provides very noisy power (both 5V & 3V)
 - make sure shepherd works (theoretically) with BB Black (not only Green) -> Boot-CFG is identical
 - recheck which IC gets which voltage (5V Sys is exceptional noisy)
+- allow to run completely from external power -> move sys-5v ferrite
 
 additional Parts v2.1r0
 -------------------------
@@ -72,7 +77,10 @@ additional Parts v2.1r0
 - emu vDrop: NLAS4684, 100nF?
 - A3v3: lp2989-3.3, 10nF X7R,
 - VSenseStabilize: 1k
-- 6V Stabilize: 576k, 100uF
+- 6V Stabilize: 576k, 100uF, Ferrite
+- InAmp Stabilize: 100nF, 100k
+- DNP: Ferrite 5V_SYS (for pwr-rerouting)
+- removed: 1x NLAS
 
 **Power-Budget v2.1r0**
 -------------------------
