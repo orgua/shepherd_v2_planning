@@ -132,15 +132,63 @@ Measurements
     - Vpp = 11 mV
     - ramps with 50 kHz and the additional switching noise
     - QuickPrint 240-246
+- **Setup1 - Tuning InAmp**
+- VTargetA = 3.3V, 1k Load
+    - Vpp = 1.9 mV
+    - some oscillations at 145 kHz - 1 MHz
+    - QuickPrint 301-307
+- TP2
+    - Vpp = 1.3 mV
+    - not enough detail, but looks like noisefloor
+    - QuickPrint 308
+- TP5 - InAmp Output
+    - Vpp = 110 mV
+    - some oscillation just shy of 1 MHz
+    - QuickPrint 309-318
+- 10V - over biggest Cap
+    - Vpp = 3.6 mV
+    - some oscillation at 10 kHz
+    - QuickPrint 319-324
+- -6V - over biggest Cap
+    - Vpp = 3.4 mV
+    - some oscillation at 1.3 MHz
+    - QuickPrint 325-330
+- **MOD**: 8.2 OHm right before 1 Ohm Shunt
+- TP5 - InAmp Output
+    - Vpp = 16.4 mV
+    - no abnormalities
+    - QuickPrint 331-336
+- Over 1 Ohm Shunt
+    - Vpp = 2.24 mV
+    - no abnormalities
+    - QuickPrint 338
+- Over 1 Ohm Shunt
+    - Vpp = 2.24 mV
+    - no abnormalities
+    - QuickPrint 338
+- **MOD**: 1k on InAmp-Output
+- TP5 - InAmp Output
+    - Vpp = 12.6 mV
+    - no abnormalities
+    - QuickPrint 339-344
+- **MOD**: 100 nF over InAmp Input
+- Over 1 Ohm Shunt
+    - Vpp = 2.36 mV
+    - oscillations at 380 kHz
+    - QuickPrint 345-351
+- TP5 - InAmp Output
+    - Vpp = 11.5 mV
+    - no abnormalities
+    - QuickPrint 352-357
 
 
 Analysis
 --------
 - disclaimer
     - some noise is very close to the scopes lower threshold (~ 1.2 mVpp)
-    - A5V-LDO should have ~ 18 uV Noise with 60 dB Ripple Rejection
+    - A5V-LDO should have ~ 18 uV RMS-Noise with 60 dB Ripple Rejection (but show with higher noise)
     - -> measurements can't be trusted when looking at individual values, but comparisons should be valid
-    - amplifying active probe should be prefered
+    - amplifying active probe should be preferred
 - A5V and VTargetA are very similar -> further analysis will take maximum of these two
 - setup comparison (worst to best)
     - setup4 (NoName POE) shows heavy artifacts, Noise VTarget = 12 mVpp
@@ -148,15 +196,22 @@ Analysis
     - setup2 (Shepherd pwrd by sourcemeter) shows minor ripple, noise A5V = 2.1 mVpp
     - setup1 (benchPowered BB) shows minor ripple, Noise A5V = 1.9 mVpp
 - Sys_5V-Line is surprisingly noisy, but has limited influence on VTarget
+- 10 V / -6 V has some 7 - 20 kHz Ripple -> most likely bad for InAmp
 
-
-Conclusion
-----------
+Conclusion / Mitigations
+------------------------
 - BB-Power should be avoided
+    - switch to VDD_5V (less noisy) instead of sys-5v -> NOT POSSIBLE
     - Sys-5V was already used in previous shepherd pcb
-    - switch to VDD_5V (less noisy)
     - avoid 3v3, generate on shepherd
-- use very low noise ldo for InAmp
+- use very low noise ldo for InAmp (+10/-6V)
+- InAmp - further improvement in noise
+    - filter input, increase shunt to 10 Ohm, and 100nF parallel to the shunt brings 160 kHz Lowpass
+    - filter output, 100k in line to ADC. ADC Pin has Capacitance of 5pF, Line ~1pF, brings ~300 kHz -> option to solder a cap to Testpoint
+- stabilize Supplies if possible
+    - 6V-Switching-Regulator had big opt-potential, 6x less Vpp-Switching-Noise
+    - +10/-6V-Regulator is claiming low noise due to high frequency -> regulator hysteresis should be around 6-7 mV for both rails
+    - lm27762 has charge pump + ldo for 22 uV_RMS and 50 dB Ripple-Rejection, but only outputs +-5V
 - POE-Input
     - should be allowed to be > 5V, and filtered by ldo
     - **TP-Link TL-POE10R V5.0** is rated for 1A @ 9/12V, 2A @ 5V -> ~ 10 W
