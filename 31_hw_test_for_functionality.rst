@@ -50,7 +50,7 @@ Documentation for functionality-test (QA)
     - Recorder is following, with 5V in, 1k pre-resistor, the op-amp switches from 0..5V with 20us period, shape of thin half sine
         - big voltage jumps take 1 to 1.7 ms, 0 to 5V, thats also the period duration for no active load
 
-Current PCB-Mods (v2r1):
+Current PCB-Mods (v2.0r1):
     - P8-43/44 disconnected, messes with boot
     - P9-9/10 possible problem, unconnected for now
     - 2x 10k-PU from EMU/REC EN routed to 3V3 (easy) instead of 5V, ADCs still work
@@ -59,3 +59,5 @@ Current PCB-Mods (v2r1):
     - diode over reverse-pol-mosfet
     - 1k for LEDs -> OK
     - 1 Level Translator fixed (single supply & lower threshold voltage ~ 900 mV)
+    - (NO!) 5V_SYS switched over to 5V_VDD
+    - 8 Ohm right before Shunt -> stabilize
