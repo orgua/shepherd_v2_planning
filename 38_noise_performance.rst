@@ -204,17 +204,49 @@ Conclusion / Mitigations
     - switch to VDD_5V (less noisy) instead of sys-5v -> NOT POSSIBLE
     - Sys-5V was already used in previous shepherd pcb
     - avoid 3v3, generate on shepherd
-- use very low noise ldo for InAmp (+10/-6V)
+    - allow manual "switch" to only use external power (move ferrite from sys_5V input to tap into 5v_ext-rail)
 - InAmp - further improvement in noise
     - filter input, increase shunt to 10 Ohm, and 100nF parallel to the shunt brings 160 kHz Lowpass
     - filter output, 100k in line to ADC. ADC Pin has Capacitance of 5pF, Line ~1pF, brings ~300 kHz -> option to solder a cap to Testpoint
-- stabilize Supplies if possible
-    - 6V-Switching-Regulator had big opt-potential, 6x less Vpp-Switching-Noise
-    - +10/-6V-Regulator is claiming low noise due to high frequency -> regulator hysteresis should be around 6-7 mV for both rails
-    - lm27762 has charge pump + ldo for 22 uV_RMS and 50 dB Ripple-Rejection, but only outputs +-5V
 - POE-Input
     - should be allowed to be > 5V, and filtered by ldo
     - **TP-Link TL-POE10R V5.0** is rated for 1A @ 9/12V, 2A @ 5V -> ~ 10 W
 - Side Note
     - TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm -> may shorten life-expectancy
     - there is no cheap alternative for this unit
+
+stabilize Supplies
+------------------
+- Options for Stability / less noise
+    - avoid switching regulators (noise usually >> 1 mVpp)
+    - use LDO, specially low noise or ultra low noise ones (low noise LDOs are somewhere around 1 mVpp)
+    - passive LC-LowPass at the End (
+    -
+- 6V-Switching-Regulator had big opt-potential, 6x less Vpp-Switching-Noise
+- +10/-6V-Regulator for InAmp
+    - LT3487 is claiming low noise due to high frequency
+    - regulator hysteresis should be around 6-7 mV for both rails (FBP has 7 m%/V, FBN has 1 mV/V Line Regulation)
+    - measurements show ~ 3.4 mV after ferrite
+- previous shepherd pcb
+    - LM27762 has charge pump + ldo for 22 uV_RMS and 43 dB Ripple-Rejection, 1.5 mV/V Line and 34 uV/mA Load Regulation, but only outputs +-5V
+- use additional very-low-noise LDOs (+10/-6V)
+    - LP2985, 10V LDO, 30 uV_RMS, 45 dB Ripple Rejection
+    - MIC5219 2.5 to 12 V LDO, 300 nV / sqrt(Hz), 75 dB Ripple Rejection, 9 m%/V Line Regulation
+    - ADP7118, 2.7 to 20 V LDO, 11 uV_RMS, 50 dB Ripple Rejection, 15 m%/V Line Regulation
+    - TPS723, -2.7 to -10 V LDO, 60 uV_RMS, 48 dB Ripple Rejection, 40 m%/V Line Regulation
+    - Ricoh RP117x, -5.5 to -1 V, 80 dB Rejection, 16 uV_RMS,
+    - LT3094, ultra low noise, 0 to -20V, 74 dB Rejection, 2.2 nV/sqrt(HZ), 0.8 uV_RMS
+- InAmp AD8421
+    - Inputs range from 0 to 5 V,
+    - differential Voltage of 0 to 500 mV, Gain 10 -> Power supply should be at least +9 V & -5 V, Ref = GND
+    - differential Voltage of 0 to 50 mV, Gain 100 -> Power supply should be at least +9 V & -5 V, Ref = GND
+    - Diamond Plot: https://tools.analog.com/en/diamond/#difL=0&difR=0.05&difSl=0&gain=100&l=0&pr=AD8421&r=5&sl=0&tab=1&ty=2&vn=-5&vp=9&vr=0
+    - there are two InAmps with a budget of ~ 74 mW, ~ 4.6 mA
+- Positive Voltage -> Voltage Doubler
+    - LM266x not suited, no low noise
+    - LM276x not suited, no low noise
+- Negative Voltage -> Inverter, Charge Pump
+    - LM27761, 20 uV_RMS, 35 dB rejection, 1.5 mV/V Line and 4.6 uV/mA Load Regulation,
+    - LTC1550, not suitable
+    - TPS63710
+

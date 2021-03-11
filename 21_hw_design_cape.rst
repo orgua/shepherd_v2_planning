@@ -44,16 +44,13 @@ Changes for v2.0r2
 
 Changes for v2.1r0
 ------------------
-- consider ultra low noise ldo for -6 and 10V
-- sensitive lines should get more distance from gnd-polygon
-- add >= 1mF 16V
-- main power switch not needed
-- mark ext input
+- if there is enough space -> switch out 47uH Coil of LC-LP to 150uF (larger)
 - additional PCB for POE
     - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
-    - ferrite for input
     - switching regulator for 12/9 to 6V
     - linear regulator with proper noise resistance for 6 to 5V
+    - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
+- fix layerwindows
 
 Done Changes for v2.1r0
 -------------------------
@@ -69,6 +66,14 @@ Done Changes for v2.1r0
 - make sure shepherd works (theoretically) with BB Black (not only Green) -> Boot-CFG is identical
 - recheck which IC gets which voltage (5V Sys is exceptional noisy)
 - allow to run completely from external power -> move sys-5v ferrite
+- main power switch not needed
+- mark ext input
+- sensitive lines should get more distance from gnd-polygon
+- consider ultra low noise ldo for -6 and 10V
+    - No suitable 5 to 10V voltage doubler found (fast switching, low noise)
+    - there are quiet inverters (LM27761) though
+    - see "noise_performance.rst" for more info
+- adjusted Pads of some footprints - reduce width a bit when solder resist was too narrow on ICs
 
 additional Parts v2.1r0
 -------------------------
@@ -80,7 +85,8 @@ additional Parts v2.1r0
 - 6V Stabilize: 576k, 100uF, Ferrite
 - InAmp Stabilize: 100nF, 100k
 - DNP: Ferrite 5V_SYS (for pwr-rerouting)
-- removed: 1x NLAS
+- removed: 1x NLAS, 2x Ferrite
+- 16VStability: 4x 33uH, 4x 10uF
 
 **Power-Budget v2.1r0**
 -------------------------
