@@ -329,7 +329,7 @@ Software Cleanup Part2::
 
 Find biggest space waster::
 
-    sudo du -s * | sort -n
+    sudo du -s /* | sort -n
         450 MB /lib -> /firmware -> intel 22 MB, netronome 24 MB, liquidio 24 MB, amdgpu 31 MB
         912 MB /usr
         190 MB /var
@@ -641,7 +641,7 @@ Check (on sheep)::
     ll /sys/shepherd/
 
     # Shepherd program: >
-    cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
+    cp /opt/shepherd/software/meta-package/example_config_harvest.yml /etc/shepherd/config.yml
     shepherd-sheep -vv run --config /etc/shepherd/config.yml
         -> error, no /sys/shepherd/state
             there is /sys/module/shepherd, without "state"
@@ -658,8 +658,8 @@ Useful commands on a fresh system::
 
     sudo chown -R user /opt/shepherd
     sudo passwd user
-    cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
-    sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
+    cp /opt/shepherd/software/meta-package/example_config_harvest.yml /etc/shepherd/config.yml
+    sudo shepherd-sheep -vvv run --config /etc/shepherd/config.yml
 
     cd /opt/shepherd/software/python-package/
     sudo python3 setup.py test --addopts "-vv"

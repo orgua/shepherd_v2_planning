@@ -22,4 +22,6 @@ Implementation
         - session-management
         - sub-websites with html-templates
         - -> security seems to be OK, attach surface is big, but >v3.0 seems to be mature
-    - basic implementation could be similar to https://github.com/fkt/36c3-junior-ctf-pub (web-interface for a ctf, that didn't get compromized)
+    - basic implementation could be similar to https://github.com/fkt/36c3-junior-ctf-pub (web-interface for a ctf, that didn't get compromised)
+
+

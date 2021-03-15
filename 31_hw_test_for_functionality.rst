@@ -31,7 +31,7 @@ Documentation for functionality-test (QA)
     - swdIO is inversed? low for 80ms instead of 10 ms high, or something is pulling
     - swdCLK is fine
 - Noise from Outside
-    - BB 5V Lines (both) show cutting 1V Spikes every 23.6 ms, around 400 us long (quickshot 73/74/80) -> due to diode between both 5V-Lines
+    - BB 5V Lines (both) show cutting 1V transients every 23.6 ms, around 400 us long (quickshot 73/74/80) -> due to diode between both 5V-Lines
     - entry-filtering is not doing much for these rails
     - 6V has +120/-80 mV Spikes (qs77, 78)
     - 5V and 6V are only used as intermediate voltage steps

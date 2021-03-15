@@ -85,6 +85,18 @@ def plot_graph(x: list, y: list, y_name: str, filename: str, size:tuple = (18, 8
     plt.close()
 
 
+def plot_graph2(x1: list, y1: list, x2: list, y2: list, y_name: str, filename: str, size: tuple = (18, 8)):
+    fig, ax = plt.subplots(figsize=size)
+    len_min = min(len(x1), len(y1), len(x2), len(y2))
+    plt.plot(x1[:len_min], y1[:len_min])
+    plt.plot(x2[:len_min], y2[:len_min])
+    ax.set_xlabel("time [s]")
+    ax.axes.set_ylabel(y_name)
+    ax.axes.set_title(filename.split(".")[0])
+    fig.savefig(filename)
+    plt.close()
+
+
 if __name__ == "__main__":
 
     for file in files:
@@ -139,3 +151,7 @@ if __name__ == "__main__":
     plt.grid(True, which="major", axis="y", color="grey", linewidth="0.6", linestyle=":", alpha=0.8)
     plt.savefig(fig_title + ".png")
     plt.close()
+
+    file_title = "improvement_sync"
+    plot_graph(sync_list[0].values, time_delta.values, "sync_delay [ns]", file_title + "_sync_overview_vs.png")
+    plot_graph(ch0t.values[0:22000], time_delta.values[0:22000], "sync_delay [ns]", file_title + "_sync_detail_vs.png", (30, 8))
