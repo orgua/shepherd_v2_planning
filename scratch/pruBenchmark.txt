@@ -24,6 +24,9 @@ PRU0	PRU1	Changes
 99916	91368	some days later (01.08 or even before seemed fine)
 108020	94292	wtf? pru0 increase is strange (were undeleted refactor-fragments)
 101568  91456   cleaner trigger system for pru0, rpmsg-replacement for pru1
+102236  92604   feb21, added mem_messaging and improved trigger system
+78176   65948   remove printf and rpmsg
+75916   61816   cleaned up resource table
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
@@ -73,6 +76,8 @@ SysGpio
 2000 ns sampling() / harvesting (2x ADC, store, calc, 1x DAC)
 xxxx ns sampling() / virtualSource, 21/36 us, including 2x ADC, 1x DAC (~2 us) -> prototype
     -> 8 us makes ~ 1600 instructions
+
+
 
 Sampling-VSource-Performance
 - Baseline (21.01.20)

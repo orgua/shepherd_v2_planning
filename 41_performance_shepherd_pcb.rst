@@ -1,12 +1,14 @@
 Design-Changes for HW-Rev2, mostly advantages
     - shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
+        - also switches that come afterwards (before target)
     - 2 separate fast ADCs are perfect for parallel and faster data acquisition, up to 50 MHz SPI
-    - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm
+        - goal: maximize time for calculations
+    - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm. leakage is < 10 nA when off
     - old biDir Level-Translators Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
         - TI: TXS and TXB need side A to have a higher Vin as side B because of a protection diode
-        - TI: LSF needs side B to be higher Voltage
-        - TODO: specs of new one
-    - ultra low noise LDO for all analog ICs
+        - TI: LSF needs side B to be higher Voltage -> wrong assumption / conclusion
+        - specs of new one: operational from 1.3 to 5 V, 100 k PUs, 1 MOhm when running
+    - low noise LDO for all analog ICs, with additional PI-Filter for ICs with continuous current draw
     - EMI-Cage for recorder and emulator
     - rugged external input power on shepherd module, protected for reverse polarity
     - watchdog-timer to trigger boot and reset if bbone unresponsive or POE-Switching fails or is not allowed

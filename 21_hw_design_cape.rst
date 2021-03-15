@@ -51,6 +51,12 @@ Changes for v2.1r0
     - linear regulator with proper noise resistance for 6 to 5V
     - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
 - fix layerwindows
+- optimize position of current limiting resistors
+- external cables, filter and buffer (100nF)
+- PI-Filter is bad for varying loads, so only use with dac / adc
+    - keep 100 uF constant, but vary inductance to optimize voltage drop -> << 1 mV
+- better buffer the io voltage, needs single OPA, but gets rid of one NLAS-Switch
+- improve GPIO signal integrity (1k from target can be removed), 100k PU on Sys-Side replace by 10 k
 
 Done Changes for v2.1r0
 -------------------------

@@ -221,7 +221,6 @@ stabilize Supplies
     - avoid switching regulators (noise usually >> 1 mVpp)
     - use LDO, specially low noise or ultra low noise ones (low noise LDOs are somewhere around 1 mVpp)
     - passive LC-LowPass at the End (
-    -
 - 6V-Switching-Regulator had big opt-potential, 6x less Vpp-Switching-Noise
 - +10/-6V-Regulator for InAmp
     - LT3487 is claiming low noise due to high frequency
@@ -250,3 +249,13 @@ stabilize Supplies
     - LTC1550, not suitable
     - TPS63710
 
+Verification of PI-Filter with Spectrum Analyzer
+------------------------------------------------
+- SA
+    - Rigol DSA 815 (9 kHz to 1.5 GHz) with tracking generator
+    - 1 MHz Span, beginning at DC
+- Filter
+    - 15 uH shielded coil with 100 uF / 6.3 V on both sides
+    - corner frequency: 4.1 kHz
+- TG provided 0 dBm and input was calibrated to it
+- open-input and filter in line showed no significant difference (no noticeable rise of the noise-floor)

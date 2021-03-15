@@ -122,3 +122,11 @@ Alternatives
     - spi, sn74lv4t125, spi, https://www.ti.com/product/SN74LV4T125#product-details##features
     - 1bit unidir, sn74lv1t34, https://www.ti.com/product/SN74LV1T34#product-details##features
 - voltage constraints could be solved by a two-stage approach 3v3 <-> 0v9 <-> 1.x - 5V
+
+TODO
+----
+- previous: post-shunt-voltage was fed to level translators (PUs showed up in current-draw of target)
+- currently pre-shunt-voltage is fed to level-translators
+- cleaner solution
+    - buffer post-shunt-voltage, saves one switch, but costs additional OPAs
+    -
