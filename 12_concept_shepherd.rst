@@ -33,12 +33,19 @@ Testbed
 - nodes powered via POE
 - (optional) one PTP-Masterclock, Node with GPS
 - 1 Ubuntu Control-vServer, 10 TB of additional Storage
+- 1 experiment at a time, no concurrency
 - Web-Framework
-    - user-management
-    - experiment-scheduling, calender
-    - data management / quota
+    - user-management (roles for admins and users)
+    - experiment-management, configure and control, add data (see below)
+    - experiment-scheduling, calender (set active, start-time, duration)
+    - data management / quota (retrieve / delete recordings)
     - authentication via external services
-- user-provided data
+    - E-Mail notifications
+    - testbed status, topology
+    - (optional) grafana visualisation of recorded data
+    - (admins) server status, quota, testbed control
+    - documentation and instructions
+- user-provided data (experiment management)
     - (optional) energy-traces, IV-Curves
     - regulator / converter-config
     - target-firmware
