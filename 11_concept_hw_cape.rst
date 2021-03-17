@@ -18,6 +18,9 @@ Computing Power and Accuracy Constraints - a pro and contra
         - pro: similar price as BBAI, 1 GBE, FPGA in same Package, hw-timestamping
         - con: xilinx-toolchain, documentation is overwhelming, community small, long dev-cycle
         - https://shop.trenz-electronic.de/de/30195-MYC-C7Z020-CPU-Modul-mit-XC7Z020-2CLG400I-industrieller-Temperaturbereich?c=238
+    - embedded amd platform (v2000)
+        - pro: compute-power, relatively cheap (>= 200€), fast ethernet, x86-64
+        - con: real-time not out of the box, low gpio-count
     - PRU replacement or extension
         - CPLD would be overkill
         - Teensy 4 -> lots of iO, SPI with DMA, interrupts for everything, FPU, 600 MHz, proper toolchain, https://www.pjrc.com/store/teensy40.html
