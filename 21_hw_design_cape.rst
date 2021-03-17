@@ -53,6 +53,16 @@ Changes for v2.1r0
 - optimize position of current limiting resistors
 - target-connector, bring GND to first and last position (EMV)
 - QR-Code is readable, but still a bit messed up
+- via-fence near the lan-port
+- **gpio - RC lowpass** -> Line-Capacity vs. current-limiting resistor
+    - L1L2 distance 2x 180 um, e_r ~4.2
+    - trace width 250 um
+    - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
+    - C = e*A/d = 3.4 pF -> max capacitance of 1 gpio-trace on shepherd-pcb
+    - R = 1k
+    - fc = 53 MHz (neglecting target and BB capacitances)
+- re-evaluate spi-lines
+- power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out
 
 Done Changes for v2.1r0
 -------------------------
