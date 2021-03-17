@@ -45,6 +45,8 @@ Testbed
     - (optional) grafana visualisation of recorded data
     - (admins) server status, quota, testbed control
     - documentation and instructions
+    - target-management (specify slots of nodes)
+    - (optional) benchmark-management (post-scripts)
 - user-provided data (experiment management)
     - (optional) energy-traces, IV-Curves
     - regulator / converter-config
