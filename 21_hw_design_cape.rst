@@ -51,18 +51,16 @@ Changes for v2.1r0
     - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
 - fix layerwindows
 - optimize position of current limiting resistors
-- target-connector, bring GND to first and last position (EMV)
-- QR-Code is readable, but still a bit messed up
-- via-fence near the lan-port
-- **gpio - RC lowpass** -> Line-Capacity vs. current-limiting resistor
-    - L1L2 distance 2x 180 um, e_r ~4.2
-    - trace width 250 um
-    - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
-    - C = e*A/d = 3.4 pF -> max capacitance of 1 gpio-trace on shepherd-pcb
-    - R = 1k
-    - fc = 53 MHz (neglecting target and BB capacitances)
-- re-evaluate spi-lines
 - power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out
+- check / measure real reverse current of diode
+- evaluate higher driving strength for Target-Supply
+
+TO TEST with v2.1
+-----------------
+- power with 5VE
+- test delay of (recorder) setting voltage-level
+- add opa189 to 16V-consumer-list (1.3mA typ, 1.7mA max)
+
 
 Done Changes for v2.1r0
 -------------------------
@@ -92,6 +90,23 @@ Done Changes for v2.1r0
     - keep 100 uF constant, but vary inductance to optimize voltage drop -> << 1 mV
 - external cables, filter and buffer (100nF)
 - (NOT DONE) if there is enough space -> switch out 47uH Coil of LC-LP to 150uF (larger)
+- **gpio - RC lowpass** -> Line-Capacity vs. current-limiting resistor
+    - L1L2 distance 2x 180 um, e_r ~4.2
+    - trace width 250 um
+    - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
+    - C = e*A/d = 3.4 pF -> max capacitance of 1 gpio-trace on shepherd-pcb
+    - C_lvl = 12.5 pF
+    - R = 1k
+    - fc = 10 MHz (neglecting target and BB capacitances)
+- re-evaluate spi-lines -> fine
+- via-fence near the lan-port
+- QR-Code is readable, but still a bit messed up -> negative
+- target-connector-redefinition, bring GND to first and last position (EMV)
+- (target) reset (P0.18) with Resistor bridge to gpio-header
+- (target) remove more metal around antenna
+- compare LSF-Versions of TI with nexperia ones -> seems to be exact copy
+- would 1000 Hz on-off-pattern be possible? YES
+- (if there is time) - implement fixed recorder design
 
 additional Parts v2.1r0
 -------------------------
@@ -107,6 +122,8 @@ additional Parts v2.1r0
 - 20x 10k, Opa388, 100nF, 1uF
 - removed: 1x NLAS, 2x Ferrite
 - removed: 20x 100k, 10x 1k
+- new: opa189 for recorder
+- removed / rec: mosfet, 1M, 10k
 
 **Power-Budget v2.1r0**
 -------------------------
