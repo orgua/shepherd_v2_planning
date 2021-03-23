@@ -6,10 +6,11 @@ Overview
 - (mobile) testbed for batteryless IoT
 - observer-nodes for an IoT-Target
 - works autonomous or time-sychronized with a network backplane
-- software defined power source, emulation of
+- "software defined power source", emulation of
     - harvesting source (pre-recorded, simulated)
     - regulator / converter - circuit
     - intermediate storage-capacitor
+    - "software defined" is largely true, but changing basic behaviour needs a deep dive into PRU-Code
 - allows to experiment with emulated spatio-temporal energy availability
 - recording of energy-traces -> key-parameters like current-drain and (virtual) capacitor-voltage
 - additional functionality: recording of harvesting sources (not part of testbed)
@@ -55,15 +56,22 @@ Testbed
 
 Technical details
 -----------------
+- Beaglebone Green with 1 Core for Linux and heavy use of PRU for low-latency code
 - target-voltage 0 to 4.5 V, max 50 mA per Target
+    - 16 bit DAC, LSB results in 76 uV
     - 100 kHz sampling rate, jitter max +- 90 ns, 95% Quantile is 60 ns
     - 18 bit ADC, LSB results in 19.1 uV or 191 nA
+- speed of voltage-drive
+    - DAC has 0.75 V/us slew and 7 to 10 us settling (error < 0.x %)
+    - OpAmp has 5 V/us slew
+    - following Lowpass has corner-frequency of 16 kHz
+    - 10 kHz on-off-patterns should be well in range
 - low noise & high precision design for analog frontend
 - 10 shared GPIOs with system
-    - bidirectional
-    - level translation works from ~ 1.3 to 5 V
-    - recording: sampling rate asynchronous between ~ 1 to 5 MHz
-    - data throughput untested, but edges look OK for > 1 MBaud
+    - bidirectional level translation works from ~ 1.3 to 5 V
+    - line is driven by PUs, always matched to target-voltage (low power usage)
+    - recording: sampling rate is asynchronous, between ~ 1 to 5 MHz
+    - data throughput untested, but edges look fine for > 1 MBaud
     - leakage during operation < 2 uA from target-side
     - gpio can be turned of, < 10 nA leak from target-side
 - data-rates
