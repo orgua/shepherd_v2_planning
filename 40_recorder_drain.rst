@@ -27,6 +27,16 @@ Ideas / Approaches
     - con: could still feed into harvest source
 - oneway OpAmp-Sink
     - Diode above OpAmp to stop reverse flow
-    - could be included in opAmp-return-path
-    - con: still no high impedance
-- conclusion: combined switched oneway OpAmp-Sink could be a proper solution
+    - could be included in opAmp-return-path (compensate diode offset)
+    - high impedance (over opAmp voltage range) with a low leakage diode
+    - con: still no (real) high impedance, needs dual supplied opAmp to reach 0 V
+
+conclusion
+----------
+- combined switched oneway OpAmp-Sink is a proper solution
+- diode-solution should be fine
+- WARNING for diode solution
+    - watch out with power-levels mixed with enabled-states
+    - if OpAmps VOut settles at V-, the diode will drain harvester below GND
+    - V- could be higher than V+ in disabled state (LDO for Pos, BoostInverter for Neg)
+
