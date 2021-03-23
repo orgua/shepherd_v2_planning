@@ -1,6 +1,7 @@
 Learnings, with Pitfalls and (possible) Solutions
 =================================================
-- some
+- notes from meetings with creators of established testbeds
+- significance for shepherd is incorporated
 
 Server
 ------
@@ -8,18 +9,34 @@ Server
     - currently TUD/ZIH offers vServers and plenty of Storage from its datacenters, can be changed, expanded
     - current server: 2 Cores, 4 GB RAM, 50 GB local Storage, 10 TB network storage
     - vmware-tools have option to set cores and ram to 64 (for privileged users)
-- avoid windows
+- avoid windows OS
 - splitting servers can be an option (storage with message broker, web-interface, computing)
 
 Data-Management
 --------------
-- database influx allows nanosec-timestamps as a series
+- database (not a must)
     - allows easy analysis of data
+    - immediate access is nice! real time or direct access for devs (even jupyterNB)
     - needs lots of RAM
     - easiest interface is a socket with json-interface -> inefficient for embedded systems, can often be avoided
+    - can produce downloadable data on the fly (at least csv)
 - hdf5 / raw-data
     - needs more custom code
     - analysis not available right away
+- database-choices
+    - influxDB allows nanosec-timestamps as a series
+    - postgreSQL works for weeks
+    - timescaleDB, inlux competitor, seems to scale better with large number of devices (>1000)
+- leave headroom, node-resources can easily become the bottleneck
+    - using third party libs is always a good idea, but can come with performance penalties
+    - usually compute-load can partially be moved to server
+    - there are often performance optimized forks of established libs around (if needed)
+- established ways / libs to stream data out
+    - protobuf (can be slow for python)
+    - rabbitMQ / kombu
+    - RPC
+- is privacy is feature? avoid personal data (OAuth, ActiveDirectory), make recorded data private (even only delete-access for web-admins)
+- grafana seems to have trouble with big datasets
 
 Nodes
 -----
@@ -54,6 +71,13 @@ Nodes
     - embedded amd platform (v2000)
         - pro: compute-power, relatively cheap (>= 200€), fast ethernet, x86-64
         - con: real-time not out of the box, low gpio-count
+- slow software controlled GPIO could be a disadvantage
+    - sensor and actuator control can have tight timing constraints
+    - BBone PRU can also take control over gpio (but this is static / boot time decision)
+- observer should always have control over target-reset
+    - shepherd can control soft-reset over jtag/swd
+    - shepherd can cut power and power-cycle target
+    - add resistor bridge just for safety
 
 Web
 ---
@@ -84,15 +108,14 @@ Testbed
 
 TODO
 ----
-- compare elastic against influx, no support for nanosec?
-- benchmark server (disks / ram)
-- design-choices for later
-    - does shepherd need databases for immediate (deep)analysis of result
-        - alternative: provide post-scripts that filter data for key-parameters (benchmark-management)
-    - data hording or economical use of space?
-    - what else ?????
 - try to design low maintenance, multi-purpose, high functionality / speed / quality
-- Filesystem:
+- Filesystem
     - f2fs for usb-sticks
     - find read-only-switch for system partition
 - is there an easy way to integrate a fresh BBone into the system?
+- test target-programming with current shepherd design
+    - pyOCD could be an alternative
+- BBone
+    - is cpu-usage really 70% during emulation?
+    - do a performance profiling, find bootlenecks
+    - raw data could be sent server, less overhead for BB
