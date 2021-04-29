@@ -20,7 +20,10 @@ Constraints
     - USB-Stick (45 x 20 x 9 mm)
     - opening for one RJ-45-Socket
 - must be transparent to RF
-- input Marco: open and transparent is fine
+- input Marco:
+    - open and transparent is fine and wanted (!)
+    - boxy is ok
+    - preferable hard mounted to the wall with just one cable attached
 
 Layout
 ------
@@ -44,9 +47,10 @@ Solutions
 - 3d-Printing
     - flexible and custom case
     - way to expensive for 30 Nodes
-- Casing in laser-acrylic, plywood
+- Casing in laser-acrylic or plywood
     - solid, custom
     - may look also unprofessional, like a building kit
+    - design without screws -> https://hackaday.com/2013/02/27/acrylic-enclosures-use-integrated-clips-to-do-away-with-fasteners/
 - off-the-shelf case with custom front
     - can look professional
     - you have to take what the market offers
