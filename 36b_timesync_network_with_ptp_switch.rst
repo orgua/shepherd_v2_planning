@@ -1,17 +1,17 @@
 PTP-Switch
 ==========
 
-
-Switch Comparison (copied from 36_...)
-    - current tests: 2012 Cisco Catalyst 2960-S / WS-C2960S-24PS-L
-        - ~ 11 us path delay (ptp4l)
-    - testbed: Cisco Catalyst 2960-X / WS-C2960X-48FPD-L
-        - 48 Ports, 1 GBE, 2x 10 GBit SFP+
-        - 740 W PoE+
-        - remote: SNMP 1, RMON 1, RMON 2, RMON 3, RMON 9, Telnet, SNMP 3, SNMP 2c, HTTP, TFTP, SSH, CLI
-        - 2500 €
-        - -X version seems to be the newer Model (compared to -S) with layer 3 routing and >doubled spec
-            - https://ipwithease.com/cisco-2960-x-vs-2960-s/
+Switch Comparison
+-----------------
+- current tests: 2012 Cisco Catalyst 2960-S / WS-C2960S-24PS-L
+    - ~ 11 us path delay (ptp4l)
+- testbed: Cisco Catalyst 2960-X / WS-C2960X-48FPD-L
+    - 48 Ports, 1 GBE, 2x 10 GBit SFP+
+    - 740 W PoE+
+    - remote: SNMP 1, RMON 1, RMON 2, RMON 3, RMON 9, Telnet, SNMP 3, SNMP 2c, HTTP, TFTP, SSH, CLI
+    - 2500 €
+    - -X version seems to be the newer Model (compared to -S) with layer 3 routing and >doubled spec
+        - https://ipwithease.com/cisco-2960-x-vs-2960-s/
 
 PTP-Capable Switches
 --------------------
@@ -29,3 +29,11 @@ PTP-Capable Switches
     - ptp seems to be supported: https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/q-and-a-c67-744007.pdf
         - needs "network-advantage" paket
         - <100ns is expected
+
+TODO
+----
+- does the catalyst 9300L fit into ZIH-Infrastructure?
+    - ZIH confirms compatibility and offers to help configuring the box
+- can we get a test-device from cisco?
+    - ZIH has no device but connected us with the local account manager
+    - request was sent to cisco
