@@ -160,19 +160,8 @@ Tuning Config with delay_filter_length for ptp4l
         - could be improved by raising limit for clock-skew
         - -> ptp4l-log does not show any improvements
 
-Switch Comparison
-    - current tests: 2012 Cisco Catalyst 2960-S / WS-C2960S-24PS-L
-        - ~ 11 us path delay (ptp4l)
-    - testbed: Cisco Catalyst 2960-X / WS-C2960X-48FPD-L
-        - 48 Ports, 1 GBE, 2x 10 GBit SFP+
-        - 740 W PoE+
-        - remote: SNMP 1, RMON 1, RMON 2, RMON 3, RMON 9, Telnet, SNMP 3, SNMP 2c, HTTP, TFTP, SSH, CLI
-        - 2500 €
-        - -X version seems to be the newer Model (compared to -S) with layer 3 routing and >doubled spec
-            - https://ipwithease.com/cisco-2960-x-vs-2960-s/
-    - -> no ptp-capable switches found (grandmaster clock, boundary clock)
-
-TODO:
-    - try to check SERVO_LOCKED_STABLE, clock enters this state when timing is considered ok
-        - config: servo_offset_threshold, servo_num_offset_values
-    - there seem to be ptp-options in the switch
+TODO
+----
+- try to check SERVO_LOCKED_STABLE, clock enters this state when timing is considered ok
+    - config: servo_offset_threshold, servo_num_offset_values
+- there seem to be ptp-options in the switch
