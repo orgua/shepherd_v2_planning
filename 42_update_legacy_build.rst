@@ -16,7 +16,7 @@ Intro
 Improvements
 -------------
 
-- 1.x branch is now on par with v2-branch, 4ca9ed2 from 29. april, except for
+- 1.x branch is now on par with v2-branch, 6257605 from 29. april, except for
     - rpmsg-replacement for buffer exchange -> must be thoroughly tested
     - optimized spi-asm-code (faster, simultaneous clk/data-edges) -> ICs have changed in v2
     -
@@ -59,6 +59,12 @@ Improvements
     - NOTE1: if only an output-directory is specified the recording will be saved with an ISO 8601 timestamp (ie. rec_2021-04-20_12-12-12.h5)
     - NOTE2: this fixes (theoretical) conflict with -l for shepherd-herd (--limit) and sheep (--length)
 - removed virtcap-code, as it was not working as intended
+- more sanity-checks throughout codebase, i.e.
+    - unusual jumps for buffer-timestamps are shown (in kernel before sending to pru, in python after receiving from pru)
+    - time-sync gets reported from kernel-module when not stabile (yet)
+    - show when a message to pru stays unread (backpressure) or it is altered (mem-corruption)
+    - [...]
+
 
 TODO
 ----
