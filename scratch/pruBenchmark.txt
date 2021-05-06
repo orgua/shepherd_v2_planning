@@ -27,6 +27,7 @@ PRU0	PRU1	Changes
 102236  92604   feb21, added mem_messaging and improved trigger system
 78176   65948   remove printf and rpmsg
 75916   61816   cleaned up resource table
+76032   60964   further restructuring (2021-05)
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
@@ -64,7 +65,7 @@ SysGpio
 - 220 ns for check and compare, 
 
 <<<PRU0>>>
-560 ns 	handle_rpmsg(), sometimes (before long E3) 1020 ns
+560 ns 	handle_rpmsg(), sometimes (before long E3) 1020 ns (without receiving)
 4340 ns sampling() / harvesting & load
 6860 ns sampling() / emulation
 4220 ns sampling() / vcap
@@ -76,7 +77,11 @@ SysGpio
 2000 ns sampling() / harvesting (2x ADC, store, calc, 1x DAC)
 xxxx ns sampling() / virtualSource, 21/36 us, including 2x ADC, 1x DAC (~2 us) -> prototype
     -> 8 us makes ~ 1600 instructions
-
+<<new mem-msg-sys>>
+80 ns   time between sampling and checking for msgs
+40 ns   checking for msg (inbox empty)
+800 ns  buffer-swap
+260 ns  check and receive msg
 
 
 Sampling-VSource-Performance

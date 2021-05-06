@@ -12,21 +12,15 @@ Intro
     - legacy (15. Jan) vs fw_ok -> https://github.com/orgua/shepherd/compare/hw_revision_1.x...orgua:fw_ok
     - legacy (20. Apr) vs master -> https://github.com/orgua/shepherd/compare/hw_revision_1.x...orgua:master
         - "two points"-Compare seem to be more helpful https://github.com/orgua/shepherd/compare/orgua:master..orgua:hw_revision_1.x
+    - legacy (20. Apr) vs master -> https://github.com/orgua/shepherd/compare/fw_ok..orgua:master
 
 Improvements
 -------------
 
-- 1.x branch is now on par with v2-branch, 6257605 from 29. april, except for
-    - rpmsg-replacement for buffer exchange -> must be thoroughly tested
+- 1.x branch is now on par with v2-branch from 2021-05-06, except for
+    - rpmsg-replacement for buffer exchange -> must be thoroughly tested first
     - optimized spi-asm-code (faster, simultaneous clk/data-edges) -> ICs have changed in v2
-    -
 
-- code-quality
-    - less global vars
-    - usage of fixed width ints
-    - more const-correctness
-    - better naming
-    - less magic numbers
 - make-system fixed and improved
 - ansible playbooks improved
 - pru: many bottlenecks and overhead removed -> headroom for more complex code
@@ -38,6 +32,12 @@ Improvements
     - 4340 ns sampling() / harvesting & load
     - 6860 ns sampling() / emulation
     - 2740 ns handling block end -> pru1-blocking part was reduced to 460 ns
+- c-code-quality
+    - less global vars
+    - usage of fixed width ints
+    - more const-correctness
+    - better naming
+    - less magic numbers
 - adc-sampling of pru0 reacts directly to interrupt now instead of extra trigger from pru1 -> less jitter and less error
     - both PRUs had separate sample-counters and were more vulnerable to race-conditions
     - pru1 does not use rpmsgs for sync-system with kernel-module but a simple system via shared-memory
@@ -62,13 +62,20 @@ Improvements
 - more sanity-checks throughout codebase, i.e.
     - unusual jumps for buffer-timestamps are shown (in kernel before sending to pru, in python after receiving from pru)
     - time-sync gets reported from kernel-module when not stabile (yet)
-    - show when a message to pru stays unread (backpressure) or it is altered (mem-corruption)
+    - show when a message to pru stays unread (backpressure) or it is altered (hint for mem-corruption)
     - [...]
 
+Known Bugs
+----------
+- ending python programs with ctrl&c can result in (false) error-messages - graceful shutdown is yet to come
+- starting the sheep with
 
 TODO
 ----
 - asm-code in main-branch is cleaner and edges are clock-synchronous
+- commits from legacy
+- commits from main: c57b306
+
 
 test::
 
@@ -77,26 +84,25 @@ test::
 
     cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
     sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
+    dmesg -wH
+    watch -n 1 "df -h"
+    # plot with tool in /extras
+
+    # merge several commits from A to B to another branch
+    git cherry-pick A^..B
 
 Open Issues
 -----------
-- investigate delayed start-timer, and the difference between the following two values
+- None
 
-DMesg A::
 
-    [ ... ]
-    [ 1186.407208] shprd: PRUs started!
-    [ 1186.925041] shepherd virtio1.rpmsg-shprd.-1.1: new channel: 0x400 -> 0x1!
-    [ 1189.947426] shprd: Setting start_timestamp to 1619037444
-    [ 1189.947441] shprd: Delayed start timer set to 1619037443925000000
-    [ 1194.042275] shprd: Triggered delayed start @  1619037443925118851
-    [ 1194.161324] shepherd virtio1.rpmsg-shprd.-1.1: rpmsg client driver is removed
-    [ 1194.174507] shprd: module exited from kernel!!!
-    [ 1197.218156] rpmsg_pru virtio0.rpmsg-pru.-1.0: Message length table is full
-    [ 1197.318297] rpmsg_pru virtio0.rpmsg-pru.-1.0: Message length table is full
-    [ 1197.418325] rpmsg_pru virtio0.rpmsg-pru.-1.0: Message length table is full
-    [ ... ]
-
+Pipenv-Trouble
+--------------
+- pipenv fails to scan for deps in sub-folders when python wasn't pinned to v3 (
+- black-lib had troubles -
+    - kai uses "--pre" for installation
+    - i used "pipenv install "black==20.8b1" (if i recall correctly)
+- dbus-python package had trouble with sub-dependency (dbus-1), when the following apt-package wasn't installed: libdbus-glib-1-dev
 
 Pipenv (TODO: not perfect place here)::
 
@@ -107,11 +113,3 @@ Pipenv (TODO: not perfect place here)::
     pipenv --rm
     pipenv update
     pipenv graph
-
-Pipenv-Trouble
---------------
-- pipenv fails to scan for deps in sub-folders when python wasn't pinned to v3 (
-- black-lib had troubles -
-    - kai uses "--pre" for installation
-    - i used "pipenv install "black==20.8b1" (if i recall correctly)
-- dbus-python package had trouble with sub-dependency (dbus-1), when the following apt-package wasn't installed: libdbus-glib-1-dev

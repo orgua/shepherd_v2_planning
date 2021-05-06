@@ -62,6 +62,18 @@ Check (on sheep)::
         -> error, no /sys/shepherd/state
             there is /sys/module/shepherd, without "state"
 
+Debug (on sheep)::
+
+    # KModule autoload in
+    sudo nano /etc/modules
+    /lib/modules/$(KVERSION)/extra/shepherd.ko
+
+    # manual load fw into pru
+    /sys/class/remoteproc/remoteprocX/firmware      -> fw-name in lib/firmware/ usually am335x_pru0-shepherd-fw
+    echo "start" > /sys/class/remoteproc/remoteprocX/state
+
+
+
 Tests for preparing software-release
 ------------------------------------
 
