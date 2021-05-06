@@ -74,7 +74,8 @@ TODO
 ----
 - asm-code in main-branch is cleaner and edges are clock-synchronous
 - commits from legacy
-- commits from main: c57b306
+- commits from main:
+- synced: 72aad92 - may 06
 
 
 test::

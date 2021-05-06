@@ -62,7 +62,21 @@ Event3 NEW - complete routine (with setting cmp-timer)
 - 140 ns -> for setting timer and checking inbox
 - 460 ns -> incl receiving a msg -> expensive code is now in kernel
 SysGpio
-- 220 ns for check and compare, 
+- 220 ns for check and compare,
+<<new mem-msg-sys + opt - 2021-05>>
+120 ns GPIO-Check (min 100 ns) without pin-change
+ 60 ns Offtime to check the others
+        -> 15 ns for benchmark-pin-setting (asm-count)
+        -> 150 ns to 170 ns shortest loop
+280 ns Offtime for CMP0
+460 ns Offtime MAX (1s search-window)
+        -> mean 5.7 MHz (logicA)
+        -> min  1.7 MHz (120 + 460 - 15)ns
+        -> max  6.8 MHz (100 + 60 - 15)ns
+740 ns GPIO-Check with PinChange (min 600 ns, minFullBuff 320 ns, max?? 5180 ns)
+        -> 20 ns for benchmark-pin-setting (asm-count)
+        -> mean 2.2 MHz (logicA)
+        -> min  840 kHz (740 + 460 - 20)ns
 
 <<<PRU0>>>
 560 ns 	handle_rpmsg(), sometimes (before long E3) 1020 ns (without receiving)
@@ -77,10 +91,13 @@ SysGpio
 2000 ns sampling() / harvesting (2x ADC, store, calc, 1x DAC)
 xxxx ns sampling() / virtualSource, 21/36 us, including 2x ADC, 1x DAC (~2 us) -> prototype
     -> 8 us makes ~ 1600 instructions
-<<new mem-msg-sys>>
+<<new mem-msg-sys + opt - 2021-05>>
 80 ns   time between sampling and checking for msgs
 40 ns   checking for msg (inbox empty)
 800 ns  buffer-swap
+    400 ns prepare buffer
+    200 ns mutex-part / gpio-swap (Mutex part was 460 ns before, 2700 ns before that)
+    200 ns send full buffer
 260 ns  check and receive msg
 
 
