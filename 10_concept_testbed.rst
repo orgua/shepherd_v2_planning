@@ -265,6 +265,21 @@ Anforderungen
     - wenn möglich Kontrolle über POE der Ports zum Energiesparen, da embedded Knoten zwar runtergefahren werden können, aber kein WOL beherrschen
 
 
+Anbringung der Knoten
+---------------------
+
+- controlled by: https://tu-dresden.de/tu-dresden/organisation/zentrale-universitaetsverwaltung/dezernat-4-gebaeudemanagement/sg-4-1-baumanagement/bautechnik
+- formular:  https://www.verw.tu-dresden.de/VerwRicht/Formulare/download.asp?file=Baubedarfsblatt.pdf
+
+- die Projektlaufzeit beträgt etwa 3-5 Jahre
+- die 30 Testknoten benötigen als Verbindung lediglich jeweils ein LAN-Kabel
+- Das Gehäuse kann entweder flach oder würfelförmig werden, das benötigte Volumen beträgt etwa 0.5 Liter
+- Das enthaltene System verbraucht etwa 3-5 W bei Aktivität (5V), bedeutet also keine signifikante Wärmequelle
+- wir beschränken uns auf die cfaed-Etage mit den Räumen BAR II52 - II75
+- in der Auswahl sind hauptsächlich Büros, Kaffeeküche, Postraum, ein Konferenzraum und einige Flur-Positionen
+- wir haben das OK von den Lehrstühlen, bzw. der Bürobesetzung und vom ZIH
+- das ZIH hat bereits ein Subnetz für uns geschaltet
+
 
 Comparison D-Cube
 -----------------
