@@ -280,6 +280,28 @@ Anbringung der Knoten
 - wir haben das OK von den Lehrstühlen, bzw. der Bürobesetzung und vom ZIH
 - das ZIH hat bereits ein Subnetz für uns geschaltet
 
+Anforderungen zur Anbringung
+----------------------------
+
+- Genehmigung der Bundesnetzagentur (Funk)
+    - wir operieren im ISM-Band und halten uns an die geltenen Bestimmungen, bzw. nutzen wir OEM / off-the-shelf-Funk-Module, zertifiziert
+- Einzeichnung Standorte in Grundrisse
+    - Standorte müssen noch ermitteln werden
+- Zustimmung der aktuellen Nutzer ist schriftlich vom Kostenstellenverantwortlichen zu zeichnen
+- Standorte im Flur und der Küche -> separater Antrag an das Sachgebiet 4.3
+- ggf. Brandschutzbewertung notwendig -> Kostenstelle in Höhe ca. 1-1,5 TEuro benötigt
+    - Formular von Herrn Heyner
+- formloses Betreiberkonzept
+- Gefährdungsbeurteilung ist mit der Arbeitssicherheit SG 4.5 abzustimmen
+
+Plan zur Anbringung
+-------------------
+- Gehäuse
+    - Elektronik nicht anfassbar, aber Belüftung möglich
+    - keine leicht entflammbaren Materialien
+- Betreiberkonzept Vorentwurf
+- mit SG 4.3 in Verbindung setzen
+- mit SG 4.5 in Verbindung setzen
 
 Comparison D-Cube
 -----------------
