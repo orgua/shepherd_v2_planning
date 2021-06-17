@@ -24,7 +24,12 @@ Useful commands on a fresh system::
     sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
 
     # test suite in /opt/shepherd/software/python-package
+    cd /opt/shepherd/software/python-package/
     sudo python3 setup.py test --addopts "-vv"
+    dmesg -wH
+
+    # allow connection per GUI from remote:
+    sudo shepherd-sheep rpc
 
     # helpful when build-system was used with sudo
     sudo chown -R user ./

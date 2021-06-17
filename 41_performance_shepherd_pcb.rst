@@ -29,7 +29,7 @@ BOM
 
 Target-GPIO performance of triggered edges without target
     - target voltage 3v3, triggering from user-space-pins
-    - (quickshot102/103)  < 2 us from 0 to 2V, but last 1/2 Volt can take 100 us
+    - (quickprint102/103)  < 2 us from 0 to 2V, but last 1/2 Volt can take 100 us
     - (qs104) < 5 us for complete transition, < 2 us for first 2 V
     - -> performance should be good for at least 500 kHz
     - pru-pins - rising edge - first 2V ~ 1us, complete in 2-3 us
