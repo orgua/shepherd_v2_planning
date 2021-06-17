@@ -54,6 +54,66 @@ Changes for v2.1r0
 - power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out
 - check / measure real reverse current of diode
 - evaluate higher driving strength for Target-Supply
+TODO:
+- new coil is now 963-NR3015T3R3M
+
+Changes after v2.1r0
+--------------------
+- first 4 Target-Boards has green LED1 (down) and red LED2 (up)
+- Vanilla Shepherd Cape stopped BB from booting and even putting it on while running failed
+    - removed watchdogpins (pwrOn&reset) allowed to put cape on while running (still not while booting)
+- L3V-TestPosition is bad, easy to produce shorts with neighbour
+- describe external powering better in schematic
+- update expected voltage levels in schematic
+- label for pwr-led
+- AB-label of target bigger
+- P7/P8 seems wrong name for big pinheaders
+- diodes for writeonly-pins that are also bootpins?
+    - better: switch!
+- testpoints without paste, and small hole in copper to lock a probe
+- is there a way for cage-selfalignment ?
+- more pinnumbers on big headers
+- feducials can be removed - panel has plenty
+- remove layerwindows and make number bigger
+- provide more help with switching to external pwr, switch? backside would be good
+- pin1 markings should be bigger
+- emulationBug! - Critical
+    - solutionA - MinimalEffort: Swap FbB- with RailA-Trace
+        - FbB -> rotate R1/10k clockwise and attach it to middle pad
+        - RailA -> cut Trace between R9 and Via
+        - connect enamel from R9 to (now) free Pad of R1 -> this routes RailA to Switch
+        - connect enamel from TP1-Pad to rotated R1 -> this routes FbB to Switch
+    - solutionB - clean: rewire output of AnalogSwitch
+- silk: vCap is now V_SimBuf
+- schem: recorder gain is now just 10
+- more Metal for cooling the recorder-mosfet
+- hw may be glitching BB - caps are getting big, voltage drop also -> critical!
+    - maybe add lowpass to en-pin of regulators or limit power
+    - TEST: run unittests 2-5x, often bb hangs itself somewhere between 47...80%
+    - scope shows:
+        - AC: 600mV dip on shepherd-enable, 3x 200mV stages, lowest point 600 us after start, then fast recovery to -300mV, slow after (quickshot 1-2)
+        - DC: 800 - 1100 mV Dip, but the first one (after a break of some minutes) is more severe
+    - another hang: converters did not start as planned, only 6V is up, L3V3 is at 2V, the others well below that
+    - mitigations: 1mF/16V Cap on 5VBB reduces voltage drops to ~ 200mV (max 300), in a 5 ms Windows (quickshot 4)
+    - todo: run tests without cape
+- add 2x23 to BOM SSQ-123-03-G-D , digikey  	SAM1196-23-ND
+- is harvest-LED working? YES, but only with higher currents
+    - var1: bind to vsim to allow more refined feedback
+    - var2: 3x 2.0V Leds from adc-input to -6V (with resistor, should always light up)
+- Rail-LED is twisted!
+- VHarv lowpass is 160 kHz not 16 kHz as shown
+- change all lowpasses to 160 kHz
+- big pinheaders are named p7 / p8? -> p8 / p9
+- Switch IC avoid solder bridges per design even more
+- emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp
+- reduce V_IO_BUF OPAmp-Resistor to 10 Ohms
+- level-change performance is still bad! maybe add 1k back?
+- EEPROM needs to be always powered (BB 3V3)
+- Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and dont forget Silkscreens!
+- Make switching Ferrite for ext-pwr easier (and correct schematic-manual)
+- put a note in schematic for WD
+    - BB_START has 5V Level when BB is on, gets pulled to 3V3 when WD does its routine because schematic uses BB3V on it. but that seems ok!
+- a little bit bigger 0402-pads, they get loose quiet fast
 
 TO TEST with v2.1
 -----------------

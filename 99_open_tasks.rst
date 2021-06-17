@@ -7,52 +7,65 @@ Questions for the Team
 - which Targets should be included
 -
 
+General short-term TODO
+-----------------------
+
+- converter py-impl
+- test converter virtual source
+- optimize converter
+    - arbeitsbereich von eta definieren
+    - converter mode implementieren
+    - beschleunigen
+    -
+- add default regulators (BQ... need to be parametrized)
+- fix for kai
+    - file-name / auto-transfer fails, retrieve newest?
+    - sheep / tasks / main / meta-package overwrites /etc/shepherd
+    - add start timestamp to config
+    - force_overwrite seems to be wrong? default not applied
+    - lowPrio: include GPS / PTP - Sync - status logging in h5-file
+- include commits from Kai
+- observe hangs during test-suite-run (probably glitching due to voltage dip)
+- add recorder-example as default  /etc/shepherd/config.yml (start with button)
+- harvesting - voltage-sweep
+- add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
+- Test hw, all subelements, eeprom, ...
+- hw redesign 2.1r1
+- optional
+    - click might be slowing down start of programs substantially
+    - proper exit-handler for python
+    - pru-fw - base msg system on irq, but not really needed, except for timestamping
+- ask kai
+    - given time of find_consensus_time() is only used for comment? sheep does not start
+        - config file gets
+        - sudo python3 setup.py install --force
+        - shepherd-herd -vvv -i inventory/example.yml record -d 10 --no-calib
+    - BQ Parametrize -> YES
+    - HW - diode shows ~ 430 nA reverse current
+    - HW - what about harvest LED
+    - HW - target cap: reducing from 1 us to 100 nF brings edge-response from 30-80 us down to 8-14 us -> target can buffer on its own, 10 Ohm shunt & 1 uF are responsible for 16 kHz Lowpass
+    - hw - maybe add V-ADC for emu? resulting V can deviate from dac -> chips select pins could be cross-used when only rec or emu is active
+    - wirklich nur 20min timer?
+
 Testbed
 -------
 
-- wait for ZIH-Answer regarding rules, (hw) requirements
-- when ZIH has vLAN ready: test if infrastructure of university is sufficient, mostly regarding ptp
-- for node-distribution
-    - talk with the leaders of groups that occupy offices
-    - examine offices with IT-Admin
-- measure link quality around cfaed-floors
 - for global server access -> security concept needed
-- distribution - git for debian package seems possible -> https://wiki.debian.org/GitPackaging
+- measure ptp-performance with new cisco-switch
+- get ptp-capable cisco-switch
+- get proper wall-mounting for nodes
+
 
 Hardware - mostly shepherd Cape
 -------------------------------
 
-- target-relays/switches : multi-pin, low leakage, high data-rate
-    - current uni-direction (gpio) -> SN74LV4T125PWR -> are diodes needed?
-    - current bi-direction (uart, swd) -> TXB0304RUTR
-    - optimal specs: v_in & v_ref_a & v_ref_b (3 separate levels), IO-Ports
-- power-switches: low leakage
-- level-changer: high speed, low-power, possible combination with switch / programmable
-- find large pin-count gpio-switch (target-selector)
-- is there a better power-path?
-  - find reason for substractor (EMU-I)
-  - why is uni-dir level switcher not on vdd-target -> it could get into undefined state
-- draw digital version of float chart for power-stage
-   - where is V_CREF coming from, or is it flowing backwards from VOC_SAMP?
-   - is there a possibility that (CV)-LDO drives against MPPT-Converter in a unwanted state?
-- test accessing GPIO Periphery via PRU, register address
-- look at https://github.com/cdsteinkuehler/beaglebone-universal-io
-- some routine is driving gpio on boot -> input kai: not uboot
+
 
 Software - RealTime-Code
 ------------------------
 
-- does beaglebone AI with TI AM5729 offer more pins for PRU? https://www.ti.com/product/AM5729
-- find a better name for vCap, like vEH, vPwr
-- try to access host gpio peripheral via pru -> would make pin-doubling redundant
-- try to benchmark the loop (debug-pin-high when processing)
-- check out other testbeds
-    - tracelab 200 ns accuracy - https://pub.tik.ee.ethz.ch/people/rlim/LMDBT2015.pdf
-- GIT, for Kai
-    - make PR for shepherd1 with fixes
-    - is dev-branch in shepherd1 important? two pins are swapped, and some scripts refined
-    - where is python-periphery v2 reacting wrong? can we work around it? character device VS sysfs
-        - device tree allows to define standard behaviour of pins
+
+
 
 Software - Linux, Python
 ------------------------
@@ -64,6 +77,10 @@ Software - Linux, Python
 - SSH speedproblem: cpu-encryption is slow, transfer is ~ 50 MBit with 100% CPU Usage
     - Crypto-Module brings ~ 25 MBit with < 30% CPU Usage
     - ssh should allow to switch to lower crypto after handshake, maybe even something that is fast for Crypto-Module
+
+- i2c1 is only for target-pin-header and can be disabled by default (needed for target-programmer later)
+- uart1 is disabled for now (to access pins in linux)
+- calibration: switching main power to both targets shows, that the routes seem to have different current-readings for the same load! odd
 
 Software - OpenOCD
 ------------------
