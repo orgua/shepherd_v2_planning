@@ -52,3 +52,40 @@ print(V_ingmar)
 CC: C_cap * V_cap_new^2 / 2 = C_cap * V_cap_old^2 / 2 - C_out * V_out^2 / 2;
 ft : solve(CC, V_cap_new)[2];
 '''
+
+
+# TestBench PreTest
+
+vss = dict()
+# keep in sync with "example_virtsource_settings.yml"
+vss["C_storage_F"] = 1 * (10 ** -3)
+vss["V_storage_V"] = 3.5
+vss["t_sample_s"] = 10 * (10 ** -6)
+vss["eta_in"] = 0.5
+vss["eta_out"] = 0.8
+vss["I_storage_leak_A"] = 9 * (10 ** -9)
+vss["V_storage_disable_threshold_V"] = 2.3
+vss["V_out_V"] = 2.0
+
+
+# set desired end-voltage of storage-cap:
+V_cap_V = 4.000
+dt_s = 0.100
+V_inp_V = 1.0
+dV_cap_V = V_cap_V - vss["V_storage_V"]
+I_cIn = dV_cap_V * vss["C_storage_F"] / dt_s
+P_inp_W = I_cIn * vss["V_storage_V"] / vss["eta_in"]
+n_samples = dt_s / vss["t_sample_s"]
+I_inp = P_inp_W / V_inp_V
+
+# set desired end-voltage of storage-cap - low enough to disable output
+V_cap_V = 2.200
+dt_s = 1.00
+dV_cap_V = V_cap_V - vss["V_storage_V"]
+I_cOut = - dV_cap_V * vss["C_storage_F"] / dt_s - vss["I_storage_leak_A"]
+P_out_W = I_cOut * vss["V_storage_V"] * vss["eta_out"]
+n_samples = dt_s / vss["t_sample_s"]
+I_out = P_out_W / vss["V_out_V"]
+Ps = P_out_W / n_samples
+
+print(f"VCap goal)")
