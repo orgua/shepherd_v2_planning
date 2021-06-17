@@ -28,6 +28,7 @@ PRU0	PRU1	Changes
 78176   65948   remove printf and rpmsg
 75916   61816   cleaned up resource table
 76032   60964   further restructuring (2021-05)
+77744   61244   still ufloat (2021-06-04)
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
