@@ -117,11 +117,32 @@ DAC-Responses
     - 4V8 raise - ~ 10 us, 5 % overshoot (QuickPrint305.png)
     - 4V8 fall  - < 10 us for ~ 90 % (QuickPrint306.png)
     - result: voltage seems unstable, but responses are fast! could also be caused by noisy 10/-6 V
--
+
+- Emulate, Rail B, No Drain, 160 kHz Mod, Long loop, 2 Ohm Shunt, 1 uF Buffer
+    - 2V raise  - 40 us, 10 % Overshoot (Quickprint354)
+    - 2V fall   - 80 us, 90 % (Quickprint353)
+- Emulate, Rail B, No Drain, 160 kHz Mod, Long loop, 2 Ohm Shunt, 100 nF Buffer
+    - 2V raise  - < 10 us, < 20 % Overshoot (Quickprint355)
+    - 2V fall   - < 10 us, 90 % (Quickprint356)
+    - result: 100 nF without any load still shows slight constant ringing
+- Emulate, Rail B, 1k Drain, [same as before]
+    - 2V raise  - < 10 us, < 20 % Overshoot (Quickprint358)
+    - 2V fall   - < 10 us, 90 % (Quickprint357)
+
+- total propagation beginning with ChipSelect
+    - DAC-CS & OpAmpOut (100nF Buffer, 1kOhm Load), Quickprint364
+    - SPI Communication takes ~ 800 ns
+    - Voltage begins changing after ~ 2.2 us of CS-High
+    - Voltages overshoots in 3 us and falls to wanted voltage in additional 1.5 us
+    - result: 8 us from beginning of communication to voltage-set
+
 
 TODO: try long loop, smaller feedback-resistor, but it shouldn't change much - extra ADC for voltage and 10 Ohm Shunt seems important
 latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 - still 60 mVpp Ripple on VTarget, 600 kHz
+- fav: 100nF, ensure system function, noise is ok, buffering done by target
+TODO: measure reverse current of diode
+TODO: fix lowpass on recorder, or at least the 12mV Spikes every 3.3 us (~7% integral of 12 mV)
 
 Current Measurement
 -------------------
@@ -164,6 +185,55 @@ pyCode::
         R.append(round(res,3))
 
 TODO: try to light the LED
+TODO: use voltage to current converter: 0..5V to 0..5/15mA?
+
+Emulator - Dynamic Behaviour to load-changes
+--------------------------------------------
+
+- setup
+    - aux channel with 10 Ohm shunt
+    - v-target = 2.0 V
+    - loads: 10, 20, 30, 40, 50 mA -> 200, 100, 66.7, 50, 40 Ohm
+    - resulting load-resistors: 200, 100, 68, 51, 43 Ohm
+    - buffering: 100 nF, 1 uF
+    - scope in AC-Mode,
+- experiment A1: 2V, 100 nF, long loop, ON
+    - 10 mA: -72 mV, gone after ~ 25 us, Quickprint319,321
+    - 20 mA: -144 mV, gone after ~ 35 us, Quickprint322
+    - 30 mA: -192 mV, gone after ~ 45 us, Quickprint324
+    - 40 mA: -268 mV, gone after ~ 45 us, Quickprint323
+    - 50 mA: -332 mV, gone after ~ 50 us, Quickprint325
+- experiment A2: 2V, 100 nF, long loop, OFF
+    - 10 mA: +92 mV, gone after ~ 30 us, Quickprint326
+    - 20 mA: +168 mV, gone after ~ 40 us, Quickprint329
+    - 30 mA: +248 mV, gone after ~ 40 us, Quickprint328
+    - 40 mA: +320 mV, gone after ~ 45 us, Quickprint330
+    - 50 mA: +380 mV, gone after ~ 45 us, Quickprint332
+- experiment B1: 2V, 1 uF, long loop, ON
+    - 10 mA: -56 mV, gone after ~ 30 us, Quickprint334
+    - 20 mA: -112 mV, gone after ~ 35 us, Quickprint335
+    - 30 mA: -172 mV, gone after ~ 40 us, Quickprint336
+    - 40 mA: -192 mV, gone after ~ 45 us, Quickprint337
+    - 50 mA: -248 mV, gone after ~ 45 us, Quickprint338
+- experiment B2: 2V, 1 uF, long loop, OFF
+    - 10 mA: +72 mV, gone after ~ 30 us, Quickprint340
+    - 20 mA: +148 mV, gone after ~ 35 us, Quickprint342
+    - 30 mA: +180 mV, gone after ~ 40 us, Quickprint344
+    - 40 mA: +236 mV, gone after ~ 40 us, Quickprint345
+    - 50 mA: +288 mV, gone after ~ 40 us, Quickprint346
+- experiment C: 2V, 1 uF, long loop, 1 Ohm Shunt, 50 mA load
+    - without load unstable, 72 mVpp
+    - transition between loads has no significant voltage drop, even 50 mA drop is below resonance Quickprint347/348/
+- result
+    - 100 nF Dips are roughly corresponding to voltage divider between shunt and load (10/(43+10)=377mV)
+
+- experiment D1: 2V, 100 nF Buffer, long loop, 2 Ohm Shunt, 50 mA load / 43 Ohm
+    - on: - 84 mV, < 5 us, Quickprint360
+    - off: + 76 mV, < 5 us, Quickprint359
+    - result: 100nF slightly unstable, 20 mVpp Ringing
+- experiment D1: 2V, 1 uF Buffer, [unchanged]
+    - on: - 48 mV, < 5 us, Quickprint361
+    - off: + 56 mV, < 5 us, some dampened ringing afterwards < 30 us, Quickprint362
 
 Noise Behaviour
 ---------------
@@ -185,11 +255,11 @@ Noise Behaviour
 - 10 Ohm shunt@1V, RailB, 1k Load, A5V -> Quickprint 83 - 86 -> 40 mVpp ???
     - 21-30 mVpp with strong 50 Hz switching noise (10ms)
 
-TODO: shunt-noise is bad, why?
+TODO: shunt-noise is bad, why? -> it isn't, ~
 TODO: are -6V and 6V and 10V improved to last time?
     - 10 V is similar
     - 6 V has no record
-    - -6V is worse!
+    - -6V is worse! (USB-Powered)
 TODO: how does input voltage perform?
 
 
@@ -248,9 +318,18 @@ GPIO to Target
     - difference: TargetGPIO was pulled up with 100k instead of 10k and 1k to lvl-changer
     - Theory: something is pulling down, maybe FET-Connection is not working as expected
 
+Trying to find reason of slow rising edges
+- Taking apart the LSF
+    - refB is sources with 240k on 3.306 V, settling at 1.524 V
+    - refA settles at 0.967 V (between 1M and 100k) -> voltage drop over FET (refAB) is 0.558 mV
+    - modding refB with 200k increases refB to 1.625 V, refA to 1.053 V -> drop = .572 V
+- LSF-SignalPads A to B -> resistance while on = 6 Ohm, off = infinite
+- 100k as PU on Target side worsens the edge-timing
+
 TODO: test reverse-channel
 TODO: test 1k PU on BB-Side
 TODO: add scope-shots to project with leading 3xx
+TODO: Goal 1Mbit UART
 
 
 Program EEPROM
@@ -298,6 +377,7 @@ Watchdog
     - nSTART is @3V3
     - 730 s silence
     - nSTART gets 20.8 ms low (quickprint317) but its not enough for the "old" BB to react to it
+        - not enough for a fresh BB either...
     - there does not seem to come another PullDown (25'000 seconds wait)
 - manual wakeup: 130 ms do the trick :(
 - provoking a reset
@@ -312,7 +392,7 @@ stop launcher::
 
     systemctl stop shepherd-launcher
 
-TODO: why is boot not working, try a second BB (copy to SD-Card)
+TODO: Why is boot not working? Even a fresh BB does not respond to a ~ 20 ms LOW nSTART
 
 External Button
 ---------------
@@ -327,15 +407,104 @@ External Button
 Programming Target
 ------------------
 
-from herd::
+- compile a demo 'https://github.com/geissdoerfer/shepherd-nrf52-demo'::
 
-    systemctl start shepherd-openocd
-    telnet
+    sudo apt install gcc-arm-none-eabi
+    sudo find / -iname arm-none-eabi-gcc
+
+    export GNU_INSTALL_ROOT=/usr/bin/
+    export SDK_ROOT=/home/hans/Downloads/NordicSDK/
+    make all
+
+- prepare target with default: 3V for target 1, with gpio-pass::
+
+    sudo shepherd-sheep -vv target-power --voltage 2.8
+
+- installed and configured modded version of openOCD (new playbook)
+- fixed cli for 'target-power' and extended herd-tool accordingly
+
+herd-steps::
+
+    shepherd-herd target
+    shepherd-herd start-openocd
+    shepherd-herd target flash build.hex
+
     program /tmp/target_image.bin verify reset
 
+Start by hand::
 
+    # installed in /etc/systemd/system/
+    sudo systemctl start shepherd-openocd.service
+
+    # cfgs in /usr/share/openocd/scripts/interface/
+    sudo /usr/bin/openocd -c "bindto 0.0.0.0" -f interface/beaglebone.cfg -f interface/shepherd.cfg -c "transport select swd" -f target/nrf52.cfg
+    sudo /usr/bin/openocd -d -c "bindto 0.0.0.0" -f interface/beaglebone.cfg -f interface/shepherd.cfg -c "transport select swd" -f target/nrf52.cfg
+    sudo /usr/bin/openocd -d -f interface/beaglebone.cfg -f interface/shepherd.cfg -c "transport select swd;telnet_port pipe;log_output /dev/null" -f target/nrf52.cfg
+
+    # check if it runs:
+    sudo netstat -apn | grep LISTEN
+
+Success!! When Target is directly connected::
+
+    shepherd-herd target flash build.hex
+
+- flashed "powered" demo with 9600-baud serial and proper pin-config!
+
+UART to Target
+--------------
+
+- Image sets baudrate to 9600
+- pins had to be disabled in device-tree P9-24/26
+- uEnv.txt had to load uart1
+
+console::
+
+    sudo stty -F /dev/ttyS1 9600
+    sudo cat /dev/ttyS1
+
+    # spits out text by manually triggering pins:
+    1 triggered
+
+      is outside of range of supported pins (7)
+
+
+Bootpin-Overlay conflicts with bootup
+-------------------------------------
+
+- Problem 1: some essential PRU-Pins are also deciding how the BB boots up
+- Problem 2: was hard to catch, because reboots und some powerups seem to be fine
+
+- Used by Shepherd: P8 Pin 39-46, states in when unconnected with BB
+    - 39, 40, are low
+    - 41, 43 are High
+    - 42, 44 are needed high (but shepherd feeds in 80 ms high, follows with serial, low afterwards)
+    - 45, 46 are low
+    - P8-42 is connected to P9-26 with 2 kOhm (is uart-rx ???)
+    - P8-44 is connected to P9-18 with 2 kOhm (is i2c1-sda)
+- Bootup from BB
+    - 41, 42, 43, 44 are high
+    - 45, 46 are low
+- leaving one pin unconnected
+    - 41 -> all Leds light up forever
+    - 43 -> short break + flashes, repeat forever
+    - 42, 44, 45, 46 -> no led response
+- leaving some pins unconnected
+    - 41+43 -> NoLeds
+    - 42+44 -> NoLeds
+    - 41 - 44 -> OK
+    - 41+42 -> All Leds light up forever
+    - 43+44 -> NoLeds
+    - 42+43 -> Flashes
+    - 42 - 44 -> NoLeds (????, pin 41 is high and expected to be high)
+- Function during Boot
+    - 41 - Bootdevice, High
+    - 42 - CLKOUT, High
+    - 43 - Bootdevice, High, but depends SDCard if LOW
+    - 44 - Bootdevice, High
+
+- solution: analog switch for 41-44
 
 Something Else????
 ------------------
 
-- seems to be everything
+- 2nd (fresh) BBone was tested with current Shepherd v2.1 -> works fine (when omitting pins p9 41-44 during uboot)
