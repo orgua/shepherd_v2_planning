@@ -65,15 +65,15 @@ Fixing the LSF
     R1: 1e6;
     R2: 100e3;
     R3: 240e3;
-    # VFet-Nexperia is 1 V, TI is 0.85 V
-    VFet: 1.0;
+    # VFet-Nexperia is 1 V, TI is 0.85 V (referring to datasheet), nexperia shows ~ 575 mV voltage drop
+    VFet: 0.575;
     VB: 3.3;
 
     R2 = R3 * R1 * VRefA / ((R3 + R1)*(VB - VRefA) - VFet * R1);
     solve(R2, VRefA);
 
-    VRefA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 + R2*R3);
-    VRefA = 0.89 V for TI, 0.85 V for Nexperia
+    VRefAA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 + R2*R3);
+    # VRefA = 0.89 V for TI, 0.85 V for Nexperia
 
 
 .. image:: media/leveltranslator_schematic_fixed.png
