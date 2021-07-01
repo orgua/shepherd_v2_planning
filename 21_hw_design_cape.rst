@@ -1,81 +1,57 @@
 Design - Hardware - Shepherd-Cape
 =================================
 
-schematics Open
----------------
-- prepare calibration
-- ordered not enough 15uH Coils, need 30 more
-- check remainder of BOM for emu-only assembly
-- shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
-- explain schematics,
 
-Part Changes (after Mouser-Order - NOW already ordered)
--------------------------------------------------------
-- DAC       100nF -> 1uF
-- Boost     10uF -> 10uF (inv)
-- Inv       +47uF
-- Rec       2x 10k 0603 -> 0402
-- All       34x 1uF/16V/0603 -> 1uF/25V/0402
-- final Shield, cover & frame
-- all       4x 15uH/4mm -> 15uH/3mm
-- parts of nRF-Target
+General rule for assembly-drawings
+----------------------------------
+- origin orientation
+    - keepout
+    - assembly notes (mech15)
+- designator
+    - keepout
+    - top designator (mech 2?)
+- Copper / Silk
+    - L1 Pads / Via
+    - Keepout
+    - Top Overlay
+-> print in Color
 
-schematics Postponed
+
+Open Changes for v2.3
+----------------
+- feducials could be removed - panel has plenty
+- more pinnumbers on big headers
+- test changed recorder
+- is harvest-LED working? YES, but only with higher currents
+    - var1: bind to vsim to allow more refined feedback
+    - var2: 3x 2.0V Leds from adc-input to -6V (with resistor, should always light up)
+    - var3: v-to-i converter
+- switch to TI Version of LSF0801 -> out of stock till feb.22
+- optimize LSF for 1 MBaud (see
+- WDog is still not triggering nSTART (pulse too short)
+- HC2G04 still has wrong comment
+- wrongly linked in schematic
+    - C53 L3V is part of recorder, but should be open domain
+    - C48 is recorder, but should be emu
+    - C24 is open domain, but should be recoder
+- has DAC also pin to disable?
+
+
+Done Changes for v2.2
 --------------------
-- internal calibration? with 2 switches and 1 calibration-linear-power-supply
-- OP-Amp, bias Subtractor: LMP7701MF, not needed now
-- sync to pps -> external pcb
-- usb-socket is impossible to hand-solder right now
-- (maybe) add PU to watchdog outputs
-- separate PCBs for PPS-Source, Recorder, Emulator
-
-Changes for v2.0r2
-------------------
-- only 5 diodes of type PMEG in order?
-- change 100 uF to 47u? one less component
-- Testpad should be square for GND, half-circle for Signal or similar
-- r3 (dac, emu)
-- proper naming for TP if there is space
-
-- TPs should have bigger hole, so probes stick
-- oscillating opAmp should be outside of cage
-- allow install of a big cap on A5V or 5V, 5v5 1F is cheap
-- add longer pinheader for p8/p9 23-46
-
-Changes for v2.1r0
-------------------
-- additional PCB for POE
-    - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
-    - switching regulator for 12/9 to 6V
-    - linear regulator with proper noise resistance for 6 to 5V
-    - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
-- fix layerwindows
-- optimize position of current limiting resistors
-- power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out
-- check / measure real reverse current of diode
-- evaluate higher driving strength for Target-Supply
-TODO:
-- new coil is now 963-NR3015T3R3M
-
-Changes after v2.1r0
---------------------
-- first 4 Target-Boards has green LED1 (down) and red LED2 (up)
-- Vanilla Shepherd Cape stopped BB from booting and even putting it on while running failed
+- INFO for v2.1r0:
+    - first 4 Target-Boards has green LED1 (down) and red LED2 (up)
+    - Vanilla Shepherd v2.1 Cape stopped BB from booting and even putting it on while running failed (p8 41-44)
     - removed watchdogpins (pwrOn&reset) allowed to put cape on while running (still not while booting)
 - L3V-TestPosition is bad, easy to produce shorts with neighbour
-- describe external powering better in schematic
 - update expected voltage levels in schematic
 - label for pwr-led
 - AB-label of target bigger
 - P7/P8 seems wrong name for big pinheaders
-- diodes for writeonly-pins that are also bootpins?
-    - better: switch!
-- testpoints without paste, and small hole in copper to lock a probe
-- is there a way for cage-selfalignment ?
-- more pinnumbers on big headers
-- feducials can be removed - panel has plenty
+- testpoints without paste, and small hole in copper to lock a probe -> just less paste
+- is there a way for cage-selfalignment? -> negative solder mask exp
 - remove layerwindows and make number bigger
-- provide more help with switching to external pwr, switch? backside would be good
+- describe external powering better in schematic
 - pin1 markings should be bigger
 - emulationBug! - Critical
     - solutionA - MinimalEffort: Swap FbB- with RailA-Trace
@@ -86,7 +62,26 @@ Changes after v2.1r0
     - solutionB - clean: rewire output of AnalogSwitch
 - silk: vCap is now V_SimBuf
 - schem: recorder gain is now just 10
-- more Metal for cooling the recorder-mosfet
+- more Metal for cooling the recorder-Path
+- Rail-LED is twisted! -> No its not
+- add 2x23 to BOM SSQ-123-03-G-D , digikey  	SAM1196-23-ND
+- VHarv lowpass is 160 kHz not 16 kHz as shown
+- change all lowpasses to 160 kHz
+- emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp -> now 2R & 1:50
+- Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and dont forget Silkscreens!
+- EEPROM needs to be always powered (BB 3V3)
+- reduce V_IO_BUF OPAmp-Resistor to 10 Ohms
+- a little bit bigger 0402-pads, they get loose quiet fast
+- level-change performance is still bad! maybe add 1k back?
+    - add back 1 kOhm as series resistor for LSF0801. maybe a bit lower because edges are a bit slow (1 us)
+- put a note in schematic for WD
+    - BB_START has 5V Level when BB is on, gets pulled to 3V3 when WD does its routine because schematic uses BB3V on it. but that seems ok!
+- get target A/B/1/2 straight. it is target 1/2 from now on! -> Skip it
+- C over Shunt is sometimes contraproductive (100 nF || 2 Ohm produce 1 MHz oscillation without any load but 100 nF buffer, 1uF/0uF is fine)
+- provide more help with switching to external pwr, switch? backside would be good
+    - switch + jumper?
+- add 74HC4066 and OPA189 to consumer-list, build a low-pwr Overview
+- optimize shepherd-EN (unlink rec/emu?`, better buffering?)
 - hw may be glitching BB - caps are getting big, voltage drop also -> critical!
     - maybe add lowpass to en-pin of regulators or limit power
     - TEST: run unittests 2-5x, often bb hangs itself somewhere between 47...80%
@@ -95,31 +90,22 @@ Changes after v2.1r0
         - DC: 800 - 1100 mV Dip, but the first one (after a break of some minutes) is more severe
     - another hang: converters did not start as planned, only 6V is up, L3V3 is at 2V, the others well below that
     - mitigations: 1mF/16V Cap on 5VBB reduces voltage drops to ~ 200mV (max 300), in a 5 ms Windows (quickshot 4)
-    - todo: run tests without cape
-- add 2x23 to BOM SSQ-123-03-G-D , digikey  	SAM1196-23-ND
-- is harvest-LED working? YES, but only with higher currents
-    - var1: bind to vsim to allow more refined feedback
-    - var2: 3x 2.0V Leds from adc-input to -6V (with resistor, should always light up)
-- Rail-LED is twisted!
-- VHarv lowpass is 160 kHz not 16 kHz as shown
-- change all lowpasses to 160 kHz
-- big pinheaders are named p7 / p8? -> p8 / p9
-- Switch IC avoid solder bridges per design even more
-- emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp
-- reduce V_IO_BUF OPAmp-Resistor to 10 Ohms
-- level-change performance is still bad! maybe add 1k back?
-- EEPROM needs to be always powered (BB 3V3)
-- Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and dont forget Silkscreens!
-- Make switching Ferrite for ext-pwr easier (and correct schematic-manual)
-- put a note in schematic for WD
-    - BB_START has 5V Level when BB is on, gets pulled to 3V3 when WD does its routine because schematic uses BB3V on it. but that seems ok!
-- a little bit bigger 0402-pads, they get loose quiet fast
+- Add Cap
+- run through hw_performance_v2.1r0 for final cross-check
+- allow to turn off ADCs (not that important for EMU-only)
+- maybe add 2nd Switch for PRU-Ports, or lower resistors to <= 100 Ohm (speed-improvement)
+- around switch-IC, avoid solder bridges per design even more -> space out vias, reduce solder mask expansion
 
-TO TEST with v2.1
------------------
-- power with 5VE
-- test delay of (recorder) setting voltage-level
-- add opa189 to 16V-consumer-list (1.3mA typ, 1.7mA max)
+additional Parts v2.2, for one Unit (Mouser-Numbers)
+----------------------------------------------------
+- 2 Ohm precision shunt: 603-RT1206CRD072RL
+- 2 Ohm shunt: 667-ERJ-2GEJ2R0X
+- more 1k 0402 (2xRec, 2xEmu, 10x LvlChg)
+- 210R InAmp-Gain-Setter: 603-RT0402BRD07210RL
+- 1mF, 6V3, 647-UVR0J102MPD1TD (D8mm,L11mm,3.5mm Spacing)
+- analog switch, 2x 771-HC4066BQ115
+- 4x 963-NR3015T1R5N
+- LSF dev-kit
 
 
 Done Changes for v2.1r0
@@ -193,19 +179,33 @@ additional Parts v2.1r0
 - Shepherd ON ~ 340 mW (4mW @ 3V, 190mW @ 5V, 36mW @ 6V, 74mW @ 16V)
 - ON Quiet Current matches with reality (66mA measured, 68mA calculated)
 
-General rule for assembly-drawings
-----------------------------------
-- origin orientation
-    - keepout
-    - assembly notes (mech15)
-- designator
-    - keepout
-    - top designator (mech 2?)
-- Copper / Silk
-    - L1 Pads / Via
-    - Keepout
-    - Top Overlay
--> print in Color
+Open Changes for v2.1r0
+------------------
+- additional PCB for POE
+    - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
+    - switching regulator for 12/9 to 6V
+    - linear regulator with proper noise resistance for 6 to 5V
+    - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
+- fix layerwindows
+- optimize position of current limiting resistors
+- power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out
+- check / measure real reverse current of diode
+- evaluate higher driving strength for Target-Supply
+TODO:
+- new coil is now 963-NR3015T3R3M
+
+Changes for v2.0r2
+------------------
+- only 5 diodes of type PMEG in order?
+- change 100 uF to 47u? one less component
+- Testpad should be square for GND, half-circle for Signal or similar
+- r3 (dac, emu)
+- proper naming for TP if there is space
+
+- TPs should have bigger hole, so probes stick
+- oscillating opAmp should be outside of cage
+- allow install of a big cap on A5V or 5V, 5v5 1F is cheap
+- add longer pinheader for p8/p9 23-46
 
 Done Changes for v2.0r2
 -------------------------
@@ -270,6 +270,36 @@ Done Changes for v2.0r2
     - polling has no effect during normal operation
     - TEST if 1k is enough to pull line low to enable -> it is
 - add open source hardware logo?
+
+
+schematics Open
+---------------
+- prepare calibration
+- ordered not enough 15uH Coils, need 30 more
+- check remainder of BOM for emu-only assembly
+- shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
+- explain schematics,
+
+Part Changes (after Mouser-Order - NOW already ordered)
+-------------------------------------------------------
+- DAC       100nF -> 1uF
+- Boost     10uF -> 10uF (inv)
+- Inv       +47uF
+- Rec       2x 10k 0603 -> 0402
+- All       34x 1uF/16V/0603 -> 1uF/25V/0402
+- final Shield, cover & frame
+- all       4x 15uH/4mm -> 15uH/3mm
+- parts of nRF-Target
+
+schematics Postponed
+--------------------
+- internal calibration? with 2 switches and 1 calibration-linear-power-supply
+- OP-Amp, bias Subtractor: LMP7701MF, not needed now
+- sync to pps -> external pcb
+- usb-socket is impossible to hand-solder right now
+- (maybe) add PU to watchdog outputs
+- separate PCBs for PPS-Source, Recorder, Emulator
+
 
 Done Changes for v2.0r1
 ------------------------
@@ -392,7 +422,7 @@ Done Changes for v2.0r1
 - update BOM
 - v2r1 ordered
 
-PCB Closed
+Done PCB Changes V2.0
 -----------
 - 4 Layer! Planes for Sig, GND, A5V, (3V3)
 - decide Manufacturer, EC, Aisler, Betalayout
