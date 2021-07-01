@@ -22,12 +22,12 @@ Beaglebone AI
     - uname: 5.4.24-armv7-x20 -> not booting
 - **oddities**
     - some restarts are not coming back & there are random shutdowns
-    - cpu stays boiling hot, even with 99.6% idling, governor set to powersave
+    - cpu stays boiling hot, even with 99.6% idling, governor set to powersave, tested:
         - ubuntu 18.4.4 from elinux, with 4.19.94-r36 & r51
         - debian 10.4 iot from elinux, with 4.19.94-r41?
         - debian 10.4 console -> does not even flash
         - debian 10.3 iot from bb.org with 4.19.94-r42
-        - debian 9.12 console from elinux with 4.14.108-r134 stays at 50 deg, only one?!?
+        - debian 9.12 console from elinux with 4.14.108-r134 stays at 50 deg -> only one distro?!?
     - ram only shows 578 MB ?!? it should be 1 Gig
         - DSP reserves 300 MB+
         - get ram back: https://groups.google.com/g/beagleboard/c/-kDcIPsLCkc/m/xHyrFKepAgAJ
