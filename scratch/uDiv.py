@@ -1,0 +1,27 @@
+import math
+
+def get_left_zero_count(num: int) -> int:
+    return int(32 - math.ceil(math.log(num, 2)))
+
+
+def udiv(value1: int, value2: int) -> int:
+    lzc2 = get_left_zero_count(value2) + 32
+
+    v2_sub = value2 * (2**lzc2)
+    print(f"got log(x)={math.log(v2_sub,2)}")
+    v2_add = (2**lzc2)
+    v1_rem = value1
+    v3 = 0
+
+    while v2_sub >= 1:
+        if v1_rem >= v2_sub:
+            v1_rem -= v2_sub
+            v3 += v2_add
+        v2_sub = int(v2_sub / 2)
+        v2_add = int(v2_add / 2)
+    return v3
+
+
+print(udiv(24949300, 30310))
+print(24949300 / 30310)
+
