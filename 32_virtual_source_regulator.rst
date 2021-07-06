@@ -110,3 +110,34 @@ TI Compiler behaviour::
     }
 
 .. image:: media/vSource_in100uW_out2mW.png
+
+
+BQ25504 - Datasheet RevE
+------------------------
+
+- Input MAX: 0.1 A, 3 V, 300 mW
+- Input MIN: Cold Start Voltage 0.6 V, Harvesting down to 130 mV, Datasheet speaks of 10uW min Charging
+- Quiescent Current Iq_vstor < 330 nA for UV Condition, 570 nA in OV
+- Battery Charge Voltage 2.5 - 5.25 V
+- VBAT_OK-Signal
+- Caps
+	- Input 4.23 - 5.17 uF
+	- Storage 4.23 - 5.17 uF
+	- Battery 100 uF and more
+- VBatOV 2.5 .. 5.25 V
+- VBatUV 2.2 .. VBatOV
+- Input Efficiency (Page 9)
+	- 10 uA: 0 % for 130 mV, 90 % for 3 V
+	- 100 uA: 10 % for 130 mV, 90 % for 3 V
+	- 10 mA: 40 % for 130 mV, 93 % for 3 V
+	- model needs better definition of limits
+- TODO: continue P11, https://www.ti.com/lit/ds/symlink/bq25504.pdf?ts=1625558784652&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FBQ25504%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dapp-null-null-GPN_EN-cpc-pf-google-eu%2526utm_content%253DBQ25504%2526ds_k%253DBQ25504%2526DCM%253Dyes%2526gclid%253DEAIaIQobChMI_6nZmf7N8QIVmrd3Ch3Q4AxNEAAYASAAEgKpwPD_BwE%2526gclsrc%253Daw.ds
+
+
+- TODO: check and warn about limits in Python
+- TODO: pru - check overflow with custom mul(), add() and limit to max
+
+
+
+BQ25570
+-------
