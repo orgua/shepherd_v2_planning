@@ -67,6 +67,12 @@ Implementation
     -  950 ns update capacitor
     -  540 ns update boost-buck
     - resulting in < 2600 ns for all
+- adding boundary checks for math-ops
+    -  700 ns calc input power
+    - 1350 ns calc output power
+    - 1300 ns update capacitor
+    -  580 ns update boost-buck
+    - resulting in < 4300 ns for all
 
 
 TI Compiler behaviour::
