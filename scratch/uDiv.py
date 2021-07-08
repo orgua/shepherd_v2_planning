@@ -3,6 +3,8 @@ import math
 def get_left_zero_count(num: int) -> int:
     return int(32 - math.ceil(math.log(num, 2)))
 
+def get_bit_space(num: int) -> int:
+    return math.ceil(math.log(num+1, 2))
 
 def udiv(value1: int, value2: int) -> int:
     lzc2 = get_left_zero_count(value2) + 32
@@ -21,6 +23,12 @@ def udiv(value1: int, value2: int) -> int:
         v2_add = int(v2_add / 2)
     return v3
 
+
+num_pairs = [(1, 2**32-1), (1, 2**32), (2**20, 2**20), (2**10-1, 2**30-1), (1234, 7859), (1023, 0xFF), (1024, 256)]
+
+for pair in num_pairs:
+    product = pair[0] * pair[1]
+    print(f" got {pair[0]} * {pair[1]}, with {get_bit_space(pair[0])} bit * {get_bit_space(pair[1])} bit = {get_bit_space(product)} bit")
 
 print(udiv(24949300, 30310))
 print(24949300 / 30310)
