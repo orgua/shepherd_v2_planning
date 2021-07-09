@@ -20,6 +20,8 @@ Current Features
     - simulated external Capacitor - should be set to buffer size of target: fast transients can't be monitored by shepherd
     - enable threshold voltage hysteresis
 
+.. image:: media/vSource_in100uW_out2mW.png
+
 Implementation
 --------------
 
@@ -74,6 +76,47 @@ Implementation
     -  580 ns update boost-buck
     - resulting in < 4300 ns for all
 
+How PRU0 Spends the 10 us per Cycle
+-----------------------------------
+
+- ~ 1 - 2 us busy waiting for trigger (headroom for more workload)
+- 100 ns trigger ADC-Reading
+- 200 ns getting to Sampling Routine
+- 650 ns load remote buffer-values (input IV)
+- 700 ns calculate input power
+- 1100 ns read ADC, output current
+- 1300 ns calculate output power
+- 1300 ns update capacitor
+- 580 ns update boost-buck
+- 2000 ns write DAC (currently both channels are written for debug) and buffer-output
+- 200 ns message handling
+
+
+.. image:: media/vSource_on_emu_detail.png
+
+.. image:: media/vSource_on_emu.png
+
+
+Performance on real hardware
+----------------------------
+
+- dataset: indoor_solar/sheep4/office_sd.h5
+- cap 22 uF, 50% eta_in, 80% eta_out
+- sim-sets
+    - 10 mA drain shows dutycycle of ~ 0.27 %, On-Time is ~ 800us
+    - 1 mA drain, dutycycle ~ 2.7 %, On-Time ~ 8.16 ms.
+- cap voltage moves between power-good-thresholds of 2.4 and 2.8 V
+
+.. image:: media/vSource_indoor_solar_with_10mA_drain_pwrgood.png
+
+.. image:: media/vSource_indoor_solar_with_10mA_drain_pwrgood_detail.png
+
+.. image:: media/vSource_indoor_solar_with_1mA_drain_pwrgood.png
+
+.. image:: media/vSource_indoor_solar_with_1mA_drain_pwrgood_detail.png
+
+Dev Scratch Area
+----------------
 
 TI Compiler behaviour::
 
@@ -115,7 +158,7 @@ TI Compiler behaviour::
         return result;
     }
 
-.. image:: media/vSource_in100uW_out2mW.png
+
 
 
 BQ25504 - Datasheet RevE
@@ -130,8 +173,8 @@ BQ25504 - Datasheet RevE
 	- Input 4.23 - 5.17 uF
 	- Storage 4.23 - 5.17 uF
 	- Battery 100 uF and more
-- VBatOV 2.5 .. 5.25 V
-- VBatUV 2.2 .. VBatOV
+- VBatOV 2.5 - 5.25 V
+- VBatUV 2.2 - VBatOV
 - Input Efficiency (Page 9)
 	- 10 uA: 0 % for 130 mV, 90 % for 3 V
 	- 100 uA: 10 % for 130 mV, 90 % for 3 V
@@ -142,7 +185,6 @@ BQ25504 - Datasheet RevE
 
 - TODO: check and warn about limits in Python
 - TODO: pru - check overflow with custom mul(), add() and limit to max
-
 
 
 BQ25570

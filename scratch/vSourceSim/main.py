@@ -6,7 +6,7 @@ import yaml
 
 cal = CalibrationData.from_default()
 
-N = 50_000
+N = 5_000
 ts = np.arange(0, N * 10e-6, 10e-6)
 vcaps = np.empty((N, 3))
 
@@ -14,13 +14,13 @@ vs_cfg = yaml.safe_load("virtsource.yml")
 vs = VirtualSource(vs_cfg, cal)
 
 I_out_adc_sleep = cal.convert_value_to_raw("emulation", "adc_current", 1e-9)
-I_out_adc_active = cal.convert_value_to_raw("emulation", "adc_current", 10e-3)
+I_out_adc_active = cal.convert_value_to_raw("emulation", "adc_current", 1e-3)
 
 I_out = I_out_adc_sleep
 N_good = 0
 for i in range(N):
     # Harvest at 1V 100uA
-    vs.calc_inp_power(1e6, 1000e3)
+    vs.calc_inp_power(1e6, 100e3)
     vs.calc_out_power(I_out)
     vs.update_capacitor()
     out_raw = vs.update_boostbuck()
