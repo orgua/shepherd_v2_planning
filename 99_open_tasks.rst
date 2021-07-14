@@ -7,30 +7,55 @@ Questions for the Team
 - which Targets should be included
 -
 
+General short-term Done
+-----------------------
+- converter py-impl
+- test converter virtual source
+- kai feedback
+    - powergood hyterese, 3 / 2.4
+    - init < storage enable threshold, TEST
+- optimize converter, speed up
+- observe hangs during test-suite-run (probably glitching due to voltage dip)
+
 General short-term TODO
 -----------------------
 
-- converter py-impl
-- test converter virtual source
+- Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
+- log sync-state
+- test harvesting-target
+- old file-behaviour
+- start-power
+
+
+- log sys-values: cpu, ram, dmesg, temp, io, network
+- kai feedback: powertrace + harvesting-firmware on nRF (LED + bLE-packet)
+- unit-test low and high power inputs 72W, 1W, 195 nA * 19 uV = 3.7 pW, what is with 1fW?
 - optimize converter
     - arbeitsbereich von eta definieren
     - converter mode implementieren
-    - beschleunigen
-    -
+
+- send stop when ending measurement (now, legacy)
 - add default regulators (BQ... need to be parametrized)
 - fix for kai
     - file-name / auto-transfer fails, retrieve newest?
-    - sheep / tasks / main / meta-package overwrites /etc/shepherd
-    - add start timestamp to config
-    - force_overwrite seems to be wrong? default not applied
+    - (fixed in v2) sheep / tasks / main / meta-package overwrites /etc/shepherd
+    - (fixed in v2) add start timestamp to config in herd
+    - (fixed ?) force_overwrite seems to be wrong? default not applied
     - lowPrio: include GPS / PTP - Sync - status logging in h5-file
 - include commits from Kai
-- observe hangs during test-suite-run (probably glitching due to voltage dip)
+
 - add recorder-example as default  /etc/shepherd/config.yml (start with button)
 - harvesting - voltage-sweep
+- get target A/B/1/2 straight. it is target 1/2 from now on!
 - add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
+- custom openOCD, config, ... is not installed by playbooks
+    - SWD Pins are I2C1, are colliding with default dt-driver
 - Test hw, all subelements, eeprom, ...
 - hw redesign 2.1r1
+    - update doc with new pinconfig: en_rec p9-14, en_emu p9-16
+- update nrf-democode
+- find reason for 2.3mA Offset
+- ADC seems to act up sometimes after sheph-EN -> test in PRU, reenable a couple of times
 - optional
     - click might be slowing down start of programs substantially
     - proper exit-handler for python
