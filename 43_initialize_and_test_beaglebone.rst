@@ -77,7 +77,16 @@ Debug (on sheep)::
     /sys/class/remoteproc/remoteprocX/firmware      -> fw-name in lib/firmware/ usually am335x_pru0-shepherd-fw
     echo "start" > /sys/class/remoteproc/remoteprocX/state
 
+Test new vSource-Emulator::
 
+    sudo mount /dev/mmcblk0p1 /var/shepherd/recordings2
+    # configure the config.yml to point to wanted tracefile:
+    #   input_path: /var/shepherd/recordings2/indoor_solar/sheep4/office_sd.h5
+
+    sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
+    # cap-voltage is on second target-voltage-pin, bat-ok is on P8-29, CS_ADC_EMU is P9-42
+
+    sudo umount /var/shepherd/recordings
 
 Tests for preparing software-release
 ------------------------------------
