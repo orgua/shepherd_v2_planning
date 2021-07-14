@@ -6,15 +6,15 @@ import yaml
 
 cal = CalibrationData.from_default()
 
-N = 5_000
+N = 500_000
 ts = np.arange(0, N * 10e-6, 10e-6)
 vcaps = np.empty((N, 3))
 
 vs_cfg = yaml.safe_load("virtsource.yml")
 vs = VirtualSource(vs_cfg, cal)
 
-I_out_adc_sleep = cal.convert_value_to_raw("emulation", "adc_current", 1e-9)
-I_out_adc_active = cal.convert_value_to_raw("emulation", "adc_current", 1e-3)
+I_out_adc_sleep = cal.convert_value_to_raw("emulation", "adc_current", 200e-9)
+I_out_adc_active = cal.convert_value_to_raw("emulation", "adc_current", 10e-3)
 
 I_out = I_out_adc_sleep
 N_good = 0

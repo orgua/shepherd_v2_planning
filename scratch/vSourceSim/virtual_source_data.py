@@ -3,6 +3,8 @@ from pathlib import Path
 import yaml
 import logging
 
+SAMPLE_INTERVAL_US = 10
+
 logger = logging.getLogger(__name__)
 
 
@@ -94,11 +96,13 @@ class VirtualSourceData(object):
 
         vs_list.append(int(self.vss["converter_mode"]))
 
+        vs_list.append(int(self.vss["interval_startup_disabled_drain_ms"] * 1e3 / SAMPLE_INTERVAL_US))  # n, samples
+
         vs_list.append(int(self.vss["C_output_uF"] * 1e3))  # nF
 
         vs_list.append(int(self.vss["V_input_boost_threshold_mV"] * 1e3))  # uV
 
-        vs_list.append(int(self.vss["C_storage_uF"] * 1e3))  # nF
+        vs_list.append(int(self.vss["constant_us_per_nF_n28"]))  # us/nF = us*V / nA*s
         vs_list.append(int(self.vss["V_storage_init_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["V_storage_max_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["I_storage_leak_nA"] * 1))  # nA
@@ -106,7 +110,7 @@ class VirtualSourceData(object):
         vs_list.append(int(self.vss["V_storage_enable_threshold_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["V_storage_disable_threshold_mV"] * 1e3))  # uV
 
-        vs_list.append(int(self.vss["interval_check_thresholds_ms"] * 1e6))  # ns
+        vs_list.append(int(self.vss["interval_check_thresholds_ms"] * 1e3 / SAMPLE_INTERVAL_US))  # n, samples
 
         vs_list.append(int(self.vss["V_pwr_good_enable_threshold_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["V_pwr_good_disable_threshold_mV"] * 1e3))  # uV
@@ -118,11 +122,11 @@ class VirtualSourceData(object):
 
         vs_list.append(int(self.vss["dV_store_low_mV"] * 1e3))  # uV
 
-        # reduce resolution from n10 to n8 to fit in container
-        vs_list.append([int(value / (2 ** 2)) for value in self.vss["LUT_input_efficiency_n10"]])
+        # reduce resolution to n8 to fit in container
+        vs_list.append([min(255, int(256 * value)) if (value > 0) else 0 for value in self.vss["LUT_input_efficiency"]])
 
         # is now n4 -> resulting value for PRU is inverted, so 2^14 / value
-        vs_list.append([int((2**14) / value) if (value > 0) else int(2**4) for value in self.vss["LUT_output_efficiency_n10"]])
+        vs_list.append([min((2**14), int((2**4) / value)) if (value > 0) else int(2**14) for value in self.vss["LUT_output_efficiency"]])
         return vs_list
 
     def add_enable_voltage_drop(self) -> NoReturn:
@@ -155,39 +159,51 @@ class VirtualSourceData(object):
         # v_enable is either bucks v_out or same dV-Value is calculated a second time
         self.vss["dV_store_low_mV"] = v_out * (1 - pow(1 - c_out / c_store, 0.5))
 
+    def add_cap_constant(self) -> NoReturn:
+        """
+        constant to convert capacitor-current to delta-Voltage
+        dV[uV] = constant[us/nF] * current[nA] = constant[us*V/nAs] * current[nA]
+        """
+        self.vss["constant_us_per_nF_n28"] = (SAMPLE_INTERVAL_US * (2**28)) / (1000 * self.vss["C_storage_uF"])
+
+
     def check_and_complete(self) -> NoReturn:
         """ checks virtual-source-settings for present values, adds default values to missing ones, checks limits
         TODO: fill with values from real BQ-IC
+        TODO: add min-value
         """
-        self._check_num("converter_mode", 100, 4e9)
+        self._check_num("converter_mode", 3, 4e9)
+        self._check_num("interval_startup_disabled_drain_ms", 10, 10000)
 
         self._check_num("C_output_uF", 1, 4e6)
 
         self._check_num("V_input_boost_threshold_mV", 130, 5000)
 
-        self._check_num("C_storage_uF", 1000, 4e6)
-        self._check_num("V_storage_init_mV", 3500, 10000)
+        self._check_num("C_storage_uF", 22, 4e6)
+        self._check_num("V_storage_init_mV", 3000, 10000)
         self._check_num("V_storage_max_mV", 4200, 10000)
         self._check_num("I_storage_leak_nA", 10, 4e9)
 
-        self._check_num("V_storage_enable_threshold_mV", 3000, 5000)
-        self._check_num("V_storage_disable_threshold_mV", 2300, 5000)
+        self._check_num("V_storage_enable_threshold_mV", 2400, 5000)
+        self._check_num("V_storage_disable_threshold_mV", 2000, 5000)
 
         self._check_num("interval_check_thresholds_ms", 65, 4e3)
 
-        self._check_num("V_pwr_good_enable_threshold_mV", 3000, 5000)
+        self._check_num("V_pwr_good_enable_threshold_mV", 2800, 5000)
         self._check_num("V_pwr_good_disable_threshold_mV", 2400, 5000)
-        self._check_num("immediate_pwr_good_signal", 0, 1)
+        self._check_num("immediate_pwr_good_signal", 1, 1)
 
         self._check_num("V_output_mV", 2300, 5000)
 
         self.add_enable_voltage_drop()
+        self.add_cap_constant()
         self._check_num("dV_store_en_mV", 0, 4e6)
         self._check_num("dV_store_low_mV", 0, 4e6)
+        self._check_num("constant_us_per_nF_n28", 122016, 4.29e9)
 
         # Look up tables, TODO: test if order in PRU-2d-array is maintained,
-        self._check_list("LUT_input_efficiency_n10", 12 * [12 * [512]], 1023)
-        self._check_list("LUT_output_efficiency_n10", 12 * [819], 1023)
+        self._check_list("LUT_input_efficiency", 12 * [12 * [0.500]], 1.0)
+        self._check_list("LUT_output_efficiency", 12 * [0.800], 1.0)
 
     def _check_num(self, setting_key: str, default: float, max_value: float = None) -> NoReturn:
         try:
