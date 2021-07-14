@@ -129,7 +129,7 @@ DAC-Responses
     - 2V raise  - < 10 us, < 20 % Overshoot (Quickprint358)
     - 2V fall   - < 10 us, 90 % (Quickprint357)
 
-- total propagation beginning with ChipSelect
+- Emulator: total propagation beginning with ChipSelect
     - DAC-CS & OpAmpOut (100nF Buffer, 1kOhm Load), Quickprint364
     - SPI Communication takes ~ 800 ns
     - Voltage begins changing after ~ 2.2 us of CS-High
@@ -143,6 +143,8 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 - fav: 100nF, ensure system function, noise is ok, buffering done by target
 TODO: measure reverse current of diode
 TODO: fix lowpass on recorder, or at least the 12mV Spikes every 3.3 us (~7% integral of 12 mV)
+
+TODO: test delay of (recorder) setting voltage-level
 
 Current Measurement
 -------------------
@@ -330,7 +332,7 @@ TODO: test reverse-channel
 TODO: test 1k PU on BB-Side
 TODO: add scope-shots to project with leading 3xx
 TODO: Goal 1Mbit UART
-
+TODO: Friedrich is getting < 500 ns Edges with no Series Resistor, 10 k PU on both sides, and 140k on RefA for slightly higher V_thres = 1.2 V
 
 Program EEPROM
 --------------
