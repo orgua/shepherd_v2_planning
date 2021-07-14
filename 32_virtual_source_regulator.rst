@@ -180,11 +180,18 @@ BQ25504 - Datasheet RevE
 	- 100 uA: 10 % for 130 mV, 90 % for 3 V
 	- 10 mA: 40 % for 130 mV, 93 % for 3 V
 	- model needs better definition of limits
-- TODO: continue P11, https://www.ti.com/lit/ds/symlink/bq25504.pdf?ts=1625558784652&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FBQ25504%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dapp-null-null-GPN_EN-cpc-pf-google-eu%2526utm_content%253DBQ25504%2526ds_k%253DBQ25504%2526DCM%253Dyes%2526gclid%253DEAIaIQobChMI_6nZmf7N8QIVmrd3Ch3Q4AxNEAAYASAAEgKpwPD_BwE%2526gclsrc%253Daw.ds
+- TODO: continue on p. 11, https://www.ti.com/lit/ds/symlink/bq25504.pdf?ts=1625558784652&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FBQ25504%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dapp-null-null-GPN_EN-cpc-pf-google-eu%2526utm_content%253DBQ25504%2526ds_k%253DBQ25504%2526DCM%253Dyes%2526gclid%253DEAIaIQobChMI_6nZmf7N8QIVmrd3Ch3Q4AxNEAAYASAAEgKpwPD_BwE%2526gclsrc%253Daw.ds
 
+Implemented:
+- pru - check overflow with custom mul(), add(), sub() and limit to max / min
 
+- TODO: add min to limits in python
+- todo: change efficiency to native 0 - 1 num
+- todo: extend converter: pre-power: voltage, duration
+- todo: extend converter: i-inp-max, v-inp-max,
+- todo: extend converter: quiescent current when output is off in OV, UV,
 - TODO: check and warn about limits in Python
-- TODO: pru - check overflow with custom mul(), add() and limit to max
+- TODO: add BQ25504
 
 
 BQ25570
