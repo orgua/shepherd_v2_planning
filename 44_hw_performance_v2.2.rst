@@ -3,6 +3,7 @@ HW Performance v2.2
 
 Hardware
 --------
+
 - 8 Capes without Recorder, produced by Egas
 - Serialnumbers
     - 1191022
@@ -34,18 +35,15 @@ Initial Test for Functionality
 - GPIO pass-through:
     - gpio 0-8 and BATOK to TA & TB
     - unconnected pru-pins (p8-41to44) are not reporting activity -> fixed
+Capes - fixed and tested
+------------------------------
 
-TODO:
-- VIO_buf stable?
-- V-target stable?
-- V-aux stable?
-
-
-- passed:
-    - 1191022, with boot-fix, faster essential gpio, stabile current-meas and V_IO
+- 1191022, with boot-fix, faster essential gpio, stabile current-meas and V_IO
 
 
-Debug-Investigation on 1191022:
+Debug-Investigation on 1191022
+------------------------------
+
 - BB still fails to boot when P8-41to44 are connected to cape -> lines are separated by a analog switch?!?
     - switch is powered by L3V3 ?!?
     - drilling out the via above the switch and routing enamel-wire from capacitor of switch to 3V3-Source
@@ -55,7 +53,6 @@ Debug-Investigation on 1191022:
         - this cap is bad idea!
     - 2 V rising stable in 6 us, falling in 10 - 16 us
     - add 1 nF over feedback-cap, to get 2 nF -> no Large Effect
-    -
 - GPIO-Edges -> BB - 1 k - 10 k PU, [33 R PRU] - LSF - 1 k - 10 k PU, Switch - TA
     - baseline test
         - BB-Source Low takes 50 ns from 3.3 to 0 V
@@ -78,13 +75,14 @@ Debug-Investigation on 1191022:
     - PU on both sides lowered from 10k to 2.1k, (= 2.7k || 10k)
         - TB-Recv   low ~< 1 us, Hi 3-5 us
     - other ideas?
-        - lower PU on both sides at least for uart & programming ->
+        - lower PU on both sides at least for uart & programming -> 2.1 k seem to do the trick
         - capacity of line?
         - remove sys-series-resistor
         - disconnect pru-side
 
 Mods for HWv2.2
 -----------------
+
 - analog switch to pru
     - drill out via with <1mm drill, first layer is enough, trace from IC to Cap should stay intact
     - route wire from cap, through mounting hole to P9-2/3 (3V3 of BB)
@@ -112,4 +110,4 @@ TODO Boardchanges
 - GPIO-PUs lower to 2k
 - GPIO-Series lower to ~ 600 R
 - emu-shunt should be stabilized with > 500 nF (and probably the others too)
--
+- TODO: sync with mod-list
