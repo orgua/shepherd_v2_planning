@@ -14,8 +14,15 @@ Intro
         - "two points"-Compare seem to be more helpful https://github.com/orgua/shepherd/compare/orgua:master..orgua:hw_revision_1.x
     - legacy (20. Apr) vs master -> https://github.com/orgua/shepherd/compare/fw_ok..orgua:master
 
-Improvements
--------------
+
+Improvements 2021-06-01
+-----------------------
+
+- fix overwrite-bug in playbook for files in /etc/shepherd/
+-
+
+Improvements 2021-05-06
+-----------------------
 
 - 1.x branch is now on par with v2-branch from 2021-05-06, except for
     - rpmsg-replacement for buffer exchange -> must be thoroughly tested first
@@ -75,7 +82,8 @@ TODO
 - asm-code in main-branch is cleaner and edges are clock-synchronous
 - commits from legacy
 - commits from main:
-- synced: 72aad92 - may 06
+- synced with master: 72aad92 - may 06
+- original/dev-branch: 8b3054d 9e5925729e60939e137b970e1791e9a4f (21-04-19) ..d9a5073 24e1123fc6af10117351d0a703f28f1ef (21-05-05)
 
 
 test::
