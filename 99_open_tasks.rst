@@ -25,7 +25,7 @@ General short-term TODO
 - test harvesting-target
 - old file-behaviour
 - start-power
-
+- update pip3, setuptools, numpy, h5py (fails), cython .29???
 
 - log sys-values: cpu, ram, dmesg, temp, io, network
 - kai feedback: powertrace + harvesting-firmware on nRF (LED + bLE-packet)
@@ -33,6 +33,8 @@ General short-term TODO
 - optimize converter
     - arbeitsbereich von eta definieren
     - converter mode implementieren
+
+- OpenOCD, Verdopplung des speedcoeff (230k auf 500k) in /usr/share/openocd/scripts/interface/beaglebone.cfg bringt Erfolg mit etwa 370 kHz!
 
 - send stop when ending measurement (now, legacy)
 - add default regulators (BQ... need to be parametrized)
