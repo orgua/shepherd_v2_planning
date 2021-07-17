@@ -1,0 +1,63 @@
+measurements:
+  emulation:
+    adc_current:
+    - reference_si: 0.0
+      shepherd_raw: 11673.654
+    - reference_si: 0.01
+      shepherd_raw: 56620.297
+    adc_voltage:
+    - reference_si: 0.0
+      shepherd_raw: 11669.345
+    - reference_si: 0.01
+      shepherd_raw: 56599.229
+    dac_voltage_a:
+    - reference_si: 0.300861
+      shepherd_raw: 3932
+    - reference_si: 0.500691
+      shepherd_raw: 6553
+    - reference_si: 0.700643
+      shepherd_raw: 9175
+    - reference_si: 0.900408
+      shepherd_raw: 11796
+    - reference_si: 1.10019
+      shepherd_raw: 14417
+    - reference_si: 1.30017
+      shepherd_raw: 17039
+    - reference_si: 1.50003
+      shepherd_raw: 19660
+    - reference_si: 1.70003
+      shepherd_raw: 22282
+    - reference_si: 1.9
+      shepherd_raw: 24903
+    - reference_si: 2.09993
+      shepherd_raw: 27525
+    - reference_si: 2.29976
+      shepherd_raw: 30146
+    - reference_si: 2.49967
+      shepherd_raw: 32768
+    dac_voltage_b:
+    - reference_si: 0.300036
+      shepherd_raw: 3932
+    - reference_si: 0.499907
+      shepherd_raw: 6553
+    - reference_si: 0.699804
+      shepherd_raw: 9175
+    - reference_si: 0.899637
+      shepherd_raw: 11796
+    - reference_si: 1.09939
+      shepherd_raw: 14417
+    - reference_si: 1.2994
+      shepherd_raw: 17039
+    - reference_si: 1.49931
+      shepherd_raw: 19660
+    - reference_si: 1.69932
+      shepherd_raw: 22282
+    - reference_si: 1.89928
+      shepherd_raw: 24903
+    - reference_si: 2.09926
+      shepherd_raw: 27525
+    - reference_si: 2.29913
+      shepherd_raw: 30146
+    - reference_si: 2.49905
+      shepherd_raw: 32768
+node: sheep0

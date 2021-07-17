@@ -1,0 +1,28 @@
+calibration:
+  emulation:
+    adc_current:
+      gain: 2.2280891274865364e-07
+      offset: -0.0026496032619937808
+    adc_voltage:
+      gain: 2.229234999221327e-07
+      offset: -0.002650046129559836
+    dac_voltage_a:
+      gain: 7.625017490577519e-05
+      offset: -7.829279600624073e-05
+    dac_voltage_b:
+      gain: 7.624422417907968e-05
+      offset: 3.840105528096771e-05
+  harvesting:
+    adc_current:
+      gain: 1.0
+      offset: 0.0
+    adc_voltage:
+      gain: 1.0
+      offset: 0.0
+    dac_voltage_a:
+      gain: 1.0
+      offset: 0.0
+    dac_voltage_b:
+      gain: 1.0
+      offset: 0.0
+node: sheep0
