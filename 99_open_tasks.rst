@@ -21,11 +21,18 @@ General short-term TODO
 -----------------------
 
 - Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
+    - test
 - log sync-state
 - test harvesting-target
 - old file-behaviour
 - start-power
 - update pip3, setuptools, numpy, h5py (fails), cython .29???
+
+- reduce ToDos
+- Finish Converter, more complexity
+- reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
+- add some statistics for recordings
+- harvest file should be named harv, not rec -> already done? emu for emulation is already set
 
 - log sys-values: cpu, ram, dmesg, temp, io, network
 - kai feedback: powertrace + harvesting-firmware on nRF (LED + bLE-packet)

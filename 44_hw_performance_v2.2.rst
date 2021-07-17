@@ -6,7 +6,7 @@ Hardware
 
 - 8 Capes without Recorder, produced by Egas
 - Serialnumbers
-    - 1191022
+    - 1191022, -23, -25, -27
 - lend out to kai
     - 1 Cape with pinheader
     - 4 Capes with Long PinSocket (1022, 1023, 1025, 1027)
@@ -35,11 +35,18 @@ Initial Test for Functionality
 - GPIO pass-through:
     - gpio 0-8 and BATOK to TA & TB
     - unconnected pru-pins (p8-41to44) are not reporting activity -> fixed
+- GPIO-Speed-Test by programming a target
+
 Capes - fixed and tested
 ------------------------------
 
-- 1191022, with boot-fix, faster essential gpio, stabile current-meas and V_IO
-
+- 1191022: with boot-fix, faster essential gpio, stabile current-meas and V_IO, gpio0 has also speed-fix
+    - was used for debugging, some resistors are replaced instead of stacked during modding
+- 1191023: with boot-fix, faster essential gpio, stabile current-meas and V_IO
+    - 3v3 is a bit off with 3.275 V
+- 1191025: with boot-fix, faster essential gpio, stabile current-meas and V_IO
+- 1191027: with boot-fix, faster essential gpio, stabile current-meas and V_IO
+    - 3v3 is a bit off with 3.286 V
 
 Debug-Investigation on 1191022
 ------------------------------
@@ -101,6 +108,7 @@ Mods for HWv2.2
     - remove 100 nF parallel to shunt
 - stabilize IO-Buf-Voltage
     - cut left trace between 10 R and 1 nF, add 1k
+- summary: 22 additional 0402-parts, 1 removed 0402, 2 cuts, 1 enamel trace -> ~ 1 h manual work
 
 TODO Boardchanges
 -----------------
