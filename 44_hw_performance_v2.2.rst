@@ -60,6 +60,7 @@ Debug-Investigation on 1191022
         - this cap is bad idea!
     - 2 V rising stable in 6 us, falling in 10 - 16 us
     - add 1 nF over feedback-cap, to get 2 nF -> no Large Effect
+    - TODO: switch back to small feedback loop without switch?
 - GPIO-Edges -> BB - 1 k - 10 k PU, [33 R PRU] - LSF - 1 k - 10 k PU, Switch - TA
     - baseline test
         - BB-Source Low takes 50 ns from 3.3 to 0 V
