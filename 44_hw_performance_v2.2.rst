@@ -6,9 +6,11 @@ Hardware
 
 - 8 Capes without Recorder, produced by Egas
 - Serialnumbers
-    - 1191022, -23, -25, -27
+    - unknown num -> kai
+    - 1191022, -23, -25, -27 -> kai
+    - 1191029 -> debug-setup
 - lend out to kai
-    - 1 Cape with pinheader
+    - 1 Cape with pinheader (unknown number)
     - 4 Capes with Long PinSocket (1022, 1023, 1025, 1027)
     - 2 + 1 + 3 Targets
 
@@ -40,13 +42,14 @@ Initial Test for Functionality
 Capes - fixed and tested
 ------------------------------
 
-- 1191022: with boot-fix, faster essential gpio, stabile current-meas and V_IO, gpio0 has also speed-fix
+- 1191022: with boot-fix, faster essential gpio, stabile current-meas, stabile V_IO, gpio0 has also speed-fix
     - was used for debugging, some resistors are replaced instead of stacked during modding
-- 1191023: with boot-fix, faster essential gpio, stabile current-meas and V_IO
+- 1191023: with boot-fix, faster essential gpio, stabile current-meas, stabile V_IO
     - 3v3 is a bit off with 3.275 V
-- 1191025: with boot-fix, faster essential gpio, stabile current-meas and V_IO
-- 1191027: with boot-fix, faster essential gpio, stabile current-meas and V_IO
+- 1191025: with boot-fix, faster essential gpio, stabile current-meas, stabile V_IO
+- 1191027: with boot-fix, faster essential gpio, stabile current-meas, stabile V_IO
     - 3v3 is a bit off with 3.286 V
+- 1191029: boot-fix, stabile V_IO
 
 Debug-Investigation on 1191022
 ------------------------------
@@ -87,6 +90,8 @@ Debug-Investigation on 1191022
         - capacity of line?
         - remove sys-series-resistor
         - disconnect pru-side
+TODO: look for voltage-spikes on coils when turning off power
+
 
 Mods for HWv2.2
 -----------------
@@ -109,7 +114,9 @@ Mods for HWv2.2
     - remove 100 nF parallel to shunt
 - stabilize IO-Buf-Voltage
     - cut left trace between 10 R and 1 nF, add 1k
+
 - summary: 22 additional 0402-parts, 1 removed 0402, 2 cuts, 1 enamel trace -> ~ 1 h manual work
+
 
 TODO Boardchanges
 -----------------
