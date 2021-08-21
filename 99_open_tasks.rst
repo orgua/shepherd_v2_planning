@@ -7,8 +7,9 @@ Questions for the Team
 - which Targets should be included
 -
 
-General short-term Done
+General short-term July
 -----------------------
+
 - converter py-impl
 - test converter virtual source
 - kai feedback
@@ -16,55 +17,73 @@ General short-term Done
     - init < storage enable threshold, TEST
 - optimize converter, speed up
 - observe hangs during test-suite-run (probably glitching due to voltage dip)
+- OpenOCD, Verdopplung des speedcoeff (230k auf 500k) in /usr/share/openocd/scripts/interface/beaglebone.cfg bringt Erfolg mit etwa 370 kHz clock!
 
-General short-term TODO
------------------------
+General short-term August
+-------------------------
 
-- Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
-    - test
-- log sync-state
-- test harvesting-target
-- old file-behaviour
-- start-power
-- update pip3, setuptools, numpy, h5py (fails), cython .29???
-
-- reduce ToDos
-- Finish Converter, more complexity
-- reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
-- add some statistics for recordings
-- harvest file should be named harv, not rec -> already done? emu for emulation is already set
-
-- log sys-values: cpu, ram, dmesg, temp, io, network
-- kai feedback: powertrace + harvesting-firmware on nRF (LED + bLE-packet)
-- unit-test low and high power inputs 72W, 1W, 195 nA * 19 uV = 3.7 pW, what is with 1fW?
+- update ubuntu-repo
+- allow old file-behaviour (rec.h5, rec1.h5, ..)
+- start-power (some target charge-up-period)
+- extend converter
+    - has_boost -> allow direct control
+    - LUT_input_mins
+    - LUT_output_min
+    - log_capacitor
+    - V_input_limits
+    - remove C_output_nF
+- py-converter-defaults (based on, complete with ..)
+- define BQs from kai and boris
 - optimize converter
     - arbeitsbereich von eta definieren
     - converter mode implementieren
+- make traces optional
+    - for voltage (alternative cap-voltage)
+    - for current (alternative cap-current -> trouble with unsigned container -> only outflowing cap-current?)
+    - no gpio or maybe custom mask
+- VSource standard-values should be neutral, as if that unit is not present
 
-- OpenOCD, Verdopplung des speedcoeff (230k auf 500k) in /usr/share/openocd/scripts/interface/beaglebone.cfg bringt Erfolg mit etwa 370 kHz!
+Software Short-Term TODO
+-----------------------
 
+- allow fast sampling in debug mode
+- redo calibration with fast sampling
+- OpenOCD seems to poll when still active after programming -> higher IO-Traffic
+- update OpenOCD-Instance with latest patch from kai
+- bring OpenOCD-Patches to mainline
+- SpyBiWire - solution to bring it to BBone, https://forum.43oh.com/topic/10035-4-wire-jtag-with-mspdebug-and-raspberry-pi-gpio/
+- usb-writing seems to fail, maybe due to latency? even reading of h5-file seems to fail (problem with h5lib?)
+- DAC-Voltage in trace is 2V, but gets written as 1.5V, is calibration-value wrong?
+- definition of experiment / converter could all be done in one YML
+- output v_intermediate on channel2 for debug -> make permanent
+- connman sets time every 15min, as long as connected to internet. is that happening all the time?
+    - DBus config -> only manual timeUpdate -> playbooks
+    - https://www.toradex.com/community/questions/926/disable-automatic-manipulation-of-clock-linux-coli.html
+    - sync.d is already in playbook
+- merge latest patches from legacy / kai
+- GPIO-Sampling should include Bat-OK (doesn't it?`), and stop sampling when voltage is off or below a certain threshold
+- update packets, improve speed, solve USB-Issue (see 29_improve_sw_performance.rst).
+- extend Logging
+    - Proper Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
+    - log sync-state
+    - log sys-values: cpu, ram, dmesg, temp, io, network
+- reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
+- harvest file should be named harv, not rec -> already done? emu for emulation is already set
+- kai feedback: powertrace + harvesting-firmware on nRF (LED + bLE-packet)
+- unit-test low and high power inputs 72W, 1W, 195 nA * 19 uV = 3.7 pW, what is with 1fW?
 - send stop when ending measurement (now, legacy)
-- add default regulators (BQ... need to be parametrized)
 - fix for kai
     - file-name / auto-transfer fails, retrieve newest?
     - (fixed in v2) sheep / tasks / main / meta-package overwrites /etc/shepherd
     - (fixed in v2) add start timestamp to config in herd
     - (fixed ?) force_overwrite seems to be wrong? default not applied
     - lowPrio: include GPS / PTP - Sync - status logging in h5-file
-- include commits from Kai
-
 - add recorder-example as default  /etc/shepherd/config.yml (start with button)
-- harvesting - voltage-sweep
-- get target A/B/1/2 straight. it is target 1/2 from now on!
-- add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
-- custom openOCD, config, ... is not installed by playbooks
-    - SWD Pins are I2C1, are colliding with default dt-driver
 - Test hw, all subelements, eeprom, ...
 - hw redesign 2.1r1
     - update doc with new pinconfig: en_rec p9-14, en_emu p9-16
 - update nrf-democode
-- find reason for 2.3mA Offset
-- ADC seems to act up sometimes after sheph-EN -> test in PRU, reenable a couple of times
+- add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
 - optional
     - click might be slowing down start of programs substantially
     - proper exit-handler for python
@@ -80,6 +99,52 @@ General short-term TODO
     - HW - target cap: reducing from 1 us to 100 nF brings edge-response from 30-80 us down to 8-14 us -> target can buffer on its own, 10 Ohm shunt & 1 uF are responsible for 16 kHz Lowpass
     - hw - maybe add V-ADC for emu? resulting V can deviate from dac -> chips select pins could be cross-used when only rec or emu is active
     - wirklich nur 20min timer?
+
+- custom openOCD, config, ... is not installed by playbooks
+    - SWD Pins are I2C1, are colliding with default dt-driver
+
+Hardware Short-Term TODO
+------------------------
+
+- characterize noise, 10 voltages, 10 currents, 1s each
+- Pwr-by-BB does not work with current cape-revision
+- optimize filters with this metric
+    - possible tradeoffs: speed of voltage-transistions, compensation of analog switch resistance
+- GPIO-Speed
+    - BugFlap uses different schematic and has faster transitions
+    - alternative: switchable direction for group of level translators
+
+- decide if rec & emu should be combined
+    - more complex design
+    - always complete package
+    - reduced cost (~ 3*9 €)
+    - emu gets voltage-measurement for free
+- finalize hardware (WD, filters, GPIO-Speed, current bugs)
+- possible extension of target port
+    - programming pins are exclusive and don't have to be recorded/monitored -> free pins should be used for additional gpio
+    - a second target (with option of programming) would help for some usecases (MSP430 + nRF-Radio)
+        - var1: analog switch on target-pcb for programming lines controlled by one of the gpio (exclusive or could still be used as gpio)
+        - var2: analog switch on cape, 2x2 programming lines on target-port
+        - var3: intermediate uC on target-pcb for programming targets talking with BBone over programming lines (very custom solution but cape is left untouched similar to var1)
+- target -> add target powered LED to burn away energy (or use second LED for that purpose)
+- Essential changes to discuss
+    - combination of rec & emu -> see HW
+    - extension to target-port
+- test harvesting-target
+- get target A/B/1/2 straight. it is target 1/2 from now on!
+- find reason for 2.3mA Offset
+- ADC seems to act up sometimes after sheph-EN -> test in PRU, reenable a couple of times -> seems to be fixed with EN
+- diodes for coils if needed
+
+Long-Term TODO
+--------------
+- WEB
+- Future Work for vSource:
+    - smaller error-margin / more resolution (similar to python-port): extend division-LUT
+    - overhead from calc_inp_power could be moved to python, also with a cheap way to interpolate efficiency-LUT
+    - interpolate LUTs -> cheapest would be to take 4 (or more) following bits of input and multiply them and the negative version with current and following LUT-Value, add, then shift right 5 bit to get mean
+- harvesting - voltage-sweep
+
 
 Testbed
 -------
