@@ -184,15 +184,29 @@ BQ25504 - Datasheet RevE
 
 Implemented:
 - pru - check overflow with custom mul(), add(), sub() and limit to max / min
+- add min to limits in python
+- change efficiency to native 0 - 1 num
+- extend converter: pre-power: voltage, duration
+- extend converter: i-inp-max, v-inp-max,
+- check and warn about limits in Python
+- add BQ25504
 
-- TODO: add min to limits in python
-- todo: change efficiency to native 0 - 1 num
-- todo: extend converter: pre-power: voltage, duration
-- todo: extend converter: i-inp-max, v-inp-max,
-- todo: extend converter: quiescent current when output is off in OV, UV,
-- TODO: check and warn about limits in Python
-- TODO: add BQ25504
-
+HowTo fill Efficiency LUTs:
+- find lowest threshold for current and voltage
+- it helps to add current/voltage-values for each column/row as comment on the outside
+- additional help: use editor that can highlight a string and fill table with placeholders (1.00 or 0.00 should work)
+- efficiency-graphs in datasheet allowed to deduct values and fill single columns and rows of 12x12-Table
+- the bq25504-input LUT had less than 30 (of 144) undetermined values -> interpolation with not much guesswork
 
 BQ25570
 -------
+- implemented / defined and tested
+
+
+General Points
+--------------
+-
+
+
+- todo: extend converter: quiescent current when output is off in OV, UV,
+- TODO: 16s MPPT-Sampling
