@@ -35,7 +35,7 @@ Benchmark debug-pin around gpio-read from pru1 - state was offline :(
 	legacy	 -> 1.5 .. 2.9 MHz, on 60/80ns, lowest freq. estimated ~ 160 kHz
 	new code -> 2.4 .. 5.5 MHz, on 40/60ns (general speed improvements)
 	newer code -> relatively stable 4.03 MHz (uncorrected meas via gpio-trigger), min: 602 kHz, max: 4.55 MHz (rpmsg-replacement)
-    afterSynckernel-Update -> min-frequency should now be a bit over 1 MHz
+    after Sync-kernel-Update -> min-frequency should now be a bit over 1 MHz
 Benchmark, same premise, for GPIO with normal routine / forced writing
 	~1490 ns / ~360 ns	(base) new code, sometimes 620 ns for normal routine
 	~720 ns / ~100 ns	reduce reads to far-ram to one 
@@ -78,6 +78,7 @@ SysGpio
         -> 20 ns for benchmark-pin-setting (asm-count)
         -> mean 2.2 MHz (logicA)
         -> min  840 kHz (740 + 460 - 20)ns
+    -> now a bit slower due to PwrGood-Code
 
 <<<PRU0>>>
 560 ns 	handle_rpmsg(), sometimes (before long E3) 1020 ns (without receiving)
