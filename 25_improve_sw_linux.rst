@@ -338,6 +338,11 @@ Find biggest space waster::
     # better (part of debian-goodies):
     dpigs -n20
 
+    # TODO 2021-07: /var/log/* has grown over time (> 500 mb)
+    sudo rm -rf /var/log/*
+
+    # TODO 2021-07: space-waster is now /usr/lib/firmware, 143 MB netronome, 48 MB qcom, 45 MB amd, 35 MB intel, 35 MB mellanox, 25 MB liquidio
+
 Switch dynamically between cpu-governors::
 
     sudo apt install cpufrequtils
