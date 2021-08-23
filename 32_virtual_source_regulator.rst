@@ -5,20 +5,39 @@ Virtual Source
 Current Features
 ----------------
 
-- capacitor, with
-    - max voltage
+- general features
+    - fully customizable per yaml-parameter-set
+    - or choose one of the predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with pwr-good-schmitt-trigger
+    - inherit from existing parameter-sets with ie. "converter-base: neutral" (neutral is default inheritance) -> only altered parameters needed in new set
+    - logger for IV-Traces can either record output or intermediate node (storage cap)
+- Input
+    - oneway, imagine a perfect diode at the start so no current can flow back
+    - diode voltage-drop can be configured from 0 to x Volt
+    - maxima for input voltage and current (power limit)
+- Boostconverter, optional, with
+    - enable minimum threshold voltage for input
+    - disable maximum threshold for boost-output (intermediate voltage)
+    - efficiency factor with 2D-LUT (12x12), depending on input voltage & current
+        - thresholds are configurable in 2^n steps
+        - voltage divisions are linear, depending on lowest threshold
+        - current-divisions are log2, also depending on lowest threshold
+        - example: voltage threshold n=7 is setting first array boundary to 2^7 = 128 uV, so lut[0] is for V < 128 uV, lut[1] is for 128 to 256 uV
+- capacitor, optional, with
+    - capacitance from 1 nF to 1 F
+    - initial voltage
     - leakage current
-    - power-good-signal with hysteresis
-    - status check interval
-- Boostconverter, with
-    - enable threshold voltage
-    - efficiency factor
+    - switchable output, hysteresis with checks at defined intervals
+    - power-good-signal with hysteresis either in intervals or immediate (schmitt-trigger)
 - buck converter, optional, with
     - fixed output voltage
-    - efficiency factor
+    - ldo-drop-voltage, alternatively working like a diode when buck is off or intermediate voltage is below output-voltage + drop-voltage
+    - efficiency factor with 1D-LUT, depending on output-current
+        - threshold is configurable in 2^n-steps
+        - current-divisions are log2, depending on lowest threshold
+        - example: current threshold n=5 is setting first array boundary to 2^5 = 32 nA, so lut[0] is for I < 32 nA, lut[1] is for [32, 64] nA, lut[2] is for [64, 128] nA
 - switchable output
-    - simulated external Capacitor - should be set to buffer size of target: fast transients can't be monitored by shepherd
-    - enable threshold voltage hysteresis
+    - simulated external Capacitor - should be set to buffer size of target: fast transients can't be fully monitored by shepherd
+
 
 .. image:: media/vSource_in100uW_out2mW.png
 
@@ -40,7 +59,7 @@ Implementation
     - capacitor voltage can be 4.2 kV
         - due to custom faster division-function the range with low error is 0 to 5 V
         - optimization in calc_out_power limits voltage to 2^28 uV = 268 V, lower bound is 64 uV
-    - storage capacitor can not be larger than 2.68 F (= 10*(2^28) nF)
+    - storage capacitor can not be larger than 2.68 F (= 10*(2^28) nF), reasonable boundaries are [1 nF, 100 mF]
     -
 - Speed in PRU (max timings)
     -   280 ns calc input power
@@ -75,6 +94,7 @@ Implementation
     - 1300 ns update capacitor
     -  580 ns update boost-buck
     - resulting in < 4300 ns for all
+- TODO: benchmark new extended code
 
 How PRU0 Spends the 10 us per Cycle
 -----------------------------------
