@@ -128,6 +128,10 @@ Alternative to manual updating Distro
 - build or use fresher image
 - https://forum.digikey.com/t/debian-getting-started-with-the-beaglebone-black/12967#BeagleBoneBlack-Ubuntu20.04LTS
 
+New Packets TODO
+----------------
+
+sudo apt install python3-msgpack-numpy
 
 
 Experience with Upgrade-Path: python 3.9.5 (ubuntu 21.04/hirsute)
@@ -137,6 +141,8 @@ Experience with Upgrade-Path: python 3.9.5 (ubuntu 21.04/hirsute)
 - Trouble
     - some timejumps during recording detected (in 10s window)
     - flushing and closing hdf5 file seems to hang at the end, some load
+    - a litte deprecation-warning for str-compares with "is"
+    - gevent.signal() is ancient -> gevent.signal_handler()
 - ''sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml''
     - ~ 57 % cpu-load for recording, 118 MB Ram (85 MB before)
 - EMU: ''sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml''
