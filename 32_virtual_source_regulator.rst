@@ -39,6 +39,8 @@ Current Features
     - simulated external Capacitor - should be set to buffer size of target: fast transients can't be fully monitored by shepherd
 
 
+.. image:: ./32_virtual_source_schemdraw.png
+
 .. image:: media/vSource_in100uW_out2mW.png
 
 Implementation
