@@ -1,6 +1,8 @@
 import schemdraw
 import schemdraw.elements as elm
 
+elm.style(elm.STYLE_IEC)
+
 drawing = schemdraw.Drawing()
 drawing += elm.Dot().label("Input")
 drawing += elm.Diode()
@@ -12,7 +14,7 @@ drawing += elm.Line().right().length(2).at(boost.out)
 N2 = drawing.add(elm.Dot().label("Intermediate"))
 
 drawing += elm.Line().up().length(1).at(S1.c)
-drawing += elm.Line().right()
+drawing += elm.Resistor().right()
 drawing += elm.Line().down().length(1.7)
 drawing += elm.Dot()
 
