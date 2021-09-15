@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import yaml
 
 sample_list = [4_000, 40_000, 400_000]
-vs_list = ["direct", "diode+capacitor", "BQ25504", "BQ25504-Schmitt", "BQ25570", "BQ25570-Schmitt"]
+vs_list = ["direct", "dio_cap", "dio_res_cap", "BQ25504", "BQ25504-Schmitt", "BQ25570", "BQ25570-Schmitt"]
+#vs_list = ["diode+resistor+capacitor"]
 vs_cfg = yaml.safe_load("virtual_source_defs.yml")
 
 for vs_setting in vs_list:
@@ -15,6 +16,7 @@ for vs_setting in vs_list:
 
         cal = CalibrationData.from_default()
         vs = VirtualSource(vs_setting, cal)
+        #vs.set_V_intermediate_uV(10 * 10**3)
 
         I_out_adc_sleep = cal.convert_value_to_raw("emulation", "adc_current", 200e-9)
         I_out_adc_active = cal.convert_value_to_raw("emulation", "adc_current", 10e-3)

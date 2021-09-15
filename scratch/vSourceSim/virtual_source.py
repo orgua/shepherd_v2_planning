@@ -42,34 +42,37 @@ class VirtualSource(object):
         self.vsc["V_input_max_uV"] = values[2]
         self.vsc["I_input_max_nA"] = values[3]
         self.vsc["V_input_drop_uV"] = values[4]
+        self.vsc["Constant_1k_per_Ohm"] = values[5]
 
-        self.vsc["Constant_us_per_nF"] = values[5] / (2**28)
-        self.vsc["V_intermediate_init_uV"] = values[6]  # allow a proper / fast startup
-        self.vsc["I_intermediate_leak_nA"] = values[7]
+        self.vsc["Constant_us_per_nF"] = values[6] / (2**28)
+        self.vsc["V_intermediate_init_uV"] = values[7]  # allow a proper / fast startup
+        self.vsc["I_intermediate_leak_nA"] = values[8]
 
-        self.vsc["V_enable_output_threshold_uV"] = values[8]  # -> target gets connected (hysteresis-combo with next value)
-        self.vsc["V_disable_output_threshold_uV"] = values[9]  # -> target gets disconnected
-        self.vsc["dV_enable_output_uV"] = values[10]
-        self.vsc["interval_check_thresholds_n"] = values[11]  # some BQs check every 65 ms if output should be disconnected
+        self.vsc["V_enable_output_threshold_uV"] = values[9]  # -> target gets connected (hysteresis-combo with next value)
+        self.vsc["V_disable_output_threshold_uV"] = values[10]  # -> target gets disconnected
+        self.vsc["dV_enable_output_uV"] = values[11]
+        self.vsc["interval_check_thresholds_n"] = values[12]  # some BQs check every 65 ms if output should be disconnected
 
-        self.vsc["V_pwr_good_enable_threshold_uV"] = values[12]  # range where target is informed by output-pin
-        self.vsc["V_pwr_good_disable_threshold_uV"] = values[13]
-        self.vsc["immediate_pwr_good_signal"] = values[14]
+        self.vsc["V_pwr_good_enable_threshold_uV"] = values[13]  # range where target is informed by output-pin
+        self.vsc["V_pwr_good_disable_threshold_uV"] = values[14]
+        self.vsc["immediate_pwr_good_signal"] = values[15]
+
+        self.vsc["V_output_log_gpio_threshold_uV"] = values[16]
 
         # boost regulator
-        self.vsc["V_input_boost_threshold_uV"] = values[15]  # min input-voltage for the boost converter to work
-        self.vsc["V_intermediate_max_uV"] = values[16]  # -> boost shuts off
+        self.vsc["V_input_boost_threshold_uV"] = values[17]  # min input-voltage for the boost converter to work
+        self.vsc["V_intermediate_max_uV"] = values[18]  # -> boost shuts off
 
         # Buck Boost, ie. BQ25570)
-        self.vsc["V_output_uV"] = values[17]
-        self.vsc["V_buck_drop_uV"] = values[18]
+        self.vsc["V_output_uV"] = values[19]
+        self.vsc["V_buck_drop_uV"] = values[20]
 
         # LUTs
-        self.vsc["LUT_input_V_min_log2_uV"] = values[19]
-        self.vsc["LUT_input_I_min_log2_nA"] = values[20]
-        self.vsc["LUT_output_I_min_log2_nA"] = values[21]
-        self.vsc["LUT_inp_efficiency_n8"] = values[22]  # depending on inp_voltage, inp_current, (cap voltage),
-        self.vsc["LUT_out_inv_efficiency_n4"] = values[23]  # depending on output_current
+        self.vsc["LUT_input_V_min_log2_uV"] = values[21]
+        self.vsc["LUT_input_I_min_log2_nA"] = values[22]
+        self.vsc["LUT_output_I_min_log2_nA"] = values[23]
+        self.vsc["LUT_inp_efficiency_n8"] = values[24]  # depending on inp_voltage, inp_current, (cap voltage),
+        self.vsc["LUT_out_inv_efficiency_n4"] = values[25]  # depending on output_current
 
         # boost internal state
         self.vsc["V_input_uV"] = 0.0
@@ -97,15 +100,17 @@ class VirtualSource(object):
         self.vsc["sample_count"] = 0xFFFFFFF0
         self.vsc["is_outputting"] = True
 
+        self.vsc["vsource_skip_gpio_logging"] = False
+
+        # TEST-SIMPLIFICATION - code below is not part of pru-code
+        self.P_in_fW: float = 0
+        self.P_out_fW: float = 0
+
     def calc_inp_power(self, input_voltage_uV: int, input_current_nA: int) -> int:
         if input_voltage_uV < 0:
             input_voltage_uV = 0
-        elif input_voltage_uV > 10e6:
-            input_voltage_uV = 10e6  # 5 V
         if input_current_nA < 0:
             input_current_nA = 0
-        elif input_current_nA > 500e6:
-            input_current_nA = 500e6  # 50 mA
 
         if input_voltage_uV > self.vsc["V_input_drop_uV"]:
             input_voltage_uV -= self.vsc["V_input_drop_uV"]
@@ -131,7 +136,10 @@ class VirtualSource(object):
             input_voltage_uV = 0
         else:
             if input_voltage_uV > self.vsc["V_mid_uV"]:
-                input_voltage_uV -= self.vsc["V_mid_uV"]
+                I_max_nA = (input_voltage_uV - self.vsc["V_mid_uV"]) * self.vsc["Constant_1k_per_Ohm"]
+                if input_current_nA > I_max_nA:
+                    input_current_nA = I_max_nA
+                input_voltage_uV = self.vsc["V_mid_uV"]
             else:
                 input_voltage_uV = 0
 
@@ -140,8 +148,8 @@ class VirtualSource(object):
         else:
             eta_inp = 1.0
 
-        self.vsc["P_inp_fW"] = int(input_voltage_uV * input_current_nA * eta_inp)
-        return self.vsc["P_inp_fW"]  # return NOT original, added for easier testing
+        self.vsc["P_inp_fW"] = input_voltage_uV * input_current_nA * eta_inp
+        return round(self.vsc["P_inp_fW"])  # return NOT original, added for easier testing
 
     def calc_out_power(self, current_adc_raw: int) -> int:
         if current_adc_raw < 0:
@@ -156,20 +164,20 @@ class VirtualSource(object):
         else:
             eta_inv_out = 1.0
 
-        self.vsc["P_out_fW"] = int(I_out_nA * self.vsc["V_out_dac_uV"] * eta_inv_out + P_leak_fW)
+        self.vsc["P_out_fW"] = I_out_nA * self.vsc["V_out_dac_uV"] * eta_inv_out + P_leak_fW
 
         if self.vsc["interval_startup_disabled_drain_n"] > 0:
             self.vsc["interval_startup_disabled_drain_n"] -= 1
             self.vsc["P_out_fW"] = 0
 
-        return self.vsc["P_out_fW"]  # return NOT original, added for easier testing
+        return round(self.vsc["P_out_fW"])  # return NOT original, added for easier testing
 
     def update_cap_storage(self) -> int:
         if self.vsc["enable_storage"]:
-            V_mid_lim_uV = 1 if (self.vsc["V_mid_uV"] < 1) else self.vsc["V_mid_uV"]
+            V_mid_prot_uV = 1 if (self.vsc["V_mid_uV"] < 1) else self.vsc["V_mid_uV"]
             P_sum_fW = self.vsc["P_inp_fW"] - self.vsc["P_out_fW"]
-            I_mid_nA = P_sum_fW / V_mid_lim_uV
-            dV_mid_uV = int(I_mid_nA * self.vsc["Constant_us_per_nF"])
+            I_mid_nA = P_sum_fW / V_mid_prot_uV
+            dV_mid_uV = I_mid_nA * self.vsc["Constant_us_per_nF"]
             self.vsc["V_mid_uV"] += dV_mid_uV
 
         if self.vsc["V_mid_uV"] > self.vsc["V_intermediate_max_uV"]:
@@ -178,7 +186,7 @@ class VirtualSource(object):
             self.vsc["V_mid_uV"] = self.vsc["V_input_uV"]
         elif self.vsc["V_mid_uV"] < 1:
             self.vsc["V_mid_uV"] = 1
-        return int(self.vsc["V_mid_uV"])  # return NOT original, added for easier testing
+        return round(self.vsc["V_mid_uV"])  # return NOT original, added for easier testing
 
     def update_states_and_output(self) -> int:
 
@@ -216,6 +224,8 @@ class VirtualSource(object):
         else:
             self.vsc["V_out_dac_uV"] = 0
             self.vsc["V_out_dac_raw"] = 0
+
+        self.vsc["vsource_skip_gpio_logging"] = (self.vsc["V_out_dac_uV"] < self.vsc["V_output_log_gpio_threshold_uV"])
         return self.vsc["V_out_dac_raw"]
 
     def conv_adc_raw_to_nA(self, current_raw: int) -> float:
@@ -228,10 +238,10 @@ class VirtualSource(object):
         return dac_raw
 
     def get_input_efficiency(self, voltage_uV: int, current_nA: int) -> float:
-        voltage_uV = int(voltage_uV / (2 ** self.vsc["LUT_input_V_min_log2_uV"]))
-        current_nA = int(current_nA / (2 ** self.vsc["LUT_input_I_min_log2_nA"]))
-        pos_v = int(voltage_uV) if (voltage_uV > 0) else 0
-        pos_c = int(math.log2(current_nA)) if (current_nA > 0) else 0
+        voltage_n = int(voltage_uV / (2 ** self.vsc["LUT_input_V_min_log2_uV"]))
+        current_n = int(current_nA / (2 ** self.vsc["LUT_input_I_min_log2_nA"]))
+        pos_v = int(voltage_n) if (voltage_n > 0) else 0  # V-Scale is Linear!
+        pos_c = int(math.log2(current_n)) if (current_n > 0) else 0
         if pos_v >= self.vsc["LUT_size"]:
             pos_v = self.vsc["LUT_size"] - 1
         if pos_c >= self.vsc["LUT_size"]:
@@ -239,8 +249,8 @@ class VirtualSource(object):
         return self.vsc["LUT_inp_efficiency_n8"][pos_v * self.vsc["LUT_size"] + pos_c] / (2 ** 8)
 
     def get_output_inv_efficiency(self, current_nA) -> float:
-        current_nA = int(current_nA / (2 ** self.vsc["LUT_output_I_min_log2_nA"]))
-        pos_c = int(math.log2(current_nA)) if (current_nA > 0) else 0
+        current_n = int(current_nA / (2 ** self.vsc["LUT_output_I_min_log2_nA"]))
+        pos_c = int(math.log2(current_n)) if (current_n > 0) else 0
         if pos_c >= self.vsc["LUT_size"]:
             pos_c = self.vsc["LUT_size"] - 1
         return self.vsc["LUT_out_inv_efficiency_n4"][pos_c] / (2 ** 4)
@@ -255,16 +265,16 @@ class VirtualSource(object):
         self.vsc["V_mid_uV"] = value
 
     def get_P_input_fW(self) -> int:
-        return self.vsc["P_inp_fW"]
+        return round(self.vsc["P_inp_fW"])
 
     def get_P_output_fW(self) -> int:
-        return self.vsc["P_out_fW"]
+        return round(self.vsc["P_out_fW"])
 
     def get_V_intermediate_uV(self) -> int:
-        return self.vsc["V_mid_uV"]
+        return round(self.vsc["V_mid_uV"])
 
     def get_V_intermediate_raw(self):
-        return self.conv_uV_to_dac_raw(self.vsc["V_mid_uV"])
+        return round(self.conv_uV_to_dac_raw(self.vsc["V_mid_uV"]))
 
     def get_power_good(self):
         return self.vsc["power_good"]
@@ -274,3 +284,18 @@ class VirtualSource(object):
 
     def get_state_log_intermediate(self) -> bool:
         return self.vsc["enable_log_mid"]
+
+    def get_state_log_gpio(self) -> bool:
+        return self.vsc["vsource_skip_gpio_logging"]
+
+    # TEST-SIMPLIFICATION - code below is not part of pru-code
+    def iterate(self, V_in_uV: int = 0, A_in_nA: int = 0, A_out_nA: int = 0):
+        self.calc_inp_power(V_in_uV, A_in_nA)
+        A_out_raw = self.cal.convert_value_to_raw("emulation", "adc_current", A_out_nA * 10**-9)
+        self.calc_out_power(A_out_raw)
+        self.update_cap_storage()
+        V_out_raw = self.update_states_and_output()
+        V_out_uV = int(self.cal.convert_raw_to_value("emulation", "dac_voltage_b", V_out_raw) * 10**6)
+        self.P_in_fW += V_in_uV * A_in_nA
+        self.P_out_fW += V_out_uV * A_out_nA
+        return V_out_uV

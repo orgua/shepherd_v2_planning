@@ -37,38 +37,42 @@ class VirtualSourceData(object):
     """
     vss: dict = None
 
-    def __init__(self, vs_settings: dict = None):
+    def __init__(self, vs_setting: dict = None, log_intermediate_voltage: bool = False):
         """ Container for VS Settings, Data will be checked and completed
 
         Args:
-            vs_settings: if omitted, the data is generated from default values
+            vs_setting: if omitted, the data is generated from default values
         """
-        vs_defs = Path("./virtual_source_defs.yml")
+        vs_defs = Path(__file__).parent.resolve()/"virtual_source_defs.yml"
         with open(vs_defs, "r") as def_data:
-            self.vs_defines = yaml.safe_load(def_data)["virtsources"]
+            self.vs_configs = yaml.safe_load(def_data)["virtsources"]
         self.vs_inheritance = list()
 
-        if isinstance(vs_settings, str) and Path(vs_settings).exists():
-            vs_settings = Path(vs_settings)
-        if isinstance(vs_settings, Path) and vs_settings.exists():
-            with open(vs_settings, "r") as config_data:
-                vs_settings = yaml.safe_load(config_data)["virtsource"]
-        if isinstance(vs_settings, str):
-            if vs_settings in self.vs_defines:
-                self.vs_inheritance.append(vs_settings)
-                vs_settings = self.vs_defines[vs_settings]
+        if isinstance(vs_setting, str) and Path(vs_setting).exists():
+            vs_setting = Path(vs_setting)
+        if isinstance(vs_setting, Path) and vs_setting.exists():  # TODO: not perfect - better also check for ".yml", same above
+            with open(vs_setting, "r") as config_data:
+                vs_setting = yaml.safe_load(config_data)["virtsource"]
+        if isinstance(vs_setting, str):
+            if vs_setting in self.vs_configs:
+                self.vs_inheritance.append(vs_setting)
+                vs_setting = self.vs_configs[vs_setting]
             else:
-                raise NotImplementedError(f"VirtualSource was set to '{vs_settings}', but definition missing in 'virtual_source_defs.yml'")
+                raise NotImplementedError(f"VirtualSource was set to '{vs_setting}', but definition missing in 'virtual_source_defs.yml'")
 
-        if vs_settings is None:
+        if vs_setting is None:
             self.vss = dict()
-        elif isinstance(vs_settings, VirtualSourceData):
-            self.vss = vs_settings.vss
-        elif isinstance(vs_settings, dict):
-            self.vss = vs_settings
+        elif isinstance(vs_setting, VirtualSourceData):
+            self.vss = vs_setting.vss
+        elif isinstance(vs_setting, dict):
+            self.vss = vs_setting
         else:
             raise NotImplementedError(
-                f"VirtualSourceData {type(vs_settings)}'{vs_settings}' could not be handled. In case of file-path -> does it exist?")
+                f"VirtualSourceData {type(vs_setting)}'{vs_setting}' could not be handled. In case of file-path -> does it exist?")
+
+        if log_intermediate_voltage is not None:
+            self.vss["log_intermediate_voltage"] = log_intermediate_voltage
+
         self.check_and_complete()
 
     def get_as_dict(self) -> dict:
@@ -105,6 +109,7 @@ class VirtualSourceData(object):
         vs_list.append(int(self.vss["V_input_max_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["I_input_max_mA"] * 1e6))  # nA
         vs_list.append(int(self.vss["V_input_drop_mV"] * 1e3))  # uV
+        vs_list.append(int(self.vss["Constant_1k_per_Ohm"] * 1))  # 1/mOhm
 
         vs_list.append(int(self.vss["Constant_us_per_nF_n28"]))  # us/nF = us*V / nA*s
         vs_list.append(int(self.vss["V_intermediate_init_mV"] * 1e3))  # uV
@@ -118,6 +123,8 @@ class VirtualSourceData(object):
         vs_list.append(int(self.vss["V_pwr_good_enable_threshold_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["V_pwr_good_disable_threshold_mV"] * 1e3))  # uV
         vs_list.append(int(self.vss["immediate_pwr_good_signal"] > 0))  # bool
+
+        vs_list.append(int(self.vss["V_output_log_gpio_threshold_mV"] * 1e3))  # uV
 
         # Boost
         vs_list.append(int(self.vss["V_input_boost_threshold_mV"] * 1e3))  # uV
@@ -162,6 +169,10 @@ class VirtualSourceData(object):
         C_storage_uF = max(self.vss["C_intermediate_uF"], 0.001)
         self.vss["Constant_us_per_nF_n28"] = (SAMPLE_INTERVAL_US * (2**28)) / (1000 * C_storage_uF)
 
+        # inverse resistance constant
+        R_input_mOhm = max(self.vss["R_input_mOhm"], 0.001)
+        self.vss["Constant_1k_per_Ohm"] = max(10**6 / R_input_mOhm, 1)
+
         """
         compensate for (hard to detect) current-surge of real capacitors when converter gets turned on
         -> this can be const value, because the converter always turns on with "V_storage_enable_threshold_uV"
@@ -191,6 +202,12 @@ class VirtualSourceData(object):
             dV_output_en_thrs_mV = 0
             dV_output_imed_low_mV = 0
 
+        # protect from complex solutions (non valid input combinations)
+        if not (isinstance(dV_output_en_thrs_mV, (int, float)) and (dV_output_en_thrs_mV >= 0)):
+            dV_output_en_thrs_mV = 0
+        if not (isinstance(dV_output_imed_low_mV, (int, float)) and (dV_output_imed_low_mV >= 0)):
+            dV_output_imed_low_mV = 0
+
         # decide which hysteresis-thresholds to use for buck-regulator
         if self.vss["enable_buck"] > 0:
             V_pre_output_mV = self.vss["V_output_mV"] + self.vss["V_buck_drop_mV"]
@@ -200,7 +217,7 @@ class VirtualSourceData(object):
                 self.vss["V_enable_output_threshold_mV"] = self.vss["V_intermediate_enable_threshold_mV"]
             else:
                 self.vss["dV_enable_output_mV"] = dV_output_imed_low_mV
-                self.vss["V_enable_output_threshold_mV"] = V_pre_output_mV + self.vss["dV_output_enable_mV"]
+                self.vss["V_enable_output_threshold_mV"] = V_pre_output_mV + self.vss["dV_enable_output_mV"]
 
             if self.vss["V_intermediate_disable_threshold_mV"] > V_pre_output_mV:
                 self.vss["V_disable_output_threshold_mV"] = self.vss["V_intermediate_disable_threshold_mV"]
@@ -212,8 +229,8 @@ class VirtualSourceData(object):
             self.vss["V_enable_output_threshold_mV"] = self.vss["V_intermediate_enable_threshold_mV"]
             self.vss["V_disable_output_threshold_mV"] = self.vss["V_intermediate_disable_threshold_mV"]
 
-    def check_and_complete(self, debug: bool = True) -> NoReturn:
-        """ checks virtual-source-settings for present values, adds default values to missing ones, checks limits
+    def check_and_complete(self, verbose: bool = True) -> NoReturn:
+        """ checks virtual-source-settings for present values, adds default values to missing ones, checks against limits of algorithm
         """
         if "converter_base" in self.vss:
             base_name = self.vss["converter_base"]
@@ -227,69 +244,75 @@ class VirtualSourceData(object):
 
         if base_name == "neutral":
             # root of recursive completion
-            self.vss_base = self.vs_defines[base_name]
-        elif base_name in self.vs_defines:
+            self.vss_base = self.vs_configs[base_name]
+            logger.debug(f"[virtSource] Config-Set was initialized with '{base_name}'-base")
+        elif base_name in self.vs_configs:
             vss_stash = self.vss
-            self.vss = self.vs_defines[base_name]
-            self.check_and_complete(debug=False)
-            logger.debug(f"[virtSource] config set was completed with '{base_name}'-base")
+            self.vss = self.vs_configs[base_name]
+            self.check_and_complete(verbose=False)
+            logger.debug(f"[virtSource] Config-Set was completed with '{base_name}'-base")
             self.vss_base = self.vss
             self.vss = vss_stash
         else:
             raise NotImplementedError(f"[virtSource] converter base '{base_name}' is unknown to system")
 
         # General
-        self._check_num("log_intermediate_voltage", 4.29e9)
-        self._check_num("interval_startup_delay_drain_ms", 10000)
+        self._check_num("log_intermediate_voltage", 4.29e9, verbose=verbose)
+        self._check_num("interval_startup_delay_drain_ms", 10000, verbose=verbose)
 
-        self._check_num("V_input_max_mV", 4.29e6)
-        self._check_num("I_input_max_mA", 4.29e3)
-        self._check_num("V_input_drop_mV", 4.29e6)
+        self._check_num("V_input_max_mV", 10e3, verbose=verbose)
+        self._check_num("I_input_max_mA", 4.29e3, verbose=verbose)
+        self._check_num("V_input_drop_mV", 4.29e6, verbose=verbose)
+        self._check_num("R_input_mOhm", 4.29e6, verbose=verbose)
 
-        self._check_num("C_intermediate_uF", 4.29e6)
-        self._check_num("I_intermediate_leak_nA", 4.29e9)
-        self._check_num("V_intermediate_init_mV", 10000)
+        self._check_num("C_intermediate_uF", 100e3, verbose=verbose)
+        self._check_num("I_intermediate_leak_nA", 4.29e9, verbose=verbose)
+        self._check_num("V_intermediate_init_mV", 10000, verbose=verbose)
 
-        self._check_num("V_pwr_good_enable_threshold_mV", 10000)
-        self._check_num("V_pwr_good_disable_threshold_mV", 10000)
-        self._check_num("immediate_pwr_good_signal", 4.29e9)
+        self._check_num("V_pwr_good_enable_threshold_mV", 10000, verbose=verbose)
+        self._check_num("V_pwr_good_disable_threshold_mV", 10000, verbose=verbose)
+        self._check_num("immediate_pwr_good_signal", 4.29e9, verbose=verbose)
 
-        self._check_num("C_output_uF", 4.29e6)
+        self._check_num("C_output_uF", 4.29e6, verbose=verbose)
+
+        self._check_num("V_output_log_gpio_threshold_mV", 4.29e6, verbose=verbose)
 
         # Boost
-        self._check_num("enable_boost", 4.29e9)
-        self._check_num("V_input_boost_threshold_mV", 10000)
-        self._check_num("V_intermediate_max_mV", 10000)
+        self._check_num("enable_boost", 4.29e9, verbose=verbose)
+        self._check_num("V_input_boost_threshold_mV", 10000, verbose=verbose)
+        self._check_num("V_intermediate_max_mV", 10000, verbose=verbose)
 
-        self._check_list("LUT_input_efficiency", 1.0)
-        self._check_num("LUT_input_V_min_log2_uV", 20)  # TODO: name could confuse
-        self._check_num("LUT_input_I_min_log2_nA", 20)
+        self._check_list("LUT_input_efficiency", 1.0, verbose=verbose)
+        self._check_num("LUT_input_V_min_log2_uV", 20, verbose=verbose)  # TODO: naming could confuse
+        self._check_num("LUT_input_I_min_log2_nA", 20, verbose=verbose)
 
         # Buck
-        self._check_num("enable_buck", 4.29e9)
-        self._check_num("V_output_mV", 5000)
-        self._check_num("V_buck_drop_mV", 5000)
+        self._check_num("enable_buck", 4.29e9, verbose=verbose)
+        self._check_num("V_output_mV", 5000, verbose=verbose)
+        self._check_num("V_buck_drop_mV", 5000, verbose=verbose)
 
-        self._check_num("V_intermediate_enable_threshold_mV", 10000)
-        self._check_num("V_intermediate_disable_threshold_mV", 10000)
-        self._check_num("interval_check_thresholds_ms", 4.29e3)
+        self._check_num("V_intermediate_enable_threshold_mV", 10000, verbose=verbose)
+        self._check_num("V_intermediate_disable_threshold_mV", 10000, verbose=verbose)
+        self._check_num("interval_check_thresholds_ms", 4.29e3, verbose=verbose)
 
-        self._check_list("LUT_output_efficiency", 1.0)
-        self._check_num("LUT_output_I_min_log2_nA", 20)
+        self._check_list("LUT_output_efficiency", 1.0, verbose=verbose)
+        self._check_num("LUT_output_I_min_log2_nA", 20, verbose=verbose)
 
-        # internal
+        # internal / derived parameters
         self.calculate_internal_states()
-        self._check_num("dV_enable_output_mV", 4.29e6)
-        self._check_num("V_enable_output_threshold_mV", 4.29e6)
-        self._check_num("V_disable_output_threshold_mV", 4.29e6)
-        self._check_num("Constant_us_per_nF_n28", 4.29e9)
+        self._check_num("dV_enable_output_mV", 4.29e6, verbose=verbose)
+        self._check_num("V_enable_output_threshold_mV", 4.29e6, verbose=verbose)
+        self._check_num("V_disable_output_threshold_mV", 4.29e6, verbose=verbose)
+        self._check_num("Constant_us_per_nF_n28", 4.29e9, verbose=verbose)
+        self._check_num("Constant_1k_per_Ohm", 4.29e9, verbose=verbose)
 
-    def _check_num(self, setting_key: str, max_value: float = None) -> NoReturn:
+    def _check_num(self, setting_key: str, max_value: float = None, verbose: bool = True) -> NoReturn:
         try:
             set_value = self.vss[setting_key]
         except KeyError:
             set_value = self.vss_base[setting_key]
-            logger.debug(f"[virtSource] Setting '{setting_key}' was not provided, will be set to default = {set_value}")
+            if verbose:
+                logger.debug(f"[virtSource] parameter '{setting_key}' was not provided, will be set to default = {set_value}")
         if not isinstance(set_value, (int, float)) or (set_value < 0):
             raise NotImplementedError(
                 f"[virtSource] '{setting_key}' must a single positive number, but is '{set_value}'")
@@ -299,13 +322,14 @@ class VirtualSourceData(object):
             raise NotImplementedError(f"[virtSource] {setting_key} = {set_value} must be <= {max_value}")
         self.vss[setting_key] = set_value
 
-    def _check_list(self, setting_key: str, max_value: float = 1023) -> NoReturn:
+    def _check_list(self, setting_key: str, max_value: float = 1023, verbose: bool = True) -> NoReturn:
         default = flatten_dict_list(self.vss_base[setting_key])
         try:
             values = flatten_dict_list(self.vss[setting_key])
         except KeyError:
             values = default
-            logger.debug(f"[virtSource] Setting {setting_key} was not provided, will be set to default = {values[0]}")
+            if verbose:
+                logger.debug(f"[virtSource] parameter '{setting_key}' was not provided, will be set to default = {values[0]}")
         if (len(values) != len(default)) or (min(values) < 0) or (max(values) > max_value):
             raise NotImplementedError(
                 f"[virtSource] {setting_key} must a list of {len(default)} values, within range of [{0}; {max_value}]")
