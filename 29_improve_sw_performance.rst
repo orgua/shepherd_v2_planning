@@ -182,4 +182,23 @@ config::
       no_calib: true
 
 
+Server PipEnv Updates
+---------------------
 
+useful commands::
+
+    pip3 install pipenv
+    # or
+    pipenv --rm
+    pip3 install --upgrade pipenv setuptools virtualenv pip six certifi distlib
+
+    pipenv install --deploy
+
+    pipenv update --keep-outdated packet
+    pipenv uninstall ansible ansible-base ansible-core --skip-lock
+    pipenv graph
+    pipenv check
+    pipenv lock --clear
+
+    pipenv shell
+    exit
