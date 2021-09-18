@@ -10,8 +10,16 @@ def cli(database):
         print(f"File got {len(db['gpio']['value'])} entries for GPIO")
         tt = db["gpio"]["value"][:] & (int(2**9) + int(2**10))  # BitPosition r30_09/out  TARGET_BAT_OK
         counts = np.unique(tt, return_counts=True)
-        print(f"got the following result:")
+        print(f"got the following result for BatOK:")
         print(counts)
+        counts = np.unique(db["gpio"]["value"][:], return_counts=True)
+        print(f"got the following result (all)")
+        print(counts)
+
+        print(f"voltage-attributes keys   {list(db['data']['voltage'].attrs.keys())}")
+        print(f"voltage-attributes values {list(db['data']['voltage'].attrs.values())}")
+        print(f"current-attributes keys   {list(db['data']['current'].attrs.keys())}")
+        print(f"current-attributes values {list(db['data']['current'].attrs.values())}")
 
 
 if __name__ == "__main__":
