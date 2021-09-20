@@ -79,7 +79,11 @@ Debug (on sheep)::
 
 Test new vSource-Emulator::
 
-    sudo mount /dev/mmcblk0p1 /var/shepherd/recordings2
+    sudo apt install --reinstall exfat-fuse exfat-utils
+    mkdir /var/shepherd/recordings2
+    chmod -Rf 777 /var/shepherd/recordings2
+
+    sudo mount -t exfat /dev/mmcblk0p1 /var/shepherd/recordings2
     # configure the config.yml to point to wanted tracefile:
     #   input_path: /var/shepherd/recordings2/indoor_solar/sheep4/office_sd.h5
 
