@@ -66,6 +66,12 @@ General short-term Sept
     - SWD Pins are I2C1, are colliding with default dt-driver in uEnv.txt -> /lib/firmware/ holds a i2c2-00A0.dtbo
     - i2c1 can be disabled, i2c-0/2 are still there
     - reduced programming speed in config
+- GPIO-Sampling should include Bat-OK (doesn't it?`), and stop sampling when voltage is off or below a certain threshold
+- h5-writing updated
+- extend Logging
+    - Proper Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
+    - log sync-state
+    - log sys-values: cpu, ram, dmesg, temp, io, network
 
 Software Short-Term TODO
 -----------------------
@@ -77,15 +83,13 @@ Software Short-Term TODO
     - bring OpenOCD-Patches to mainline
     - SpyBiWire - solution to bring it to BBone, https://forum.43oh.com/topic/10035-4-wire-jtag-with-mspdebug-and-raspberry-pi-gpio/
 - usb-writing seems to fail, maybe due to latency? even reading of h5-file seems to fail (problem with h5lib?)
-- GPIO-Sampling should include Bat-OK (doesn't it?`), and stop sampling when voltage is off or below a certain threshold
+- benchmark h5-variations, 10mins for various versions (compression, full write and read,
+- logger-performance impact
+- exception handling
+- nicer exit
 - update py-packets, improve speed, solve USB-Issue (see 29_improve_sw_performance.rst).
 - kai-report: buffer or sysdisk overflow after ~1h even when writing on separate disk
-- extend Logging
-    - Proper Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
-    - log sync-state
-    - log sys-values: cpu, ram, dmesg, temp, io, network
 - reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
-
 - kai feedback: powertrace + harvesting-firmware on nRF (LED + bLE-packet)
 - unit-test
     - vsource - low and high power inputs 72W, 1W, 195 nA * 19 uV = 3.7 pW, what is with 1fW?
@@ -118,8 +122,8 @@ Software Short-Term TODO
     - HW - target cap: reducing from 1 us to 100 nF brings edge-response from 30-80 us down to 8-14 us -> target can buffer on its own, 10 Ohm shunt & 1 uF are responsible for 16 kHz Lowpass
     - hw - maybe add V-ADC for emu? resulting V can deviate from dac -> chips select pins could be cross-used when only rec or emu is active
     - wirklich nur 20min timer?
-    - did you mod openOCD this year?
-
+    - cape powered by BB, error even with switched jumper?
+    -
 
 
 Hardware Short-Term TODO
@@ -154,6 +158,8 @@ Hardware Short-Term TODO
 - find reason for 2.3mA Offset
 - ADC seems to act up sometimes after sheph-EN -> test in PRU, reenable a couple of times -> seems to be fixed with EN
 - diodes for coils if needed
+- LED of PRU: dedicated pwr_good / harvesting
+- Board does not start when powered by BB (with extra Cap) -> extra switch needed? Not even Starting without Jumper? BootPins-Trouble Again?
 
 Long-Term TODO
 --------------
