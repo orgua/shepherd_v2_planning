@@ -72,9 +72,31 @@ General short-term Sept
     - Proper Uart Logging, either pyserial in 0.01s window or external grabserial started by herd
     - log sync-state
     - log sys-values: cpu, ram, dmesg, temp, io, network
+- characterize noise, 10 voltages, 10 currents, 1s each
 
 Software Short-Term TODO
 -----------------------
+
+- logging-module of python has serious performance impact -> 4*10 msg/s in debug are >20 % overhead on BB
+    -> follow https://docs.python.org/3/howto/logging.html#optimization
+    - avoid assembling these 4 most critical fast-Strings
+        - __init__.py/emulator.return_buffer(), external verbose
+        - datalog.py/LogReader.read_buffers(), generator with internal verbose -> good enough
+        - shepherd_io.py/ShepherdIO.get_buffer(), external verbose
+            - SharedMem.read_buffer(), external verbose & GPIO-Msg disabled
+    - try to avoid collection of useless data (thread,process,_srcfile)
+    - warn in yamls about impact of verbose>2
+- logging -> second handler to stream into hdf5-file
+
+- timesync-logging -> parse chrony for gps
+- benchmark - long duration -> test memory leaks, uart-exceptions, usb-read/write-trouble
+- recorder, also software-defined:
+    - constant voltage
+    - mppt:
+        - measure open circuit voltage, jump to XX % of that, interval for how often and how long measurement takes
+        - perturb and observe -> change small increments, steps-size, interval
+    - IV - curves -> window-size
+- google-doc
 
 - remove h5-file from commit 6f45b70a5cca0ce489c21c92ff891b2e54e7bed6
     - https://stackoverflow.com/questions/307828/how-do-you-fix-a-bad-merge-and-replay-your-good-commits-onto-a-fixed-merge
@@ -84,7 +106,7 @@ Software Short-Term TODO
     - SpyBiWire - solution to bring it to BBone, https://forum.43oh.com/topic/10035-4-wire-jtag-with-mspdebug-and-raspberry-pi-gpio/
 - usb-writing seems to fail, maybe due to latency? even reading of h5-file seems to fail (problem with h5lib?)
 - benchmark h5-variations, 10mins for various versions (compression, full write and read,
-- logger-performance impact
+
 - exception handling
 - nicer exit
 - update py-packets, improve speed, solve USB-Issue (see 29_improve_sw_performance.rst).
@@ -116,26 +138,23 @@ Software Short-Term TODO
         - config file gets
         - sudo python3 setup.py install --force
         - shepherd-herd -vvv -i inventory/example.yml record -d 10 --no-calib
-    - BQ Parametrize -> YES
     - HW - diode shows ~ 430 nA reverse current
     - HW - what about harvest LED
     - HW - target cap: reducing from 1 us to 100 nF brings edge-response from 30-80 us down to 8-14 us -> target can buffer on its own, 10 Ohm shunt & 1 uF are responsible for 16 kHz Lowpass
     - hw - maybe add V-ADC for emu? resulting V can deviate from dac -> chips select pins could be cross-used when only rec or emu is active
-    - wirklich nur 20min timer?
-    - cape powered by BB, error even with switched jumper?
-    -
 
 
 Hardware Short-Term TODO
 ------------------------
 
-- characterize noise, 10 voltages, 10 currents, 1s each
-- Pwr-by-BB does not work with current cape-revision
-- optimize filters with this metric
-    - possible tradeoffs: speed of voltage-transistions, compensation of analog switch resistance
+- target-mod: msp430 + msp, spi + 2+ handshake-lines, same gpio access,
+
+- Pwr-by-BB does not work with current cape-revision -> just add a switch?
+- optimize filters with noise-metrics
+    - possible tradeoffs: speed of voltage-transitions, compensation of analog switch resistance
 - GPIO-Speed
     - BugFlap uses different schematic and has faster transitions
-    - alternative: switchable direction for group of level translators
+    - alternative: switchable direction for group of level translators, 2x2 configurable, 5 static input
 
 - decide if rec & emu should be combined
     - more complex design
