@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import NoReturn
+
+import click
 import h5py
 import numpy as np
 from datetime import datetime
@@ -64,18 +66,40 @@ def group_extractor(file: Path, group: str, datasets: list, only_log: bool = Fal
                 n = log_writer(out_file, hf[group], datasets)
             else:
                 n = csv_writer(out_file, hf[group], datasets)
-            print(f"[Extractor] found n={n} elements in '{group}'-group")
+            print(f"[Extractor] '{group}'-group contained n={n} elements")
         else:
-            print(f"[Extractor] did not find '{group}'-group")
+            print(f"[Extractor] '{group}'-group not found")
+
+
+def h5_structure_printer(file: Path) -> NoReturn:
+    with h5py.File(file, "r") as h5db:
+        for group in h5db.keys():
+            h5grp = h5db.get(group)
+            print(f"Group [{group}] Items: {h5grp.items()}")
+            for dataset in h5grp.keys():
+                h5ds = h5grp.get(dataset)
+                if isinstance(h5ds, str):
+                    print(f"Group [{group}], Dataset [{dataset}]")
+                else:
+                    print(f"Group [{group}], Dataset [{dataset}] - type={h5ds.dtype}, shape={h5ds.shape}, Chunks={h5ds.chunks}, compression={h5ds.compression}, ")
 
 
 def h5_extractor(file: Path) -> NoReturn:
-    group_extractor(file, "system", ["cpu_util", "ram_util", "io_util", "net_util"])
+    print(f"[Extractor] handling '{file}'")
+    group_extractor(file, "sysutil", ["cpu", "ram", "io", "net"])
     group_extractor(file, "dmesg", ["message"], only_log=True)
     group_extractor(file, "timesync", ["values"])
     group_extractor(file, "exceptions", ["message"], only_log=True)
     group_extractor(file, "uart", ["message"], only_log=True)
+    #group_extractor(file, "data", ["voltage", "current"], )
+    h5_structure_printer(file)
+
+
+@click.command()
+@click.argument("database", type=click.Path(exists=True, dir_okay=False))
+def cli(database):
+    h5_extractor(database)
 
 
 if __name__ == "__main__":
-    h5_extractor("./test_sys_log.h5")
+    cli()
