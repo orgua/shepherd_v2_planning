@@ -86,8 +86,24 @@ Software Short-Term TODO
             - SharedMem.read_buffer(), external verbose & GPIO-Msg disabled
     - try to avoid collection of useless data (thread,process,_srcfile)
     - warn in yamls about impact of verbose>2
-- logging -> second handler to stream into hdf5-file
 
+- PyCode-Performance
+    - h5-NoCompression -    77 % CPU, 47 mb/ 30s
+    - h5-lzf                89 % CPU, 24 mb/ 30s
+    - loggerOpt1 - ifVerb   84 % CPU, same
+    - loggerOpt2 - traceOff 83 % CPU
+    - profiler1             83 % CPU
+    - with monitors -> wait 91 %
+
+sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd/cli.py -vv run --config /etc/shepherd/example_config_emulation.yml
+runsnake profile.pstats
+-> asyncio.sleep or threading.Event().wait() in normal code?
+- switch to one logger? all seem to are different instances
+- look for h5py improvements -> main load according to profiler
+- system-profiler - https://www.linuxlinks.com/SystemProfilers/
+
+- logging -> second handler to stream into hdf5-file
+- newest h5py-Version seems to hang sometimes on .close() -> profiler shouts "infinite loop"
 - timesync-logging -> parse chrony for gps
 - benchmark - long duration -> test memory leaks, uart-exceptions, usb-read/write-trouble
 - recorder, also software-defined:

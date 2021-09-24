@@ -101,8 +101,8 @@ Mods for HWv2.2
     - route wire from cap, through mounting hole to P9-2/3 (3V3 of BB)
 - fast gpio-lines for swd and uart with stronger PUs, and lower series resistance
     - target side: on lower LSF (U12),
-        - 10 k PU-Array, add 2.7k in parallel to lower 4 resistors
-        - 1 k Series-Array, add 100 R in parallel to lower 4 resistors
+        - 10 k PU-Array, add 2.7k in parallel to lower 4 resistors, results in ~2.1 k
+        - 1 k SeriesResistor-Array, add 100 R in parallel to lower 4 resistors, results in 91 Ohm
     - sys side:
         - same treatment for PUs, above P9-16, above / between P9-18/20, above left side P9-24, above right side P9-26
         - 1 k Series-Array, add 430 R in parallel
