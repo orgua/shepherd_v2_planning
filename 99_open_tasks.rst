@@ -281,9 +281,22 @@ pip install git+https://github.com/pythonspeed/filprofiler.git#egg=filprofiler
 fil-profile run --no-browser shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
 -> fails to compile for armV7 -> missing SYS_mmap2
 
-Mods to allow testing
+Mods to allow uninterrupted testing
 pru0/main.c, line99, //send_status(...NOFREEBUF
 pypkg/init.py, line 626, start_time = + 25
+
+
+PRU-Programmer-Framework
+- two sysfs-files
+    - /sys/shepherd/programmer_ctrl  ->
+    - /sys/shepherd/programmer_fw    -> dump firmware in, shepherd needs to be idle
+- ctrl: after filling ram area with firmware
+    - type: swd, sbw, string
+    - size: bytes, u32
+    - target_sel
+    - target_voltage
+    - frequency?
+    - pins 4 slots, clock, data in, data out, X
 
 
 - deploy roles (ptp-client & gps-client) have connman-disabler -> problem: time not synced at all
