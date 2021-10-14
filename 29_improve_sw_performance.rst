@@ -24,14 +24,14 @@ Current State
     - h5py 2.10.0
     - pip 20.3.4
     - setuptools 52.0.0
-- manual update (NOT working due to libcblas-trouble)
+- manual update (brings solvable libcblas-trouble)
     - setuptools 57.4.0
     - pip 21.2.1
-    - numpy 1.21.1
+    - numpy 1.21.2
     - scipy 1.7.0
-    - h5py 3.3.0
+    - h5py 3.4.0
 - Kai reports that h5py v3.1 works with current shepherd-sw
-
+- I report that code is working after manual libs to newest version
 
 Try Upgrading Ubuntu::
 
