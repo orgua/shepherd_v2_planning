@@ -287,16 +287,21 @@ pypkg/init.py, line 626, start_time = + 25
 
 
 PRU-Programmer-Framework
-- two sysfs-files
-    - /sys/shepherd/programmer_ctrl  ->
-    - /sys/shepherd/programmer_fw    -> dump firmware in, shepherd needs to be idle
-- ctrl: after filling ram area with firmware
-    - type: swd, sbw, string
-    - size: bytes, u32
-    - target_sel
-    - target_voltage
-    - frequency?
-    - pins 4 slots, clock, data in, data out, X
+- frontend: sheep supports new command "shepherd-sheep program"
+    - example: sudo shepherd-sheep program -p sbw ./build.hex
+    - enables shepherd, io, target-port, desired voltage
+    - copies fw to ram
+    - configures programmer-struct
+- sysfs-file, /sys/shepherd/programmer_ctrl
+    - must be written after filling ram area with firmware
+    - protocol: swd, sbw or jtag (string)
+    - datarate_baud: u32
+    - pins 4 slots, clock, data in, data out, data m, u32
+    - initial ctrl state: "0 0 1000 1001 ..."
+    - read from programmer_ctrl also hands back the "has_work" flag
+- pru0 has a programmer.c and jumps into programmer()-fn when "has_work" != 0
+    - current demo checks firmware-struct, tinkers with the ctrl-struct and flashes the LED of the external button
+
 
 
 - deploy roles (ptp-client & gps-client) have connman-disabler -> problem: time not synced at all
@@ -306,7 +311,9 @@ PRU-Programmer-Framework
         - https://askubuntu.com/questions/814/how-to-run-scripts-on-start-up
 - switch to one logger? all seem to are different instances
 - there seem to run two (!) py shepherd launcher?
--
+- "virtual converter" should be "recorder"
+- "virtual source" should be "converter"
+
 
 - do not crash when ssh-session is terminated (logger?)
     -> use "setsid program" or "nohup program" and an "&" at the end to remove dependency
