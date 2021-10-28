@@ -75,14 +75,16 @@ Should be written after filling ram area with firmware - specially the state-att
    :widths: 25 75
    :header-rows: 1
 
-   * - state [str]
-     - write "start" or "stop" and get current states like "idle", "running", [..], "error" -> **write at last!**
-   * - protocol [str]
-     - swd, sbw or jtag
-   * - datarate [u32]
-     - baud, currently limited in kernel-module to 10 MBaud
-   * - pin_name [u32]
-     - pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module
+   * - File
+     - Description
+   * - ``./state``
+     - [str] write "start" or "stop" and get current states like "idle", "running", [..], "error" -> **write at last!**
+   * - ``./protocol``
+     - [str] write swd, sbw or jtag
+   * - ``./datarate``
+     - [u32] in baud, currently limited in kernel-module to 10 MBaud
+   * - ``./pin_%name%``
+     - [u32] with pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module
 
 
 PRU0
