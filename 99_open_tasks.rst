@@ -286,21 +286,6 @@ pru0/main.c, line99, //send_status(...NOFREEBUF
 pypkg/init.py, line 626, start_time = + 25
 
 
-PRU-Programmer-Framework
-- frontend: sheep supports new command "shepherd-sheep program"
-    - example: sudo shepherd-sheep program -p sbw ./build.hex
-    - enables shepherd, io, target-port, desired voltage
-    - copies fw to ram
-    - configures programmer-struct
-- sysfs-file, /sys/shepherd/programmer_ctrl
-    - must be written after filling ram area with firmware
-    - protocol: swd, sbw or jtag (string)
-    - datarate_baud: u32
-    - pins 4 slots, clock, data in, data out, data m, u32
-    - initial ctrl state: "0 0 1000 1001 ..."
-    - read from programmer_ctrl also hands back the "has_work" flag
-- pru0 has a programmer.c and jumps into programmer()-fn when "has_work" != 0
-    - current demo checks firmware-struct, tinkers with the ctrl-struct and flashes the LED of the external button
 
 
 

@@ -53,4 +53,48 @@ TargetConnector-Modifications for HW v2.3 (Proposal)
     - use SMD-Header to BB
     - more expensive manufacturing with smaller vias
 
+PRU-Programmer-Framework
+------------------------
+
+python frontend
+...............
+
+Sheep supports new command ``shepherd-sheep program``
+
+- example: ``sudo shepherd-sheep program -p sbw ./build.hex``
+- program enables shepherd-cape, io, target-port, desired voltage
+- copies fw to ram
+- configures programmer-struct
+
+sysfs-files /sys/shepherd/programmer/
+......................................
+
+Should be written after filling ram area with firmware - specially the state-attribute.
+
+.. list-table:: Programming-Attributes
+   :widths: 25 75
+   :header-rows: 1
+
+   * - state [str]
+     - write "start" or "stop" and get current states like "idle", "running", [..], "error" -> **write at last!**
+   * - protocol [str]
+     - swd, sbw or jtag
+   * - datarate [u32]
+     - baud, currently limited in kernel-module to 10 MBaud
+   * - pin_name [u32]
+     - pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module
+
+
+PRU0
+....
+
+Includes programmer.c and jumps into programmer()-fn when "state" != IDLE or ERROR. The current demo checks firmware-struct, tinkers with the ctrl-struct and flashes the LED of the external button
+
+TODO
+....
+
+- implement routines in PRU
+- implement variable pin-choice (4 banks á 32 pins -> 128 n)
+- plausibility-check of programmer-struct in kernel-module / sysFS before allowing "start"
+- firmware-size is probably more useful in sysfs than
 
