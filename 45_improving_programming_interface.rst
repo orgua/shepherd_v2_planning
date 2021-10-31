@@ -59,9 +59,9 @@ PRU-Programmer-Framework
 python frontend
 ...............
 
-Sheep supports new command ``shepherd-sheep program``
+Sheep supports new command ``shepherd-sheep programmer``
 
-- example: ``sudo shepherd-sheep program -p sbw ./build.hex``
+- example: ``sudo shepherd-sheep -vv programmer -p sbw ./build.hex``
 - program enables shepherd-cape, io, target-port, desired voltage
 - copies fw to ram
 - configures programmer-struct
