@@ -83,6 +83,8 @@ Should be written after filling ram area with firmware - specially the state-att
      - [str] write swd, sbw or jtag
    * - ``./datarate``
      - [u32] in baud, currently limited in kernel-module to 10 MBaud
+   * - ``./datasize``
+     - [u32] in byte
    * - ``./pin_%name%``
      - [u32] with pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module
 
