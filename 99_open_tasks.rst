@@ -428,15 +428,26 @@ Done
             - ~ 64ms in real test
     - -> Var1 preferred, less dependant from BB-Design-Changes
 - PUs on sys-side should also be powered by BB 3V3
-
+- New Connector, 4x Pwr, 4x Prog, 10x GPIO -> 18 Pins -> 2x9 Connector
+    - info1 -> BB outer width is 54 mm -> 27mm per module
+    - info2 -> BB width between headers is 43.2 mm -> 21.7 mm per module
+    - var1: remove mounting-holes and allow 2.54mm Connectors (2x 22.2 mm width)
+    - var2: switch to smaller 2mm Connector, ~18mm width
+    - -> var1 preferred
+- GPIO-PUs higher to 100k
+- combine shield-pads for EMU & REC
+- change Analog switch to microbump-version 863-NLAS4684FCT1G
 
 Additional Parts
 - 22pF for Emu-ADC
 - 1k Ohm VIO-Buffer
-- 74LVC2T45GS -> 2CH LevelTranslators
+- 9 74LVC2T45GS -> 2CH LevelTranslators
 - 1x SLG5NT1594V -> 1A Power-Switch
 - EN_CONV: R 10k, C 1uF
 - WD: 2x NSR05T30XV2T5G, R 100k, C 1uF
+- LVL-Trans: >20x 100k, 5x 1uF
+- AnalogSwitch: 9x 863-NLAS4684FCT1G
+- pinheader 2x18, 2x 649-1012938191801BLF
 
 Not Needed Parts
 - OVP: 2x FB 0603, C 22 uF, R 10 k, Mosfet BSH105, Diode NSR05T30XV2T5G
@@ -456,15 +467,6 @@ Target Pins
 
 
 TODO:
-- combine shield-pads for EMU & REC
-- New Connector, 4x Pwr, 4x Prog, 10x GPIO -> 18 Pins -> 2x9 Connector
-    - info1 -> BB outer width is 54 mm -> 27mm per module
-    - info2 -> BB width between headers is 43.2 mm -> 21.7 mm per module
-    - var1: remove mounting-holes and allow 2.54mm Connectors (2x 22.2 mm width)
-    - var2: switch to smaller 2mm Connector, ~18mm width
-    - -> var1 preferred
-
-- GPIO-PUs higher to 100k
 - emu-shunt should be stabilized with > 500 nF (and probably the others too)
 - TODO: sync with mod-list
 - additional big Caps on Main-Rails
