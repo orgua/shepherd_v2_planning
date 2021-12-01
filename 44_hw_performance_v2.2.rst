@@ -90,6 +90,8 @@ Debug-Investigation on 1191022
         - capacity of line?
         - remove sys-series-resistor
         - disconnect pru-side
+- WD is not starting the BB -> Pulse too short
+
 TODO: look for voltage-spikes on coils when turning off power
 
 
@@ -118,12 +120,7 @@ Mods for HWv2.2
 - summary: 22 additional 0402-parts, 1 removed 0402, 2 cuts, 1 enamel trace -> ~ 1 h manual work
 
 
-TODO Boardchanges
------------------
+Boardchanges for v2.3
+--------------------------
 
-- Power Analog-Switch U30 from BB 3V3
-- PUs on sys-side should also be powered by BB 3V3
-- GPIO-PUs lower to 2k
-- GPIO-Series lower to ~ 600 R
-- emu-shunt should be stabilized with > 500 nF (and probably the others too)
-- TODO: sync with mod-list
+-> moved to TODO-Section

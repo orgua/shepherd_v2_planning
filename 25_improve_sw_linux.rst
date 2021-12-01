@@ -327,7 +327,7 @@ Software Cleanup Part2::
     alsa
 
 
-Find biggest space waster::
+Find biggest space waster (playbook dev_cleanup.yml)::
 
     sudo du -s /* | sort -n
         450 MB /lib -> /firmware -> intel 22 MB, netronome 24 MB, liquidio 24 MB, amdgpu 31 MB
@@ -342,7 +342,9 @@ Find biggest space waster::
     sudo rm -rf /var/log/*
 
     # TODO 2021-07: space-waster is now /usr/lib/firmware, 143 MB netronome, 48 MB qcom, 45 MB amd, 35 MB intel, 35 MB mellanox, 25 MB liquidio
+    # further removable: mrvl, ath1*, nvidia, radeon, iwlwifi*
 
+    # -> collected in playbook dev_cleanup.yml
 Switch dynamically between cpu-governors::
 
     sudo apt install cpufrequtils

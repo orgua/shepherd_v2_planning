@@ -17,11 +17,18 @@ Useful commands on a fresh system::
     sudo shepherd-sheep -vvv run --config /etc/shepherd/config.yml
 
     cd /opt/shepherd/software/python-package/
-    sudo python3 setup.py test --addopts "-vv"
+    sudo python3 setup.py test --addopts "-vvv"
     # bump2version --tag patch # -> just hand in PR or hash
 
     # test code on live system
     sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
+
+    -> done in unit-tests now
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_harvest.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_emulation.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/python-package/tests/example_config_harvest.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/python-package/tests/example_config_emulation.yml
+
 
     # test suite in /opt/shepherd/software/python-package
     cd /opt/shepherd/software/python-package/
