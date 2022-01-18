@@ -9,7 +9,27 @@ Software Short-Term Done
 Software Short-Term TODO
 ------------------------
 
+Next Steps
+
+- order ICs
+    - 74LVC2T45GM,125 https://www.mouser.de/ProductDetail/Nexperia/74LVC2T45GM125?qs=sGAEpiMZZMtZ661ya8CuXWImkGMxfA6p9uS%252BIOJA%2FTA%3D
+    - xls in pcb-folder
+    - ~ 57 €, 16 Items, b57ebfadc7 ,  https://www.mouser.de/ProjectManager/ProjectDetail.aspx?AccessID=b57ebfadc7
+- order solderpaste
+    - RK-10184, Magnetfolie, https://de.beta-layout.com/elektronik-shop/smd-schablonen-zubehoer/10184-magnetfolie/
+    - RK-10753, Lotpaste, https://de.beta-layout.com/elektronik-shop/loetzinn-lotpaste/10753-lotpaste-(bleifrei)-/
+    - RK-11003, Rührspatel, https://de.beta-layout.com/elektronik-shop/loetzinn-lotpaste/11003-ruehrspatel-fuer-lotpasten/
+    - RK-10494, Starter-Kit Flussmittel, https://de.beta-layout.com/elektronik-shop/flussmittel/10494-starter-kit-flussmittel-if8001/
+- order io-PCB EC
+- Order TI-ICs
+    -
+- test harvester & emulator
+- test IO-PCB
+- order shepherd 2.3d
+
+
 Ansible
+
 - deploy roles (ptp-client & gps-client) have connman-disabler -> problem: time not synced at all
     - connmanctl seems to enable service instead of oneshot
     - solution: install ntpdate, use "sudo ntpdate -b -s -u pool.ntp.org" at boot -> systemd-oneshot-service
@@ -18,6 +38,7 @@ Ansible
 - dont use apt for python-libs, install and update with pip
 
 Python
+
 - unit-tests for virtual harvester (adc and ivc)
 - unit-tests for programmer
 - update herd with latest command-changes -> done, todo: test
@@ -39,9 +60,11 @@ Python
 - add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
 
 PRU
+
 - reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
 
 Misc
+
 - adapt to newest PinConfig v2.3
     - also v2.1r1 update doc with new pinconfig: en_rec p9-14, en_emu p9-16
 - "virtual converter" should be named "recorder"
@@ -76,6 +99,7 @@ Misc
     - hw - maybe add V-ADC for emu? resulting V can deviate from dac -> chips select pins could be cross-used when only rec or emu is active
 
 DOCs
+
 --length -l is now --duration -d ->
 --input --output is now --output_path -> correct docs
 --virtsource replaces vcap, is not optional anymore, maybe prepare preconfigured converters (bq-series) to choose from
@@ -95,12 +119,15 @@ Hardware Short-Term TODO
 
 Long-Term TODO
 --------------
+
 - WEB
 - Future Work for vSource:
     - smaller error-margin / more resolution (similar to python-port): extend division-LUT
     - overhead from calc_inp_power could be moved to python, also with a cheap way to interpolate efficiency-LUT
     - interpolate LUTs -> cheapest would be to take 4 (or more) following bits of input and multiply them and the negative version with current and following LUT-Value, add, then shift right 5 bit to get mean
 - harvesting - voltage-sweep
+- test Link-Quality of targets over time, to specific points in time
+    - map each node to each other -> ask carsten for code-sharing
 
 
 Testbed - Software - Web-Interface
