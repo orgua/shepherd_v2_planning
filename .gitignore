@@ -2,3 +2,4 @@
 *.csv
 *.logicdata
 *.pkl
+__pycache__
