@@ -11,22 +11,18 @@ Software Short-Term TODO
 
 Next Steps
 
-- order ICs
-    - 74LVC2T45GM,125 https://www.mouser.de/ProductDetail/Nexperia/74LVC2T45GM125?qs=sGAEpiMZZMtZ661ya8CuXWImkGMxfA6p9uS%252BIOJA%2FTA%3D
-    - xls in pcb-folder
-    - ~ 57 €, 16 Items, b57ebfadc7 ,  https://www.mouser.de/ProjectManager/ProjectDetail.aspx?AccessID=b57ebfadc7
-- order solderpaste
-    - RK-10184, Magnetfolie, https://de.beta-layout.com/elektronik-shop/smd-schablonen-zubehoer/10184-magnetfolie/
-    - RK-10753, Lotpaste, https://de.beta-layout.com/elektronik-shop/loetzinn-lotpaste/10753-lotpaste-(bleifrei)-/
-    - RK-11003, Rührspatel, https://de.beta-layout.com/elektronik-shop/loetzinn-lotpaste/11003-ruehrspatel-fuer-lotpasten/
-    - RK-10494, Starter-Kit Flussmittel, https://de.beta-layout.com/elektronik-shop/flussmittel/10494-starter-kit-flussmittel-if8001/
-- order io-PCB EC
-- Order TI-ICs
-    -
 - test harvester & emulator
 - test IO-PCB
 - order shepherd 2.3d
-
+- Shortage-Trouble
+    - OPA189IDBVR -> only 6 ICs left (1 per Cape) -> date is set to march / april
+    - for 6 ICs only stock for 10-15 Capes & also out of order -> should arrive in feb - july
+    - AD8421BRMZ has same problem, but date is currently 2023/03
+- Software-Trouble
+    - last BB-ubuntu is almost 2 years old (2020-03), kernel 4.19, python 3.6
+    - there are daily test-builds of debian 11.2 (bullseye) minimal, kernel 5.10, python 3.9
+    - https://rcn-ee.com/rootfs/bb.org/testing/
+    - probably troublesome: kernel 5.10, maybe debian itself
 
 Ansible
 
