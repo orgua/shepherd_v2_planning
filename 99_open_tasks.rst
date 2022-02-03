@@ -6,6 +6,29 @@ Software Short-Term Done
 
 -
 
+   user/basics
+   user/getting_started
+   user/hardware
+
+   user/cli
+   user/calibration
+   user/data_format
+   user/api
+   user/performance
+   user/virtcap
+
+   dev/contributing
+   dev/data_handling
+   dev/sysfs
+   dev/gps_sync
+   dev/virtcap
+
+    tipps
+    - low noise
+    - low sync offset
+    - security
+    -
+
 Software Short-Term TODO
 ------------------------
 
@@ -23,6 +46,23 @@ Next Steps
     - there are daily test-builds of debian 11.2 (bullseye) minimal, kernel 5.10, python 3.9
     - https://rcn-ee.com/rootfs/bb.org/testing/
     - probably troublesome: kernel 5.10, maybe debian itself
+- naming trouble -> currently: harvesting, emulation
+    - verb A: to harvest, to emulate
+    - verb B: harvesting, emulating -> does not sound right to use widely
+    - noun: harvest, emulation -> harvest can be noun or verb
+    - object: harvester, emulator -> **try to always use this**
+    - short: hrv, emu
+- what are some of the performance-specs? burden voltage, rise-time emulator current
+- recorder trouble
+    - below 1-2 uA the voltage seems to invert (reported by SMU)
+    - something seems to reverse leak current (there are only opamp-inputs with rated leaks (drain) of 2x500pA, 1x50nA, and the op-amp output
+    - adc increment is 223 nA
+- emulator trouble
+    - can't produce 5 V with 50 mA
+    - even at 0 mA the limit of 5 V is not completely on point,
+    - at 50 mA around 4 V are usable without large error
+    - -> seems to be fine for modern electronics
+- turning cape on when on BB-USB-Power crashes the system
 
 Ansible
 
