@@ -61,6 +61,8 @@ Harvester - low current measurement-limit
 
 .. image:: ./media_v23/current_leakage_at_harvest_port.png
 
+.. image:: ./media_v23/solar_power_SM101KO9L.png
+
 Diode Comparison
 
 - PMEG10010ELRX
@@ -129,6 +131,8 @@ emulator
 - -> seems to be fine for modern electronics
 - 2 R Shunt resistor is responsible of 100 mV drop (50 mA)
 
+
+.. image:: ./media_v23/profile_quiver_offset_sheep0_cape_v230c1_profile_07_short_C6_increased_1uF_emu_a.png
 
 BB-Powered Mode
 
