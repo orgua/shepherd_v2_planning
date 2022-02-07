@@ -13,13 +13,11 @@ TODO
 -----
 
 - fix BB-Powered Mode
-- determine final fixed for EMU
+- determine final fixes for EMU
 - determine final fixes for HRV
 - test WD restarting BB
-- determine stencil-thickness -> shrink some paste-mask-pads
+- determine stencil-thickness (=100um) -> shrink some paste-mask-pads
 - remove inductors from A5V, 10/-6V
-- updated SMU from firmware 3.2.2 (march 2016) to 3.4.0 (april 2021)
-
 
 Troubleshooting
 ---------------
@@ -29,13 +27,11 @@ Profiling Ranges
 - full range: 0 to 5V, 0 to 50 mA
 - limited range: 1 to 3.9 V, 3uA to 40mA
 
-Harvester - lower current limit
+Harvester - low current measurement-limit
 
-- below 1-2 uA drain the voltage seems to invert, not caring about the set-voltage of the DAC
-- around -0.3 V reported by SMU
-- adc-current values start at 11k for sinking currents, but in this mode the value "jumps" down ~3k, nothing in between
-- adc increment is 223 nA, resulting in theoretical 58.4 mA range
-- diode seems to block, because voltage below is similar high to DAC-Voltage
+- draining below 1-2 uA -> voltage seems to invert (SMU reports -0.3V), not caring about the set-voltage of the DAC
+- adc-current values are equal to "zero"
+- diode blocks (later tests show 2nA reverse current), because voltage at cathode (opAmp-Out) is similar high to DAC-Voltage
 - something seems to reverse leak current -> tldr: it is the OPA189 Negative Input Pin
     - **OPA189 input** can leak max +-1 nA (input bias current) and differential input impedance is 100 MOhm (100nA to 10V)
     - AD8421 inputs can leak max 2x +-500 pA, tests show < 1 nA
@@ -45,13 +41,14 @@ Harvester - lower current limit
     - and the op189 output -> not relevant due to safe diode and capacitor
     - removing R20 stops the leak -> hint at OPA189 or cap C34
     - removing C34 changes nothing -> final clue for OPA189
-- that may never occur with a real harvesting source
+- that may never occur with a real harvesting source (or work as a hard-to-detect offset)
 - baking pcb off (80 °C, 30min) had no effect (mentioned in datasheet)
+- this leakage is often not existent when SMU is freshly started for the day -> firmware-update to 3.4.0 (2021-04, from 3.2.2 2016-04) did not help
+    - see profile 25, whole voltage range, down to 0 uA
+- changing R20 (Feedback-Lowpass) to 100R or 10k does not change behaviour
+- tests with solar-cell (SM101K09L) shows that 2uA is near to dark environment
 - TODO:
     - reverse position of diode and shunt
-    - lower R20 (Feedback-Lowpass) to 100R
-    - test with solar cell
-    - first pwr-on of the day often works without this fault?!? see profile 25, whole voltage range, down to 0 uA
     - OPA189 speaks of (8.3.3) input bias current clock feedthrough (switching input to correct intrinsic offset)
     - -> it seems to be the "zero-drift" feature of OPA189 that gets triggered wrongly
     - worst outcome: 1-2 uA offset in measurement
