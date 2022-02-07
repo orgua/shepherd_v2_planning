@@ -9,36 +9,6 @@ Tested
 - BB-powered boot works, but turning Cape on crashes the 5V Rail (P9-7/8)
 
 
-Profiling Frontends
--------------------
-
-00
-
-- lab / bench supply powered -> for all the following, if not stated otherwise
-
-01
-
-- raised 10V rail from 9V7 to 10V41 (R 240k to 270k) -> without benefit
-
-02
-
-- C101 100 uF destroyed (parallel to 1 mF) on cape-input
-- L3 shorted
-- voltages measurement seems to have worsended by 1 % BUT current measurement improved by 3 % (max-error)
-
-03
-
-- reverted to 9V7 and overhauled the profiling-system offering a short and full profile (not completely comparable)
-- measure full and short profile as new baseline
-
-04
-
-- Shunt-Buffer-Cap C6 increased from 100 nF to 470 nF -> lowpass 170 kHz
-- voltage measur
-
-
-
-
 TODO
 -----
 
@@ -48,43 +18,111 @@ TODO
 - test WD restarting BB
 - determine stencil-thickness -> shrink some paste-mask-pads
 - remove inductors from A5V, 10/-6V
+- updated SMU from firmware 3.2.2 (march 2016) to 3.4.0 (april 2021)
 
 
 Troubleshooting
 ---------------
 
-Harvester
+Profiling Ranges
+
+- full range: 0 to 5V, 0 to 50 mA
+- limited range: 1 to 3.9 V, 3uA to 40mA
+
+Harvester - lower current limit
 
 - below 1-2 uA drain the voltage seems to invert, not caring about the set-voltage of the DAC
 - around -0.3 V reported by SMU
 - adc-current values start at 11k for sinking currents, but in this mode the value "jumps" down ~3k, nothing in between
 - adc increment is 223 nA, resulting in theoretical 58.4 mA range
-- something seems to reverse leak current
-    - OPA189 input can leak max +-1 nA (input bias current) and differential input impedance is 100 MOhm (100nA to 10V)
-    - AD8421 inputs can leak max 2x +-500 pA
-    - OPA2388 input can leak max +-400 pA
-    - and the op-amp output
-    - diode is rated for 40 nA
+- diode seems to block, because voltage below is similar high to DAC-Voltage
+- something seems to reverse leak current -> tldr: it is the OPA189 Negative Input Pin
+    - **OPA189 input** can leak max +-1 nA (input bias current) and differential input impedance is 100 MOhm (100nA to 10V)
+    - AD8421 inputs can leak max 2x +-500 pA, tests show < 1 nA
+    - OPA2388 input can leak max +-400 pA (spec), tests show < 1 nA
+    - diode is rated for 40 nA but shows in tests 2 nA @ 5V (see picture below)
+    - capacitor C34 (Opa-Feedback) could leak -> tests show < 1 nA @ +-5V-Range (see picture below)
+    - and the op189 output -> not relevant due to safe diode and capacitor
+    - removing R20 stops the leak -> hint at OPA189 or cap C34
+    - removing C34 changes nothing -> final clue for OPA189
 - that may never occur with a real harvesting source
+- baking pcb off (80 °C, 30min) had no effect (mentioned in datasheet)
 - TODO:
     - reverse position of diode and shunt
     - lower R20 (Feedback-Lowpass) to 100R
-    - opa189 input offset voltage is in that range (0.4 to 3 uV)
-    - separate fixed test with scope, even without voltage adc measurement
-    - possible scenario: dac demands ie. 3V, diode locks the rising output-voltage from harvester input because something is draining there: 2 OpAmp-Inputs
+    - test with solar cell
+    - first pwr-on of the day often works without this fault?!? see profile 25, whole voltage range, down to 0 uA
+    - OPA189 speaks of (8.3.3) input bias current clock feedthrough (switching input to correct intrinsic offset)
+    - -> it seems to be the "zero-drift" feature of OPA189 that gets triggered wrongly
+    - worst outcome: 1-2 uA offset in measurement
+
+.. image:: ./media_v23/harvester_schematic_v230.png
+
+
+.. image:: ./media_v23/current_leakage_capacitor_feedback_1nF.png
+
+
+.. image:: ./media_v23/current_leakage_at_harvest_port.png
 
 Diode Comparison
 
 - PMEG10010ELRX
     - rated for (extremely low leakage current) **4 nA @ 10 V & 25 °C** and 40 nA (typical, 150 nA max) at 100V & 25°C
-    - measurement: old smu data suggests 400 nA
+    - measurement: -5 V result in **2.1 nA at room temperature**
+    - seems the safest bet, because datasheet promises the spec
 - SMMSD701T1G
     - rated for ~ 8-9 nA @ 6-12 V & 25 °C (curves in datasheet)
-    - measurement:
+    - measurement: -5 V result in **1.4 nA at room temperature**
+    - lowest leak-value but not distinguishable from PMEG-Version in Frontend
 - RB168MM-40TR
     - rated for 50 (typical) to 550 uA reverse current @ 40 V
     - curves in datasheet show IR @ 5 V, 25°C at around 10 nA, up to 1000 nA at 75°C
-    - measurement:
+    - measurement: -5 V result in **6.9 nA at room temperature**
+- the first two diodes are fine!
+- --> see media_v23/profiler_smu_diodes.csv
+
+.. image:: ./media_v23/diode_reverse_currents_smu-measured.png
+
+Harvester - Current Measurement
+
+- 2R-Shunt, Gain x48 -> 10R Shunt, Gain x10
+    - no significant effect from profiler
+    - **keep synced to emulator to save parts**
+- Lowpass between InAmp and ADC
+    - 100k results in high offset of > 11k increments for 0 nA (ADC input seems to be raised by ADC itself)
+    - 1k results in offset = ~ 182 (Good) and lower Noise, mostly on full range (3-14x better)
+    - 100R seems to worsen limited area (slightly), but improve full range (almost x2)
+    - Cap was varied to match 80 - 160 kHz lowpass, but influence is minimal
+    - 33R / 10nF is also fine, limited range gets minimal worse, but full range improves
+- buffered shunt (parallel cap C35)
+    - 470 nF instead of nothing: 10 - 20% improvement on limited and full range
+    - nothing instead of 100 nF: 5-10 % worse on full range, minimal better on limited range (but with 100 nF seems the better bet)
+    - 100nF instead of nothing: ~10% improvement on both ranges
+- buffered inputs (Caps on V_HRV and V_Sense)
+    - adding 2x 100nF is ~ 10 % worse
+- different diode (try alternatives)
+    - no significant effect between new (and better) SMMSD701T1G-Diode and (current) PMEG10010ELRX
+- slower OpAmp-Feedback
+    - R20, 10k instead of 1k or 100R: 10-12% improvement for both ranges, but only static case (lowpass 16 kHz)
+- DAC to OpAmp Connection
+    - slower response helps measurement
+
+Harvester - Voltage Measurement
+
+- bigger shunt Resistor is 5-10% worse
+- C35 parallel to shunt is better than no Cap, 100 nF is fine
+- R16 before ADC-V is better 1k
+- Cap before ADC-V is better, 10nF compared to nothing brings 10 % improvement
+- R18 before OpAmp was 1k, removal brings 10 % improvement
+- Caps 100nF on Pinheader-Inputs is 5-10 % worsening
+- R20 low -> Voltage-Matcher should be rather fast (better for V_meas, worse for C_meas)
+- DAC-Lowpass is fine, lower Freq helps measurement
+
+- TODO:
+    - R16 add back 1k
+    - R20 add back 1k
+    - C26 to 10nF
+    - R27 to 100R
 
 emulator
 
@@ -117,4 +155,8 @@ Changes in Layout
 - testpoints don't need gnd - its all around
 - big 0402 caps near device -> dont bother with 100nF or smaller
 - bring sense / FB-line directly to target-port, maybe
-- reverse order of diode & shunt in harvester
+- reverse order of diode & shunt in harvester ?? No, seems fine currently
+- harvester
+    - R22 to 33R
+    - C140, TP6 to 10nF
+    - R18, can be removed (or lowered to 33R)

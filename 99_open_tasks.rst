@@ -38,31 +38,31 @@ Next Steps
 - test IO-PCB
 - order shepherd 2.3d
 - Shortage-Trouble
-    - OPA189IDBVR -> only 6 ICs left (1 per Cape) -> date is set to march / april
+    - OPA189IDBVR -> only 6 ICs left (1 per Cape needed) -> date is set to march / april
     - for 6 ICs only stock for 10-15 Capes & also out of order -> should arrive in feb - july
-    - AD8421BRMZ has same problem, but date is currently 2023/03
+    - AD8421BRMZ has same problem, but shipping-date is currently 2023/03
 - Software-Trouble
     - last BB-ubuntu is almost 2 years old (2020-03), kernel 4.19, python 3.6
     - there are daily test-builds of debian 11.2 (bullseye) minimal, kernel 5.10, python 3.9
     - https://rcn-ee.com/rootfs/bb.org/testing/
-    - probably troublesome: kernel 5.10, maybe debian itself
+    - probably troublesome: kernel 5.10, maybe debian itself (instead of ubuntu)
 - naming trouble -> currently: harvesting, emulation
     - verb A: to harvest, to emulate
     - verb B: harvesting, emulating -> does not sound right to use widely
     - noun: harvest, emulation -> harvest can be noun or verb
     - object: harvester, emulator -> **try to always use this**
     - short: hrv, emu
-- what are some of the performance-specs? burden voltage, rise-time emulator current
+- what are some of the performance-specs in shp v1 doc? burden voltage, rise-time emulator current
 - recorder trouble
     - below 1-2 uA the voltage seems to invert (reported by SMU)
-    - something seems to reverse leak current (there are only opamp-inputs with rated leaks (drain) of 2x500pA, 1x50nA, and the op-amp output
-    - adc increment is 223 nA
+    - OPA189 seems to reverse leak current (datasheet 8.3.3 zero-drift feature)
+    - for a solar cell 2 uA are in a very dark room
 - emulator trouble
     - can't produce 5 V with 50 mA
-    - even at 0 mA the limit of 5 V is not completely on point,
+    - even at 0 mA the 5 V (rail of OpAmp) is not completely on point,
     - at 50 mA around 4 V are usable without large error
     - -> seems to be fine for modern electronics
-- turning cape on when on BB-USB-Power crashes the system
+- turning cape on when on BB-USB-Power crashes the system -> tbd
 
 Ansible
 
