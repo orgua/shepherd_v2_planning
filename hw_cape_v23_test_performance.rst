@@ -130,6 +130,7 @@ emulator
 - at 50 mA around 4 V are usable without large error
 - -> seems to be fine for modern electronics
 - 2 R Shunt resistor is responsible of 100 mV drop (50 mA)
+- R10 from 100k changed to 0R -> offset still around 15.x, similar as with 33R in harvester
 
 
 .. image:: ./media_v23/profile_quiver_offset_sheep0_cape_v230c1_profile_07_short_C6_increased_1uF_emu_a.png
@@ -157,7 +158,9 @@ Changes in Layout
 - big 0402 caps near device -> dont bother with 100nF or smaller
 - bring sense / FB-line directly to target-port, maybe
 - reverse order of diode & shunt in harvester ?? No, seems fine currently
+- add usb-c to pcb and ditch BB-pwered mode?
 - harvester
     - R22 to 33R
     - C140, TP6 to 10nF
     - R18, can be removed (or lowered to 33R)
+    - update to latest profilings
