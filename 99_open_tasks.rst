@@ -63,6 +63,12 @@ Next Steps
     - at 50 mA around 4 V are usable without large error
     - -> seems to be fine for modern electronics
 - turning cape on when on BB-USB-Power crashes the system -> tbd
+- Milestones
+    - 20.02 -> hardware ready and verified -> ready to order
+    - 28.02 -> debian update with newer kernel tested
+    - march -> roll out BB-Nodes in our offices, test workflow, timesync, server-connection, parallel store on storage-server
+    -
+
 
 Ansible
 
@@ -94,6 +100,7 @@ Python
     - log skip V/C/GPIO
 - send stop when ending measurement (now, legacy)
 - add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
+- should shepherd allow emulating just constant voltage? without input file?
 
 PRU
 
