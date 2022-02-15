@@ -28,10 +28,10 @@ MPPT VOC
 - 100 ms intervall with 1.2 ms VOC-measurement
 
 
-.. image:: ./media_v23_hrv/hrv_mppt_voc_overview.png
-.. image:: ./media_v23_hrv/hrv_mppt_voc_lowlight.png
-.. image:: ./media_v23_hrv/hrv_mppt_voc_led_light.png
-.. image:: ./media_v23_hrv/hrv_mppt_voc_led_light_detail.png
+.. image:: ./hrv_mppt_voc_overview.png
+.. image:: ./hrv_mppt_voc_lowlight.png
+.. image:: ./hrv_mppt_voc_led_light.png
+.. image:: ./hrv_mppt_voc_led_light_detail.png
 
 MPPT PO
 -------
@@ -39,9 +39,9 @@ MPPT PO
 - 6 ms intervals with visible 10 mV (minimal) step-size
 - "follow the highest power-output"
 
-.. image:: ./media_v23_hrv/hrv_mppt_po_overview.png
-.. image:: ./media_v23_hrv/hrv_mppt_po_lowlight.png
-.. image:: ./media_v23_hrv/hrv_mppt_po_led_light.png
+.. image:: ./hrv_mppt_po_overview.png
+.. image:: ./hrv_mppt_po_lowlight.png
+.. image:: ./hrv_mppt_po_led_light.png
 
 
 
@@ -50,10 +50,10 @@ IV-Curve 110 Hz
 
 - 0 to 5 V, 909 Steps (between 50 & 60 Hz)
 
-.. image:: ./media_v23_hrv/hrv_ivcurve110Hz_overview.png
-.. image:: ./media_v23_hrv/hrv_ivcurve110Hz_lowlight.png
-.. image:: ./media_v23_hrv/hrv_ivcurve110Hz_led_light.png
-.. image:: ./media_v23_hrv/hrv_ivcurve110Hz_led_light_detail.png
+.. image:: ./hrv_ivcurve110Hz_overview.png
+.. image:: ./hrv_ivcurve110Hz_lowlight.png
+.. image:: ./hrv_ivcurve110Hz_led_light.png
+.. image:: ./hrv_ivcurve110Hz_led_light_detail.png
 
 
 IV-Curve 1000 Hz
@@ -61,10 +61,10 @@ IV-Curve 1000 Hz
 
 - 0 to 5 V, 100 Steps
 
-.. image:: ./media_v23_hrv/hrv_ivcurve1000Hz_overview.png
-.. image:: ./media_v23_hrv/hrv_ivcurve1000Hz_lowlight.png
-.. image:: ./media_v23_hrv/hrv_ivcurve1000Hz_led_light.png
-.. image:: ./media_v23_hrv/hrv_ivcurve1000Hz_led_light_detail.png
+.. image:: ./hrv_ivcurve1000Hz_overview.png
+.. image:: ./hrv_ivcurve1000Hz_lowlight.png
+.. image:: ./hrv_ivcurve1000Hz_led_light.png
+.. image:: ./hrv_ivcurve1000Hz_led_light_detail.png
 
 IV-Curve with Open Input
 ------------------------
@@ -72,5 +72,5 @@ IV-Curve with Open Input
 - no solar!
 - 110 Hz and 1000 Hz Plots
 
-.. image:: ./media_v23_hrv/hrv_iv110Hz_open_input.png
-.. image:: ./media_v23_hrv/hrv_iv1000Hz_open_input.png
+.. image:: ./hrv_iv110Hz_open_input.png
+.. image:: ./hrv_iv1000Hz_open_input.png
