@@ -29,12 +29,19 @@ MPPT VOC
 - 100 ms intervall with 1.2 ms VOC-measurement
 
 Overview
+
 .. image:: ./hrv_mppt_voc_overview.png
+
 Lowlight
+
 .. image:: ./hrv_mppt_voc_lowlight.png
+
 Bright Light
+
 .. image:: ./hrv_mppt_voc_led_light.png
+
 Bright Light Detail
+
 .. image:: ./hrv_mppt_voc_led_light_detail.png
 
 MPPT PO
@@ -44,10 +51,15 @@ MPPT PO
 - "follow the highest power-output"
 
 Overview
+
 .. image:: ./hrv_mppt_po_overview.png
+
 Lowlight
+
 .. image:: ./hrv_mppt_po_lowlight.png
+
 Bright Light
+
 .. image:: ./hrv_mppt_po_led_light.png
 
 
@@ -58,12 +70,19 @@ IV-Curve 110 Hz
 - 0 to 5 V, 909 Steps (between 50 & 60 Hz)
 
 Overview
+
 .. image:: ./hrv_ivcurve110Hz_overview.png
+
 Lowlight
+
 .. image:: ./hrv_ivcurve110Hz_lowlight.png
+
 Bright Light
+
 .. image:: ./hrv_ivcurve110Hz_led_light.png
+
 Bright Light Detail
+
 .. image:: ./hrv_ivcurve110Hz_led_light_detail.png
 
 
@@ -73,12 +92,19 @@ IV-Curve 1000 Hz
 - 0 to 5 V, 100 Steps
 
 Overview
+
 .. image:: ./hrv_ivcurve1000Hz_overview.png
+
 Lowlight
+
 .. image:: ./hrv_ivcurve1000Hz_lowlight.png
+
 Bright Light
+
 .. image:: ./hrv_ivcurve1000Hz_led_light.png
+
 Bright Light Detail
+
 .. image:: ./hrv_ivcurve1000Hz_led_light_detail.png
 
 IV-Curve with Open Input
@@ -88,6 +114,10 @@ IV-Curve with Open Input
 - 110 Hz and 1000 Hz Plots
 
 110 Hz
+
 .. image:: ./hrv_iv110Hz_open_input.png
+
 1000 Hz
+
 .. image:: ./hrv_iv1000Hz_open_input.png
+
