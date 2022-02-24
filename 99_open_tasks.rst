@@ -90,6 +90,7 @@ Python
 
 - unit-tests for virtual harvester (adc and ivc)
 - unit-tests for programmer
+- integrate Programmer into Py-Kernel-PRU-Chain -> Kernel needs to swap image and restart PRU
 - update herd with latest command-changes -> done, todo: test
 - write plausible data as cal, if module is missing -> default_cal, wrong cal can trigger a exception
 - py should know about pru-state -> error if no contact can be established, same with kernel-module when sysfs is offline
@@ -107,7 +108,10 @@ Python
     - log skip V/C/GPIO
 - send stop when ending measurement (now, legacy)
 - add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
-- should shepherd allow emulating just constant voltage? without input file?
+- should shepherd allow emulating just constant voltage? without input file? YES!
+- add kernel-time-sync-data into hdf5-file, also add pru-dutycycle (min, max, mean?)
+
+
 
 PRU
 

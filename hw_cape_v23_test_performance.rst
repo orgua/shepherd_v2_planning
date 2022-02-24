@@ -207,7 +207,7 @@ Stabilize ADC-Readings (work through datasheet for more design hints)
     - phase lead caps for dampened load response (10-33pF parallel to FB-Res)
     - input can start at 1uF
 
-Experiments:
+Further noise-reducing Experiments:
 - ADC: R10 33R, C62 10nF lowpass, 482kHz -> not much difference?
 - R8, 5k OpAmp FB from 2k ->
     - 50 mV from std-dev 2800-4000-26, to 25-52-25
@@ -234,7 +234,12 @@ Experiments:
 - emu
     - DAC-out 33R, 10nF
 
+TODO: extend profiling-code to be independant from hardware-cal on cape
 
+Level-Translators
+
+- speed for programming should exceed 1 MHz
+- test shows
 
 
 Implemented Changes after V2.3
@@ -269,7 +274,7 @@ Changes in Layout
 -----------------
 
 - more pads for Caps on backside
-
+- Pin1 on Headers not clear -> direction 1 2 ... put mark directly under pin1, in direction of pin1&2
 - big 0402 caps near device -> dont bother with 100nF or smaller
 - ADC can use 2x more 10uF on ref-pins
 - 1uF should be X7R (not X5R), check others
@@ -289,7 +294,9 @@ Changes in Layout
     - OpAmp FB 2k/1nF is 20% better than 1k/1nF (current, smu), 5k also improves on that (+10%), but might be too slow
     - ADCIn-LPF 33R, 10nF is a good compromise, 4% better tan 100R
     - Shunt-Buffer 10 nF is 10-20 % worse than 100nF unlimited but similar in limited space, 570nF is 3-5x worse than both
-    -
+- 74LVC2T45GS
+    - dir is referenced to VCCA -> switch side with GND
+    - QFN-Pinout is wrong! https://4donline.ihs.com/images/VipMasterIC/IC/NEXP/NEXP-S-A0002881467/NEXP-S-A0002881253-1.pdf?hkey=6D3A4C79FDBF58556ACFDE234799DDF0
 - 5V to BB before the Inductor?
 - order new parts:
     - usb-connector, 2x 5.1k R,
