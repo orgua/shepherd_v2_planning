@@ -65,9 +65,16 @@ Next Steps
 - turning cape on when on BB-USB-Power crashes the system -> tbd
 - Milestones
     - 20.02 -> hardware ready and verified -> ready to order
+        - goal: hit 10 - 15 units, eventually without some ICs of the harvester
     - 28.02 -> debian update with newer kernel tested
     - march -> roll out BB-Nodes in our offices, test workflow, timesync, server-connection, parallel store on storage-server
     -
+
+Acute
+
+- hrv - jumping to vmax from near zero pulls voltage high
+- hrv - inheritance is faulty (at least for step_size
+- hrv . po is just stopping stepping from time to time
 
 
 Ansible

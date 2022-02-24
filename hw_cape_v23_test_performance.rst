@@ -4,20 +4,16 @@ Shepherd Cape v2.3 - Performance
 Tested
 ------
 
-- WD is fine now -> gets turned on
+- WD is fine now -> Board gets turned on
 - BB boots with Shepard Cape on
 - BB-powered boot works, but turning Cape on crashes the 5V Rail (P9-7/8)
-
+- WD restarting BB works
 
 TODO
 -----
 
-- fix BB-Powered Mode
-- determine final fixes for EMU
-- determine final fixes for HRV
-- test WD restarting BB
-- determine stencil-thickness (=100um) -> shrink some paste-mask-pads
-- remove inductors from A5V, 10/-6V
+- test gpio
+- external ref for DAC
 
 Troubleshooting
 ---------------
@@ -47,19 +43,26 @@ Harvester - low current measurement-limit
     - see profile 25, whole voltage range, down to 0 uA
 - changing R20 (Feedback-Lowpass) to 100R or 10k does not change behaviour
 - tests with solar-cell (SM101K09L) shows that 2uA is near to dark environment
-- TODO:
+- old TODO:
     - reverse position of diode and shunt
     - OPA189 speaks of (8.3.3) input bias current clock feedthrough (switching input to correct intrinsic offset)
     - -> it seems to be the "zero-drift" feature of OPA189 that gets triggered wrongly
     - worst outcome: 1-2 uA offset in measurement
+- Update: this problem went away by using another py-lib for the SMU (and cleaner, more explicit init)
+
+Schematic of Harvester v2.3
 
 .. image:: ./media_v23/harvester_schematic_v230.png
 
+Current Leakage for Capacitor 1nF (C0G)
 
 .. image:: ./media_v23/current_leakage_capacitor_feedback_1nF.png
 
+Current Leakage for Harvest Port
 
 .. image:: ./media_v23/current_leakage_at_harvest_port.png
+
+Power from Solar Cell (SM101KO9L) in various conditions
 
 .. image:: ./media_v23/solar_power_SM101KO9L.png
 
@@ -80,6 +83,8 @@ Diode Comparison
 - the first two diodes are fine!
 - --> see media_v23/profiler_smu_diodes.csv
 
+Reverse Current of Diodes
+
 .. image:: ./media_v23/diode_reverse_currents_smu-measured.png
 
 Harvester - Current Measurement
@@ -87,43 +92,65 @@ Harvester - Current Measurement
 - 2R-Shunt, Gain x48 -> 10R Shunt, Gain x10
     - no significant effect from profiler
     - **keep synced to emulator to save parts**
+    - **keep 2R-Shunt**
 - Lowpass between InAmp and ADC
-    - 100k results in high offset of > 11k increments for 0 nA (ADC input seems to be raised by ADC itself)
-    - 1k results in offset = ~ 182 (Good) and lower Noise, mostly on full range (3-14x better)
+    - 100k results in high offset of > offset of 11'800 n for 0 nA (ADC input seems to be raised by ADC itself)
+    - 1k results in offset = ~ 182 n (Good) and lower Noise, mostly on full range (3-14x better)
     - 100R seems to worsen limited area (slightly), but improve full range (almost x2)
     - Cap was varied to match 80 - 160 kHz lowpass, but influence is minimal
-    - 33R / 10nF is also fine, limited range gets minimal worse, but full range improves
+    - 0R caused trouble with voltage dependend current reading +-10uA from 0 to 5V
+    - **33R / 10nF** is fine, limited range gets minimal worse, but full range improves
 - buffered shunt (parallel cap C35)
     - 470 nF instead of nothing: 10 - 20% improvement on limited and full range
     - nothing instead of 100 nF: 5-10 % worse on full range, minimal better on limited range (but with 100 nF seems the better bet)
     - 100nF instead of nothing: ~10% improvement on both ranges
+    - **later tuning showed almost no influence of the cap (0, 10, 100nF) only max_error gets limited in profiler**
+    - **10nF does suffice!**
 - buffered inputs (Caps on V_HRV and V_Sense)
     - adding 2x 100nF is ~ 10 % worse
+    - **remove**
 - different diode (try alternatives)
     - no significant effect between new (and better) SMMSD701T1G-Diode and (current) PMEG10010ELRX
 - slower OpAmp-Feedback
     - R20, 10k instead of 1k or 100R: 10-12% improvement for both ranges, but only static case (lowpass 16 kHz)
+    - later tuning showed that 100R (compared to 330, 1k) are preferred, because OpAmp has to be fast (for the nonlinearitiy, ie. in voltage sweeps
+    - **faste OpAMp** is better, as long as stable
 - DAC to OpAmp Connection
     - slower response helps measurement
+    - current 1k & 1nF are fine -> 9 us risetime from rail to rail (same with 200R, 1nF)
+    - 100R & 10nF seem to perform a bit better
+- shield
+    - is not hurting the measurement, but helps with noisy environments
+- set DAC-Ref-voltage to external A5V
+    - current-reading improvement, while voltage worsened? but error stayed after reversing the change
+    - TODO: investigate
 
 Harvester - Voltage Measurement
 
 - bigger shunt Resistor is 5-10% worse
-- C35 parallel to shunt is better than no Cap, 100 nF is fine
-- R16 before ADC-V is better 1k
+- C35 parallel to shunt is better than no Cap, 100 nF is fine, 10nF also
+- R16 before ADC-V is better smaller, but filtering is also
 - Cap before ADC-V is better, 10nF compared to nothing brings 10 % improvement
 - R18 before OpAmp was 1k, removal brings 10 % improvement
 - Caps 100nF on Pinheader-Inputs is 5-10 % worsening
 - R20 low -> Voltage-Matcher should be rather fast (better for V_meas, worse for C_meas)
 - DAC-Lowpass is fine, lower Freq helps measurement
 
-- TODO:
-    - R16 add back 1k
-    - R20 add back 1k
-    - C26 to 10nF
-    - R27 to 100R
 
-emulator
+Without ShuntBuffer the current reading may be noisy (1k OpAmp Feedback, 0nF Shunt-Buffer)
+
+.. image:: ./media_v23/hrv_iv110Hz_Shuntbuff_C35_0nF_FB_R20_1k.png
+
+Improvement with 10nF ShuntBuffer
+
+.. image:: ./media_v23/hrv_iv110Hz_Shuntbuff_C35_10nF_FB_R20_1k.png
+
+OpAmp is stable enough to lower FB to 100R -> this gets rid of the nonlinearity in the sweep (area where open circuit voltage meets voltage ramp):
+
+.. image:: ./media_v23/hrv_iv110Hz_Shuntbuff_C35_10nF_FB_R20_100R.png
+
+
+Emulator
 
 - can't produce 5 V with 50 mA
 - even at 0 mA the limit of 5 V is not completely on point,
@@ -131,7 +158,8 @@ emulator
 - -> seems to be fine for modern electronics
 - 2 R Shunt resistor is responsible of 100 mV drop (50 mA)
 - R10 from 100k changed to 0R -> offset still around 15.x, similar as with 33R in harvester
-
+- 5V-Voltage regulator needs at least +1V Input -> raise 6v_Rail from 5.4V to 6.17V -> Emulator improves to 50mA @ ~4.28V
+- Opa388 seems to be worse than the Opa189 -> switch to this one
 
 .. image:: ./media_v23/profile_quiver_offset_sheep0_cape_v230c1_profile_07_short_C6_increased_1uF_emu_a.png
 
@@ -139,28 +167,134 @@ BB-Powered Mode
 
 - turning cape on when on BB-USB-Power crashes the system
 - 5V_BB (P9-7/8) gets connected to 5V Line with inductor and large 1mF Cap
-- TODO
-    - test without inductor and big cap, monitor voltage-rails
-    - buffer 5V_SEL with big cap to counter rush-current
+- most inductors show only minimal influence -> remove them
+- more capacity on power-line is better (A5V is most significant), see traces below
+
+No additional Buffering on A5V-Line
+
+.. image:: ./media_v23/hrv_iv110Hz_A5V_0mF.png
+
+1mF Cap on A5V line - less noise!
+
+.. image:: ./media_v23/hrv_iv110Hz_A5V_1mF.png
 
 
+Stabilize ADC-Readings (work through datasheet for more design hints)
+
+- ADC ADS8691
+    - use X7R caps for V_in and ref-pins
+    - low impedance sense-input
+- InAmp AD8421
+    - VS with 100nF + 10uF
+    - RG with minimized capacitance
+    - connection to ADC: 100R + 3nF
+    - ref-voltage with OP1177, with 5k feedback, no C, 10 uF buffer for OpAmp Input
+    - low impedance connections, input can be buffered
+- OpAmp Opa189
+- OpAmp Opa388
+    -
+- DAC8562
+    - AVdd with 100pF, 1nF, 100nF, 1uF
+    - VRef-Buffer, higher capacitance raises noise floor?
+    - internal reference is more noisy (1.4 to 3x less noise with perfect external ref) -> fail because voltage has huge error (current got more stable though)
+- LDO LP2989
+    - bypass cap 10nF C0G or NP0
+    - provide VIn >= VOut + 1V
+- Inverter LT3487
+    - Thermal Pad (GND) low impedance, many vias
+    - bypass with X7R
+    - negative channel >= 10uF, pos Channel > 4.7 uF
+    - phase lead caps for dampened load response (10-33pF parallel to FB-Res)
+    - input can start at 1uF
+
+Experiments:
+- ADC: R10 33R, C62 10nF lowpass, 482kHz -> not much difference?
+- R8, 5k OpAmp FB from 2k ->
+    - 50 mV from std-dev 2800-4000-26, to 25-52-25
+    - 2V from 31-60-31 to 25-56-30
+- C3, 1nF OpAmp FB remove
+    - 50mV completely unstable
+- C5, remove 1uF DAC_Ref-Buffer
+- DAC_Ref to A5V -> 1.4 to 3x less noise expected
+    - 2V to std 22-55-29
+    - -> fail experiment because voltage has huge error
+    - BUT it stayed after going back to internal reference
+- HRV
+    - R20 back to 1k
+    - R22 to 33 R, C140 to 10nF
+    - R27 to 33 R, C36 to 10nF
+    - R27 back to 100 -> 100R & 10 nF -> 160 kHz
+    - R27 1k, C36 1nF -> same 160 kHz
+    - C35 Buff, 0nF,  10nF, 100nF
+    - R20 FB smaller 1k, 330R, 100R, 33R
+        - 100R - 50 us for 0 to 5V, significantly smaller bump between ramp and open voltage
+        - openC still 50us, even with reduced R27/200R -> Scope shows 9us risetime at diode (200R)
+        - 1k (R27, back to normal) still 9us risetime on scope
+- cross-supply DAC
+- emu
+    - DAC-out 33R, 10nF
+
+
+
+
+Implemented Changes after V2.3
+-----------------------
+
+- 74LVC2T45GS has too small pads -> prone to errors (very hard to see, but shorts under IC in all cases)
+- drc-rule: Force proper Fanout with Neck-Down (<=100%) -> EC seems to extend solder mask expansion on its own
+- drc-rule: increase solder mask sliver (Gap) >= 0.2 mm
+- drc_rule: solder mask expansion default 0.04mm (was .06) -> with manual override for fine-pitch footprints (min. 0.005 for 0.35mm-Pitch)
+- drc-rule: silk from pad distance >= 0.08 mm
+- paste mask pad fill ~ 66 - 80 % (30% reduction), thermal pads ~ 50-60% (45% reduction) for 100um Stencil
+- paste mask minimum dimensions 0.26 * 0.30 mm (T3 Paste with 25-45 um Balls), only exception: 0.35mm-Pitch part and small BGA with round d=0.25 Cutout
+- move ~1/3 of paste to not under IC
+- silk more symmetrical, cleaner and helpful
+- rework footprint-lib accordingly
+- feducials can go, are on outer frame
+- reverse order of diode & shunt in harvester ?? No, seems fine currently
+- rotate harvest port in schematic to reflect board layout
+- add usb-c to pcb and ditch BB-pwered mode?
+- emulator FB-Resistor-Switch can be removed
+- ADC RVS-Pin not needed, remove TPs
+- revisit datasheets for lower noise suggestions
+- A5V needs 1mF, +10V gets 1x more 47 uF, -6V gets 100 uF
+- remove coils for 6V, 5V, 10V, -6V
+- bring sense- / FB-line directly to target-por -> NetTie
+- testpoints don't need gnd - its all around
+- hrv-sense directly at pin, netsplit, also FB-lead
+- EMU, replace opa388 with opa189 for main-line
+- raise 6V to 6.2V (from 5.4), 578k + 100 k (or 680k)
 
 Changes in Layout
 -----------------
 
-- 74LVC2T45GS has too small pads -> prone to errors (very hard to see, but shorts under IC in all cases)
-- Force proper Fanout with Neck-Down -> EC seems to extend solder mask expansion on its own
-- feducials can go, are on outer frame
 - more pads for Caps on backside
-- rotate harvest port in schematic to reflect board layout
-- emulator FB-Resistor-Switch can be removed
-- testpoints don't need gnd - its all around
+
 - big 0402 caps near device -> dont bother with 100nF or smaller
-- bring sense / FB-line directly to target-port, maybe
-- reverse order of diode & shunt in harvester ?? No, seems fine currently
-- add usb-c to pcb and ditch BB-pwered mode?
+- ADC can use 2x more 10uF on ref-pins
+- 1uF should be X7R (not X5R), check others
+- 1mF to 6V and A5V
+- add >16 V Cap to BOM, or 2x ~10V
+- ref-input for InAmp AD8421 (voltage divider + op1177)
+- Sense-Resistors with lower PPM/K - Value, higher precision
+- emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) -> 33R || 10k + Cap
 - harvester
-    - R22 to 33R
-    - C140, TP6 to 10nF
-    - R18, can be removed (or lowered to 33R)
+    - ADC-IN: R22 remove, C140 to 1 - *10nF, R16 & TP6 same
+    - DAC-OUT: R27 to 33R - 100R, C36 to 1 - *10nF
+    - Drain: R20 stays 1
+    - VSense: remove R18 1k
+    - ShuntBuffer C35 can be 10 - 100nF
     - update to latest profilings
+- emu
+    - OpAmp FB 2k/1nF is 20% better than 1k/1nF (current, smu), 5k also improves on that (+10%), but might be too slow
+    - ADCIn-LPF 33R, 10nF is a good compromise, 4% better tan 100R
+    - Shunt-Buffer 10 nF is 10-20 % worse than 100nF unlimited but similar in limited space, 570nF is 3-5x worse than both
+    -
+- 5V to BB before the Inductor?
+- order new parts:
+    - usb-connector, 2x 5.1k R,
+    - more Opa189
+    - HRV 3x 10nF, 2x 33R, 1x 1nF
+    - 100R (1HRV
+    - EMU 1x 33R, 3x 10nF,
+    - 680k (6V)
