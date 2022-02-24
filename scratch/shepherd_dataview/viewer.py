@@ -31,20 +31,35 @@ def stat(dataset, name):
 
 if __name__ == '__main__':
 
-    infile = "./hrv_iv1000_open.h5"
+    infile = "./hrv_iv110_hf01_px5base.h5"
+    infile = "./hrv_iv110_hf04_openC.h5"
+    #infile = "./hrv_iv110_hf05_A5Vbuff.h5"
+    #infile = "./hrv_iv110_hf15_A5V_1m1F.h5"
+    #infile = "./hrv_iv110_hf16_C36C140_to_1nF.h5"
+    #infile = "./hrv_iv110_hf17_C35_to_10nF.h5"
+    #infile = "./hrv_iv110_hf18_R20_to_400R.h5"
+    #infile = "./hrv_iv110_hf19_R16R22_to_0R.h5"
+    infile = "./hrv_iv110_hf20_change_a_lot.h5"
+    infile = "./hrv_iv110_hf21_openI.h5"
+    infile = "./hrv_iv110_hf22_10nF_buff.h5"
+    infile = "./hrv_iv110_hf23_0nF_buff.h5"
+    infile = "./hrv_iv110_hf24_R20_250R.h5"
+    infile = "./hrv_iv110_hf25_R20_100R.h5"
+    infile = "./hrv_iv110_hf27_openC_R27_200R.h5"
     dc = dict()
 
     with h5py.File(infile, "r") as hf:
         ds_time = hf["data"]["time"][:] - hf["data"]["time"][0]
         fs_original = 1e9 / ((ds_time[10000] - ds_time[0]) / 10_000)
         print(f"original sampling rate: {int(fs_original/1000)}kHz")
-        dc["time"] = ds_time
+        dc["time"] = ds_time / 1e9
 
         for var in ["voltage", "current"]:
             ds = hf["data"][var]
             # Apply the calibration settings (gain and offset)
             dc[var] = ds[:] * ds.attrs["gain"] + ds.attrs["offset"]
-            dc[var][dc[var] < 0] = 0
+            #dc[var][dc[var] < 0] = 0
+            dc[var][ds[:] <= 0] = 0  # adc 0 gets replaced by converted 0
             stat(dc[var], var)
         dc["power"] = dc["voltage"] * dc["current"]
         stat(dc["power"], "power")
