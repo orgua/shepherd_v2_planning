@@ -38,3 +38,4 @@ Changes still Open
 - msp430
 - shared pins are working fine on squeece, ~ 10nA draw on high impedance
 - add star-resistors
+- programmer - compensate lines with passive network

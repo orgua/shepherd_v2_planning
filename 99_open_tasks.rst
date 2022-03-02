@@ -113,7 +113,12 @@ Python
 
 
 
-PRU
+PRU & Kernel
+
+- pru-sync-status to sysFS
+- programmer-firmware, switch with kmodule,
+    - sbw-tck is currently running over long wires, only when logic analyzer is connected
+    - plan compensation on target
 
 - reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
 

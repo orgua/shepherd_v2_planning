@@ -13,7 +13,6 @@ TODO
 -----
 
 - test gpio
-- external ref for DAC
 
 Troubleshooting
 ---------------
@@ -179,7 +178,7 @@ No additional Buffering on A5V-Line
 .. image:: ./media_v23/hrv_iv110Hz_A5V_1mF.png
 
 
-Stabilize ADC-Readings (work through datasheet for more design hints)
+Stabilize ADC-Readings (work through datasheet for more design guideline hints)
 
 - ADC ADS8691
     - use X7R caps for V_in and ref-pins
@@ -191,8 +190,11 @@ Stabilize ADC-Readings (work through datasheet for more design hints)
     - ref-voltage with OP1177, with 5k feedback, no C, 10 uF buffer for OpAmp Input
     - low impedance connections, input can be buffered
 - OpAmp Opa189
+    - same as Opa388
+    - seems more stable than opa388, fb-cap can be omitted
 - OpAmp Opa388
-    -
+    - shield / isolate from air-currents and heat-sources
+    - place 100nF directly to pwr-in and use groundplane
 - DAC8562
     - AVdd with 100pF, 1nF, 100nF, 1uF
     - VRef-Buffer, higher capacitance raises noise floor?
@@ -217,8 +219,8 @@ Further noise-reducing Experiments:
 - C5, remove 1uF DAC_Ref-Buffer
 - DAC_Ref to A5V -> 1.4 to 3x less noise expected
     - 2V to std 22-55-29
-    - -> fail experiment because voltage has huge error
-    - BUT it stayed after going back to internal reference
+    - current-channel is improving a bit overall (>5%), but with 20% larger max-errors
+    - voltage-channel is 25-100% worse (mean)
 - HRV
     - R20 back to 1k
     - R22 to 33 R, C140 to 10nF
@@ -234,7 +236,7 @@ Further noise-reducing Experiments:
 - emu
     - DAC-out 33R, 10nF
 
-TODO: extend profiling-code to be independant from hardware-cal on cape
+TODO: extend profiling-code to be independent from hardware-cal on cape
 
 Level-Translators
 
@@ -269,39 +271,53 @@ Implemented Changes after V2.3
 - hrv-sense directly at pin, netsplit, also FB-lead
 - EMU, replace opa388 with opa189 for main-line
 - raise 6V to 6.2V (from 5.4), 578k + 100 k (or 680k)
-
-Changes in Layout
------------------
-
-- more pads for Caps on backside
 - Pin1 on Headers not clear -> direction 1 2 ... put mark directly under pin1, in direction of pin1&2
-- big 0402 caps near device -> dont bother with 100nF or smaller
-- ADC can use 2x more 10uF on ref-pins
-- 1uF should be X7R (not X5R), check others
-- 1mF to 6V and A5V
-- add >16 V Cap to BOM, or 2x ~10V
-- ref-input for InAmp AD8421 (voltage divider + op1177)
-- Sense-Resistors with lower PPM/K - Value, higher precision
-- emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) -> 33R || 10k + Cap
+- 74LVC2T45GS
+    - dir is referenced to VCCA -> switch side with GND
+    - QFN-Pinout is wrong! https://4donline.ihs.com/images/VipMasterIC/IC/NEXP/NEXP-S-A0002881467/NEXP-S-A0002881253-1.pdf?hkey=6D3A4C79FDBF58556ACFDE234799DDF0
 - harvester
-    - ADC-IN: R22 remove, C140 to 1 - *10nF, R16 & TP6 same
+    - ADC-IN: R22 low but not 0, C140 to 1 - *10nF, R16 & TP6 same
     - DAC-OUT: R27 to 33R - 100R, C36 to 1 - *10nF
-    - Drain: R20 stays 1
+    - Drain: R20 lower -> faster response to nonlinearity (diode-voltage from PU to PD)
     - VSense: remove R18 1k
     - ShuntBuffer C35 can be 10 - 100nF
     - update to latest profilings
+- 5V to BB before the Inductor? Yes
+- 1uF should be X7R (not X5R), check others
+- 1mF to 6V and A5V
+- Sense-Resistors with lower PPM/K - Value, higher precision
 - emu
     - OpAmp FB 2k/1nF is 20% better than 1k/1nF (current, smu), 5k also improves on that (+10%), but might be too slow
     - ADCIn-LPF 33R, 10nF is a good compromise, 4% better tan 100R
     - Shunt-Buffer 10 nF is 10-20 % worse than 100nF unlimited but similar in limited space, 570nF is 3-5x worse than both
-- 74LVC2T45GS
-    - dir is referenced to VCCA -> switch side with GND
-    - QFN-Pinout is wrong! https://4donline.ihs.com/images/VipMasterIC/IC/NEXP/NEXP-S-A0002881467/NEXP-S-A0002881253-1.pdf?hkey=6D3A4C79FDBF58556ACFDE234799DDF0
-- 5V to BB before the Inductor?
+- External LED-Button-Connector S4B-ZR-SM4A-TF -> Top Entry type: B4B-ZR-SM4-TF
 - order new parts:
     - usb-connector, 2x 5.1k R,
     - more Opa189
     - HRV 3x 10nF, 2x 33R, 1x 1nF
     - 100R (1HRV
     - EMU 1x 33R, 3x 10nF,
-    - 680k (6V)
+    - 1x 680k (6V)
+    - 39x 1uF X7R
+    - 1x 100R 1% 100PPM
+    - 50x 100nF 25 V
+- [ADC can use 2x more 10uF on ref-pins] -> NO, skip this one, had min to no effect
+- add >16 V Cap to BOM, or 2x ~10V -> wurth, see orderlist -> lifetime,
+- new 100nF to +10 - 6V directly, 2x
+- more pads for Caps on backside
+- big 0402 caps near device -> dont bother with 100nF or smaller -> NO, skip this one, ESR / impedance is better on smaller values (same package)
+- change 0402 footprint, bring pads closer together
+
+Changes in Layout
+-----------------
+
+- ref-input for InAmp AD8421 (voltage divider + op1177)
+- emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) -> 33R || 10k + Cap
+- try V-FB without C -> same for Emu-OpAmp
+- 10uF should be X7R, but X5R has now 16V, X7R will be <6V? (ADC-Bypass)
+- 10nF <should be NP0, but this seems expensive
+- level-translators need to reach 1MHz, 1kOhm is limiting to ~200kHz
+- remove 10R by just using 33R?
+- correct op-fb,
+
+
