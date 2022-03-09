@@ -9,11 +9,6 @@ Tested
 - BB-powered boot works, but turning Cape on crashes the 5V Rail (P9-7/8)
 - WD restarting BB works
 
-TODO
------
-
-- test gpio
-
 Troubleshooting
 ---------------
 
@@ -236,12 +231,54 @@ Further noise-reducing Experiments:
 - emu
     - DAC-out 33R, 10nF
 
-TODO: extend profiling-code to be independent from hardware-cal on cape
 
 Level-Translators
 
 - speed for programming should exceed 1 MHz
-- test shows
+- test shows safe flanks for ~ 200 kHz
+- setup
+    - Level translator: 74LVC2T45GS
+    - Analog Switch: NLAS4684
+- Risetimes for different configurations:
+    - 1k + NLAS -> 1000 ns -> 434 pF tracecapacity calculated
+    - 330R + NLAS -> 340 ns -> trace-capacity unchanged
+    - 1k + removed 100k PU -> 1000 ns -> trace-capacity unchanged
+    - 1k + removed NLAS -> **37 ns** -> 16 pF capacity, Trace ~20mm, w=0.2mm
+    - 1k + removed NLAS + trace to PinHeader -> **45 ns** -> 19.5 pF (~40 mm Trace, w=0.2mm)
+- capacitance
+    - scope probe = 13 pF
+    - Line-Capacitance = 1 pF / 7mm
+    - NLAS-Capacitance = 414 pF -> both outputs behave a bit different ~ 10 % off
+    - C_off = 104 pF (typical), NLAS-Datasheet @ 1 MHz
+    - C_on = 330 pF (typical), NLAS-Datasheet @ 1 MHz
+- Pin-Capacitance of uC, and drive capabilities
+    - nRF52  3-4 pF, gpio current is 14/15 mA
+    - msp430 5pF, gpio current is 6 mA
+    - AM335x 5.5 pF, gpio current is 8 mA
+- **constraints for the next analog switch**
+    - VIn >= 5V
+    - capacitance << 100 pF
+    - leakage << 100 nA
+    - https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?mounting%20style=SMD%2FSMT&number%20of%20channels=2%20Channel~~7%20Channel&instock=y&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Number%20of%20Channels&sort=pricing
+    - https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?configuration=1%20x%203PDT~~1%20x%204PDT%7C~1%20x%20DPDT%7C~2%20x%20DPDT~~2%20x%20DPST%7C~2%20x%20SP4T~~2%20x%20SPDT%7C~3%20x%20DPDT~~3%20x%20SPDT%7C~4%20x%20SPDT%7C~6%20x%20DPDT~~8%20x%20SPDT&mounting%20style=SMD%2FSMT&instock=y&sort=pricing&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Configuration
+
+Vc = Vs * (1 - e^(-t/(R*C)));
+C = -t * log(e)/(R*log((Vs-Vc)/Vs));
+tau = R*C;
+fc = 1/(2*pi*R*C);
+
+Close Contestants for SPDT (or DPST, naming is not precise)
+
+- NLAS4684, 5.5V In, ~330 pF, 1-2 nA Leakage
+- FSA2258, 4.3V In (max 5.5V), ~ 50pF, 10 nA Leak -> using 5V is too risky
+- DIO3712, 6V In, ~ 10pF, max 2 uA Leak -> typical leakage unknown, too risky
+- PI5A4158, 5.5V In, ~ 34pF, 40 nA Leak -> strange package 1x3mm
+- DIO1269, 5.5V In, ~ 120 pF, 20nA Leak
+- DG2735A, 6V In, ~ 120pF, 10 nA Leak,
+- NLAS3158, 5.5V In, 19 pF, 100nA Leak,
+- DGQ2788, 6V in, 26pF, 1.2uA Leak,
+- FSA2275, 6V in, ~ 25pA, 1uA Leak
+
 
 
 Implemented Changes after V2.3
@@ -313,11 +350,13 @@ Changes in Layout
 
 - ref-input for InAmp AD8421 (voltage divider + op1177)
 - emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) -> 33R || 10k + Cap
-- try V-FB without C -> same for Emu-OpAmp
+- try V-FB without C -> same for Emu-OpAmp, tune emulator similar to harvester
 - 10uF should be X7R, but X5R has now 16V, X7R will be <6V? (ADC-Bypass)
 - 10nF <should be NP0, but this seems expensive
-- level-translators need to reach 1MHz, 1kOhm is limiting to ~200kHz
+- level-translators need to reach 1MHz, 1kOhm is limiting to ~200kHz, 2x 400 Ohm is more fitting
 - remove 10R by just using 33R?
 - correct op-fb,
+- new components:
+    - level switches
 
-
+TODO: extend profiling-code to be independent from hardware-cal on cape
