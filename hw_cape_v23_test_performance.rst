@@ -263,16 +263,16 @@ Level-Translators
     - https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?configuration=1%20x%203PDT~~1%20x%204PDT%7C~1%20x%20DPDT%7C~2%20x%20DPDT~~2%20x%20DPST%7C~2%20x%20SP4T~~2%20x%20SPDT%7C~3%20x%20DPDT~~3%20x%20SPDT%7C~4%20x%20SPDT%7C~6%20x%20DPDT~~8%20x%20SPDT&mounting%20style=SMD%2FSMT&instock=y&sort=pricing&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Configuration
 
 Vc = Vs * (1 - e^(-t/(R*C)));
-C = -t * log(e)/(R*log((Vs-Vc)/Vs));
+C = t * log(e)/(R*log(Vs/(Vs-Vc)));
 tau = R*C;
 fc = 1/(2*pi*R*C);
 
 Close Contestants for SPDT (or DPST, naming is not precise)
 
 - NLAS4684, 5.5V In, ~330 pF, 1-2 nA Leakage
-- FSA2258, 4.3V In (max 5.5V), ~ 50pF, 10 nA Leak -> using 5V is too risky
-- DIO3712, 6V In, ~ 10pF, max 2 uA Leak -> typical leakage unknown, too risky
-- PI5A4158, 5.5V In, ~ 34pF, 40 nA Leak -> strange package 1x3mm
+- FSA2258, 4.3V In (max 5.5V), ~ 50pF, 10 nA Leak -> using 5V is too risky
+- DIO3712, 6V In, ~ 10pF, max 2 uA Leak -> typical leakage unknown, too risky
+- PI5A4158, 5.5V In, ~ 34pF, 40 nA Leak -> strange package 1x3mm
 - DIO1269, 5.5V In, ~ 120 pF, 20nA Leak
 - DG2735A, 6V In, ~ 120pF, 10 nA Leak,
 - NLAS3158, 5.5V In, 19 pF, 100nA Leak,
