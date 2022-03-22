@@ -267,17 +267,68 @@ C = t * log(e)/(R*log(Vs/(Vs-Vc)));
 tau = R*C;
 fc = 1/(2*pi*R*C);
 
-Close Contestants for SPDT (or DPST, naming is not precise)
+Close Contestants for SPDT (or DPST, naming is not precise), roughly ordered from cheap to expensive
 
-- NLAS4684, 5.5V In, ~330 pF, 1-2 nA Leakage
+- NLAS4684, 5.5V In, ~330 pF, 1-2 nA Leakage, < 1 Ohm -> perfect for analog voltage supply to targets
 - FSA2258, 4.3V In (max 5.5V), ~ 50pF, 10 nA Leak -> using 5V is too risky
 - DIO3712, 6V In, ~ 10pF, max 2 uA Leak -> typical leakage unknown, too risky
-- PI5A4158, 5.5V In, ~ 34pF, 40 nA Leak -> strange package 1x3mm
+- **PI5A4158**, 5.5V In, ~ 34pF, 40 nA Leak -> strange package 1x3mm
 - DIO1269, 5.5V In, ~ 120 pF, 20nA Leak
 - DG2735A, 6V In, ~ 120pF, 10 nA Leak,
 - NLAS3158, 5.5V In, 19 pF, 100nA Leak,
 - DGQ2788, 6V in, 26pF, 1.2uA Leak,
 - FSA2275, 6V in, ~ 25pA, 1uA Leak
+- **PI5A100Q**, 4SPDT, <6V, 10 Ohm, 18 pF, 80nA max, 70pA typ !!!! (5x5mm QSOP16)
+
+
+Contestants for SPST (>= 4x, one EN is fine), roughly ordered from cheap to expensive
+
+- 74HC4066BQ, 4SPST, 50 Ohm, <=11V, typical 8pF, 1uA max Leak
+- HEF4066B, 4SPST, <15V, 200nA max, 8pF, 350-2500 Ohm
+- 74HCT4066, 4SPST, 50 Ohm, <=5.5V, typical 8pF, 1uA max Leak
+- CD4016
+- SN74AHC4066, <5.5V, 38-180 Ohm, 100nA max, 6 pF
+- NLVHC4066, <12V, 100 mA max, 15 pF, 70 Ohm,
+- CD74HCT4066, 5.5V, 2 uA max, 10 pF
+- SN74LV4066, 4SPST, 31-100 Ohm, <= 5.5V, typ. 6 pF, typ 0.1 uA leak, max 1 uA
+- CD74HC4316, 4SPST, 45-180 Ohm, <= 6V, 10 pF max, 100nA leak
+- **TMUX1511**, <= 5.5V, 6 pF max, 50 - 100nA leak max, 0.03nA typ, 2-4 Ohm, proper characteristic plots **(RARE!!)**
+- CD74HC4016, similar to HC4316
+- MC74HC4067, <6V, 800nA - 8uA leak max, 10pF or 45pF
+- **DG2501DB**, <5.5V, 1nA max leak, 8pF typical, (similar: DG2502, DG2503), 100 Ohm typical, 4Channel, ~ 1.2€, **(4x4 BGA, 0.35mm Pitch)**
+- DG442 / DG441, 16V max, 1nA leak max, 15 pF typ, 130 Ohm max **(OK, but big package)**
+- **DG611 / DG612**, 4SPST, 16V max, 6nA max, 230 Ohm, 7 pF, (mini QFN16, 3x2mm, .4mm pitch, )
+- DG2034, 5.5V, wrong config
+-> vishay offers low leakage and bandwidths up to 1 GHz
+
+
+Digital bus switches, 4-8 bit,
+- SN74CBT3125 (312x), 4bit, 5.5V, 16-22 Ohm, 4pF, no Leakage noted -> bad datasheet
+- SN74CBT3245, 8bit 1EN, 5.5V, 8-12 Ohm, 14 pF, 10uA leak?
+- SN74CBT6845, 8bit, precharged ports
+- SN74CBT3244, 8bit, similar to 3245
+
+- QS3125, 4bit, 1uA leak max,
+- SN74CBT3345, 8bit, 1uA leak max?
+- PI5C3245, 8bit, 1uA leak
+- SM74CBT3126, high leakage
+- FST3125, 1uA leakage
+- ... even most expensive one had high leakage
+
+
+LSF0108 - AutoDir Level Translation with full
+- Left Side of LSF
+    - 74HC4066 -> typical 8 pF
+    - 33 R Line, 10 k PU
+    - 80 mm Trave -> ~ 13 pF
+    - AM335x -> 5.5 pF
+- LSF0108 has max 12.5 pF (on), 6 pf off
+- Right Side of LSF
+    - 1 k Line, 10 k PU
+    - PI5A100Q -> 18 pF
+    - 50 mm Trace -> ~ 10 pF
+    - Target -> 5 pF
+- Old right Side: NLAS with > 330 pF
 
 
 
@@ -344,19 +395,30 @@ Implemented Changes after V2.3
 - more pads for Caps on backside
 - big 0402 caps near device -> dont bother with 100nF or smaller -> NO, skip this one, ESR / impedance is better on smaller values (same package)
 - change 0402 footprint, bring pads closer together
+- ref-input for InAmp AD8421 (voltage divider + op1177)
+- emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) -> 33R || 10k + Cap
+- 10nF <should be NP0, but this seems expensive
+- level-translators need to reach 1MHz, 1kOhm is limiting to ~200kHz, 2x 400 Ohm is more fitting
+- correct op-fb
+- 10uF should be X7R, but X5R has now 16V, X7R will be <6V? (ADC-Bypass) -> Skip
 
 Changes in Layout
 -----------------
 
-- ref-input for InAmp AD8421 (voltage divider + op1177)
-- emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) -> 33R || 10k + Cap
+- LATER:
 - try V-FB without C -> same for Emu-OpAmp, tune emulator similar to harvester
-- 10uF should be X7R, but X5R has now 16V, X7R will be <6V? (ADC-Bypass)
-- 10nF <should be NP0, but this seems expensive
-- level-translators need to reach 1MHz, 1kOhm is limiting to ~200kHz, 2x 400 Ohm is more fitting
+    - https://e2e.ti.com/blogs_/b/analogwire/posts/do-it-yourself-three-ways-to-stabilize-op-amp-capacitive-loads
+    - just using R_ISO would have the lowest noise
 - remove 10R by just using 33R?
-- correct op-fb,
+
+
 - new components:
-    - level switches
+    - SPDT Switches Pi5... & the other Test ICs (DG612, DG2501)
+    - 470 Ohm 1%
+    - 2x 0R & 100nF
+    - new NP0 10nF
+    - Kai, https://www.mouser.de/ProductDetail/Nordic-Semiconductor/nRF-PPK2?qs=sGAEpiMZZMv0NwlthflBi%2FwrKI1rLznmCjMIzu8H1xs%3D
+- replace corrected BOM-parts
+
 
 TODO: extend profiling-code to be independent from hardware-cal on cape

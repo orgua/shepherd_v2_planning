@@ -63,6 +63,8 @@ Next Steps
     - at 50 mA around 4 V are usable without large error
     - -> seems to be fine for modern electronics
 - turning cape on when on BB-USB-Power crashes the system -> tbd
+- real InAmp-Offset could be measured before (and after?) each measurement
+- log temperature?
 - Milestones
     - 20.02 -> hardware ready and verified -> ready to order
         - goal: hit 10 - 15 units, eventually without some ICs of the harvester
