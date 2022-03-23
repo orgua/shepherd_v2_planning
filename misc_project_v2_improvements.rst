@@ -29,7 +29,7 @@ shepherd is a testbed for the batteryless Internet of Things, allowing to record
         - buck-converter (BQ25504)
     - the design enables users to automate testing of harvesting-setups e.g. by sweeping through parameters like storage-cap-size
 - the emulator and harvester are consisting of a purpose-fully chosen combination of low-noise and high-speed DACs, ADCs and Instrumentation-Amplifiers
-    - both circuits can handle 0 - 4.7 V with up to 50 mA current
+    - both circuits can handle 0 - 4.7 V (hrv even 5.0V) with up to 50 mA current
     - resulting resolution, step size is ~ 200 nA and 80 uV for voltage and current
 - the software-implementation updates in real time with 100 kHz
 
