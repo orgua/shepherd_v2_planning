@@ -119,6 +119,18 @@ Mods for HWv2.2
 
 - summary: 22 additional 0402-parts, 1 removed 0402, 2 cuts, 1 enamel trace -> ~ 1 h manual work
 
+Mod v2.2 close the gap to v2.4
+-------------------------------
+
+- mostly emulator related, due to 10 already produced PCBs
+- boost converter - raise voltage to >6V - R104 from 576k to 680k
+- Emu
+    - DAC-lowpass 1nF on TP3, after R5, same on TP2
+    - ADC-Lowpass R10 100k to 33R, add 10 nF after that (on TP4)
+    - Shunt-smoothing, C6 100nF to 10nF
+
+- EMU: try removing C3 1nF for more stable OpAmp-FB
+- remove most of the coils?
 
 Boardchanges for v2.3
 --------------------------
