@@ -408,9 +408,12 @@ Changes in Layout
 - LATER:
 - try V-FB without C -> same for Emu-OpAmp, tune emulator similar to harvester
     - https://e2e.ti.com/blogs_/b/analogwire/posts/do-it-yourself-three-ways-to-stabilize-op-amp-capacitive-loads
-    - just using R_ISO would have the lowest noise
+    - just using R_ISO would have the lowest noise -> but unstable
+    - R8 5k is slower for currentchanges
+    - -> best would be to increase shunt-resistor back to 10 Ohm BUT maybe this is no problem after the OpAmp-Swap
 - remove 10R by just using 33R?
-
+- switch back to 10 R shunt with 1k1 Ohm RG ?
+- add option to supply Opa2388 with noisy 6 V
 
 - new components:
     - SPDT Switches Pi5... & the other Test ICs (DG612, DG2501)
@@ -419,6 +422,3 @@ Changes in Layout
     - new NP0 10nF
     - Kai, https://www.mouser.de/ProductDetail/Nordic-Semiconductor/nRF-PPK2?qs=sGAEpiMZZMv0NwlthflBi%2FwrKI1rLznmCjMIzu8H1xs%3D
 - replace corrected BOM-parts
-
-
-TODO: extend profiling-code to be independent from hardware-cal on cape

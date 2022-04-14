@@ -24,10 +24,11 @@ Useful commands on a fresh system::
     sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
 
     -> done in unit-tests now
-    sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_harvest.yml
-    sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_emulation.yml
-    sudo shepherd-sheep -vv run --config /opt/shepherd/software/python-package/tests/example_config_harvest.yml
-    sudo shepherd-sheep -vv run --config /opt/shepherd/software/python-package/tests/example_config_emulation.yml
+    sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_harvester.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_harvester.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_emulator.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/python-package/tests/example_config_harvester.yml
+    sudo shepherd-sheep -vv run --config /opt/shepherd/software/python-package/tests/example_config_emulator.yml
 
 
     # test suite in /opt/shepherd/software/python-package

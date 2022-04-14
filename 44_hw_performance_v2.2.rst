@@ -128,9 +128,114 @@ Mod v2.2 close the gap to v2.4
     - DAC-lowpass 1nF on TP3, after R5, same on TP2
     - ADC-Lowpass R10 100k to 33R, add 10 nF after that (on TP4)
     - Shunt-smoothing, C6 100nF to 10nF
+- general improvement
+    - switch enamel wire from 3v3 to 5vIn for analog switch that guards the boot-pins
+    - extra kapton tape for enamel wire around mounting hole (possible easy short)
 
-- EMU: try removing C3 1nF for more stable OpAmp-FB
-- remove most of the coils?
+- EMU: try removing C3 1nF for more stable OpAmp-FB -> bad idea
+    - C3 200 pF
+    - C3 1 nF -> OK
+    - R8 5k1 -> OK, but should be lower
+    - R8 10k
+    - R1 5k1 -> fine
+    -> final change: C3 stays 1nF, R8 & R1 now 5k1
+- remove most of the coils
+    - 10V -> L13
+    - -6V -> L11
+    - A5V -> L7
+- EMU increase shunt from 2R to 10 R (R9) and RGain R12 from 210R to 1.1k
+    - lower noise, specially for low currents
+
+- profiling shows:
+    - 10k Feedback:
+        - 0 mA load, 30 mVpp oscillation with 400 kHz
+        - 40 mA load, 12 mVpp, no oscillation
+        - 40 mA loadswitch, 320 mVpp drop for 40 us
+    - 5k1 Feedback:
+        - 0 mA load, 26 mVpp oscillation with 400 kHz
+        - 40 mA load, 12 mVpp, no oscillation
+        - 40 mA loadswitch < 200 mVpp drop for 25 us
+    - 5V out @ 50 mA reduces Voltage to 4.27 V
+        - 100 mV comes from 2 R Shunt
+        - 20 mV come from trace after feedback-loop
+        - remaining drop is due to 5V supply
+
+Profiling 2R Shunt::
+
+    SMU-reference: 1.000 mA @ 3.1999 V;   emu-c-raw: mean=5000.10, stddev=3.30 @ 3.200 V
+    SMU-reference: 5.000 mA @ 3.1998 V;   emu-c-raw: mean=24741.11, stddev=19.33 @ 3.200 V
+    SMU-reference: 10.000 mA @ 3.1997 V;   emu-c-raw: mean=49409.33, stddev=19.37 @ 3.200 V
+    SMU-reference: 15.000 mA @ 3.1996 V;   emu-c-raw: mean=74101.05, stddev=37.38 @ 3.200 V
+    SMU-reference: 20.000 mA @ 3.1995 V;   emu-c-raw: mean=98767.96, stddev=37.42 @ 3.200 V
+    SMU-reference: 25.000 mA @ 3.1994 V;   emu-c-raw: mean=123441.02, stddev=36.68 @ 3.200 V
+    SMU-reference: 30.000 mA @ 3.1993 V;   emu-c-raw: mean=148106.87, stddev=37.72 @ 3.200 V
+    SMU-reference: 35.000 mA @ 3.1991 V;   emu-c-raw: mean=172779.27, stddev=42.50 @ 3.200 V
+    SMU-reference: 40.000 mA @ 3.1990 V;   emu-c-raw: mean=197441.15, stddev=42.80 @ 3.200 V
+    SMU-reference: 45.000 mA @ 3.1953 V;   emu-c-raw: mean=222110.22, stddev=41.39 @ 3.200 V
+    SMU-reference: 50.000 mA @ 3.1811 V;   emu-c-raw: mean=246769.44, stddev=40.81 @ 3.200 V
+
+    SMU-reference: 1.000 mA @ 4.3999 V;   emu-c-raw: mean=4999.34, stddev=3.33 @ 4.400 V
+    SMU-reference: 5.000 mA @ 4.3998 V;   emu-c-raw: mean=24741.03, stddev=19.48 @ 4.400 V
+    SMU-reference: 10.000 mA @ 4.3997 V;   emu-c-raw: mean=49407.86, stddev=19.54 @ 4.400 V
+    SMU-reference: 15.000 mA @ 4.3995 V;   emu-c-raw: mean=74099.36, stddev=37.22 @ 4.400 V
+    SMU-reference: 20.000 mA @ 4.3994 V;   emu-c-raw: mean=98767.49, stddev=37.35 @ 4.400 V
+    SMU-reference: 25.000 mA @ 4.3993 V;   emu-c-raw: mean=123442.35, stddev=36.73 @ 4.400 V
+    SMU-reference: 30.000 mA @ 4.3992 V;   emu-c-raw: mean=148108.01, stddev=37.72 @ 4.400 V
+    SMU-reference: 35.000 mA @ 4.3863 V;   emu-c-raw: mean=172779.94, stddev=39.42 @ 4.400 V
+    SMU-reference: 40.000 mA @ 4.3481 V;   emu-c-raw: mean=197442.74, stddev=38.15 @ 4.400 V
+    SMU-reference: 45.000 mA @ 4.2972 V;   emu-c-raw: mean=222114.24, stddev=36.88 @ 4.400 V
+    SMU-reference: 50.000 mA @ 4.2273 V;   emu-c-raw: mean=246772.54, stddev=34.40 @ 4.400 V
+
+    SMU-reference: 1.000 mA @ 4.9694 V;   emu-c-raw: mean=4998.55, stddev=3.10 @ 5.000 V
+    SMU-reference: 5.000 mA @ 4.9209 V;   emu-c-raw: mean=24741.21, stddev=17.52 @ 5.000 V
+    SMU-reference: 10.000 mA @ 4.8602 V;   emu-c-raw: mean=49408.38, stddev=17.40 @ 5.000 V
+    SMU-reference: 15.000 mA @ 4.7982 V;   emu-c-raw: mean=74101.53, stddev=32.35 @ 5.000 V
+    SMU-reference: 20.000 mA @ 4.7337 V;   emu-c-raw: mean=98768.89, stddev=32.09 @ 5.000 V
+    SMU-reference: 25.000 mA @ 4.6663 V;   emu-c-raw: mean=123444.18, stddev=31.66 @ 5.000 V
+    SMU-reference: 30.000 mA @ 4.5959 V;   emu-c-raw: mean=148110.96, stddev=32.14 @ 5.000 V
+    SMU-reference: 35.000 mA @ 4.5221 V;   emu-c-raw: mean=172783.01, stddev=34.65 @ 5.000 V
+    SMU-reference: 40.000 mA @ 4.4440 V;   emu-c-raw: mean=197444.95, stddev=34.46 @ 5.000 V
+    SMU-reference: 45.000 mA @ 4.3607 V;   emu-c-raw: mean=222116.58, stddev=34.18 @ 5.000 V
+    SMU-reference: 50.000 mA @ 4.2701 V;   emu-c-raw: mean=246776.35, stddev=33.46 @ 5.000 V
+
+Profiling 10R Shunt::
+
+    SMU-reference: 1.000 mA @ 3.2001 V;   emu-c-raw: mean=5130.99, stddev=3.16 @ 3.200 V
+    SMU-reference: 5.000 mA @ 3.2001 V;   emu-c-raw: mean=25605.70, stddev=21.25 @ 3.200 V
+    SMU-reference: 10.000 mA @ 3.1999 V;   emu-c-raw: mean=51186.94, stddev=21.20 @ 3.200 V
+    SMU-reference: 15.000 mA @ 3.1998 V;   emu-c-raw: mean=76793.88, stddev=40.36 @ 3.200 V
+    SMU-reference: 20.000 mA @ 3.1996 V;   emu-c-raw: mean=102374.39, stddev=40.14 @ 3.200 V
+    SMU-reference: 25.000 mA @ 3.1995 V;   emu-c-raw: mean=127962.74, stddev=39.88 @ 3.200 V
+    SMU-reference: 30.000 mA @ 3.1993 V;   emu-c-raw: mean=153542.74, stddev=40.43 @ 3.200 V
+    SMU-reference: 35.000 mA @ 3.1992 V;   emu-c-raw: mean=179127.57, stddev=46.09 @ 3.200 V
+    SMU-reference: 40.000 mA @ 3.1991 V;   emu-c-raw: mean=204702.33, stddev=45.85 @ 3.200 V
+    SMU-reference: 45.000 mA @ 3.1938 V;   emu-c-raw: mean=230285.98, stddev=44.23 @ 3.200 V
+    SMU-reference: 50.000 mA @ 3.1780 V;   emu-c-raw: mean=255859.07, stddev=43.50 @ 3.200 V
+
+    SMU-reference: 1.000 mA @ 4.4002 V;   emu-c-raw: mean=5130.41, stddev=3.24 @ 4.400 V
+    SMU-reference: 5.000 mA @ 4.4001 V;   emu-c-raw: mean=25605.84, stddev=21.32 @ 4.400 V
+    SMU-reference: 10.000 mA @ 4.3999 V;   emu-c-raw: mean=51186.59, stddev=21.36 @ 4.400 V
+    SMU-reference: 15.000 mA @ 4.3998 V;   emu-c-raw: mean=76798.10, stddev=40.39 @ 4.400 V
+    SMU-reference: 20.000 mA @ 4.3996 V;   emu-c-raw: mean=102378.49, stddev=39.93 @ 4.400 V
+    SMU-reference: 25.000 mA @ 4.3898 V;   emu-c-raw: mean=127967.95, stddev=34.89 @ 4.400 V
+    SMU-reference: 30.000 mA @ 4.3194 V;   emu-c-raw: mean=153545.53, stddev=32.60 @ 4.400 V
+    SMU-reference: 35.000 mA @ 4.2228 V;   emu-c-raw: mean=179133.17, stddev=33.42 @ 4.400 V
+    SMU-reference: 40.000 mA @ 4.1050 V;   emu-c-raw: mean=204707.56, stddev=32.38 @ 4.400 V
+    SMU-reference: 45.000 mA @ 3.9764 V;   emu-c-raw: mean=230292.51, stddev=31.78 @ 4.400 V
+    SMU-reference: 50.000 mA @ 3.8379 V;   emu-c-raw: mean=255862.87, stddev=31.12 @ 4.400 V
+
+    SMU-reference: 1.000 mA @ 4.9618 V;   emu-c-raw: mean=5129.80, stddev=2.93 @ 5.000 V
+    SMU-reference: 5.000 mA @ 4.8830 V;   emu-c-raw: mean=25603.63, stddev=16.67 @ 5.000 V
+    SMU-reference: 10.000 mA @ 4.7831 V;   emu-c-raw: mean=51188.07, stddev=16.38 @ 5.000 V
+    SMU-reference: 15.000 mA @ 4.6804 V;   emu-c-raw: mean=76788.55, stddev=30.26 @ 5.000 V
+    SMU-reference: 20.000 mA @ 4.5753 V;   emu-c-raw: mean=102370.88, stddev=30.14 @ 5.000 V
+    SMU-reference: 25.000 mA @ 4.4677 V;   emu-c-raw: mean=127964.19, stddev=29.70 @ 5.000 V
+    SMU-reference: 30.000 mA @ 4.3576 V;   emu-c-raw: mean=153546.69, stddev=29.32 @ 5.000 V
+    SMU-reference: 35.000 mA @ 4.2441 V;   emu-c-raw: mean=179136.95, stddev=31.96 @ 5.000 V
+    SMU-reference: 40.000 mA @ 4.1266 V;   emu-c-raw: mean=204716.23, stddev=31.68 @ 5.000 V
+    SMU-reference: 45.000 mA @ 4.0034 V;   emu-c-raw: mean=230304.75, stddev=31.84 @ 5.000 V
+    SMU-reference: 50.000 mA @ 3.8733 V;   emu-c-raw: mean=255879.39, stddev=31.02 @ 5.000 V
+
 
 Boardchanges for v2.3
 --------------------------

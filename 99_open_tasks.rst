@@ -86,7 +86,11 @@ Ansible
     - solution: install ntpdate, use "sudo ntpdate -b -s -u pool.ntp.org" at boot -> systemd-oneshot-service
     - https://linuxconfig.org/how-to-automatically-execute-shell-script-at-startup-boot-on-systemd-linux
     - https://askubuntu.com/questions/814/how-to-run-scripts-on-start-up
+    - may be a good addition for role "ptp_host"
 - dont use apt for python-libs, install and update with pip
+- replace debian-installer-scripts with ansible deploy-tasks
+- roles can be indirectly in inventory: seconds main-tree called ntp-hosts: with a list of all sheep
+    - https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html -> ranges sheep[2:10]
 
 Python
 
@@ -112,7 +116,9 @@ Python
 - add option to test device (change DT and uEnv to allow pinaccess to UART-Pins)
 - should shepherd allow emulating just constant voltage? without input file? YES!
 - add kernel-time-sync-data into hdf5-file, also add pru-dutycycle (min, max, mean?)
-
+- allow shepherd herd to run sheep in headless mode (without console)
+- remove cli without config files?
+- improve target-selection with AB, rather than bool-value
 
 
 PRU & Kernel
@@ -123,6 +129,9 @@ PRU & Kernel
     - plan compensation on target
 
 - reduce pru-opt-level? most likely cause for u64-trouble. or switch to gcc
+- update kernel - 5.10 is stable but brings a lot of changes
+    - reason: unit-tests rarely run through, machine locks up after several module-reloads
+- switch pru-compiler
 
 Misc
 
