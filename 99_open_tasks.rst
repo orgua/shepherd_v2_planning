@@ -119,7 +119,11 @@ Python
 - allow shepherd herd to run sheep in headless mode (without console)
 - remove cli without config files?
 - improve target-selection with AB, rather than bool-value
-
+- new h5-modes
+    - harvester
+    - ivcurve
+    - isc voc
+    - emulator
 
 PRU & Kernel
 
