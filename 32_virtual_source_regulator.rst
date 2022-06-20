@@ -9,7 +9,7 @@ Current Features
     - fully customizable per yaml-parameter-set
     - or choose one of the predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with pwr-good-schmitt-trigger
     - inherit from existing parameter-sets with ie. "converter-base: neutral" (neutral is default inheritance) -> only altered parameters needed in new set
-    - logger for IV-Traces can either record output or intermediate node (storage cap)
+    - emulator can either record output or intermediate node (storage cap)
 - Input
     - oneway, imagine a perfect diode at the start so no current can flow back
     - diode voltage-drop can be configured from 0 to x Volt
