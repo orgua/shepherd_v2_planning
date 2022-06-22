@@ -29,18 +29,238 @@ shepherd is a testbed for the batteryless Internet of Things, allowing to record
         - buck-converter (BQ25504)
     - the design enables users to automate testing of harvesting-setups e.g. by sweeping through parameters like storage-cap-size
 - the emulator and harvester are consisting of a purpose-fully chosen combination of low-noise and high-speed DACs, ADCs and Instrumentation-Amplifiers
-    - both circuits can handle 0 - 4.7 V (hrv even 5.0V) with up to 50 mA current
-    - resulting resolution, step size is ~ 200 nA and 80 uV for voltage and current
+    - both circuits can handle 0 - 4.2 V (hrv even 5.0V) with up to 50 mA current
+    - resulting resolution, step size is ~ 200 nA and 20 uV for voltage and current
 - the software-implementation updates in real time with 100 kHz
 
 - general improvements for shepherd beside the virtualization
     - synchronization of sampling-trigger for node network optimized from ~ 2.4 us to under 500 ns
     - jitter of sampling trigger improved from about +- 600 ns to under 100 ns
-    - 9 GPIO-Channels between target and system monitored with 2.5 - 5.5 MHz sampling-rate (previous ~ 160 - 500 kHz, with 6 GPIO)
+    - 9 GPIO-Channels between target and system monitored with 2.5 - 5.5 MHz sampling-rate (previous ~ 160 - 1500 kHz, with 6 GPIO)
     - two target-ports available, emulator can choose
     - watchdog to handle hangups during unsupervised operation
     - one default target with a nrf52-module
+    - screw-in power-socket or type-c connector
+    - logging of system parameters (io calls, cpu usage, nw usage, ram usage)
 
 - near future
+    - software programmer (in pru) for SWD & SpyBiWire
     - advanced target with msp430 (with FRAM) and nrf52 for various configurations: only 1 uC active, msp as processor and nrf as radio, nrf as processor+radio and msp as low-energie storage
     - combined network of shepherd nodes as iot-testbed with web-based control
+
+- bigger challenges
+    - hardware is getting quite old, but luckily software is improving
+    - kernel 4.19 works currently, but latest updates to 5.10 break kernel-module & pru
+    - chip-shortage is limiting our supply - 2 ICs only 15 left, current restock date mid '23
+
+
+Details
+=======
+
+- disclaimer: graphs and stats are partly outdated -
+- scraped from the planning-git
+
+Hardware
+________
+
+
+Shepherd Cape v2.3
+
+- 360 components, 55 unique - > tedious, but ok to hand-solder
+
+.. image:: media_recap/pcb_picture_shepherd_cape_soldered.jpg
+
+
+Shepherd Cape v2.4
+
+- chip shortage forced us to a ultra fine pitch (350 um) - hard and risky to hand-solder
+- switch to 6 layer due to higher gpio-count
+- 1 Free Pin on BBone
+
+.. image:: media_recap/pcb_preview_v24.png
+
+
+nRF52-Target v2.3
+
+.. image:: media_recap/pcb_picture_nRF_Target_reflowed.jpg
+
+
+Harvester Circuit
+_________________
+
+schematic
+
+.. image:: media_recap/harvester_schematic_v240.png
+
+
+diode selection
+
+- datasheets only promise < 40 nA
+
+.. image:: media_recap/diode_reverse_currents_smu-measured.png
+
+
+finetuning Filters
+
+.. image:: media_recap/hrv_iv110Hz_A5V_0mF.png
+.. image:: media_recap/hrv_iv110Hz_Shuntbuff_C35_10nF_FB_R20_100R.png
+
+
+resulting performance
+
+.. image:: media_recap/profile_quiver_offset_sheep0_cape_v230c1_profile_76_short_hrv_redone_base_hrv.png
+
+implemented harvest-algorithms (& parameters)
+
+- ivcurve: window size, v_min, v_max, wait-cycles, direction
+- isc & voc: wait-cycles
+- v-const: voltage
+- mppt-voc: setpoint, measurement t_interval & t_duration,
+- mppt-po: v_min, v_max, v_step, t_interval
+
+Virtual Harvester
+-----------------
+
+
+.. image:: media_recap/32_virtual_source_schemdraw.png
+
+- general features
+    - integrated into PRU, calculated at 100 kHz
+    - fully customizable per yaml-parameter-set
+    - or choose one of the predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with pwr-good-schmitt-trigger
+    - inherit from existing parameter-sets with ie. "converter-base: neutral" (neutral is default inheritance) -> only altered parameters needed in new set
+    - emulator can either record output or intermediate node (storage cap)
+- Input
+    - oneway, imagine a perfect diode at the start so no current can flow back
+    - diode voltage-drop can be configured from 0 to x Volt
+    - maxima for input voltage and current (power limit)
+- Boostconverter, optional, with
+    - enable minimum threshold voltage for input
+    - disable maximum threshold for boost-output (intermediate voltage)
+    - efficiency factor with 2D-LUT (12x12), depending on input voltage & current
+        - thresholds are configurable in 2^n steps
+        - voltage divisions are linear, depending on lowest threshold
+        - current-divisions are log2, also depending on lowest threshold
+        - example: voltage threshold n=7 is setting first array boundary to 2^7 = 128 uV, so lut[0] is for V < 128 uV, lut[1] is for 128 to 256 uV
+- capacitor, optional, with
+    - capacitance from 1 nF to 1 F
+    - initial voltage
+    - leakage current
+    - switchable output, hysteresis with checks at defined intervals
+    - power-good-signal with hysteresis either in intervals or immediate (schmitt-trigger)
+- buck converter, optional, with
+    - fixed output voltage
+    - ldo-drop-voltage, alternatively working like a diode when buck is off or intermediate voltage is below output-voltage + drop-voltage
+    - efficiency factor with 1D-LUT, depending on output-current
+        - threshold is configurable in 2^n-steps
+        - current-divisions are log2, depending on lowest threshold
+        - example: current threshold n=5 is setting first array boundary to 2^5 = 32 nA, so lut[0] is for I < 32 nA, lut[1] is for [32, 64] nA, lut[2] is for [64, 128] nA
+- switchable output
+    - simulated external Capacitor - should be set to buffer size of target: fast transients can't be fully monitored by shepherd
+
+
+Datalib
+-------
+
+- API for py and cli
+- read, write (and generate) shepherd-files
+- check for plausibility and validity
+- extract data and metadata, convert, downsample, plot, repair
+
+.. image:: media_recap/datalib_converter.png
+
+
+multiplot for ivcurve, isc / voc, voc-harvester and optimal po-harvester
+
+.. image:: media_recap/datalib_jogging_10m.multiplot_0s000_to_1s000.png
+
+Timesync
+--------
+
+- shepherd started with +- 2.4 us error
+- a lot of improvements on PRU-Level helped to push the boundaries
+- important: hardware-accelerated switch
+- tbd: cisco-switch in TUD has layer 3 routing and >doubled spec -> could improve sync
+
+
+Error between nodes
+
+- q95% is < +- 200 ns
+
+.. image:: media_recap/sync_improvement_sync_statistics_boxplot.png
+
+
+Jitter between Trigger-Events (local)
+
+- q95% is around +- 50 ns (10 pru cycles)
+
+.. image:: media_recap/sync_improvement_trigger_statistics_boxplot.png.png
+
+Pins to Target
+--------------
+
+
+.. table:: GPIO Implementation
+
+    ==========  ======      ======      ========    =========
+    Pin-Name    2nd FN      Ctrl        Dir         Pru-Mon
+    ==========  ======      ======      ========    =========
+    GPIO 0      -           dir1-pin    rxtx        yes
+    GPIO 2      -           dir1-pin    rxtx        yes
+    GPIO 3      -           dir1-pin    rxtx        yes
+    GPIO 1      -           dir1-pin    rxtx        yes
+    GPIO 4      -           -           always RX   yes
+    GPIO 5      -           -           always RX   yes
+    GPIO 6      -           -           always RX   yes
+    GPIO 7      uart rx     -           always RX   yes
+    GPIO 8      uart tx     dir2-pin    rxtx        yes
+    BAT OK                  -           always TX   (yes)
+    SWD1 CLK    jtag TCK    -           always TX
+    SWD1 IO     jtag TDI    pDir1-pin   rxtx
+    SWD2 CLK    jtag TDO    -           always TX
+    SWD2 IO     jtag TMS    pDir2-pin   rxtx
+    ==========  ======      ======      ========    =========
+
+- sampling frequency of gpio-monitor
+    - legacy	   -> 160 kHz ... up to 1.5 ... 2.9 MHz
+    - intermediate -> relatively stable 4.03 MHz (uncorrected meas via gpio-trigger), min: 602 kHz, max: 4.55 MHz
+    - current code ... tbd
+
+- electrical side:
+    - translator: 74LVC2T45GS
+    - 470 R line resistor and 100k PU on both sides
+    - analog switch: PI5A4158, ~ 34 pF line-capacitance, [< 20 nA leakage]
+    - previous switch: > 300 pF, < 1 nA leakage
+- performance-data not available atm
+    - previous switch limited to ~ 200 kHz
+    - capacitance on line is ~ 1/10, resistance ~ 1/2
+
+Emulator Circuit
+----------------
+
+- lowest resolution, set by software / resistor
+    - DAC 19.53 uV
+    - ADC 190 nA
+    - voltage set in < 8 us
+- Feedback is coming from target-header pin (so switches and traces get compensated)
+
+.. image:: media_recap/emulator_schematic_v240.png
+
+
+Performance
+
+- at 50 mA around 3.8 V are usable without large error
+
+.. image:: media_recap/profile_quiver_offset_sheep0_cape_v230c1_profile_07_short_C6_increased_1uF_emu_a.png
+
+
+
+TODO
+
+- harvester performance
+- gpio performance
+- virtual harvester
+- PI5A4158 performance
+- test-performance - MEAN error current
+- reorder + integrate first feature-list
+- 32 back
