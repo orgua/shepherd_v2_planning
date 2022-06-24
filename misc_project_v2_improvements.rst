@@ -1,4 +1,4 @@
-General Shepherd-Description
+Improvements of Shepherd V2
 ----------------------------
 
 **About Shepherd v1.x (from git)**
@@ -45,10 +45,11 @@ Previous description is still correct, in detail:
 
 - synchronization of sampling-trigger for node network optimized from ~ 2.4 us to under 500 ns
 - jitter of sampling trigger improved from about +- 600 ns to under 100 ns
-- 9 GPIO-Channels between target and system monitored with 2.5 - 5.5 MHz sampling-rate (previous ~ 160 - 1500 kHz, with 6 GPIO)
 - two target-ports available, emulator can choose
-- watchdog to handle hangups during unsupervised operation
+- two parallel power rails available for the targets (one with current measurement, switchable)
 - one default target with a nrf52-module
+- 9 GPIO-Channels between target and system (pru-monitored), switchable, 2.5 - 5.5 MHz sampling-rate (previous ~ 160 - 1500 kHz, with 6 GPIO)
+- watchdog to handle hangups during unsupervised operation
 - screw-in power-socket or type-c connector
 
 
@@ -69,7 +70,7 @@ Previous description is still correct, in detail:
 Details
 =======
 
-- disclaimer: graphs and stats are partly outdated -
+- disclaimer: graphs and stats are partly outdated
 - scraped from the planning-git
 
 Hardware
@@ -79,16 +80,15 @@ ________
     - both circuits can handle 0 - 5 V with up to 50 mA current
     - LSB is ~ 200 nA and ~ 20 uV for voltage and current
 
-- two target-ports available, emulator can choose
+- two target-ports available, emulator / user can choose
+- two parallel power rails available for the targets (one with current measurement, switchable)
 - one default target with a nrf52-module
-- 9 GPIO-Channels between target and system (pru-monitored)
+- 9 GPIO-Channels between target and system (pru-monitored), switchable
 - watchdog to handle hangups during unsupervised operation
 - screw-in power-socket or type-c connector
 
 
 **Shepherd Cape v2.3**
-
-
 
 - 360 components, 55 unique - > tedious, but ok to hand-solder
 
@@ -97,42 +97,43 @@ ________
 
 **Shepherd Cape v2.4**
 
-- chip shortage forced us to a ultra fine pitch (350 um) - hard and risky to hand-solder
+- chip shortage forced us to a ultra fine pitch (350 um) -  risky and hard to hand-solder
 - switch to 6 layer due to higher gpio-count
-- 1 Free Pin on BBone
+- 1 Free Pin left on BBone
 
-.. image:: media_recap/pcb_preview_v24.png
+.. image:: media_recap/PCB_preview_v24.png
 
 
 **nRF52-Target v2.3**
 
+- soon new Target with MSP430 (FRAM) & nRF52 on one PCB
+
 .. image:: media_recap/pcb_picture_nRF_Target_reflowed.jpg
 
--> soon new Target with MSP430 (FRAM) & nRF52 on one PCB
 
 Harvester Circuit
 _________________
 
 
-schematic
+Schematic
 
 .. image:: media_recap/harvester_schematic_v240.png
 
 
-diode selection
+Diode selection
 
 - datasheets only promise < 40 nA
 
 .. image:: media_recap/diode_reverse_currents_smu-measured.png
 
 
-finetuning Filters
+Fine tuning Filters
 
 .. image:: media_recap/hrv_iv110Hz_A5V_0mF.png
 .. image:: media_recap/hrv_iv110Hz_Shuntbuff_C35_10nF_FB_R20_100R.png
 
 
-resulting performance
+Resulting Performance
 
 .. image:: media_recap/profile_quiver_offset_sheep0_cape_v230c1_profile_76_short_hrv_redone_base_hrv.png
 
@@ -154,7 +155,7 @@ Virtual Harvester
     ivcurve         window size, v_min, v_max, wait-cycles, direction
     isc & voc       wait-cycles
     v-const         voltage
-    mppt-voc        setpoint, measurement t_interval & t_duration
+    mppt-voc        setpoint, t_interval & t_duration (voc-measurement)
     mppt-po         v_min, v_max, v_step, t_interval
     =============   ===================================================
 
@@ -165,7 +166,7 @@ Emulator Circuit
     - DAC 19.53 uV
     - ADC 190 nA
     - voltage set in < 8 us
-- Feedback is coming from target-header pin (so switches and traces get compensated)
+- switches and traces get compensated on PCB (Feedback is coming from target-header pin)
 
 .. image:: media_recap/emulator_schematic_v240.png
 
@@ -184,12 +185,15 @@ General  Features
 
 - integrated into PRU, calculated and updated at 100 kHz
 - fully customizable per yaml-parameter-set (29+ parameters)
-- predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with pwr-good-schmitt-trigger
-- neutral parameter-set is base -> direct throughput
-- inherit from existing parameter-sets -> only add altered parameters in new set
+
+    - predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with additional schmitt-trigger for pwr-good
+    - neutral parameter-set is base -> direct throughput
+    - inherit from existing parameter-sets -> only add altered parameters in new set
+
 - emulator can either record output or intermediate voltage (storage cap)
 - naming: source = harvester + converter
 - design enables users to automate testing of harvesting-setup e.g. by sweeping through parameters like storage-cap-size
+
 
 .. image:: media_recap/32_virtual_source_schemdraw.png
 
@@ -247,19 +251,19 @@ Pins to Target
     ==========  =========   =========   =========   =========
     Pin-Name    2nd FN      Ctrl        Dir         Pru-Mon
     ==========  =========   =========   =========   =========
-    GPIO 0      -           dir1-pin    rxtx        yes
-    GPIO 2      -           dir1-pin    rxtx        yes
-    GPIO 3      -           dir1-pin    rxtx        yes
-    GPIO 1      -           dir1-pin    rxtx        yes
-    GPIO 4      -           -           always RX   yes
-    GPIO 5      -           -           always RX   yes
-    GPIO 6      -           -           always RX   yes
-    GPIO 7      uart rx     -           always RX   yes
+    GPIO 0                  dir1-pin    rxtx        yes
+    GPIO 2                  dir1-pin    rxtx        yes
+    GPIO 3                  dir1-pin    rxtx        yes
+    GPIO 1                  dir1-pin    rxtx        yes
+    GPIO 4                              always RX   yes
+    GPIO 5                              always RX   yes
+    GPIO 6                              always RX   yes
+    GPIO 7      uart rx                 always RX   yes
     GPIO 8      uart tx     dir2-pin    rxtx        yes
-    BAT OK                  -           always TX   (yes)
-    SWD1 CLK    jtag TCK    -           always TX
+    BAT OK                              always TX   (yes)
+    SWD1 CLK    jtag TCK                always TX
     SWD1 IO     jtag TDI    pDir1-pin   rxtx
-    SWD2 CLK    jtag TDO    -           always TX
+    SWD2 CLK    jtag TDO                always TX
     SWD2 IO     jtag TMS    pDir2-pin   rxtx
     ==========  =========   =========   =========   =========
 
@@ -280,9 +284,9 @@ Performance-data
 
 - not available atm
 - previous switch limited to ~ 200 kHz
-- capacitance on line is ~ 1/10, resistance ~ 1/2
+- capacitance on line is ~ 1/10, resistance ~ 1/2 -> 2 MHz should be fine
 
-Logging of system parameters
+Logging of system parameters while recording
 
 - io calls
 - cpu usage
