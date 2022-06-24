@@ -251,20 +251,20 @@ Pins to Target
     ==========  =========   =========   =========   =========
     Pin-Name    2nd FN      Ctrl        Dir         Pru-Mon
     ==========  =========   =========   =========   =========
-    GPIO 0                  dir1-pin    rxtx        yes
-    GPIO 2                  dir1-pin    rxtx        yes
-    GPIO 3                  dir1-pin    rxtx        yes
-    GPIO 1                  dir1-pin    rxtx        yes
+    GPIO 0                  dir1-pin    Rx-Tx       yes
+    GPIO 2                  dir1-pin    Rx-Tx       yes
+    GPIO 3                  dir1-pin    Rx-Tx       yes
+    GPIO 1                  dir1-pin    Rx-Tx       yes
     GPIO 4                              always RX   yes
     GPIO 5                              always RX   yes
     GPIO 6                              always RX   yes
     GPIO 7      uart rx                 always RX   yes
-    GPIO 8      uart tx     dir2-pin    rxtx        yes
+    GPIO 8      uart tx     dir2-pin    Rx-Tx       yes
     BAT OK                              always TX   (yes)
     SWD1 CLK    jtag TCK                always TX
-    SWD1 IO     jtag TDI    pDir1-pin   rxtx
+    SWD1 IO     jtag TDI    pDir1-pin   Rx-Tx
     SWD2 CLK    jtag TDO                always TX
-    SWD2 IO     jtag TMS    pDir2-pin   rxtx
+    SWD2 IO     jtag TMS    pDir2-pin   Rx-Tx
     ==========  =========   =========   =========   =========
 
 Sampling frequency of gpio-monitor
@@ -313,7 +313,7 @@ Jitter between Trigger-Events (local)
 
 - q95% is around +- 50 ns (10 pru cycles)
 
-.. image:: media_recap/sync_improvement_trigger_statistics_boxplot.png.png
+.. image:: media_recap/sync_improvement_trigger_statistics_boxplot.png
 
 
 Datalib
