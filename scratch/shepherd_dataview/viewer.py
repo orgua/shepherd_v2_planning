@@ -44,7 +44,7 @@ if __name__ == '__main__':
             stat(dc[var], var)
         dc["power"] = dc["voltage"] * dc["current"]
         stat(dc["power"], "power")
-        print(f" power sum = {np.sum(dc['power'])/fs_original}")
+        print(f" energy [Ws]  = {np.sum(dc['power'])/fs_original}")
 
     dpg.create_context()
     dpg.create_viewport(title="Shepherd Testing and Debug Tool (VP) -> TIP: scroll while hovering on the desired axis", width=1800, height=800)

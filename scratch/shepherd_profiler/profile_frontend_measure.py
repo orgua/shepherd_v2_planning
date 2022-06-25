@@ -30,7 +30,7 @@ import calibration_default as cal_def
 # SMU Config-Parameters
 mode_4wire = True
 pwrline_cycles = 16  # .001 to 25 allowed, >= 20 SMU throws sporadic errors (timeouts)
-
+mode_unattended = True  # no confirm-messages
 
 adict = {"voltage_shp_V": 0,
          "voltage_shp_raw": 1,
@@ -184,7 +184,7 @@ def measure(host, user, password, outfile, smu_ip, harvester, emulator, short):
 
         click.echo(INSTR_EMU)
         print(f" -> Profiler will sweep through {len(voltages_V)} voltages and {len(currents_A)} currents")
-        usr_conf1 = click.confirm("Confirm that everything is set up ...")
+        usr_conf1 = mode_unattended or click.confirm("Confirm that everything is set up ...", default=True)
 
         if usr_conf1 and harvester:
             print(f"Measurement - Harvester - Voltage & Current")
@@ -221,7 +221,7 @@ def measure(host, user, password, outfile, smu_ip, harvester, emulator, short):
                 results_a[5][index] = c_set
 
         # TODO: currently channel-switch does not work, can be removed with future HW
-        if usr_conf1 and emulator and click.confirm("Confirm that everything is set up for Part 2 (Port B) ..."):
+        if usr_conf1 and emulator and (mode_unattended or click.confirm("Confirm that everything is set up for Part 2 (Port B) ...", default=True)):
             print(f"Measurement - Emulator - Current - ADC Channel A - Target B")
             rpc_client.switch_shepherd_mode("emu_adc_read")
             results_b = np.zeros([6, len(voltages_res_V)], dtype=object)
