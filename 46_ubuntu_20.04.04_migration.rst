@@ -216,3 +216,10 @@ later:
     - even with mean-util = 67 % max gets over 100 %
     - sharedmem-read shows 160 ns (includes entering fn)
     - solution: move expensive read to pru1
+
+
+Transfer Speed per SSH, down 4.6 MB/s max
+
+ssh -Q ciphers
+scp -c aes128-ctr hans@10.0.0.9:/var/shepherd/recordings/
+scp -c aes128-gcm@openssh.com hans@10.0.0.9:/var/shepherd/recordings/
