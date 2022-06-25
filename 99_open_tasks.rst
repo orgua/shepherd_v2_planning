@@ -95,6 +95,10 @@ Ansible
 Python
 
 - unit-tests for virtual harvester (adc and ivc)
+    - try to include original c-code as lib -> cython-wrapper
+    - https://cython.readthedocs.io/en/stable/src/tutorial/external.html
+    - https://www.geeksforgeeks.org/how-to-call-c-c-from-python/?ref=lbp
+    - (!!) https://www.geeksforgeeks.org/using-c-codes-in-python-set-1/
 - unit-tests for programmer
 - integrate Programmer into Py-Kernel-PRU-Chain -> Kernel needs to swap image and restart PRU
 - update herd with latest command-changes -> done, todo: test
@@ -117,6 +121,8 @@ Python
 - should shepherd allow emulating just constant voltage? without input file? YES!
 - add kernel-time-sync-data into hdf5-file, also add pru-dutycycle (min, max, mean?)
 - allow shepherd herd to run sheep in headless mode (without console)
+    - nohup some_command &
+    - some_command & disown -> works
 - remove cli without config files?
 - improve target-selection with AB, rather than bool-value
 - new h5-modes
