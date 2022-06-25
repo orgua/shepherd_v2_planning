@@ -1,0 +1,83 @@
+measurements:
+  emulator:
+    adc_current:
+    - reference_si: 1.0e-05
+      shepherd_raw: 66.05027303743059
+    - reference_si: 3.0e-05
+      shepherd_raw: 167.99378583377998
+    - reference_si: 0.0001
+      shepherd_raw: 526.1215318777173
+    - reference_si: 0.0003
+      shepherd_raw: 1549.9517054921348
+    - reference_si: 0.001
+      shepherd_raw: 5131.856437440502
+    - reference_si: 0.003
+      shepherd_raw: 15364.010987875448
+    - reference_si: 0.01
+      shepherd_raw: 51186.991640051725
+    adc_voltage:
+    - reference_si: 1.0e-05
+      shepherd_raw: 66.13530801345391
+    - reference_si: 3.0e-05
+      shepherd_raw: 168.8236717600229
+    - reference_si: 0.0001
+      shepherd_raw: 526.1321743589743
+    - reference_si: 0.0003
+      shepherd_raw: 1549.9327341418393
+    - reference_si: 0.001
+      shepherd_raw: 5131.020713895714
+    - reference_si: 0.003
+      shepherd_raw: 15350.956969757164
+    - reference_si: 0.01
+      shepherd_raw: 51173.762980093124
+    dac_voltage_a:
+    - reference_si: 0.29960746666666666
+      shepherd_raw: 3932
+    - reference_si: 0.4994247333333333
+      shepherd_raw: 6553
+    - reference_si: 0.6994252333333334
+      shepherd_raw: 9175
+    - reference_si: 0.8992358666666664
+      shepherd_raw: 11796
+    - reference_si: 1.0989259999999998
+      shepherd_raw: 14417
+    - reference_si: 1.2989486666666665
+      shepherd_raw: 17039
+    - reference_si: 1.4988370000000006
+      shepherd_raw: 19660
+    - reference_si: 1.698785666666667
+      shepherd_raw: 22282
+    - reference_si: 1.8987889999999998
+      shepherd_raw: 24903
+    - reference_si: 2.098786333333333
+      shepherd_raw: 27525
+    - reference_si: 2.298550333333333
+      shepherd_raw: 30146
+    - reference_si: 2.4984410000000006
+      shepherd_raw: 32768
+    dac_voltage_b:
+    - reference_si: 0.2996629333333333
+      shepherd_raw: 3932
+    - reference_si: 0.49945826666666665
+      shepherd_raw: 6553
+    - reference_si: 0.6993689333333335
+      shepherd_raw: 9175
+    - reference_si: 0.8991870333333335
+      shepherd_raw: 11796
+    - reference_si: 1.0988196666666668
+      shepherd_raw: 14417
+    - reference_si: 1.2988393333333332
+      shepherd_raw: 17039
+    - reference_si: 1.4987223333333333
+      shepherd_raw: 19660
+    - reference_si: 1.6987109999999999
+      shepherd_raw: 22282
+    - reference_si: 1.8986343333333329
+      shepherd_raw: 24903
+    - reference_si: 2.0985853333333333
+      shepherd_raw: 27525
+    - reference_si: 2.2983203333333333
+      shepherd_raw: 30146
+    - reference_si: 2.498260333333334
+      shepherd_raw: 32768
+node: sheep0
