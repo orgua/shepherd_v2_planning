@@ -61,7 +61,7 @@ file_list_hrv = [
      "sheep0_cape_v230c1_profile_33_short_R20_back_to_1k",
      "sheep0_cape_v230c1_profile_34_short_C36_from_1nF_to_10nF",
      "sheep0_cape_v230c1_profile_35_short_R27_from_1k_to_100R",
-     "sheep0_cape_v230c1_profile_36_short_new_smu_lib",
+     "sheep0_cape_v230c1_profile_76_short_hrv_redone_base",
              ]
 
 
@@ -122,9 +122,9 @@ def measurements_to_calibration(ref, raw) -> tuple:
     return float(gain), float(offset)
 
 
-def scatter_setpoints_std(result: np.ndarray, file_name):
+def scatter_setpoints_std(data: pd.DataFrame, file_name):
     global cgain
-    x = 1e3 * result[adict["voltage_ref_V"], :]
+    x = 1e3 * data.v_ref_V # todo: transition not finished, same with above FN
     y = list([])
     stddev = list([])
     vol = list([])
@@ -210,7 +210,7 @@ def quiver_setpoints_offset(data: pd.DataFrame, file_name):
     ax.set_xlabel(r'Voltage [mV]', fontsize=10)
     ax.set_ylabel(r'Current [mA]', fontsize=10)
     ax.set_title(f'Position of Setpoints with Distance from Ref')
-    plt.colorbar(qpl, label="Error of Current [uA]", orientation="vertical", shrink=.7)
+    plt.colorbar(qpl, label="Error (mean) of Current [uA]", orientation="vertical", shrink=.7)
 
     ax.grid(True)
     ax.set_xlim(-500, 5500)
@@ -285,7 +285,7 @@ for file in file_list:
 
         #scatter_setpoints_std(result_condensed, "profile_scatter_stddev_" + file + "_" + target + ".png")
         #scatter_setpoints_dyn(result_condensed, "profile_scatter_dynamic_" + file + "_" + target + ".png")
-        #quiver_setpoints_offset(result_condensed, "profile_quiver_offset_" + file + "_" + target + ".png")
+        quiver_setpoints_offset(result_condensed, "profile_quiver_offset_" + file + "_" + target + ".png")
 
         # stat-generator
         # - every dataset is a row
