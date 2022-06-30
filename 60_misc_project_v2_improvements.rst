@@ -15,21 +15,37 @@ Previous description is still correct, in detail:
 
 **Version 1** is build around a BQ25504-IC (plus capacitor) as harvester for recording and emulating various environments. This is a valid approach, but limited by design:
 
-- MPPT-controller is slow to react on changing environmental conditions by design (check every 16s with 64 ms downtime)
+- BQ-MPPT-controller is slow to react on changing environmental conditions by design (check every 16s with 64 ms downtime)
 - (VOC-)mppt-controller is fairly simple with pre-set setpoint (e.g. 76 % of open-circuit voltage for solar cells)
 - recorded harvest-environment is specific to harvest-IC + configuration
 - setup / configuration (especially) with storage cap is fairly static (combination of MPPT-Controller, Boost-Converter, Cap)
 
 **Version 2** improves the project by generalizing the basic idea and therefore virtualizing the harvester, storage capacitors and voltage converters. By switching to a software defined / virtual harvester-system and power-source the disadvantages from v1 vanish, with further advantages
 
-- full customization per config-parameters (e.g. boost-voltage, capacitor size, ...) -> currently 10 parameters for the harvester and 29 parameters for the converter-stage
-- harvesting-recorder has already several strategies implemented: constant voltage (CV), MPPT based on open circuit voltage or perturbe & observe
-- harvesting can also be postponed by recording iv-curves from the energy-source
-- emulation handles harvested energy-traces or harvests directly from the iv-curves and simulates a customizable converter-stage (pic: https://github.com/orgua/shepherd_v2_planning/blob/master/32_virtual_source_schemdraw.png)
+TODO: add Overview-Schematic
+
+.. image:: media_recap/32_virtual_source_schemdraw.png
+
+- full customization per config-parameters (e.g. boost-voltage, capacitor size, ...)
+
+    - currently 10 parameters for the harvester, and
+    - 29 parameters for the converter-stage
+
+- harvesting-recorder has already several strategies implemented
+
+    - constant voltage (CV)
+    - MPPT, based on open circuit voltage or perturbe & observe
+
+- harvesting can also be postponed by sampling
+
+    - iv-curves from the energy-source
+    - model-parameters like voc and isc for solar (higher rate than iv-curves)
+
+- emulation handles harvested energy-traces or harvests directly from the iv-curves and simulates a customizable converter-stage
 - power-stage has already predefined templates for several setups
 
     - direct throughput of traces
-    - simple diode + capacitor
+    - diode + capacitor (converterless)
     - buck-boost-converter (e.g. BQ25570) including the power-good-signal and efficiencies of underlying converters
     - buck-converter (BQ25504)
 
@@ -45,11 +61,16 @@ Previous description is still correct, in detail:
 
 - synchronization of sampling-trigger for node network optimized from ~ 2.4 us to under 500 ns
 - jitter of sampling trigger improved from about +- 600 ns to under 100 ns
-- two target-ports available, emulator can choose
+- two target-ports available, selectable via setup-parameter
 - two parallel power rails available for the targets (one with current measurement, switchable)
 - one default target with a nrf52-module
-- 9 GPIO-Channels between target and system (pru-monitored), switchable, 2.5 - 5.5 MHz sampling-rate (previous ~ 160 - 1500 kHz, with 6 GPIO)
-- watchdog to handle hangups during unsupervised operation
+- 9 GPIO-Channels between target and system (pru-monitored)
+
+    - partly bidirectional, switchable
+    - relatively stable 4.03 MHz, min: 602 kHz, max: 4.55 MHz
+    - previously ~ 160 - 1500 kHz, with 6 GPIO
+
+- watchdog to handle hangups during unsupervised operation (and wakeups for saving power)
 - screw-in power-socket or type-c connector
 
 
@@ -59,6 +80,8 @@ Previous description is still correct, in detail:
 - advanced target with msp430 (with FRAM) and nrf52 for various configurations: only 1 uC active, msp as processor and nrf as radio, nrf as processor+radio and msp as low-energie storage
 - combined network of shepherd nodes as iot-testbed with web-based control
 - update doc
+- advanced PRU-Firmware without virtual harvester & source, but higher min rate for gpio-sampling (goal: > 5 MHz)
+- GPIO-Actuation
 
 **Bigger challenges in near future**
 
