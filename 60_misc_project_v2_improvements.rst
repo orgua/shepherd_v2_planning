@@ -53,7 +53,7 @@ TODO: add Overview-Schematic
 - the emulator and harvester are consisting of a purpose-fully chosen combination of low-noise and high-speed DACs, ADCs and Instrumentation-Amplifiers
 
     - both circuits can handle 0 - 4.2 V (hrv even 5.0V) with up to 50 mA current
-    - resulting resolution, step size is ~ 200 nA and 20 uV for voltage and current
+    - resulting resolution 18 bit, step size is ~ 200 nA and 20 uV for voltage and current
 
 - the software-implementation updates in real time with 100 kHz
 
