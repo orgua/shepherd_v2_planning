@@ -6,29 +6,29 @@ The Package
 
 - 30 complete observer-nodes (current deployment)
 - one laptop as server
-- and / or 25 boards as extension or replacement
+- and / or 25 boards as extension, replacement or second flocklab-testbed
 
 
 Current State
 -------------
 
-- project is open-source, with no plans to commercialize
-- testbed is very mature and stable (nodes only fail rarely)
-- most maintenance is for new users that break the interface or services (in a novel way)
+- flocklab is open-source, with no plans to commercialize
+- testbed is very mature and stable (nodes only fail rarely, 1 node in 2y)
+- most maintenance is for (new) users that break the interface or services (in a novel way)
 - software is consisting of
 
     - observer: python 3.4 scripts, c programs, pru firmware (rocketlogger and one pru completely programmed in assembly)
     - server: python scripts, php web-frontend, mysql-database, xml-parsing
-    - flocklab-tools: python-lib for uploading tests, analysing and visualizing data
+    - flocklab-tools: python-lib for uploading experiments, analysing and visualizing data
 
 - some things to be aware of
 
     - system is mature, but software is aging slowly for ~ 4 - 6 years
-    - beaglebone uses debian 9, kernel 4.14, python 3.4 -> should be separated in a network
+    - flock-beaglebone uses debian 9, kernel 4.14, python 3.4 -> should be separated in a network with no internet-access
     - there are no unittests!
     - some things are destined to fail, ie. for experiments there is a 1 minute setup and finalizing phase, after that the next experiment can run. but with power traces enabled the data collection from the beaglebones creates high cpu-usage and may crash the followup experiment
 
-- relocation overhead was seen as minimal - mostly changing the URLs
+- relocation overhead was seen as minimal - mostly changing the URLs and bringing the server online
 - Stats (2022-6)
 
     - 35 active users, last 12 month
@@ -38,14 +38,14 @@ Current State
     - most used modules (from high to low): serial, gpio tracing, actuation, power profiling,
     - most used targets: dpp2-lora, nrf,
 
-- wireless energy traces were planned for special nodes, also interference
+- wireless energy traces were planned for special nodes, also interference-generators
 
 Why should we inherit Flocklab
 ------------------------------
 
 - do we learn something from running it?
 - do we plan to use it more frequently?
-- there are two other potential maintainers
+- there are two other interested parties / maintainers
 
 
 Flocklab Details
