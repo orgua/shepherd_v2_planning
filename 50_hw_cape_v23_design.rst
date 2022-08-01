@@ -1,8 +1,8 @@
 Shepherd Cape v2.3
 ==================
 
-Changes Done
-------------
+Changes Done for v2.4
+---------------------
 
 - Power Analog-Switch U30 from BB 3V3
 - stabilize ADC with 22 pF at Input -> 60 kHz Fc
