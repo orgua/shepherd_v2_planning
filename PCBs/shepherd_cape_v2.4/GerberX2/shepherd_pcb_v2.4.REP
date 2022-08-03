@@ -138,12 +138,12 @@ Generating : L3
 
 
 Used DCodes :
+    D78
     D79
-    D80
     D81
     D82
     D83
-    D85
+    D84
     D86
     D87
     D92
@@ -167,8 +167,8 @@ Generating : L6
 
 
 Used DCodes :
+    D78
     D79
-    D80
     D81
     D82
     D83
@@ -380,7 +380,7 @@ Generating : Top Overlay
 
 
 Used DCodes :
-    D78
+    D80
     D114
     D115
     D142
