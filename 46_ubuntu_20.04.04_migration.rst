@@ -55,6 +55,22 @@ Install Steps
     safe image:
     sudo dd if=/dev/mmcblk1 of=/var/shepherd/recordings/mmc_u224_k419_deployed.img
 
+Alternative to try: update python
+--------------------------------
+
+https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/pool/main/p/python3.11/
+
+´´´
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+
+or
+
+sudo add-apt-repository universe
+sudo apt update
+sudo apt install python3.10
+´´´
+
 TODO
 ----
 
