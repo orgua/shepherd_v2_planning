@@ -29,6 +29,7 @@ PRU0	PRU1	Changes
 75916   61816   cleaned up resource table
 76032   60964   further restructuring (2021-05)
 77744   61244   still ufloat (2021-06-04)
+85080   63740   bigJump 2022-07-29
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(

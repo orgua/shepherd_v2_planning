@@ -130,6 +130,8 @@ Python
     - ivcurve
     - isc voc
     - emulator
+- callgraph like https://github.com/elesiuta/backupy/tree/master/analysis
+- cleaner virtual_data-init, like https://github.com/tkhyn/dirsync/blob/develop/dirsync/syncer.py#L41
 
 PRU & Kernel
 
