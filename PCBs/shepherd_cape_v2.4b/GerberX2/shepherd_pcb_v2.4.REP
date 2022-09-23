@@ -156,6 +156,50 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
+Generating : L4
+      File : shepherd_pcb_v2.4_Copper_Signal_3.gbr
+
+    Adding Layer      : L4
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D76
+    D78
+    D79
+    D80
+    D81
+    D84
+    D99
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+*************************************************************
+
+*************************************************************
+Generating : L5P
+      File : shepherd_pcb_v2.4_Copper_Signal_4.gbr
+
+    Adding Layer      : L5P
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D99
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+*************************************************************
+
+*************************************************************
 Generating : L6
       File : shepherd_pcb_v2.4_Copper_Signal_Bot.gbr
 

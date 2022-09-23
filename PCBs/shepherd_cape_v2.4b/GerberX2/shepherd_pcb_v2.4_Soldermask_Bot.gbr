@@ -1,8 +1,8 @@
-%TF.GenerationSoftware,Altium Limited,Altium Designer,22.7.1 (60)*%
+%TF.GenerationSoftware,Altium Limited,Altium Designer,22.9.1 (49)*%
 G04 Layer_Color=16711935*
 %FSLAX45Y45*%
 %MOMM*%
-%TF.SameCoordinates,2D3331B9-BAF7-4184-A00F-DBC0A2210F31*%
+%TF.SameCoordinates,1DF69D78-5120-4B12-B4B9-43D88C5B1DD9*%
 %TF.FilePolarity,Negative*%
 %TF.FileFunction,Soldermask,Bot*%
 %TF.Part,Single*%
@@ -471,5 +471,5 @@ D03*
 D139*
 Y345000D02*
 D03*
-%TF.MD5,2d26b0b057fac0eed82dc5a9cf8e367c*%
+%TF.MD5,6525dc6391af693f8da5f45177f0d575*%
 M02*
