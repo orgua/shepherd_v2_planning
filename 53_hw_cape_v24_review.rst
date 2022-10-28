@@ -54,7 +54,18 @@ Nr. 1270053
 
 - GPIO Sweep -> safe Bandwidth ~ 3 MHz, 10 MHz might also work
 - Watchdog: OK
+- Cal OK
+- Profiling OK
+
+    - but pretty high stddev on ADC-Current for hrv & emu (~80)
+
+
 - TODO: Cal with & without additional Caps, GPIO-Direction-Change,
+
+- Order for 5V-Input:
+
+    - 3.3 mF Cap: https://www.mouser.de/ProductDetail/Rubycon/6.3ZLJ3300M10X25?qs=T3oQrply3y/OcsI9e27BJQ%3D%3D
+    - 6.8 mF Cap: https://www.mouser.de/ProductDetail/Panasonic/ECA-0JHG682?qs=R8vM2Es5yU5OqYwkFTor4Q%3D%3D
 
 TODO-List
 ---------
