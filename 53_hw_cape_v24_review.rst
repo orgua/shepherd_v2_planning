@@ -96,11 +96,18 @@ Errors & Improvements (for 2.4c)
 - EMU: Voltage-dependency for Current Measurement after switching to Opa388
 
     - 0V: ~ 550 n, 5V: ~ 980 n
-    - -> +430 increments for + 5 V (= +80 uA error)
+    - -> +430 increments for + 5 V change (= +80 uA error, or +8.39 mV @ ADC-Input)
     - there is no current flow! Trace cut after Shunt
     - AD8429 - Ref to Output has only 50 kOhm (older PCB show the same)
     - **tldr**: ref-pin does not work as expected when != GND
-    - TODO: hrv looked fine, why?
+    - TODO:
+
+        - hrv looked fine, why?
+        - remove 2R of Reference (can cause 500 uV offset)
+        - only 1 InAmp for the Reference
+        - try load-R + Cap between Ref & Output of InAmp
+
+
 
 Ref = GND
 
@@ -154,7 +161,7 @@ Ref = 10 mV, double 0R
   DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7568 V;      I_raw: mean=99989.86, stddev=12.78
 
 adc_voltage = value_raw * 1.25 * 4.096 / (2**18)
-            = 8.39 uV
+            = 8.39 mV
 
 
 
