@@ -11,5 +11,4 @@ matplotlib = "*"
 
 [dev-packages]
 
-[requires]
-python_version = "3"
+# python-requierement > 3.8
