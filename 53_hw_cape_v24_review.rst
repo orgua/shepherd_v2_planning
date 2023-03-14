@@ -8,7 +8,7 @@ Hardware
 - Serialnumbers
 
     - 1270053 -> initial test subject
-    - 1270057
+    - 1270057 -> kai
 
 - to solder:
 
