@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 shepherd.calibration
 ~~~~~
@@ -41,7 +39,7 @@ def convert_value_to_raw(cal_dict: dict, value: float) -> int:  # more precise d
     return int((value - cal_dict["offset"]) / cal_dict["gain"])
 
 
-class CalibrationData(object):
+class CalibrationData:
     """Represents SHEPHERD calibration data.
 
     Defines the format of calibration data and provides convenient functions
@@ -123,7 +121,7 @@ class CalibrationData(object):
         Returns:
             CalibrationData object with extracted calibration data.
         """
-        with open(filename, "r") as stream:
+        with open(filename) as stream:
             in_data = yaml.safe_load(stream)
 
         return cls(in_data["calibration"])
@@ -139,7 +137,7 @@ class CalibrationData(object):
         Returns:
             CalibrationData object with extracted calibration data.
         """
-        with open(filename, "r") as stream:
+        with open(filename) as stream:
             calib_data = yaml.safe_load(stream)
 
         calib_dict = dict()

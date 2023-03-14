@@ -28,7 +28,7 @@ def flatten_dict_list(dl) -> list:
     return result
 
 
-class VirtualSourceData(object):
+class VirtualSourceData:
     """
     Container for VS Settings, Data will be checked and completed
     - settings will be created from default values when omitted
@@ -44,14 +44,14 @@ class VirtualSourceData(object):
             vs_setting: if omitted, the data is generated from default values
         """
         vs_defs = Path(__file__).parent.resolve()/"virtual_source_defs.yml"
-        with open(vs_defs, "r") as def_data:
+        with open(vs_defs) as def_data:
             self.vs_configs = yaml.safe_load(def_data)["virtsources"]
         self.vs_inheritance = list()
 
         if isinstance(vs_setting, str) and Path(vs_setting).exists():
             vs_setting = Path(vs_setting)
         if isinstance(vs_setting, Path) and vs_setting.exists():  # TODO: not perfect - better also check for ".yml", same above
-            with open(vs_setting, "r") as config_data:
+            with open(vs_setting) as config_data:
                 vs_setting = yaml.safe_load(config_data)["virtsource"]
         if isinstance(vs_setting, str):
             if vs_setting in self.vs_configs:

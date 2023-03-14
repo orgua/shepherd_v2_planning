@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import dearpygui.dearpygui as dpg
 import numpy as np
 import h5py
