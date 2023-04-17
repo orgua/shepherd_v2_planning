@@ -178,3 +178,5 @@ TODO-List
 - change OP-Ampdriver to higher output?
 - make system modular?
 - direction pin GPO:3 for leveltranslators is named strangely
+- lower current-limiting resistors from 470 R to 240 R (see new target)
+
