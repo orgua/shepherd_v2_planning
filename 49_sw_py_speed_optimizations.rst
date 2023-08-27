@@ -8,8 +8,11 @@ Howto
 
 .. code-block:: bash
 
-    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd/cli.py -vv run --config /etc/shepherd/example_config_emulation.yml
-    runsnake profile.pstats
+    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd_sheep/cli.py -vv run --config /etc/shepherd/example_config_emulation.yml
+    python -m pip install snakeviz
+    snakeviz.exe .\profile.pstats
+
+    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd_sheep/cli.py -vv inventorize
 
 .. table:: PyCode-Performance
 
