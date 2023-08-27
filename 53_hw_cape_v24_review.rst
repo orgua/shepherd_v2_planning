@@ -7,17 +7,31 @@ Hardware
 - 15 Capes with Emu & Hrv, produced by Egas
 - Serialnumbers
 
-    - 1270053 -> initial test subject
+    - 1270053 -> initial test subject, Update: defect VConverter
     - 1270057 -> kai
+    - 1270060 -> new LabTester
 
 - to solder:
 
-    - 2x 2x46 Pinheader,
-    - 2x 2x9 Pinheader,
-    - 2Pin VoltageInput Screwed,
-    - 4Pin ButtonConn,
-    - 2x2Pin HrvPort
+    - 2x 2x46 Pinheader -> BBone Port
+    - 2x 2x9 Pinheader -> Target Ports
+    - 2Pin Screw-Header -> VoltageInput
+    - 4Pin Connector on Bottom -> External LED-PushButton
+    - 2x2 PinHeader -> HrvPort
 
+    - Caps on Bottom
+
+        - 6V Rail -> 10V 680 uF
+        - L5V Rail -> 6V3 1 mF
+        - 5V Rail -> 6V3 1mF
+        - 16V Rail -> 25V 470 uF
+
+- to fix
+
+    - U32 (SOT23-5) Opa189 -> replace with Opa388
+    - U3 (Emu-mid-right) -> add >= 100 nF from Pin6 to -6V (Pin5) or left side of cap (in front)
+    - R-Serial: 14x 470 R to 240 R (put second 470R on-top)
+    - switch Hrv-Ref to 0R-to-GND (R132) - left bottom outside hrv-cage + add 100nF to GND there for 10mV (now free Pad)
 
 Initial Test for Functionality
 ------------------------------
@@ -34,12 +48,13 @@ PCB 1270053
 - EN-Pin: 105 mA, OK, but 3x higher than before, but with hrv (was 71 mA on hw-v2.1)
 - voltages:
 
-    - L5V ->    5.000 V
-    - L3V3 ->   3.295 V
-    - 6V ->     6.19 V
-    - 10V ->    9.71 V
-    - -6V ->    -5.99 V
-    - 5V
+    - L5V ->    5.000 V, R_Open (VCC to GND)
+    - L3V3 ->   3.295 V, R_open
+    - 6V ->     6.19 V,  R_Open
+    - 10V ->    9.71 V,  R_Open
+    - -6V ->    -5.99 V, R_Open
+    - 10mV               R_Open
+    - 5V                 R ~ 220 Ohm
 
 - **for reference**: 1270057 behaves the same
 - booting with cape: all OK
@@ -65,6 +80,23 @@ PCB 1270053
 
     - but pretty high stddev on ADC-Current for hrv & emu (~80)
 
+Defect - VReg -> TLDR: U20/6VReg
+
+- One Short on Voltage Rails
+    - 5V -> 10 R to GND on input, 5.5R after L
+    - -6V, 10mV, 3V3, L5V, 10V OK
+    - Powering Board is OK, BUT EN draws max C at 20mV (short)
+- L5 gets warm (32C) -> 10 R
+    - D11 (to 6V) also shows 10R / 1k (both dir), and 136 mV V_fw
+    - U20 (6VReg) Sw (p1) to GND (Pin2) is <3R but should be >1k (FIRST Defect!!!!)
+- Powering individual Rails
+    - 6V -> 40mA OK (with EN)
+    - L5V -> 28mA ok
+    - 10v 28mA
+    - FAIL: provided 5V to 3V3 rail
+    - 3V -> max C (300mA) down to 2V -> U21 gets really hot > 60C
+
+
 PCB Nr. 1270057
 ~~~~~~~~~~~~~~~
 
@@ -72,11 +104,48 @@ PCB Nr. 1270057
 - GPIO Toggling Port A & B all Pins OK
 - Emu as expected
 
-
-
 - TODO: Cal with & without additional Caps, GPIO-Direction-Change,
 
+PCB Nr. 1270060
+~~~~~~~~~~~~~~~
 
+- Initial Tests OK
+- High C after Mods (EN)
+- No Shorts on voltage Rails
+    - 6V direct -> 44mA OK ?
+    - 3V3 direct -> 7mA OK
+    - 10V with +6 -> 30mA OK
+    - -6V
+- -> Fixed (with cleaning?)
+
+PCBs for TB
+~~~~~~~~~~~~
+
+- 1270051: 92mA On
+- 1270052: 94mA On
+- 1270053: [105mA], 1st LabPrototype -> burned VReg
+- 1270054: 93mA On
+- 1270055: 91mA On
+- 1270056: 90mA On
+- 1270057: 2nd LabPrototype -> Kai
+- 1270058: 90mA On
+- 1270059: 96mA On
+- 1270060: 92mA On, 3nd LabPrototype -> Short?
+- 1270061: 96mA On
+- 1270062: 96mA On
+- 1270063: 99mA On
+- 1270064: 92mA On
+- 1270065: 90mA On
+
+Cal...
+
+shepherd-cal calibration measure -v --cape-serial 1270060 --write --smu-ip 10.0.0.24 sheep0
+shepherd-cal calibration write -v --cal-file ./2023-08-27_12-39-20_shepherd_cape.cal_data.yaml sheep0
+
+profile..
+
+shepherd-cal profile measure -v --short --cape-serial 1270060 --smu-ip 10.0.0.24 sheep0
+shepherd-cal profile analyze -v --plot ./
 
 Errors & Improvements (for 2.4c)
 --------------------------------
@@ -88,10 +157,10 @@ Errors & Improvements (for 2.4c)
     - 3.3 mF Cap: https://www.mouser.de/ProductDetail/Rubycon/6.3ZLJ3300M10X25?qs=T3oQrply3y/OcsI9e27BJQ%3D%3D
     - 6.8 mF Cap: https://www.mouser.de/ProductDetail/Panasonic/ECA-0JHG682?qs=R8vM2Es5yU5OqYwkFTor4Q%3D%3D
 
-- Opa189 does not work for emulator for full range -> replace with Opa388
-- ref-voltage can use more buffering -> add >= 100 nF from U3-Pin6 to -6V (Pin5)
+- U32 (SOT23-5) Opa189 does not work for emulator for full range -> replace with Opa388
+- ref-voltage can use more buffering -> add >= 100 nF from U3-Pin6 to -6V (Pin5) or left side of cap (in front)
 
-    - same for U7
+    - ~same for U7~ -> but that Ref-Pin5 changed to GND, so nvm
 
 - EMU: Voltage-dependency for Current Measurement after switching to Opa388
 
@@ -99,13 +168,13 @@ Errors & Improvements (for 2.4c)
     - -> +430 increments for + 5 V change (= +80 uA error, or +8.39 mV @ ADC-Input)
     - there is no current flow! Trace cut after Shunt
     - AD8429 - Ref to Output has only 50 kOhm (older PCB show the same)
-    - **tldr**: ref-pin does not work as expected when != GND
+    - **tldr**: ref-pin does not work as expected when != GND and shared
         - 2R of Reference (can cause 500 uV offset) -> causes 20 - 50 of the 400+ n offset
         - **only 1 InAmp for the Reference -> fixes the problem**
+        - switch Hrv-Ref to 0R-to-GND (R132) - left bottom outside hrv-cage + add 100nF to GND there for 10mV
     - TODO:
         - hrv looked fine, why?
         - try load-R + Cap between Ref & Output of InAmp
-
 
 
 
