@@ -23,6 +23,9 @@ Running services::
     /usr/sbin/ptp4l -f /etc/linuxptp/ptp4l.conf -i eth0
     /usr/sbin/phc2sys -q -m -a -rr
 
+    # better:
+    sudo systemctl restart phc2sys@eth0
+
 Configs are copied from shepherd/deploy/[...] to::
 
     /etc/systemd/system/phc2sys.service.d/phc2sys_mands.conf
@@ -41,12 +44,21 @@ Get log-data from sync::
     sudo pmc -u -b 0  'GET PORT_DATA_SET'
     -> one sheep should show "master", the others "client"
 
-    sudo journalctl -u ptp4l
-    -> most helpful feedback
+
+    sudo journalctl -f -u phc2sys@eth0
+    # -> not so helpful
+
+    sudo journalctl -f -u ptp4l@eth0
+    # -> most helpful feedback
+
+    # for the herd:
+    shepherd-herd -vvv shell-cmd -s 'journalctl -n 10 -u ptp4l@eth0'
+    shepherd-herd -vvv shell-cmd -s 'journalctl -n 10 -u phc2sys@eth0'
+
 
 Sync-Log from the Fritzbox::
 
-    sudo journalctl -f -u ptp4l
+    sudo journalctl -f -u ptp4l@eth0
 
     Feb 15 20:04:04 sheep1 ptp4l[383]: [24.634] master offset     -10931 s2 freq  +16451 path delay    154478
     Feb 15 20:04:05 sheep1 ptp4l[383]: [25.634] master offset      47850 s2 freq  +71953 path delay    126215
@@ -77,7 +89,7 @@ Sync-Log from the Fritzbox::
 
 Good Network Switch (Cisco Catalyst 2960-S in same network)::
 
-    sudo journalctl -f -u ptp4l
+    sudo journalctl -f -u ptp4l@eth0
 
     Feb 15 20:52:42 sheep1 ptp4l[383]: [2942.858] master offset        173 s2 freq  +57987 path delay     12467
     Feb 15 20:52:43 sheep1 ptp4l[383]: [2943.859] master offset        -82 s2 freq  +57784 path delay     12467
