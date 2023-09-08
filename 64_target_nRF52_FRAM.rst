@@ -70,44 +70,12 @@ Changes / Bugfixes
 
 - marking of module footprint is irritating -> copper crosses more inwards
 - name LEDs!
+- C7 is 0604? use same as C2
+- make longer and all parts on one side?
 
 
 Hardware-Tests
 --------------
 
-Prereq
-
-.. code-block:: bash
-
-    git clone https://github.com/orgua/shepherd-datalib
-    cd shepherd-datalib
-    git checkout dev
-    git pull
-
-    python3 ./extra/gen_firmwares.py
-
-On BBone with Target on Port 1!
-
-
-
-first test the nrf with this fw-combo
-
-.. code-block:: bash
-
-    sudo shepherd-sheep -vvv program -p A -m 1 -v 3 -t nrf52 extra/content/nrf52_testable/build.hex
-    sudo shepherd-sheep -vvv program -p A -m 2 -v 3 -t msp430 extra/content/msp430_deep_sleep/build.hex
-    sudo shepherd-sheep -vvv target-power -p A -v 3 --on
-
-behavior is described here: https://github.com/orgua/shepherd-targets/tree/main/nrf52_testable
-
-now MSP430
-
-.. code-block:: bash
-
-    sudo shepherd-sheep -vvv program -p A -m 1 -v 3 -t nrf52 extra/content/nrf52_deep_sleep/build.hex
-    sudo shepherd-sheep -vvv program -p A -m 2 -v 3 -t msp430 extra/content/msp430_testable/build.hex
-    sudo shepherd-sheep -vvv target-power -p A -v 3 --on
-
-behavior is described here: https://github.com/orgua/shepherd-targets/tree/main/msp430_testable
-
-TODO: review.md in targets-folder
+see readme.md in targets/hardware-folder
+https://github.com/orgua/shepherd-targets/tree/main/hardware
