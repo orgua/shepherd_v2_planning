@@ -21,10 +21,10 @@ Hardware
 
     - Caps on Bottom
 
-        - 6V Rail -> 10V 680 uF
-        - L5V Rail -> 6V3 1 mF
-        - 5V Rail -> 6V3 1mF
-        - 16V Rail -> 25V 470 uF
+        - 6V Rail -> ~~10V 680 uF, DNP
+        - L5V Rail -> ~~6V3 1 mF~~, 2x 220 uF 6V3 MLCC
+        - 5V Rail -> ~~6V3 1mF~~, DNP
+        - 16V Rail -> ~~25V 470 uF~~, 2x 100 uF 16V MLCC
 
 - to fix
 
