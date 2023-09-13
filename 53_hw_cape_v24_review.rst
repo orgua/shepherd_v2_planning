@@ -176,6 +176,8 @@ Errors & Improvements (for 2.4c)
         - hrv looked fine, why?
         - try load-R + Cap between Ref & Output of InAmp
 
+- stabilize Emu, Current measurement
+- hardwire 10mV only to Emu
 
 
 Ref = GND
