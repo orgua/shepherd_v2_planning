@@ -4,7 +4,7 @@ parameters:
   cape:
     serial_number: '1270060'
   host: sheep0
-  emulator:
+  emulator: # 10R, 1k1, GND-ref
     dac_V_A:
       gain: 7.62362279191684e-05
       offset: 0.0005602242036772953
