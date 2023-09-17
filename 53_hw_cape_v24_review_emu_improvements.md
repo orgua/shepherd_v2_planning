@@ -103,7 +103,7 @@ Use groung-ref (instead of 10mV)
 	max: 0.053087651207939214
 	std: 0.00018587143801792032
 
-R-Meas 2R -> 10R, also remove 470nF from C6
+R-Meas 2R -> 10R, also remove 470nF from C6 (not the final value)
 	mean: 4.1520301763114815e-06
 	min: 0.0
 	max: 0.010638361792748255
@@ -122,7 +122,7 @@ Reactivate 10mV
 	max: 0.051104246202174
 	std: 0.0001788977286549849
 
-Test with 2M Resistor
+Test with 2M Resistor Drain instead of nRF
 	mean: 1.3642972695455144e-06
 	min: 0.0
 	max: 0.009015438714457391

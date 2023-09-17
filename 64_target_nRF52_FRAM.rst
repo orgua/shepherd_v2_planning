@@ -71,7 +71,9 @@ Changes / Bugfixes
 - marking of module footprint is irritating -> copper crosses more inwards
 - name LEDs!
 - C7 is 0604? use same as C2
-- make longer and all parts on one side?
+- make longer and all parts on one side? -> NO
+
+-> implemented for v1.1, https://github.com/orgua/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.1
 
 
 Hardware-Tests
