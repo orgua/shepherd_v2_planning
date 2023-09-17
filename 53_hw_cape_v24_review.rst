@@ -268,3 +268,24 @@ TODO NextGen
 - make system modular?
 - direction pin GPO:3 for leveltranslators is named strangely
 - Recorder -> Harvester
+
+PWR-Board
+~~~~~~~~~~
+
+- 3 inputs (Enable, 5V, <= 17V)
+- 4 Output (L3V3, -6V, L5, 10V)
+- GND
+
+EMU / HRV Board
+~~~~~~~~~~~~~~~~
+
+- GND
+- 10 inputs (4 voltages, 3 SPI, 3 SPI-CS,
+- 4 outputs (2 Rails, 2 Feedback)
+- (generalized) - no enable needed
+
+advantages
+
+- would allow to specialized BBones
+- sub-pcbs are reusable
+- harvesting with a cheaper network of nrf52 + pwr + hrv (rf-syncronized)
