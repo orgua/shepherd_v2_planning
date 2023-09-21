@@ -1,0 +1,19 @@
+datatype: CalibrationCape
+created: 2023-09-21 21:44:03.900382
+parameters:
+  cape:
+    serial_number: '1270062'
+  host: sheep0
+  emulator:
+    dac_V_A:
+      gain: 7.623471932865123e-05
+      offset: 0.0007761257812484157
+    dac_V_B:
+      gain: 7.623613484144887e-05
+      offset: 0.0011161404821380394
+    adc_C_A:
+      gain: 2.0281975389376592e-07
+      offset: -0.00010937358345261723
+    adc_C_B:
+      gain: 2.0288520342460756e-07
+      offset: -0.0001093720594459017

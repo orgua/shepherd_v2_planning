@@ -1,0 +1,87 @@
+datatype: CalMeasurementCape
+created: 2023-09-21 16:44:00.006420
+parameters:
+  cape:
+    serial_number: '1270058'
+  host: sheep0
+  emulator:
+    dac_V_A:
+    - shepherd_raw: 3932.0
+      reference_si: 0.29990503333333335
+    - shepherd_raw: 6553.0
+      reference_si: 0.4997384000000001
+    - shepherd_raw: 9175.0
+      reference_si: 0.6995805333333334
+    - shepherd_raw: 11796.0
+      reference_si: 0.8993209333333334
+    - shepherd_raw: 14417.0
+      reference_si: 1.099001
+    - shepherd_raw: 17039.0
+      reference_si: 1.2989123333333334
+    - shepherd_raw: 19660.0
+      reference_si: 1.4987066666666669
+    - shepherd_raw: 22282.0
+      reference_si: 1.6986589999999997
+    - shepherd_raw: 24903.0
+      reference_si: 1.8985199999999998
+    - shepherd_raw: 27525.0
+      reference_si: 2.0984590000000005
+    - shepherd_raw: 30146.0
+      reference_si: 2.2982683333333336
+    - shepherd_raw: 32768.0
+      reference_si: 2.4980840000000004
+    dac_V_B:
+    - shepherd_raw: 3932.0
+      reference_si: 0.3001207666666667
+    - shepherd_raw: 6553.0
+      reference_si: 0.49987929999999997
+    - shepherd_raw: 9175.0
+      reference_si: 0.6997509
+    - shepherd_raw: 11796.0
+      reference_si: 0.8994491
+    - shepherd_raw: 14417.0
+      reference_si: 1.0992306666666665
+    - shepherd_raw: 17039.0
+      reference_si: 1.29916
+    - shepherd_raw: 19660.0
+      reference_si: 1.4989260000000002
+    - shepherd_raw: 22282.0
+      reference_si: 1.6989309999999993
+    - shepherd_raw: 24903.0
+      reference_si: 1.8987909999999997
+    - shepherd_raw: 27525.0
+      reference_si: 2.0987043333333335
+    - shepherd_raw: 30146.0
+      reference_si: 2.2984646666666673
+    - shepherd_raw: 32768.0
+      reference_si: 2.498272
+    adc_C_A:
+    - shepherd_raw: 609.166193016619
+      reference_si: 1.0e-05
+    - shepherd_raw: 708.2249494001782
+      reference_si: 3.0e-05
+    - shepherd_raw: 1053.0938678070856
+      reference_si: 0.0001
+    - shepherd_raw: 2039.8606409941951
+      reference_si: 0.0003
+    - shepherd_raw: 5488.065652561364
+      reference_si: 0.001
+    - shepherd_raw: 15357.014694619951
+      reference_si: 0.003
+    - shepherd_raw: 49877.0055933599
+      reference_si: 0.01
+    adc_C_B:
+    - shepherd_raw: 609.0707100874469
+      reference_si: 1.0e-05
+    - shepherd_raw: 708.871816455341
+      reference_si: 3.0e-05
+    - shepherd_raw: 1053.2029957002057
+      reference_si: 0.0001
+    - shepherd_raw: 2039.0292563888504
+      reference_si: 0.0003
+    - shepherd_raw: 5488.003004712548
+      reference_si: 0.001
+    - shepherd_raw: 15346.306726678475
+      reference_si: 0.003
+    - shepherd_raw: 49863.19611028945
+      reference_si: 0.01
