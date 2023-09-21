@@ -32,6 +32,7 @@ Hardware
     - U3 (Emu-mid-right) -> add >= 100 nF from Pin6 to -6V (Pin5) or left side of cap (in front)
     - R-Serial: 14x 470 R to 240 R (put second 470R on-top)
     - switch Hrv-Ref to 0R-to-GND (R132) - left bottom outside hrv-cage + add 100nF to GND there for 10mV (now free Pad)
+    - stabilize 10 mV -> 1uF increase to 2x 10uF, 2R increase to 10R (PIC
 
 Initial Test for Functionality
 ------------------------------
