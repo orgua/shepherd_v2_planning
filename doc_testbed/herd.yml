@@ -1,0 +1,42 @@
+sheep:
+  hosts:
+    sheep01:
+      ansible_host: 192.168.165.201
+    sheep02:
+      ansible_host: 192.168.165.202
+    sheep03:
+      ansible_host: 192.168.165.203
+    sheep04:
+      ansible_host: 192.168.165.204
+    sheep05:
+      ansible_host: 192.168.165.205
+    sheep06:
+      ansible_host: 192.168.165.206
+    sheep07:
+      ansible_host: 192.168.165.207
+    sheep08:
+      ansible_host: 192.168.165.208
+    sheep09:
+      ansible_host: 192.168.165.209
+    sheep10:
+      ansible_host: 192.168.165.210
+    sheep11:
+      ansible_host: 192.168.165.211
+
+  vars:
+    ansible_user: jane
+
+# sheep can be assigned roles:
+# - choices for time-sync: ntp_clients, gps_clients, ptp_clients, ptp_servers
+# - to lockdown the software there is a role "secured"
+# - assign individually ("sheep0:") or as ranges ("sheep[2:10]:")
+# https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+#ptp_clients:
+#  hosts:
+#    sheep[01:10]:
+ptp_servers:
+  hosts:
+    sheep[01:11]:
+secured:
+  hosts:
+    sheep[01:11]:
