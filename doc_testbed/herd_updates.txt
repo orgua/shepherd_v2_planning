@@ -4,6 +4,11 @@ shepherd-herd -v shell-cmd 'cd /opt/shepherd/ && git stash && git pull'
 shepherd-herd -v shell-cmd -s 'apt update'
 shepherd-herd -v shell-cmd -s 'apt --yes --force-yes dist-upgrade'
 
+shepherd-herd -v shell-cmd -s 'pip install shepherd-core -U'
+
+shepherd-herd -v shell-cmd -s 'apt install python3-systemd'
+shepherd-herd -v shell-cmd -s 'pip install /opt/shepherd/software/python-package/. -U'
+
 shepherd-herd -v shell-cmd -s 'cp /opt/shepherd/deploy/roles/secure_testbed/files/sshd_banner.text /etc/issue.net'
 shepherd-herd -v shell-cmd -s 'chmod 0644 /etc/issue.net'
 
@@ -12,7 +17,6 @@ shepherd-herd -v shell-cmd -s 'cp /opt/shepherd/deploy/roles/ptp_host/files/ptp4
 shepherd-herd -v shell-cmd -s 'cp /opt/shepherd/deploy/roles/sheep/files/shepherd.service /etc/systemd/system/'
 shepherd-herd -v shell-cmd -s 'cp /opt/shepherd/deploy/roles/sheep/files/shepherd-launcher.service /etc/systemd/system/'
 shepherd-herd -v shell-cmd -s 'cp /opt/shepherd/deploy/roles/sheep/files/shepherd-rpc.service /etc/systemd/system/'
-
 shepherd-herd -v shell-cmd -s 'chmod 0644 /etc/systemd/system/phc2sys@.service'
 shepherd-herd -v shell-cmd -s 'chmod 0644 /etc/systemd/system/ptp4l@.service'
 shepherd-herd -v shell-cmd -s 'chmod 0644 /etc/systemd/system/shepherd.service'
