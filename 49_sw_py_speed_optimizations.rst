@@ -8,11 +8,15 @@ Howto
 
 .. code-block:: bash
 
-    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd_sheep/cli.py -vv run --config /etc/shepherd/example_config_emulation.yml
+    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd_sheep/cli.py -v run --config /etc/shepherd/example_config_emulation.yml
     python -m pip install snakeviz
     snakeviz.exe .\profile.pstats
 
-    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd_sheep/cli.py -vv inventorize
+    sudo python3 -m cProfile -o profile.pstats  /opt/shepherd/software/python-package/shepherd_sheep/cli.py -v inventorize
+
+    # -> cleaner call
+    sudo python3 -m cProfile -o profile.pstats /usr/bin/shepherd-sheep -v inventorize
+
 
 .. table:: PyCode-Performance
 
@@ -27,6 +31,18 @@ Howto
     with monitors           91 %        tevent.wait() instead of time.sleep()
     same w/o profiling      81 %
     =====================   ========    ===========================
+
+looking at individual commands - also imports
+
+.. code-block:: bash
+
+    sudo python3 -m timeit -n 1 -r 1 "import shepherd_core"
+    # 12.8s on sheep
+    sudo python3 -X importtime -c "import shepherd_core"
+    # to shell
+    sudo python3 -X importtime -c 'from shepherd_core.data_models.task import EmulationTask' 2> profile_pydantic.csv
+    # to file, now only replace some symbols by ";" and open with excel to sort
+
 
 Easiest Optimization
 --------------------
