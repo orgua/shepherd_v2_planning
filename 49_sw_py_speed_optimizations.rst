@@ -37,7 +37,8 @@ looking at individual commands - also imports
 .. code-block:: bash
 
     sudo python3 -m timeit -n 1 -r 1 "import shepherd_core"
-    # 12.8s on sheep
+    # 12.8s on sheep, pydantic 2.4.0
+    # 11.5s on sheep, pydantic 2.4.1
     sudo python3 -X importtime -c "import shepherd_core"
     # to shell
     sudo python3 -X importtime -c 'from shepherd_core.data_models.task import EmulationTask' 2> profile_pydantic.csv
