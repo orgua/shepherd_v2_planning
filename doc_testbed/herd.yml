@@ -22,6 +22,8 @@ sheep:
       ansible_host: 192.168.165.210
     sheep11:
       ansible_host: 192.168.165.211
+    sheep12:
+      ansible_host: 192.168.165.212
 
   vars:
     ansible_user: jane
@@ -31,12 +33,9 @@ sheep:
 # - to lockdown the software there is a role "secured"
 # - assign individually ("sheep0:") or as ranges ("sheep[2:10]:")
 # https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
-#ptp_clients:
-#  hosts:
-#    sheep[01:10]:
 ptp_servers:
   hosts:
-    sheep[01:11]:
+    sheep[01:12]:
 secured:
   hosts:
-    sheep[01:11]:
+    sheep[01:12]:

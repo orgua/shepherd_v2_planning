@@ -1,13 +1,62 @@
 shepherd-herd -v shell-cmd 'cd /opt/shepherd/ && git pull'
 shepherd-herd -v shell-cmd 'cd /opt/shepherd/ && git stash && git pull'
+shepherd-herd -v shell-cmd -s 'pip install /opt/shepherd/software/python-package/. -U'
 
+shepherd-herd -v shell-cmd -s 'reboot'
 shepherd-herd -v shell-cmd -s 'apt update'
 shepherd-herd -v shell-cmd -s 'apt --yes --force-yes dist-upgrade'
+shepherd-herd -v shell-cmd -s 'apt --yes --force-yes install srecord'
 
 shepherd-herd -v shell-cmd -s 'pip install shepherd-core -U'
+shepherd-herd -v shell-cmd -s 'pip uninstall shepherd-core -y'
+shepherd-herd -v shell-cmd -s 'pip install git+https://github.com/orgua/shepherd-datalib.git@dev#subdirectory=shepherd_core -U'
+shepherd-herd -v shell-cmd -s 'pip install pydantic -U'
+shepherd-herd -v shell-cmd -s 'python3 -m timeit -n 1 -r 1 "import shepherd_core"'
 
 shepherd-herd -v shell-cmd -s 'apt install python3-systemd'
-shepherd-herd -v shell-cmd -s 'pip install /opt/shepherd/software/python-package/. -U'
+
+
+# ntp is disabled for ptp-server? whyyyyyy
+sudo systemctl enable systemd-timesyncd
+sudo systemctl restart systemd-timesyncd
+sudo systemctl status systemd-timesyncd
+shepherd-herd -v shell-cmd -s 'systemctl restart ptp4l@eth0'
+
+# manually activate old kernel uEnv.txt
+...
+
+# create new dir-structure,
+# /var/shepherd as base,
+# ./content as read-only for the sheep, shared with server
+# ./experiments on the sheep map to ./experiments/sheep##/ on the server
+shepherd-herd -v shell-cmd -s 'mkdir --parents /var/shepherd/recordings'
+shepherd-herd -v shell-cmd -s 'mkdir --parents /var/shepherd/experiments'
+shepherd-herd -v shell-cmd -s 'mkdir --parents /var/shepherd/content'
+shepherd-herd -v shell-cmd -s 'll /var/shepherd/content'
+
+# new temp-user -> skipped, as server creates weird account
+
+# no gpio? -> fixed
+python3 extra/gen_target_tests_testbed.py
+shepherd-herd -v run -a /var/shepherd/content/task/nes_lab/target_device_test1_testbed.yaml
+shepherd-herd -v run -a /var/shepherd/content/task/nes_lab/tasks_rf_survey.yaml
+
+
+#################################
+# changes already in installer
+#################################
+# fix initial timesync, copy altered service
+shepherd-herd -v shell-cmd -s 'apt install ntpdate'
+shepherd-herd -v shell-cmd -s 'date'
+
+# timesync / phc2sys is acting up // WORKING NOW
+# run after reboots, check if time is identical
+shepherd-herd -v shell-cmd -s 'systemctl restart phc2sys@eth0'
+shepherd-herd -v shell-cmd -s 'date'
+
+shepherd-herd -v shell-cmd -s 'systemctl enable phc2sys@eth0'
+shepherd-herd -v shell-cmd -s 'systemctl status phc2sys@eth0'
+shepherd-herd -v shell-cmd -s 'systemctl status ptp4l@eth0'
 
 shepherd-herd -v shell-cmd -s 'cp /opt/shepherd/deploy/roles/secure_testbed/files/sshd_banner.text /etc/issue.net'
 shepherd-herd -v shell-cmd -s 'chmod 0644 /etc/issue.net'
