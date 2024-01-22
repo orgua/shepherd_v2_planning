@@ -39,6 +39,8 @@ looking at individual commands - also imports
     sudo python3 -m timeit -n 1 -r 1 "import shepherd_core"
     # 12.8s on sheep, pydantic 2.4.0
     # 11.5s on sheep, pydantic 2.4.1
+    # 11.9s on sheep, pydantic 2.4.2
+    # 12.4s on sheep, pydantic 2.5.0 - new pydantic import-improvements?
     sudo python3 -X importtime -c "import shepherd_core"
     # to shell
     sudo python3 -X importtime -c 'from shepherd_core.data_models.task import EmulationTask' 2> profile_pydantic.csv
@@ -55,6 +57,12 @@ These things can be done to reduce cpu load:
 - disable logging-sys-monitors (cpu/ram-usage, sync ... get written to h5-file) -> per argument
 - reduce python-logging -> verbose level argument
 - wait for python 3.11 and later -> four performance-stages for cpython are planned (https://github.com/markshannon/faster-cpython/blob/master/plan.md)
+- omit writing of timestamp
+- overhaul buffer-exchange (segmented ring-buffer should go)
+- [according to forum](https://forum.beagleboard.org/t/beaglebone-overclocking-success/11628) the CPU can be overclocked by 60%, RAM by 50%
+    - sudo cpufreq-set -g powersave     -> 230mA @ 300 MHz
+    - sudo cpufreq-set -g performance   -> 330mA @ 1 GHz
+    - cpufreq-info
 
 More Complex, but still easiest optimizations beyond that
 - datastream from memory-carveout to hdf5-file should be ported to cython (seems to be possible)
