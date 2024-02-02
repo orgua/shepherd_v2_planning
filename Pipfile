@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pre-commit = "*"
+# DOCs
+sphinx = "*"
+sphinx-click = "*"
+sphinx-rtd-theme = "*"
+sphinx-sitemap = "*"
+sphinx-design = "*"
+sphinx-copybutton = "*"
+#sphinx-autodoc2  # TODO: https://myst-parser.readthedocs.io/en/latest/intro.html#extending-sphinx
+myst-parser = "*"
+
+[dev-packages]
+
+[pipenv]
+allow_prereleases = false
+
+[requires]
+python_version = "3.10"
