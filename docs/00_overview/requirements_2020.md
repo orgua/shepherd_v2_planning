@@ -1,8 +1,6 @@
-Requirements Shepherd V2
-========================
+# Requirements Shepherd V2 (2020)
 
-Testbed-Infrastructure
-----------------------
+## Testbed-Infrastructure
 
 - 12 - 30 nodes -> depending on budget calculations
 - distributed on one floor, several rooms
@@ -12,15 +10,13 @@ Testbed-Infrastructure
 - WIFI + other RF-Standards as controllable interference
 - support for channel monitoring, either packet- or spectral-based
 
-Test-procedure
---------------
+## Test-procedure
 
 - only 1 experiment, no concurrency
 - reservation with calender-tool
 - internal tests have higher priority
 
-Hardware - Cape & Capelets
---------------------------
+## Hardware - Cape & Capelets
 
 - >= 2 Target-Ports with preselection before measurement (software defined targets)
     - nice to have: second target continues to get powered, so there would be a choice to support two different targets or one target and a monitoring device
@@ -45,8 +41,7 @@ Hardware - Cape & Capelets
 - variable TX-Power for multi-hop-scenario
 - simple and fast to modify casing is ok
 
-Software - Script-Support / API
--------------------------------
+## Software - Script-Support / API
 
 - support user-contributed energy-traces for targets, also offer preselected default ones
 - support individual energy-traces per node
@@ -55,8 +50,7 @@ Software - Script-Support / API
 - API modular and encapsulated -> separation between scenario and measurement, for reusability
 - allow switching between targets
 
-Software - Website / Frontend
-------------------------------
+## Software - Website / Frontend
 
 - user-management, permission / role management
 - Quota
@@ -70,12 +64,3 @@ Software - Website / Frontend
 - feedback via e-mail - measurement start, data available, error, shortly before deletion
 - grafana-visualisation
 - documentation and instructions
-
-
-Unsolved, not mentioned Details in Requirements
-===============================================
-
-    - how to switch between targets? (if there are two on the Cape)
-        - Var 1: in local python script, for every node individually
-        - Var 2: preselected on server
-

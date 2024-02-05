@@ -8,17 +8,44 @@ Welcome to Shepherd's DevLog!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Requirements:
+   :caption: Overview:
+
+   00_overview/requirements_2020
+   00_overview/feasibility_2020
+   00_overview/concept_testbed
+   00_overview/concept_tu_dresden
+   00_overview/comparison_other_testbeds
 
 .. toctree::
    :maxdepth: 2
-   :caption: Topics:
+   :caption: Cape:
 
-
+   10_capes/concept_capes
+   10_capes/concept_cad
 
 .. toctree::
    :maxdepth: 2
-   :caption: Student Work:
+   :caption: Targets:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: HW-Debugging:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Embedded Sys:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Server:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Network:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Student Projects:
 
    projects/introduction
    projects/implement_dataviewer
@@ -31,3 +58,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+

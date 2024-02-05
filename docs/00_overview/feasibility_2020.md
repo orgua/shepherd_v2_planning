@@ -1,10 +1,8 @@
-Feasibility of Requirements
-===========================
+# Feasibility of Requirements (2020)
 
-- this part is looking mainly on the hardware-challenges (software can be adapted later if the hardware is prepared)
+This chapter is looking mainly on the hardware-challenges (software can be adapted later if the hardware is prepared)
 
-Emulation of Capacitor / DC-Converter
--------------------------------------
+## Emulation of Capacitor / DC-Converter
 
 - Problem: PRU of beaglebone black is currently already quite occupied with measuring and replay of energy-trace, emulation means real time control loop, the PRU has limited capability for that (no division, ...)
 - Enabler 1: keep previous hw-design (fall-back), but add switches to bridge converter and cap (one additional pin - does not need to be connected to PRU)
@@ -18,8 +16,7 @@ Emulation of Capacitor / DC-Converter
     - also allows On-Off-Pattern for target-power
 
 
-More GPIO to Target
--------------------
+## More GPIO to Target
 
 - Problem1: gpio must be real time in PRU, PRU Pin-count and workload limited
 - improvement 1: share programming-pins (currently not possible)
@@ -31,8 +28,7 @@ More GPIO to Target
     - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
     - PRU should be limited to be gpio-recorder with its pins, a second pin is handled from host
 
-Bidirectional GPIO and fast/variable UART / SPI to Target
----------------------------------------------------------
+## Bidirectional GPIO and fast/variable UART / SPI to Target
 
 - Problem: logic signal must be level-shifted and detachable (possible energy transfer) and also high-speed
 - current layout: link from Target-GPIO is output only, uart bi-dir & recorded in PRU, programmer is in user space (currently not recordable, dedicated pins on nRF52)
@@ -44,8 +40,7 @@ Bidirectional GPIO and fast/variable UART / SPI to Target
    - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins offen fall together and limit the available pins
    - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
 
-Allow user-provided Energy-Traces
----------------------------------
+## User-provided Energy-Traces
 
 - assumption: 8 byte timestamp, 2x 4 byte U/I-ADC-Value, 100 kHz -> ~ 1.6 MB/s
 - Problem: traces for an hour or day become hard to handle via internet
@@ -56,8 +51,7 @@ Allow user-provided Energy-Traces
     - no hardware-changes needed, lib-changes seem manageable
     - traces seem to be compressible by factor 10 to 100 (input Kai), which is fine for playback
 
-Accuracy of time-base
----------------------
+## Accuracy of time-base
 
 - Problem: jitter on gpio-traces from different nodes
 - Improvement 1: use ethernet switches with ptp-support, QoS and GPS-Interface
@@ -70,8 +64,7 @@ Accuracy of time-base
     - no risk on hw-level, minimal more time expense in design-stage
     - gpio sampling is already asynchronous @ ~20 MHz
 
-Mobility of Nodes
------------------
+## Mobility of Nodes
 
 - Problem: node presumably without network access and gps-reception, not powered all the time
 - Improvement 1: allow external gps-antenna (not possible for current ublox SAM M8Q / 22 €)
@@ -83,8 +76,7 @@ Mobility of Nodes
 - assessment:
    - low risk on hw-level
 
-Support for other Targets
--------------------------
+## Support for other Targets
 
 - Problem: different µC need various programmers
 - Info: Flocklab and D-Cube support nRF52 (DFU / USB, SWD), STM32L4 (SWD), MSP430 / 432 & CC430 (JTAG, Serial, USB, Spy-By-Wire)
@@ -95,8 +87,7 @@ Support for other Targets
    - pin-sharing with target-gpio is hard -> device-tree seems pretty static
    - general idea seems viable -> TODO: more reading
 
-Support for two selectable Targets
-----------------------------------
+## Support for two selectable Targets
 
 - Problem 1: gpios with PRU support are limited
 - enabler: relay-switching of targets by beaglebone (not necessarily PRU-Pins)
@@ -107,8 +98,7 @@ Support for two selectable Targets
     - software could be more tricky -> py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
     - with some effort even both targets could be powered, one with CV, to allow use as interferer (see next subject) or independent node
 
-Separate RF-Interferer
-----------------------
+## Separate RF-Interferer
 
 - more specific: controllable rf-standards as interference
 - enabler: modules for WIFI and BT could be added per USB / Hub and controlled via linux, defined traffic via iperf (for WIFI) or JamLab-NG
@@ -116,7 +106,6 @@ Separate RF-Interferer
    - should not be main goal for shepherd V2, maybe stretch goal
    - has no influence on cape-hw-design or python-API, can be completely separate (even on extra beaglebone or server)
 
-Channel-Monitoring
-------------------
+## Channel-Monitoring
 
 - problem: analog to rf-interferer

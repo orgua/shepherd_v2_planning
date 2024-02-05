@@ -1,80 +1,5 @@
-Concept - Testbed
------------------
-
-General Philosophy
-    - only as complex as needed
-    - most bang for the buck, not to expensive and to specialized design, hardware, etc
-    - possibility to build on your own
-    - unique selling point is the replay of energy (harvesting) sources and emulation of power converters with high temporal resolution
-
-infrastructure
-    - ~ 30 RF-Nodes (Beaglebone with custom RF-IC) with Ethernet-Backchannel
-    - distributed on cfaed-floors, several rooms / offices, also on corridors
-        - i.e. BAR II55 - II75, III50 - III80, II52 - II54, II40A-II43A (end in another dispatch-room)
-        - we could use right side of ethernet-socket (largely unpatched for now)
-        - Nodes should be secured by powerstrips (on the wall, under desk, ..)
-    - RF stays within ETSI Norms, mainly bluetooth (Nordic nRF-Modules) or other IEEE 802.15.4 based standard
-    - Nodes connected and powered via Ethernet-Backchannel, optional with PTP, QoS, POE-Support
-        - preferred if Nodes are connected to one switch (in BAR II65) for low jitter for ~100 ns PTP timing-constraint
-        - preferred if PoE could be controlled to shut down and reset nodes (mainly to safe energy)
-    - **ZIH-Response and -Requirements**:
-        - Nodes need installed fusion-inventory (to scan for vulnerabilities)
-        - no QoS on Campus ("has more disadvantages")
-        - POE -> Configuration-Access to Switch only when used exclusively for this vLAN
-            - alternative: wake on LAN (WOL) -> no native beaglebone support (BBAI unclear, but unlikely)
-        - current Switches should have very low jitter under low load, time in ASIC-Stack ~ 300 ns
-            - lower latency ZIH alternative: infiniband, not applicable for us
-        - we can't use the cable canal (== structural change)
-        - wifi is used on channel 1, 6, 11, self managed with varying tx-power, often < 20 mW
-        - nodes are allowed to use the 2.4 GHz Band without restrictions, ZIH also offers to disable Wifi on these channels either for one floor or based on a schedule (routers seem to have that option, but it is untested)
-        - cisco switches offer "clean air"-Monitor-Service -> for II57 it reports 100% Quality with < 10 % non Wifi
-        - ports on corridors can be used but ZIH-Infrastructure has higher priority
-        - nodes may not get direct internet connection (relayed)
-
-RF-Network-Design
-    - limit to one floor
-    - ring-structure (due to impenetrable II800) would be a nice novelty
-    - the 3 consecutive NES-Rooms should be center of a cluster / group (something like 7 Offices with 3 Nodes each)
-    - remaining network can be more sparse (1 in each office, or 1 every two)
-    - there could be nodes with higher tx power and special antennas to directly link II59 and II71 (cut through II800)
-
-Control-Server
-    - one control-server that contains: user accounts, web interface, shepherd controller, measurement data
-    - needs linux from debian-family, python 3.7+, ansible
-    - 4 - 20 TB scratch area
-    - Port 80 accessible from the internet
-    - manageable from the intranet
-    - needs access to vLAN of RF-Nodes (mostly ssh-based)
-    - **ZIH-Requirements**:
-        - managed by ZIH with Centreon
-        - for access from internet the server needs a security-concept -> needs to pass Greenbone Security Manager Test (GSM-Test)
-        - access via subdomain, cfaed, tu-website -> SSL-Certificate
-        - no SSH from Internet
-
-Data-Storage Constraints
-    - 1 node, 1 min -> 54 MiB of measurement data
-        - 7z compressable to 12 MiB (22%)
-        - zip -> 23 MiB
-        - tar -> 12 MiB
-    - 1 Hour, 30 Nodes -> 100 GiB uncompressed
-
-Misc
-    - Casing in laser-acrylic or off-the-shelf case with custom front
-        - input Marco: open and transparent is fine
-        - Case should blend in, be passive and option to use powerstrips to attach it to wall or below desk
-    - dynamic roles of nodes -> config can be "static" (network access, gps attached, mobile) -> ansible-roles
-    - switching to BB-AI seems to be an important step, but price increase is 3.5 fold
-        - focus is still on the PRUs, now 4 Cores
-        - GBE is more than welcome
-        - we get a more reliable power connection (type c instead of micro-usb)
-        - CPU is hopefully drastically faster
-            - BBB brings 995 BogoMIPS, 277 MIPS FP, 1600 MIPS Int (numbers from internet, see 25_improve_sw_linux.rst)
-            - BBAI TBD
-        - documentation and community is small, underdeveloped
-    - with vCap in mind, PRU would be best replaced by a teensy 4.1 (keep it simple) or same uController
-        - teensy has lots of iO, SPI with DMA & FIFO, FPU, 600 MHz, 1 MB RAM
-    - web-interface should make clear that users are responsible to stay within ETSI-norm, no misuse, no out-of-boundary, monitoring and logging is active
-    - ssh-interface should also make clear about project, active monitoring and offer a contact-email
+Concepts for TU Dresden & ZIH
+==============================
 
 Administrative Info
 -------------------
@@ -133,7 +58,7 @@ RF-Measurement
     - packets reached upper floor, even the adjacent office next to the direct overlying one
     - no signal through II800, not even with direct wall contact (these are massive walls, with massive metal / ventilation parts inside
 - with active use of II64 / II64B / II64C it would be possible to get a U-Shaped network
-- see "10_rf_measurements.ods" for protocol
+- see "2020-12-15_rf_measurements.ods" for protocol
 
 .. image:: 10_concept_floor_plan_bar_2.png
     :alt: floor plan bar 2
@@ -141,8 +66,8 @@ RF-Measurement
 .. image:: 10_concept_floor_plan_bar_3.png
     :alt: floor plan bar 3
 
-Anforderungen / Netzkonzept für das ZIH
--------------------------
+Netzkonzept für das ZIH
+------------------------
 
 - Projektbeschreibung
     - Prüfstand für Funknetzwerk-Algorithmen, speziell im Bereich Energy-Harvesting
@@ -180,8 +105,8 @@ Anforderungen / Netzkonzept für das ZIH
     - PTP-Anforderung: Synchronisationsabweichung << 1 us zwischen den Knoten, optimal wären 10-100 ns
 - wir sind offen für alle administrativen bzw. Sicherheits-Auflagen die notwendig sind zur Erfüllung der Anforderungen
 
-Gesprächsprotokoll mit dem Treffen von Herrn Fleck
-------------------------------------
+Gesprächsprotokoll mit dem ZIH-Treffen
+---------------------------------------
 
 - unsere Anforderungen wurden kommuniziert und angenommen, Punkte die mehr diskutiert wurden sind hier angeführt
 - Cisco-Wifi-Router
@@ -204,8 +129,8 @@ Gesprächsprotokoll mit dem Treffen von Herrn Fleck
     - laut ZIH optimal, wenn ein dedizierter Switch für den Prüfstand zum Einsatz käme
     - Jitter der Switches unter geringer Last angeblich sehr gering, im Datenblatt spezifiziert
 
-Weitere Entwicklung zur Infrastruktur, 2021-01-29
-------------------------------------
+Entwicklung zur Infrastruktur (2021-01-29)
+--------------------------------------------
 
 - Switch vom ZIH gestellt und gemanaged - WS-C2960X-48FPD-L
 - 10 GBit Uplink zum Server, wenn Port frei ist (ist er)
@@ -230,6 +155,7 @@ Weitere Entwicklung zur Infrastruktur, 2021-01-29
 
 
 Anforderungen
+-------------
 
 - vLan
     - Zugriff vom Kontroll-Server aus, SSH (TCP Port 22)
@@ -296,6 +222,7 @@ Anforderungen zur Anbringung
 
 Plan zur Anbringung
 -------------------
+
 - Gehäuse
     - Elektronik nicht anfassbar, aber Belüftung möglich
     - keine leicht entflammbaren Materialien
@@ -303,26 +230,7 @@ Plan zur Anbringung
 - mit SG 4.3 in Verbindung setzen
 - mit SG 4.5 in Verbindung setzen
 
-Comparison D-Cube
------------------
 
-- D-Cube-Overview_
-- DBs: relational -> MariaDB, Time Series -> InfluxDB
-- user interface -> Grafana
-- gpio-tracing -> isolators for usb, power, bi-dir gpio (TI ISO7220M, ISO7221M, ADUM3160, NXE2)
-- latency profiling -> Navspark-GL, later uBlox Neo
-- power profiling -> TI LMP92064
-- interference generator -> JamLab-NG
-- supports binary patching
-- PoE via PEM1305
-
-.. _D-Cube-Overview: http://www.carloalbertoboano.com/documents/D-Cube_overview.pdf
-
-Comparison Flocklab
--------------------
-
-- 3 Targets
-- Target-GPIO with resolution of 100 ns with accuracy +- 200 ns
 
 
 Inventory
@@ -336,37 +244,6 @@ Inventory
 
 Order List
 ----------
-
-ordered 2020-11
-    - 30x BBG, 47 € -> 1410 € (w/o tax)
-    - 40x NW Cable, 0.5 / 1.0 / 1.5 / 2.0 m, 10 of each, 2-4 € -> 31 + 37 + 19 + 47 = 134 € (w/o tax)
-    - different 128 GB USB-Sticks (Samsung, Kingston, Philips), from Expensive to Cheap, -> 15 + 17 + 21 = 53 €
-    - 2x Compact mountable POE-Splitters, 11 - 20 € -> 31 €
-    - Solder Paste, 23 €
-
-ordered 2020-12
-    - 3-5 uSD-Cards for fast flashing Firmware, min 8 GB, 30 MB/s RW,
-        - https://geizhals.de/?cat=sm_sdhc&xf=15024_microSD%7E2455_30%7E2456_30%7E307_8%7E8281_128&sort=p#productlist
-    - nRF-Target, preferred with 32.768 Hz crystal
-        - dongle-kit nRF52840 -> must be modded on back for low voltage, https://www.digikey.de/product-detail/de/nordic-semiconductor-asa/NRF52840-DONGLE/1490-1073-ND/9491124
-        - ublox bmd-340, already with crystal https://www.mouser.de/ProductDetail/u-blox/BMD-340-A-R?qs=%2Fha2pyFaduh5puKd80a2%252BxNay0XTXM1gZjYgTBrwSh3foS6gIJUSvg%3D%3D
-        - panasonic enw-8985, already with 32k Crystal, https://www.mouser.de/ProductDetail/Panasonic/ENW-89854A1KF?qs=B6kkDfuK7%2FD%2F8POzJ9tJcg==
-        - panasonic included in BOM
-    - some BB-Crystals: https://www.mouser.de/ProductDetail/Citizen-FineDevice/CM200C32768HZFT?qs=rkhjVJ6%2F3ELrGt3qchcVtQ%3D%3D
-    - 256 GB USB-Sticks, min 40 MB/s writing
-        - https://geizhals.de/?cat=sm_usb&xf=2938_262144%7E309_262144%7E476_40
-
-order 2020-12B
-    - 30x Tl-POE10R
-    - short NW-Cables <= 10cm
-
-dismissed
-    - Beaglebone AI, 110 €
-        - 93 € / 107 €, https://de.rs-online.com/web/p/entwicklungstools-prozessor/1901825/?relevancy-data=7365617263685F636173636164655F6F726465723D31267365617263685F696E746572666163655F6E616D653D4931384E53656172636847656E65726963267365617263685F6C616E67756167655F757365643D6465267365617263685F6D617463685F6D6F64653D6D61746368616C6C7061727469616C267365617263685F7061747465726E5F6D6174636865643D5E2E2A24267365617263685F7061747465726E5F6F726465723D313333267365617263685F73745F6E6F726D616C697365643D59267365617263685F726573706F6E73655F616374696F6E3D267365617263685F747970653D43415443485F414C4C5F44454641554C54267365617263685F7370656C6C5F636F72726563745F6170706C6965643D59267365617263685F77696C645F63617264696E675F6D6F64653D4E4F4E45267365617263685F6B6579776F72643D626561676C65626F6E65206169267365617263685F6B6579776F72645F6170703D626561676C65626F6E65206169267365617263685F636F6E6669673D3026&searchHistory=%7B%22enabled%22%3Atrue%7D
-        - 107 €, https://www.arrow.de/products/bbone-ai/beagleboardorg?utm_currency=EUR
-        - 115 €, https://eu.mouser.com/ProductDetail/BeagleBoard/BBONE-AI?qs=%252B6g0mu59x7IfEw1Zb81%252B%252BQ%3D%3D
-        - the cheaper BBG without HDMI and WIFI came 3 years after BBB, so we don't have to wait for cheaper BBAI
-    - >=Cat5e Cables white, 10 €, https://geizhals.de/?cat=kabelnw&xf=2374_0.25%7E2375_wei%DF%7E8252_1
 
 TODO
     - GPS-Module with external Antenna, uBlox LEA-M8F or ZED-F9T
