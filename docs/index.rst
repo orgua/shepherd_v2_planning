@@ -12,9 +12,11 @@ Welcome to Shepherd's DevLog!
 
    00_overview/requirements_2020
    00_overview/feasibility_2020
+   00_overview/concept_shepherd
    00_overview/concept_testbed
    00_overview/concept_tu_dresden
    00_overview/comparison_other_testbeds
+   00_overview/learnings_other_testbeds
 
 .. toctree::
    :maxdepth: 2
@@ -34,6 +36,13 @@ Welcome to Shepherd's DevLog!
 .. toctree::
    :maxdepth: 2
    :caption: Embedded Sys:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Observer:
+
+   50_observer/concept_hw_casing.md
+   ../hardware/shepherd_case_lasercut/readme
 
 .. toctree::
    :maxdepth: 2

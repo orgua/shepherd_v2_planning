@@ -1,8 +1,7 @@
-Shepherd - Concept
-==================
+# Shepherd - Concept
 
-Overview
----------
+## Overview
+
 - (mobile) testbed for batteryless IoT
 - observer-nodes for an IoT-Target
 - works autonomous or time-sychronized with a network backplane
@@ -15,8 +14,8 @@ Overview
 - recording of energy-traces -> key-parameters like current-drain and (virtual) capacitor-voltage
 - additional functionality: recording of harvesting sources (not part of testbed)
 
-Nodes
------
+## Nodes
+
 - embedded linux board with shepherd-cape
 - time critical code runs on two real-time processors
 - two targets-ports are available
@@ -28,8 +27,8 @@ Nodes
     - nRF52840
     - MSP430
 
-Testbed
--------
+## Testbed
+
 - 30 Nodes on one floor in a university office-building
 - nodes powered via POE
 - (optional) one PTP-Masterclock, Node with GPS
@@ -54,8 +53,8 @@ Testbed
     - target-firmware
     - (optional) python userspace script that interacts with gpio / serial
 
-Technical details
------------------
+## Technical details
+
 - Beaglebone Green with 1 Core for Linux and heavy use of PRU for low-latency code
 - target-voltage 0 to 4.5 V, max 50 mA per Target
     - 16 bit DAC, LSB results in 76 uV

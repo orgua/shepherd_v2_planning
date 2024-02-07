@@ -15,7 +15,6 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
     - -> hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
     - also allows On-Off-Pattern for target-power
 
-
 ## More GPIO to Target
 
 - Problem1: gpio must be real time in PRU, PRU Pin-count and workload limited

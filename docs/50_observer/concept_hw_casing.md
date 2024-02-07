@@ -1,12 +1,11 @@
-Hardware Casing for Nodes
--------------------------
+# Hardware Casing for Nodes (2020)
 
-Constraints
------------
+## Constraints
+
 - nodes can vanish, wander
     - fixate
     - keep inconspicuous (under desk an option?), make it look official / blend in
-- nodes can freak out new people in the same office
+- nodes can spook new people in the same office
     - must look professional, official
     - be transparent about the function (inform current people in office, but also use sticker to provide a FAQ-Website
 - must support cooling (direct sunlight, proximity to radiator)
@@ -25,8 +24,8 @@ Constraints
     - boxy is ok
     - preferable hard mounted to the wall with just one cable attached
 
-Layout
-------
+## Layout
+
 - flat on one level
     - X: 75 + 45 + 30
     - Y: 55 + 55
@@ -42,23 +41,23 @@ Layout
     - pro: more boxy, would better fit ontop of the cable canal
     - contra:
 
-Solutions
----------
+## Solutions
+
 - 3d-Printing
     - flexible and custom case
     - way to expensive for 30 Nodes
 - Casing in laser-acrylic or plywood
     - solid, custom
     - may look also unprofessional, like a building kit
-    - design without screws -> https://hackaday.com/2013/02/27/acrylic-enclosures-use-integrated-clips-to-do-away-with-fasteners/
+    - design without screws -> <https://hackaday.com/2013/02/27/acrylic-enclosures-use-integrated-clips-to-do-away-with-fasteners/>
 - off-the-shelf case with custom front
     - can look professional
     - you have to take what the market offers
     - way around custom front is: just include an opening for the cable with a gasket (or right there where two halves meet)
 
 
-Off-the-shelf Cases
--------------------
+## Off-the-shelf Cases
+
 - flat (25-35 height, 150-183 length, 110-135 width)
     - https://www.mouser.de/Enclosures/_/N-5g3o?P=1yzti4fZ1yzxi2vZ1yzu1qgZ1yzxiszZ1yzu1na&Rl=5g3oZer8qZ1z0wu34Z1yzsnvlSGT5g3oZer7lZ1yzxi96Z1yzxi5vSGT
     - hammond 1599TABMBK / GY, 28 x 135 x 169 mm with custom cover, hardware can be mounted inside with laser-cut brackets
@@ -75,7 +74,6 @@ Off-the-shelf Cases
     - hammond RP1150C, https://www.hammfg.com/part/RP1150C
     - hammond rp1155, https://www.hammfg.com/part/RP1155
 
-Favorite 1599TABMGY
--------------------
+## Favorite 1599TABMGY
 
-.. image:: https://www.hammfg.com/files/products/1599tab/1599tab.jpg
+![image](https://www.hammfg.com/files/products/1599tab/1599tab.jpg)

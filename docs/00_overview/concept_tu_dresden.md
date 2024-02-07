@@ -1,19 +1,17 @@
-Concepts for TU Dresden & ZIH
-==============================
+# Concepts for TU Dresden & ZIH
 
-Administrative Info
--------------------
+## Administrative Info
 
 - ZIH offers hosting of (self provided) physical server and virtual ones
-    - ZIH Server-FAQ_
+    - see ZIH Server-FAQ Link below
     - phyServer: gets power, ethernet, USV, cooling, ...
-    - vServer: prefered by ZIH, free of charge, 3-5 Days prepare -> vServer-SelfService_
-    - ZIH offers Sub-Domains on Website -> SubDomain-FAQ_
-    - extended storage can be requested for research-groups: Gruppenlaufwerk_
+    - vServer: preferred by ZIH, free of charge, 3-5 Days prepare -> vServer-SelfService link below
+    - ZIH offers Sub-Domains on Website -> SubDomain-FAQ link below
+    - extended storage can be requested for research-groups: Gruppenlaufwerk link below
 - ZIH-Rules for using their infrastructure
-    - central dhcp: only by IT-Admin of facility -> DHCP-FAQ_
-    - network access: IT-Admin .. `FAQ <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz>`_
-    - cfaed IT-Admin_
+    - central dhcp: only by IT-Admin of facility -> DHCP-FAQ link below
+    - network access: IT-Admin [FAQ](https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz)
+    - see cfaed IT-Admin link below
     - WIFI interference und network capability undocumented online
 - Answer to inquiry, from IT / ZIH
     - we could use right side of nw-sockets (currently mostly unpatched) -> TODO: talk with the leaders of groups that occupy offices
@@ -29,18 +27,18 @@ Administrative Info
     - vServer gets monitored / managed with Centreon
         - for access from outside (internet) the server needs a security-concept
     - passwords and access-data should be managed with "TeamPass" -> password manager for groups
-- cfaed floor-plan_
 
-.. _Server-FAQ: https://tu-dresden.de/zih/dienste/service-katalog/zusammenarbeiten-und-forschen/server_hosting
-.. _DHCP-FAQ: https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/zentrale_ip_adressverwaltung
-.. _SubDomain-FAQ: https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/domains-dns/management
-.. _IT-Admin: https://cfaed.tu-dresden.de/it-support
-.. _vServer-SelfService: https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste
-.. _floor-plan: https://navigator.tu-dresden.de/etplan/bar/02
-.. _Gruppenlaufwerk: https://selfservice.zih.tu-dresden.de/l/index.php/spor/request-form/
+**Link-Sammlung**:
 
-RF-Measurement
---------------
+- Server-FAQ: <https://tu-dresden.de/zih/dienste/service-katalog/zusammenarbeiten-und-forschen/server_hosting>
+- DHCP-FAQ: <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/zentrale_ip_adressverwaltung>
+- SubDomain-FAQ: <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/domains-dns/management>
+- IT-Admin: <https://cfaed.tu-dresden.de/it-support>
+- vServer-SelfService: <https://selfservice.zih.tu-dresden.de/l/index.php/cloud_dienste>
+- Floor-plan: <https://navigator.tu-dresden.de/etplan/bar/02>
+- Gruppenlaufwerk: <https://selfservice.zih.tu-dresden.de/l/index.php/spor/request-form/>
+
+## RF-Measurement
 
 - sender was a nRF52840-DK Board with BLE Beacon example, 1 MBit,
     - tx power - 16 to 8 dBm, in this case 0 and 8 dBm
@@ -60,14 +58,11 @@ RF-Measurement
 - with active use of II64 / II64B / II64C it would be possible to get a U-Shaped network
 - see "2020-12-15_rf_measurements.ods" for protocol
 
-.. image:: 10_concept_floor_plan_bar_2.png
-    :alt: floor plan bar 2
+![floor plan bar 2](concept_tud_floor_plan_bar_2.png)
 
-.. image:: 10_concept_floor_plan_bar_3.png
-    :alt: floor plan bar 3
+![floor plan bar 3](concept_tud_floor_plan_bar_3.png)
 
-Netzkonzept für das ZIH
-------------------------
+## Netzkonzept für das ZIH
 
 - Projektbeschreibung
     - Prüfstand für Funknetzwerk-Algorithmen, speziell im Bereich Energy-Harvesting
@@ -105,8 +100,7 @@ Netzkonzept für das ZIH
     - PTP-Anforderung: Synchronisationsabweichung << 1 us zwischen den Knoten, optimal wären 10-100 ns
 - wir sind offen für alle administrativen bzw. Sicherheits-Auflagen die notwendig sind zur Erfüllung der Anforderungen
 
-Gesprächsprotokoll mit dem ZIH-Treffen
----------------------------------------
+## Gesprächsprotokoll mit dem ZIH-Treffen
 
 - unsere Anforderungen wurden kommuniziert und angenommen, Punkte die mehr diskutiert wurden sind hier angeführt
 - Cisco-Wifi-Router
@@ -121,7 +115,7 @@ Gesprächsprotokoll mit dem ZIH-Treffen
         - BAR-AP-A-II73 (II65_S3_C_17)
 - zu beschaltene NW-Dosen
     - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren bzw. öffentlich genutzen Räumen benutzen
-    - siehe Liste unter https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods
+    - siehe Liste unter <https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods>
     - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
 - Kontrolle über POE
     - laut ZIH denkbar, wenn ein dedizierter Switch für den Prüfstand zum Einsatz kommt
@@ -129,8 +123,7 @@ Gesprächsprotokoll mit dem ZIH-Treffen
     - laut ZIH optimal, wenn ein dedizierter Switch für den Prüfstand zum Einsatz käme
     - Jitter der Switches unter geringer Last angeblich sehr gering, im Datenblatt spezifiziert
 
-Entwicklung zur Infrastruktur (2021-01-29)
---------------------------------------------
+## Entwicklung zur Infrastruktur (2021-01-29)
 
 - Switch vom ZIH gestellt und gemanaged - WS-C2960X-48FPD-L
 - 10 GBit Uplink zum Server, wenn Port frei ist (ist er)
@@ -154,8 +147,7 @@ Entwicklung zur Infrastruktur (2021-01-29)
     - Barrierefreiheit und Impressum, sonst keine Weltweite freigabe (und ssl-force, subdomain)
 
 
-Anforderungen
--------------
+## Anforderungen
 
 - vLan
     - Zugriff vom Kontroll-Server aus, SSH (TCP Port 22)
@@ -182,7 +174,7 @@ Anforderungen
         - BAR-AP-A-II73 (II65_S3_C_17)
 - zu beschaltene NW-Dosen
     - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren benutzen
-    - siehe Liste unter https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods
+    - siehe Liste unter <https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods>
     - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
 - NW-Switch in Raum II65
     - GBE (maximal benötigte Geschwindigkeit)
@@ -191,8 +183,7 @@ Anforderungen
     - wenn möglich Kontrolle über POE der Ports zum Energiesparen, da embedded Knoten zwar runtergefahren werden können, aber kein WOL beherrschen
 
 
-Anbringung der Knoten
----------------------
+## Anbringung der Knoten
 
 - controlled by: https://tu-dresden.de/tu-dresden/organisation/zentrale-universitaetsverwaltung/dezernat-4-gebaeudemanagement/sg-4-1-baumanagement/bautechnik
 - formular:  https://www.verw.tu-dresden.de/VerwRicht/Formulare/download.asp?file=Baubedarfsblatt.pdf
@@ -206,8 +197,7 @@ Anbringung der Knoten
 - wir haben das OK von den Lehrstühlen, bzw. der Bürobesetzung und vom ZIH
 - das ZIH hat bereits ein Subnetz für uns geschaltet
 
-Anforderungen zur Anbringung
-----------------------------
+## Anforderungen zur Anbringung
 
 - Genehmigung der Bundesnetzagentur (Funk)
     - wir operieren im ISM-Band und halten uns an die geltenen Bestimmungen, bzw. nutzen wir OEM / off-the-shelf-Funk-Module, zertifiziert
@@ -220,8 +210,7 @@ Anforderungen zur Anbringung
 - formloses Betreiberkonzept
 - Gefährdungsbeurteilung ist mit der Arbeitssicherheit SG 4.5 abzustimmen
 
-Plan zur Anbringung
--------------------
+## Plan zur Anbringung
 
 - Gehäuse
     - Elektronik nicht anfassbar, aber Belüftung möglich
@@ -232,31 +221,3 @@ Plan zur Anbringung
 
 
 
-
-Inventory
----------
-
-- ~20 PoE Adapters (100 MBit)
-- 10 - 15 Beaglebone Black / green, same amount of Shepherd V1.x Capes
-- ZyXEL Ethernet Switch GS1900-24HP, with PoE
-- Linksys Router WRT54GL
-- uBlox Neo M8T
-
-Order List
-----------
-
-TODO
-    - GPS-Module with external Antenna, uBlox LEA-M8F or ZED-F9T
-    - final GBE PoE Adapter, 20 €
-        - https://geizhals.de/?cat=switchgi&xf=12885_PoE-Splitter
-        - Possible Copy of POE-Splitter RPi-Hat https://www.raspberrypi.org/forums/viewtopic.php?t=266617
-    - Shepherd Cape, 15 €
-    - Shepherd Parts
-    - Target Capelet
-    - Target Parts
-    - Casing
-    - NAS or Server
-        - ~ 250 € per 10 TB
-        - 300 € for 4 Bay NAS, 800 € for 8 Bays
-        - https://geizhals.de/?cat=hdxnas&xf=12970_8%7E2659_ohne
-    - [48 Port Managed Cisco NW Switch]

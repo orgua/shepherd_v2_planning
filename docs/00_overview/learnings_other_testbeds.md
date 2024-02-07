@@ -1,10 +1,11 @@
-Learnings, with Pitfalls and (possible) Solutions
-=================================================
+# Learnings from other Testbeds
+
 - notes from meetings with creators of established testbeds
+- with pitfalls and (possible) Solutions
 - significance for shepherd is incorporated
 
-Server
-------
+## Server
+
 - have an upgrade path
     - currently TUD/ZIH offers vServers and plenty of Storage from its datacenters, can be changed, expanded
     - current server: 2 Cores, 4 GB RAM, 50 GB local Storage, 10 TB network storage
@@ -12,8 +13,8 @@ Server
 - avoid windows OS
 - splitting servers can be an option (storage with message broker, web-interface, computing)
 
-Data-Management
---------------
+## Data-Management
+
 - database (not a must)
     - allows easy analysis of data
     - immediate access is nice! real time or direct access for devs (even jupyterNB)
@@ -38,8 +39,8 @@ Data-Management
 - is privacy is feature? avoid personal data (OAuth, ActiveDirectory), make recorded data private (even only delete-access for web-admins)
 - grafana seems to have trouble with big datasets
 
-Nodes
------
+## Nodes
+
 - lockups -> powercycle
     - we (shepherd) may not have the chance to control POE
     - there is an external watchdog on the shepherd-capelet
@@ -79,14 +80,14 @@ Nodes
     - shepherd can cut power and power-cycle target
     - add resistor bridge just for safety
 
-Web
----
+## Web
+
 - flask-framework is sufficient (same with bigger brother django)
 - user-management should also include groups (to share data-pools)
 - experiment-scheduler could be done with rabbitMQ (message broker)
 
-Testbed
--------
+## Testbed
+
 - secure against miss-use
     - nodes can vanish, wander
         - fixate the boxes :)
@@ -106,9 +107,9 @@ Testbed
 - maintenance / development can easily occupy 1P full time
 - documentation for the next devs
 
-TODO
-----
-- try to design low maintenance, multi-purpose, high functionality / speed / quality
+## TODO
+
+- try to design low maintenance, multipurpose, high functionality / speed / quality
 - Filesystem
     - f2fs for usb-sticks
     - find read-only-switch for system partition
@@ -117,5 +118,5 @@ TODO
     - pyOCD could be an alternative
 - BBone
     - is cpu-usage really 70% during emulation?
-    - do a performance profiling, find bootlenecks
+    - do a performance profiling, find bottlenecks
     - raw data could be sent server, less overhead for BB
