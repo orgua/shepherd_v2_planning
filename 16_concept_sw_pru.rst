@@ -1,5 +1,5 @@
-Concept - Software - RT Units
-=============================
+Concept - Software - Realtime-Units (PRUs)
+==========================================
 
 - SPI to adc/dac -> use dedicated hardware and not bit-banging
     - bit-banging transfer takes 8 (DAC) - 12 (ADC) ticks per bit -> so 192 ticks for 24 bit at best (DAC) and 384 ticks for 32 bit (ADC)
