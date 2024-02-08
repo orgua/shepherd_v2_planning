@@ -1,14 +1,15 @@
+# Recorder Drain
 
-Problem
--------
-- harvest source is weak, so connect it with low leakage
+## Problem
+
+- harvest source is weak, so it should be connected with low leakage
 - current drain is a Mosfet, that can pull the source to the desired voltage
 - mosfet is controlled by an inverted opAmp-voltage-buffer, resulting in a PWM-Controller that is smoothed out by a slow RC-Filter
 - RC-Lowpass is delaying (big) voltage-changes by 1 to 1.7 ms
 - second problem: opAmp is oscillating, there must be a better way
 
-Ideas / Approaches
-------------------
+## Ideas / Approaches
+
 - JFET
     - pro: larger resistive range than mosfet
     - con: negative voltage required, very little variety
@@ -31,12 +32,11 @@ Ideas / Approaches
     - high impedance (over opAmp voltage range) with a low leakage diode
     - con: still no (real) high impedance, needs dual supplied opAmp to reach 0 V
 
-conclusion
-----------
+## Conclusion
+
 - combined switched oneway OpAmp-Sink is a proper solution
 - diode-solution should be fine
 - WARNING for diode solution
     - watch out with power-levels mixed with enabled-states
     - if OpAmps VOut settles at V-, the diode will drain harvester below GND
     - V- could be higher than V+ in disabled state (LDO for Pos, BoostInverter for Neg)
-

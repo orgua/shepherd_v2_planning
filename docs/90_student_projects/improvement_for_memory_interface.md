@@ -1,12 +1,8 @@
-Memory Interface
-=================
+# Memory Interface
 
-*Improvements for the Memory Interface between PRU and user space*
+## Improvements for the Memory Interface between PRU and user space
 
-Introduction
-------------
-
-- shepherd consists of an embedded linux board (beaglebone black) that has an arm-core and special real time units (two co-processors called PRU)
+- shepherd consists of an embedded linux board (beaglebone black) that has an arm-core and special real time units (two coprocessors called PRU)
 - there are two basic functions for shepherd:
 
   - harvesting / recording an energy source
@@ -19,8 +15,7 @@ Introduction
 
 - Problem: the memory interface for exchanging that described measurement-data has some design-flaws described in "Current Situation" and "Known Constraints" below
 
-Current Situation
------------------
+## Current Situation
 
 - overly complicated and "expensive" borrow & return system with a 64 segment ringbuffer (SampleBuffer)
 - SampleBuffer currently holds 100 ms of data (10 kSamples) and gpio-samples
@@ -41,10 +36,9 @@ Timings for reference (emulation, data from mid 2021):
 
 - 720 ns for writing to DAC
 
-Goals
------
+## Goals
 
-- our goal is to remove overhead, bottle-necks and boost the performance mainly for the gpio sampling to reliable frequencies in the range of 8 - 16 MHz
+- our goal is to remove overhead, bottlenecks and boost the performance mainly for the gpio sampling to reliable frequencies in the range of 8 - 16 MHz
 - the gpio sampling is currently varying from 840 kHz to 5.7 MHz with a mean of 2.2 MHz
 - the main point of attack will be
 
@@ -57,8 +51,7 @@ Goals
   - offer two firmwares: virtual source emulation with slower GPIO-Sampling OR
   - disable the virtual power source that is occupying > 90% of PRU0
 
-Known Constraints
------------------
+## Known Constraints
 
 - roughly 1 MB/s in both directions over the mem-interface (for emulation / power traces)
 - event based gpio-sampling with high throughput might overburden beaglebone, example:
@@ -76,8 +69,7 @@ Known Constraints
 - PRUs have only 8 kB private RAM and 12 kB shared RAM (between the two PRUs)
 - there might be more …
 
-Hardware Needed
----------------
+## Hardware Needed
 
 - BeagleBone, Power-Adapter
 - SD-Card & SD-Cardreader for flashing a Linux-Image
@@ -85,8 +77,7 @@ Hardware Needed
 - logic-analyzer to determine timings of subroutines
 - dev PC with shell (linux preferred, but WSL, Powershell or MacOS-Shell also work)
 
-Milestones
-----------
+## Milestones
 
 - prototype idea (drawing, text or mockup prototype)
 - setup hardware
@@ -94,17 +85,16 @@ Milestones
 - testing phase
 - finale implementation
 
-Links to Code
--------------
+## Links to Code-References
 
-- `mem-interface struct in c <https://github.com/orgua/shepherd/blob/main/software/firmware/include/commons.h#L127>`_
-- `buffer-swap in c <https://github.com/orgua/shepherd/blob/main/software/firmware/pru0-shepherd-fw/main.c#L91>`_
-- `buffer reception in python <https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L134>`_
-- `buffer swap routines (return_buffer() & get_buffer()) in python <https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L715>`_
-- `kernel module <https://github.com/orgua/shepherd/tree/main/software/kernel-module/src>`_
+- [mem-interface struct in c](https://github.com/orgua/shepherd/blob/main/software/firmware/include/commons.h#L127)
+- [buffer-swap in c](https://github.com/orgua/shepherd/blob/main/software/firmware/pru0-shepherd-fw/main.c#L91)
+- [buffer reception in python](https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L134)
+- [buffer swap routines (return_buffer() & get_buffer()) in python](https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L715)
+- [kernel module](https://github.com/orgua/shepherd/tree/main/software/kernel-module/src)
 
 
 External BBone-Projects that may help:
 
-- `BeagleLogic <https://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449>`_
-- `Rocketlogger <https://rocketlogger.ethz.ch/>`_
+- [BeagleLogic](https://theembeddedkitchen.net/beaglelogic-building-a-logic-analyzer-with-the-prus-part-1/449)
+- [Rocketlogger](https://rocketlogger.ethz.ch/)

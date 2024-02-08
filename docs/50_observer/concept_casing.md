@@ -1,5 +1,7 @@
 # Hardware Casing for Nodes (2020)
 
+**Deprecated!** Current lasercut case is in [main repo](https://github.com/orgua/shepherd/tree/dev/hardware/case_lasercut)
+
 ## Constraints
 
 - nodes can vanish, wander

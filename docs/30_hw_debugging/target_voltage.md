@@ -1,26 +1,25 @@
-Behavior of Target Voltage
-==========================
+# Emulator Target Voltage
 
-Problem
--------
+## Problem
+
 - A: target voltage with current-measurement is unstable (oscillation for low voltage / low load)
 - B: voltage buffer feedback is excluding the switch afterwards
 
-Setup
------
+## Setup
+
 - BB powered by bench-supply
 - Target voltage drained by keithley source meter (current mode)
 - target voltage is monitored by scope with probe in AC-Mode to analyse Noise
 
-Measurements for unstable Voltage
----------------------------------
+## Measurements for unstable Voltage
+
 - VTarget = 0.5 V shows 10mVpp oscillation ~ 260 kHz
 - VTarget = 1.0 V is stable
 - other documentation is lost
 - problem is fixed
 
-Measurements for voltage drop
----------------------------------
+## Measurements for voltage drop
+
 - source current -> TargetA Voltage
     - 0  uA; 2.9983 V
     - 1  mA; 2.9987 V
@@ -38,16 +37,14 @@ Measurements for voltage drop
     - 40 mA; 2.9818 V
     - 50 mA; 2.9732 V
 
-Analysis of voltage drop
-------------------------
+## Analysis of voltage drop
+
 - side node: shepherd is able to drain power
 - drain-experiment shows voltage drop of 25.1 mV for 50 mA -> 502 mOhm Internal Resistance after OpAmp
 - switch-datasheet claims 500 mOhm Rds_on -> very close to measurement including traces
 - influence of switch -> 50mA @ 3V equals 60 Ohm -> 500 mOhm are 0.83 % of that
 
+## Conclusion
 
-Conclusion
-----------
 - A: oscillation can be fixed by bigger shunt-resistance
 - B: voltage drop can be fixed by including switch into feedback loop -> needs additional switch
-

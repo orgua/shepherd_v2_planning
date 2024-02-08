@@ -1,10 +1,10 @@
-# Shepherd - Concept
+# Concept for Shepherd
 
 ## Overview
 
-- (mobile) testbed for batteryless IoT
+- (mobile) testbed for battery-less IoT
 - observer-nodes for an IoT-Target
-- works autonomous or time-sychronized with a network backplane
+- works autonomous or time-synchronized with a network backplane
 - "software defined power source", emulation of
     - harvesting source (pre-recorded, simulated)
     - regulator / converter - circuit
@@ -20,7 +20,7 @@
 - time critical code runs on two real-time processors
 - two targets-ports are available
     - both can be supplied with individual voltages, only one is current-tracked
-    - general purpose IO, target selection independent from power-supply-selection
+    - general purpose IO, target selection independent of power-supply-selection
     - separate 3V3 line
 - bidirectional GPIO on 10 channels, 2x2 lanes are currently reserved for SWD / Spy-by-Wire, UART
 - Targets (currently planned)
@@ -37,7 +37,7 @@
 - Web-Framework
     - user-management (roles for admins and users)
     - experiment-management, configure and control, add data (see below)
-    - experiment-scheduling, calender (set active, start-time, duration)
+    - experiment-scheduling, calendar (set active, start-time, duration)
     - data management / quota (retrieve / delete recordings)
     - authentication via external services
     - E-Mail notifications
@@ -55,7 +55,7 @@
 
 ## Technical details
 
-- Beaglebone Green with 1 Core for Linux and heavy use of PRU for low-latency code
+- BeagleBone Green with 1 Core for Linux and heavy use of PRU for low-latency code
 - target-voltage 0 to 4.5 V, max 50 mA per Target
     - 16 bit DAC, LSB results in 76 uV
     - 100 kHz sampling rate, jitter max +- 90 ns, 95% Quantile is 60 ns
@@ -72,7 +72,7 @@
     - recording: sampling rate is asynchronous, between ~ 1 to 5 MHz
     - data throughput untested, but edges look fine for > 1 MBaud
     - leakage during operation < 2 uA from target-side
-    - gpio can be turned of, < 10 nA leak from target-side
+    - gpio can be turned off, < 10 nA leak from target-side
 - data-rates
     - 1 min ~ >= 54 MiB of measurement data (more with heavy GPIO actions)
     - 1 Hour, 30 Nodes -> 100 GiB uncompressed (hdf5)

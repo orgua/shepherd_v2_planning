@@ -1,6 +1,6 @@
-# Shepherd-Capes - Concept
+# Concept
 
-This is mostly a documentation of changes, compared to V1.x
+This is mostly a documentation of changes in comparison to v1.x
 
 ## Computing Power and Accuracy Constraints - a pro and contra
 

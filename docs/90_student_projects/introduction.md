@@ -4,8 +4,8 @@ The [issue-section](https://github.com/orgua/shepherd/issues) of the main-repo c
 
 Projects with detailed sub-pages:
 
-- (Web-) [dataviewer for recorded traces](./implement_dataviewer.rst)
-- replace [Fifo-system between userspace & pru](./improvement_for_memory_interface.rst)
+- (Web-) [dataviewer for recorded traces](./implement_dataviewer)
+- replace [Fifo-system between userspace & pru](./improvement_for_memory_interface)
 
 The sections below are a rough description of possible topics. [Contact us](https://nes-lab.org/) for more details.
 
@@ -14,7 +14,7 @@ The sections below are a rough description of possible topics. [Contact us](http
 - High-Speed, high temporal resolution (>= 1 MHz, <= 100 ns)
 - FPGA or MCU as Interface in front of SBC
 - optional: bidirectional (also actuating pins)
-- example from flocklab: <https://github.com/ETHZ-TEC/RocketLogger>
+- example from Flocklab: <https://github.com/ETHZ-TEC/RocketLogger>
 
 ## Optimize Network Topology of Testbed
 
@@ -46,7 +46,6 @@ The sections below are a rough description of possible topics. [Contact us](http
 
 - characterize constraints
 - survey of SBC with included feature-set
-- 
 
 ## Concept for measuring / recording energy environments
 

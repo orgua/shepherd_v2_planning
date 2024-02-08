@@ -1,18 +1,17 @@
-Concept - Software - Web Interface
-==================================
+# Concept for Web Interface
 
-MetaInfo
---------
+## MetaInfo
+
 - derived from requirements, concept_shepherd and concept_meeting_notes
 
-Design-Features
----------------
+## Design-Features
+
 - Privacy is a features - avoid personal data (OAuth, ActiveDirectory)
 - usage per website & API
 - 1 experiment at a time, no concurrency
 
-Functions
----------
+## Functions
+
 - user-management
     - permission
     - role management
@@ -59,8 +58,8 @@ Functions
 - live-view -> lower prio
 
 
-Implementation
---------------
+## Implementation
+
 - possibly python based (django vs flask, big vs small)
     - django offers the most, is flexible, modular and easy to extend
         - admin-interface
@@ -84,8 +83,8 @@ Implementation
 - visualisation, analysis -> dash?
 - option to sample down
 
-DB Decision
------------
+## DB Decision
+
 - needed:
     - 30x 100k Inserts of timestamp (8B), node_id (1B), voltage (4B), current (4B)
     - -> 3M Inserts of >=17 Bytes -> 3 GB / minute
@@ -117,8 +116,8 @@ DB Decision
 - mongoDB
     - allows usage of BSON instead of JSON
 
-DB-Bypass
----------
+## DB-Bypass
+
 - measurement-data could be stored directly on the server
 - each measurement is stored in a separate folder, named by hash or timestamp
     - it contains config data, logs and results
@@ -130,9 +129,9 @@ DB-Bypass
 - a downsampled dataset (1 kHz?) could be fed into a database for semi-live analysis / observation
 - a full-res dataset could be fed into the database afterwards but would mean a longer blocking time between measurements
 
-TODO
-----
-- try payed db-vm (influx)
+## TODO
+
+- try paid db-vm (influx)
 - compare elastic against influx, no support for nanosec?
 - benchmark server (disks / ram)
 - offer predefined energy-patterns (on/off, diode, different converters (boost, buck/boost))

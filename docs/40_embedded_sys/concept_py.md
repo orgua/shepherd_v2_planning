@@ -1,5 +1,4 @@
-Concept - Software - Python API
-===============================
+# Concept for Python API
 
 - lean on interface of established entry-level projects (i.e. wiring, arduino)
 - submodules as classes -> basic configuration at instantiation
@@ -7,7 +6,7 @@ Concept - Software - Python API
 - do we need exact timestamps for start and stop or is a global trigger enough
 - hdf5 for fast storage, data can be segmented into several files, and written incrementally
     - later converters for csv, saleae logic-analyzer-format would be nice
-- try to separate between scenario and measurement (reusability)
+- try to separate between scenario and measurement (reuse-ability)
 - individualize target firmware by manipulating ELF-file: tx power and ID/softMAC as variable,
 - modules
    - harvesting-emulator: energy-trace(s), sampling-rate, playback (mirrored, loop)

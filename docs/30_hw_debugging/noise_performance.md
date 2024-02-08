@@ -1,15 +1,14 @@
-Noise Performance
-=================
+# Cape Noise Performance
 
-Problem
--------
+## Problem
+
 - Beaglebone offers noisy SYS_5V0 - TODO: add Vpp num
 - POE is also noisy - TODO: add Vpp num
 - shepherd shows residues of voltage spikes in target voltage
     - Solved: confirmed to be due to a "transmitting" usb-hub 50 cm away from test-setup (not powering anything)
 
-Setup
------
+## Setup
+
 - BBGreen with Shepherd-PCB, Output VTarget set to 3V
 - scope: rigol ds1104z, 100 MHz, calibrated, compensated probes, up-to-date firmware
 
@@ -30,11 +29,9 @@ Setup
 
 Scope Noise with grounded signal-input
 
-.. image:: media_noise/DS1Z_QuickPrint28.png
+![noise](media_noise/DS1Z_QuickPrint28.png)
 
-
-Measurements
-------------
+## Measurements
 
 - Probe Signal shorted to ground (noise floor)
     - Vpp = 1.20 mV
@@ -181,9 +178,8 @@ Measurements
     - no abnormalities
     - QuickPrint 352-357
 
+## Analysis
 
-Analysis
---------
 - disclaimer
     - some noise is very close to the scopes lower threshold (~ 1.2 mVpp)
     - A5V-LDO should have ~ 18 uV RMS-Noise with 60 dB Ripple Rejection (but show with higher noise)
@@ -193,13 +189,13 @@ Analysis
 - setup comparison (worst to best)
     - setup4 (NoName POE) shows heavy artifacts, Noise VTarget = 12 mVpp
     - setup3 (TPLink POE) shows some oscillations, Noise A5V = 3.3 mVpp
-    - setup2 (Shepherd pwrd by sourcemeter) shows minor ripple, noise A5V = 2.1 mVpp
+    - setup2 (Shepherd powered by sourcemeter) shows minor ripple, noise A5V = 2.1 mVpp
     - setup1 (benchPowered BB) shows minor ripple, Noise A5V = 1.9 mVpp
 - Sys_5V-Line is surprisingly noisy, but has limited influence on VTarget
 - 10 V / -6 V has some 7 - 20 kHz Ripple -> most likely bad for InAmp
 
-Conclusion / Mitigations
-------------------------
+## Conclusion / Mitigations
+
 - BB-Power should be avoided
     - switch to VDD_5V (less noisy) instead of sys-5v -> NOT POSSIBLE
     - Sys-5V was already used in previous shepherd pcb
@@ -215,8 +211,8 @@ Conclusion / Mitigations
     - TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm -> may shorten life-expectancy
     - there is no cheap alternative for this unit
 
-stabilize Supplies
-------------------
+## Stabilize Supplies
+
 - Options for Stability / less noise
     - avoid switching regulators (noise usually >> 1 mVpp)
     - use LDO, specially low noise or ultra low noise ones (low noise LDOs are somewhere around 1 mVpp)
@@ -249,8 +245,8 @@ stabilize Supplies
     - LTC1550, not suitable
     - TPS63710
 
-Verification of PI-Filter with Spectrum Analyzer
-------------------------------------------------
+## Verification of PI-Filter with Spectrum Analyzer
+
 - SA
     - Rigol DSA 815 (9 kHz to 1.5 GHz) with tracking generator
     - 1 MHz Span, beginning at DC
