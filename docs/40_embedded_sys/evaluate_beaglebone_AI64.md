@@ -1,4 +1,12 @@
-# BBone AI 64
+# BeagleBone AI64 Eval
+
+## TLDR
+
+- same performance as RPi CM4
+- feels outdated: despite huge heat sink not stable without active cooling or optimized airflow
+- as a dev-platform hard to manage, with > 20'000 pages of documentation for the SOC
+- feels overloaded: too many layers of complexity with 20 listed coprocessors
+- software not ready - as [ptp still has issues](https://github.com/orgua/shepherd/blob/dev/software/test_timesync/Readme_D_analysis.md)
 
 ## Advantages
 

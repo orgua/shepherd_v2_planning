@@ -1,6 +1,6 @@
 # Raspberry CM4
 
-- Board is similar to BB-AI64
+- Board is similar to BB-AI64 regarding performance
 - RPi4 & RPi5 have hardware-timestamping
 - various RAM and eMMC configurations
 

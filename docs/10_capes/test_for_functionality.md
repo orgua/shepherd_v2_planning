@@ -1,35 +1,45 @@
-Documentation for functionality-test (QA)
-- visual inspection, look for tombstones, shorts and missing components
-- shepherd-pcb (solo)
-    - power-supply method A (choose A or B)
-        - apply jumper-connection from P9-5/6 to P9-7/8 (to allow powering cape by external power)
-        - apply current limited 5V to P9-7/8 -> initial consumption < 1 mA
-    - power-supply method B (choose A or B)
-        - apply current limited 5V to P9-7/8 -> initial consumption < 1 mA
-    - Pull Up EN_Shepherd (P8-13) with 3V3
-        - consumption on 5V rises to ~71 mA
-        - LED below recorder should light up
-    - check generated voltages on board (marked at capacitors by silkscreen)
-        - L5V 	-> 5.000 V		Should be Spot On
-        - A5V 	-> 5.000 V		Should be Spot On (is L5V with pi-filter)
-        - L3V3  -> 3.300 V      Should be Spot On
-        - 6V 	-> 5.38 V 		[5.29; 5.47] V with 1% Res
-        - 10V 	-> 9,73 V		[9.56; 9.90] V with 1% Res
-        - -6V 	-> -6 V, 		[5.94; 6.06] V with 1% Res
-- Shepherd2 + BB powering
-    - BB starts 390 mA on VDD-5V line, booted: 170-240 mA
-    - sudden 66 mA increase on shepherd EN is no problem for BB
-    - WD-Pins could be a problem - my current test-BB is sensitive for power-button and shuts down -> use jumper?
-    - P8-43 or 44 is sensitive for input - BB does not boot when shepherd connects with these pins
-        - both are for boot-config, BUT
-        - LA shows that both pins are high even before 3v3 gets to the pins, lasts 7.4s for a fresh BB
-            - P8-45/46 stay low during boot an later on
-            - p8-41/42 are HIGH for the same 7.5 s on boot
-    - EN-Shepherd (P8-13) stays low during boot - perfect!
-    - a fresh BB is sensitive for boot-pin during operation, it will shut down! start by triggering boot-pin again. Reset does nothing during power-off
-        - boot is high even before power-up. then low 2.3s until 3v3 come to pin -> shutdown command (short low), but then stays high during power-off
-            - react to shutdown seem to be controlled by software (important for watchdog)
-        - reset is low, changes to high when 3v3 come to pin, when 3v3 go on shutdown, the pin also changes to low
+# Functionality-Tests
+
+## Visual Inspection
+
+Look for tombstones, shorts, missing components and parts with wrong rotation (diodes, ICs)
+
+It's beneficial to take macro-shots of the untouched PCBs for later reference as it is hard to determine error causes once the PCBs are fully assembled, encased and deployed.
+
+## Isolated Cape-PCB
+
+- apply external power to PCB directly (current limited 5V via lab supply)
+- initial consumption < 1 mA
+- Pull Up EN_Shepherd (P8-13) with 3V3
+    - consumption on 5V rises to ~71 mA
+    - Power-LED below recorder should light up
+- check generated voltages on board (marked at capacitors by silkscreen)
+
+| Name | Expected Voltage | Comment                                   |
+|------|------------------|-------------------------------------------|
+| L5V  | 5.000 V          | Should be Spot On                         |
+| A5V  | 5.000 V          | Should be Spot On (is L5V with pi-filter) |
+| L3V3 | 3.300 V          | Should be Spot On                         |
+| 6V   | 5.38 V           | \[5.29; 5.47] V with 1% Res               |
+| 10V  | 9.73 V           | \[9.56; 9.90] V with 1% Res               |
+| -6V  | -6 V             | \[5.94; 6.06] V with 1% Res               |
+
+## Cape-PCB on BeagleBone, powered
+
+- BB starts 390 mA on VDD-5V line, booted: 170-240 mA
+- sudden 66 mA increase on shepherd EN is no problem for BB
+- WD-Pins could be a problem - my current test-BB is sensitive for power-button and shuts down -> use jumper?
+- P8-43 or 44 is sensitive for input - BB does not boot when shepherd connects with these pins
+    - both are for boot-config, BUT
+    - LA shows that both pins are high even before 3v3 gets to the pins, lasts 7.4s for a fresh BB
+        - P8-45/46 stay low during boot an later on
+        - p8-41/42 are HIGH for the same 7.5 s on boot
+- EN-Shepherd (P8-13) stays low during boot - perfect!
+- a fresh BB is sensitive for boot-pin during operation, it will shut down! start by triggering boot-pin again. Reset does nothing during power-off
+    - boot is high even before power-up. then low 2.3s until 3v3 come to pin -> shutdown command (short low), but then stays high during power-off
+        - react to shutdown seem to be controlled by software (important for watchdog)
+    - reset is low, changes to high when 3v3 come to pin, when 3v3 go on shutdown, the pin also changes to low
+
 - GPIO to target
     - GPIO 0 - 4 are working bidirectional
     - BATOK is always high (currently), pru-debug-answer shows it
