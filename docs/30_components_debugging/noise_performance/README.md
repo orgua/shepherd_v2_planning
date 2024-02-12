@@ -29,7 +29,7 @@
 
 Scope Noise with grounded signal-input
 
-![noise](media_noise/DS1Z_QuickPrint28.png)
+![noise](DS1Z_QuickPrint28.png)
 
 ## Measurements
 

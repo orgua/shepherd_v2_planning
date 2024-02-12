@@ -1,8 +1,6 @@
-HW Performance v2.1r0
-=====================
+# HW Performance v2.1r0
 
-Setup
------
+## Setup
 
 - BB powered by benchsupply 5.1 V, ~ 400 mA
 - Shepherd powered by BB, VIn 5.08V
@@ -22,10 +20,11 @@ Setup
 
 - scope screenshots are in ./media_v2.1r0
 
+## Validating Components
 
-Voltage Drop on Enable
-----------------------
+### Power-Rails
 
+- Problem: Voltage Drop on Enable
 - switching power on can result in unstable states for BB and ICs
 - scope shows (Quickprint[1-3].png)
     - 3 Drop-Stages with ~ 620 mV drop in around 700 us
@@ -35,9 +34,11 @@ Voltage Drop on Enable
     - 2 remaining Spikes with 328 mV
     - no recovery after that -> quick return to previous rail-voltage
 
+### DAC-Responses
 
-DAC-Responses
--------------
+Goal: optimize analog circuit connected to the DAC
+
+#### Harvester
 
 - Harvest-VMatch
     - 1V raise  - < 8 us, < 10 % overshoot (QuickPrint23.png)
@@ -64,6 +65,8 @@ DAC-Responses
     - 4V8 raise - ~ 14 us, 5 % overshoot (QuickPrint97.png)
     - 4V8 fall  - ~ 12 us for ~ 90 % (QuickPrint98.png)
     - result: significantly better performance, but still no match with speed of VMatch, probably because of additional 100 nF -> preview of possible Mod for Emu-Rails (reduce 1uF to 100 nF)
+
+#### Emulator
 
 - Emulate, Rail A
     - 1V raise - 50 us, 20 % overshoot (QuickPrint5.png)
@@ -136,18 +139,17 @@ DAC-Responses
     - Voltages overshoots in 3 us and falls to wanted voltage in additional 1.5 us
     - result: 8 us from beginning of communication to voltage-set
 
+#### TODO
 
-TODO: try long loop, smaller feedback-resistor, but it shouldn't change much - extra ADC for voltage and 10 Ohm Shunt seems important
+- try long loop, smaller feedback-resistor, but it shouldn't change much - extra ADC for voltage and 10 Ohm Shunt seems important
 latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 - still 60 mVpp Ripple on VTarget, 600 kHz
 - fav: 100nF, ensure system function, noise is ok, buffering done by target
-TODO: measure reverse current of diode
-TODO: fix lowpass on recorder, or at least the 12mV Spikes every 3.3 us (~7% integral of 12 mV)
+- measure reverse current of diode
+- fix lowpass on recorder, or at least the 12mV Spikes every 3.3 us (~7% integral of 12 mV)
+- test delay of (recorder) setting voltage-level
 
-TODO: test delay of (recorder) setting voltage-level
-
-Current Measurement
--------------------
+### Current Measurements
 
 - Emulator
     - ohm-meter says R = 995 Ohm
@@ -179,18 +181,7 @@ Current Measurement
         - reverse current is significantly higher than expected (400 nA instead of 40 nA), even seconds diode can't fix that :( replace it?
         - resulting R is very consistent, similar to emulator-results
 
-pyCode::
-
-    R = list([])
-    for index in range(len(V)):
-        res = 1000 * V[index] / (I[index] - I0)
-        R.append(round(res,3))
-
-TODO: try to light the LED
-TODO: use voltage to current converter: 0..5V to 0..5/15mA?
-
-Emulator - Dynamic Behaviour to load-changes
---------------------------------------------
+### Emulator - Dynamic Behaviour to load-changes
 
 - setup
     - aux channel with 10 Ohm shunt
@@ -237,8 +228,7 @@ Emulator - Dynamic Behaviour to load-changes
     - on: - 48 mV, < 5 us, Quickprint361
     - off: + 56 mV, < 5 us, some dampened ringing afterwards < 30 us, Quickprint362
 
-Noise Behaviour
----------------
+### Noise Behaviour
 
 - Short -> Quickprint 49 - 54 (Ground-noise-floor)
     - 1.38 mVpp (10ms), 900 uVpp (100ns)
@@ -257,16 +247,16 @@ Noise Behaviour
 - 10 Ohm shunt@1V, RailB, 1k Load, A5V -> Quickprint 83 - 86 -> 40 mVpp ???
     - 21-30 mVpp with strong 50 Hz switching noise (10ms)
 
-TODO: shunt-noise is bad, why? -> it isn't, ~
-TODO: are -6V and 6V and 10V improved to last time?
-    - 10 V is similar
-    - 6 V has no record
-    - -6V is worse! (USB-Powered)
-TODO: how does input voltage perform?
+#### TODO
 
+- shunt-noise is bad, why? -> it isn't, ~
+- are -6V and 6V and 10V improved to last time?
+  - 10 V is similar
+  - 6 V has no record
+  - -6V is worse! (USB-Powered)
+- how does input voltage perform?
 
-GPIO to Target
---------------
+### GPIO to Target
 
 - PRU-Recording
     - GPIO 0 -> 1   (r31_00) -> GPIO0
@@ -328,19 +318,20 @@ Trying to find reason of slow rising edges
 - LSF-SignalPads A to B -> resistance while on = 6 Ohm, off = infinite
 - 100k as PU on Target side worsens the edge-timing
 
-TODO: test reverse-channel
-TODO: test 1k PU on BB-Side
-TODO: add scope-shots to project with leading 3xx
-TODO: Goal 1Mbit UART
-TODO: Friedrich is getting < 500 ns Edges with no Series Resistor, 10 k PU on both sides, and 140k on RefA for slightly higher V_thres = 1.2 V
+#### TODO
 
-Program EEPROM
---------------
+- test reverse-channel
+- test 1k PU on BB-Side
+- add scope-shots to project with leading 3xx
+- Goal 1Mbit UART
+- Friedrich is getting < 500 ns Edges with no Series Resistor, 10 k PU on both sides, and 140k on RefA for slightly higher V_thres = 1.2 V
 
-usage::
+#### Program EEPROM
 
-    sudo shepherd-sheep -vvv eeprom read
-    sudo shepherd-sheep -vvv eeprom write -v 00B0 -s 210617AA0001 --no-calib
+```Shell
+sudo shepherd-sheep -vvv eeprom read
+sudo shepherd-sheep -vvv eeprom write -v 00B0 -s 210617AA0001 --no-calib
+```
 
 - access fails 'FileNotFoundError: [Errno 2] No such file or directory: '/sys/bus/i2c/devices/2-0054/eeprom'
 - EEPROM is on port P9_19/20 and write_protection on P9_23
@@ -353,15 +344,13 @@ usage::
     - fixed by hardwiring 3V3 from BB to offline L3V3 line
 - WORKS as expected
 
-External Power
---------------
+### External Power
 
 - Switching Ferrite is not as intuitive as imagined -> mark better
 
 TODO: measure changes in Noise
 
-Watchdog
---------
+### Watchdog
 
 - BB_nSTART = P9_09, BB_nRES = B9_10, WD_ACK = P8_10
 - watchdog is set to 60min per schematic, but is now modded to 20 min (parallel 2x 100k as R101)
@@ -396,8 +385,7 @@ stop launcher::
 
 TODO: Why is boot not working? Even a fresh BB does not respond to a ~ 20 ms LOW nSTART
 
-External Button
----------------
+### External Button
 
 - V2.0 SocketConfig: 3V, LED_OD, BTN_SENSE, GND (was taken from Kais schematic, but there the footprint was flipped)
 - V2.1 SocketConfig: GND, BTN_SENSE, LED_OD, 3V3 (1:1 Shepherd 1.x)
@@ -406,9 +394,9 @@ External Button
 - problem: shepherd-service expects correct /etc/shepherd/config.yml ...
 - all fine now - works!
 
-Bootpin-Overlay conflicts with bootup
--------------------------------------
+### BeagleBone-Boot-Pins
 
+- Bootpin-Overlay conflicts with bootup
 - Problem 1: some essential PRU-Pins are also deciding how the BB boots up
 - Problem 2: was hard to catch, because reboots und some powerups seem to be fine
 
@@ -442,7 +430,6 @@ Bootpin-Overlay conflicts with bootup
 
 - solution: analog switch for 41-44
 
-Something Else????
-------------------
+## Validation
 
 - 2nd (fresh) BBone was tested with current Shepherd v2.1 -> works fine (when omitting pins p9 41-44 during uboot)

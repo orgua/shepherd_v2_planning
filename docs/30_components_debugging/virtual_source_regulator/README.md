@@ -37,7 +37,7 @@
 
 ![vsrc](virtual_source_schemdraw.png)
 
-![Sim_i100uW_o2mW](media/vSource_in100uW_out2mW.png)
+![Sim_i100uW_o2mW](vSource_in100uW_out2mW.png)
 
 ## Implementation
 
@@ -107,9 +107,9 @@
 - 2000 ns write DAC (currently both channels are written for debug) and buffer-output
 - 200 ns message handling
 
-![EmuSrc](media/vSource_on_emu.png)
+![EmuSrc](vSource_on_emu.png)
 
-![EmuDetail](media/vSource_on_emu_detail.png)
+![EmuDetail](vSource_on_emu_detail.png)
 
 ## Performance on real hardware
 
@@ -120,13 +120,13 @@
     - 1 mA drain, dutycycle ~ 2.7 %, On-Time ~ 8.16 ms.
 - cap voltage moves between power-good-thresholds of 2.4 and 2.8 V
 
-![vsrc_10mA](media/vSource_indoor_solar_with_10mA_drain_pwrgood.png)
+![vsrc_10mA](vSource_indoor_solar_with_10mA_drain_pwrgood.png)
 
-![vsrc_10mA_detail](media/vSource_indoor_solar_with_10mA_drain_pwrgood_detail.png)
+![vsrc_10mA_detail](vSource_indoor_solar_with_10mA_drain_pwrgood_detail.png)
 
-![vsrc_1mA](media/vSource_indoor_solar_with_1mA_drain_pwrgood.png)
+![vsrc_1mA](vSource_indoor_solar_with_1mA_drain_pwrgood.png)
 
-![vsrc_1mA_detail](media/vSource_indoor_solar_with_1mA_drain_pwrgood_detail.png)
+![vsrc_1mA_detail](vSource_indoor_solar_with_1mA_drain_pwrgood_detail.png)
 
 ## Dev Scratch Area
 

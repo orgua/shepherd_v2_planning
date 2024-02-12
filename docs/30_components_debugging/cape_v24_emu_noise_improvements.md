@@ -1,4 +1,20 @@
-## Reduce Noise in Current-Measurement for Emulator
+# Reduce Noise in Current-Measurement for Emulator 
+
+## Problem
+
+- Cape PCB v2.4
+- current measurement is noiser than expected
+
+
+## TLDR - Proposed Design-Changes
+
+- 10R shunt has no advantages
+- buffer 10mV with 2x 10uF (C147, 148)
+- increase LP for DAC & Opa with 2x +1nF (C141, C3)
+- add LP to InAmp (2x 150R, 2x1nF to GND, 10nF mid)
+- increase LP for ADC, C62, 100nF
+
+## Measurement Setup
 
 nrf-only target -> SMU shows 19nA
 nrf-msp-target shows 22nA ?!?
@@ -10,6 +26,7 @@ All @3V
 - AB1805  	55 nA with XTAL
 	-> expected target-deep-sleep of 500nA
 
+## Measurements
 
 modded emu
 	mean: 1.6004410204895745e-05
@@ -162,18 +179,3 @@ SAME, but now with negative values
 InAmp -> Add LP with 2x150R, 2x1nF to GND, 10nF mid
 
 Switch to ADC +- Range
-
-
-TODO Changes in Design:
-- 10R shunt has no advantages
-- buffer 10mV with 2x 10uF (C147, 148)
-- increase LP for DAC & Opa with 2x +1nF (C141, C3)
-- add LP to InAmp (2x 150R, 2x1nF to GND, 10nF mid)
-- increase LP for ADC, C62, 100nF
-
-
-sudo shepherd-sheep run /etc/shepherd/target_device_test3.yaml
-
-scp jane@sheep0:/var/shepherd/recordings/target_device_test4.32.h5 ./test4.h5
-shepherd-data extract-meta ./test4.h5
-shepherd-data plot -s1 -e5 ./test4.h5

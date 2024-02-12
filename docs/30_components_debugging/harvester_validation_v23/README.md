@@ -1,11 +1,10 @@
-Harvester Frontend
-===================
+# Harvester Frontend Validation
 
 Test of various harvesting algorithms with a solar cell
 
 - solar cell: IXYS SM101K09L
 - lighting by philips LED 9W 806 lm, 50 Hz
-- harvesting Profiles in detail_
+- [harvesting Profiles in detail](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
 - Plots show
     - a general overview while the lighting was moved
     - an area with low light
@@ -20,104 +19,97 @@ Test of various harvesting algorithms with a solar cell
     - all: detail-shots show a 5 kHz and 50 kHz resonance for high currents
     - iv open input: voltage seems to follow despite no driving source
 
-.. _detail: https://github.com/orgua/shepherd//blob/master/software/python-package/shepherd/virtual_harvester_defs.yml
-
-MPPT VOC
---------
+## MPPT VOC
 
 - setpoint 76 %
 - 100 ms intervall with 1.2 ms VOC-measurement
 
 Overview
 
-.. image:: ./hrv_mppt_voc_overview.png
+![overview](hrv_mppt_voc_overview.png)
 
 Lowlight
 
-.. image:: ./hrv_mppt_voc_lowlight.png
+![LowLight](hrv_mppt_voc_lowlight.png)
 
 Bright Light
 
-.. image:: ./hrv_mppt_voc_led_light.png
+![BrightLight](hrv_mppt_voc_led_light.png)
 
 Bright Light Detail
 
-.. image:: ./hrv_mppt_voc_led_light_detail.png
+![BrightDetail](hrv_mppt_voc_led_light_detail.png)
 
-MPPT PO
--------
+## MPPT PO
 
 - 6 ms intervals with visible 10 mV (minimal) step-size
 - "follow the highest power-output"
 
 Overview
 
-.. image:: ./hrv_mppt_po_overview.png
+![overview](hrv_mppt_po_overview.png)
 
 Lowlight
 
-.. image:: ./hrv_mppt_po_lowlight.png
+![LowLight](hrv_mppt_po_lowlight.png)
 
 Bright Light
 
-.. image:: ./hrv_mppt_po_led_light.png
+![BrightLight](hrv_mppt_po_led_light.png)
 
 
 
-IV-Curve 110 Hz
----------------
+## IV-Curve 110 Hz
 
 - 0 to 5 V, 909 Steps (between 50 & 60 Hz)
 
 Overview
 
-.. image:: ./hrv_ivcurve110Hz_overview.png
+![overview](hrv_ivcurve110Hz_overview.png)
 
 Lowlight
 
-.. image:: ./hrv_ivcurve110Hz_lowlight.png
+![LowLight](hrv_ivcurve110Hz_lowlight.png)
 
 Bright Light
 
-.. image:: ./hrv_ivcurve110Hz_led_light.png
+![brightLight](hrv_ivcurve110Hz_led_light.png)
 
 Bright Light Detail
 
-.. image:: ./hrv_ivcurve110Hz_led_light_detail.png
+![BrightDetail](hrv_ivcurve110Hz_led_light_detail.png)
 
 
-IV-Curve 1000 Hz
----------------
+## IV-Curve 1000 Hz
 
 - 0 to 5 V, 100 Steps
 
 Overview
 
-.. image:: ./hrv_ivcurve1000Hz_overview.png
+![overview](hrv_ivcurve1000Hz_overview.png)
 
 Lowlight
 
-.. image:: ./hrv_ivcurve1000Hz_lowlight.png
+![LowLight](hrv_ivcurve1000Hz_lowlight.png)
 
 Bright Light
 
-.. image:: ./hrv_ivcurve1000Hz_led_light.png
+![BrightLight](hrv_ivcurve1000Hz_led_light.png)
 
 Bright Light Detail
 
-.. image:: ./hrv_ivcurve1000Hz_led_light_detail.png
+![BrightDetail](hrv_ivcurve1000Hz_led_light_detail.png)
 
-IV-Curve with Open Input
-------------------------
+## IV-Curve with Open Input
 
 - no solar!
 - 110 Hz and 1000 Hz Plots
 
 110 Hz
 
-.. image:: ./hrv_iv110Hz_open_input.png
+![110Hz](hrv_iv110Hz_open_input.png)
 
 1000 Hz
 
-.. image:: ./hrv_iv1000Hz_open_input.png
+![1000Hz](hrv_iv1000Hz_open_input.png)
 

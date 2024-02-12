@@ -1,8 +1,8 @@
-Shepherd Cape v2.3
-==================
+# Cape PCB v2.3
 
-Changes Done for v2.4
----------------------
+NOTE: this could also be the changes for v2.4
+
+## Implemented Changes
 
 - Power Analog-Switch U30 from BB 3V3
 - stabilize ADC with 22 pF at Input -> 60 kHz Fc
@@ -69,8 +69,7 @@ Changes Done for v2.4
 - add more decaps for level-translators
 - Remove dedicated harvest-led -> use pru0-LED for that
 
-Changes still Open
-------------------
+## Open Issues
 
 - which rails would benefit from big Caps?
 - emu-shunt should be stabilized with > 500 nF (and probably the others too)
@@ -91,10 +90,9 @@ Changes still Open
 - diodes for coils if needed
 - LED of PRU: dedicated pwr_good / harvesting on silkscreen
 
-Trouble with v2.3c - manual P'n'P
----------------------------------
+### Trouble with v2.3c - manual P'n'P
 
-Fixed in v2.3d
+Fixed in v2.3d:
 
 - better comments for parts, U- , L-, R-.... T-
 - SLG5... 4pin-mini-package, improve pin1-point and pad-layout should be hinted at ->
@@ -111,8 +109,7 @@ Fixed in v2.3d
 - some ICs are shorted -> old paste
 
 
-Additional Parts
-----------------
+## Additional Parts
 
 - 22pF for Emu-ADC
 - 1k Ohm VIO-Buffer
@@ -124,14 +121,12 @@ Additional Parts
 - AnalogSwitch: 9x 863-NLAS4684FCT1G
 - pinheader 2x18, 2x 649-1012938191801BLF
 
-Parts not needed anymore
-------------------------
+## Removed Parts
 
 - OVP: 2x FB 0603, C 22 uF, R 10 k, Mosfet BSH105, Diode NSR05T30XV2T5G
 - WD: R 10k
 
-Target Pin Design
------------------
+## Target Header Design
 
 - GPIO 0            - dir1-pin / rxtx
 - GPIO 1            - dir1-pin / rxtx
@@ -149,12 +144,11 @@ Target Pin Design
 - SWD2 CLK - jtag TDO   - always TX
 - SWD2 IO  - jtag TMS   - pDir2-pin / rxtx
 
-PinChanges from prior Version v2.2 to v2.3
---------------------------------
+## BBone Pin Changes
 
 see `./PCB/beaglebone_pinout_concept.xlsx` for more details
 
-Changes
+### Changes
 
 - p8-27 was pru-gpio4, now pru-uart-tx
 - P8-39 was pru-gpio2, now pru-gpio6
@@ -164,10 +158,9 @@ Changes
 - P9-17 only naming, swd1_clk
 - P9-18 only naming, swd1_io
 
-New
+### New
 
 - p8-31 / 32 now used for io-dir
 - p8-33 sw_swd2_io
 - p8-34 sw_gpio6
 - p8-35, 36, 37, 38
-

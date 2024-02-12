@@ -1,44 +1,41 @@
-Shepherd Cape v2.4b
-==================
+# Cape v2.4b Review
 
-Hardware
---------
+## Hardware
 
 - 15 Capes with Emu & Hrv, produced by Egas
 - Serialnumbers
 
-    - 1270053 -> initial test subject, Update: defect VConverter
-    - 1270057 -> kai
-    - 1270060 -> new LabTester
+    - 1270053 →initial test subject, Update: defect VConverter
+    - 1270057 → kai
+    - 1270060 → new LabTester
 
-- to solder:
+Remaining PCBs became the first testbed-instance at TUD. See [Doc Testbed](https://github.com/orgua/shepherd_v2_planning/tree/main/doc_testbed)
 
-    - 2x 2x46 Pinheader -> BBone Port
-    - 2x 2x9 Pinheader -> Target Ports
-    - 2Pin Screw-Header -> VoltageInput
-    - 4Pin Connector on Bottom -> External LED-PushButton
-    - 2x2 PinHeader -> HrvPort
+## Manual Soldering
 
-    - Caps on Bottom
+- 2x 2x46 Pinheader -> BBone Port
+- 2x 2x9 Pinheader -> Target Ports
+- 2Pin Screw-Header -> VoltageInput
+- 4Pin Connector on Bottom -> External LED-PushButton
+- 2x2 PinHeader -> HrvPort
 
-        - 6V Rail -> ~~10V 680 uF, DNP
-        - L5V Rail -> ~~6V3 1 mF~~, 2x 220 uF 6V3 MLCC
-        - 5V Rail -> ~~6V3 1mF~~, DNP, 2x 220 uF 6V3 MLCC
-        - 16V Rail -> ~~25V 470 uF~~, 2x 100 uF 16V MLCC
+- Caps on Bottom
+    - 6V Rail -> ~~10V 680 uF, DNP
+    - L5V Rail -> ~~6V3 1 mF~~, 2x 220 uF 6V3 MLCC
+    - 5V Rail -> ~~6V3 1mF~~, DNP, 2x 220 uF 6V3 MLCC
+    - 16V Rail -> ~~25V 470 uF~~, 2x 100 uF 16V MLCC
 
-- to fix
+## Manual Fixes
 
-    - U32 (SOT23-5) Opa189 -> replace with Opa388
-    - U3 (Emu-mid-right) -> add >= 100 nF from Pin6 to -6V (Pin5) or left side of cap (in front)
-    - R-Serial: 14x 470 R to 240 R (put second 470R on-top)
-    - switch Hrv-Ref to 0R-to-GND (R132) - left bottom outside hrv-cage + add 100nF to GND there for 10mV (now free Pad)
-    - stabilize 10 mV -> 1uF increase to 2x 10uF, 2R increase to 10R (PIC
+- U32 (SOT23-5) Opa189 -> replace with Opa388
+- U3 (Emu-mid-right) -> add >= 100 nF from Pin6 to -6V (Pin5) or left side of cap (in front)
+- R-Serial: 14x 470 R to 240 R (put second 470R on-top)
+- switch Hrv-Ref to 0R-to-GND (R132) - left bottom outside hrv-cage + add 100nF to GND there for 10mV (now free Pad)
+- stabilize 10 mV -> 1uF increase to 2x 10uF, 2R increase to 10R (PIC
 
-Initial Test for Functionality
-------------------------------
+## Initial Test for Functionality
 
-PCB 1270053
-~~~~~~~~~~~
+### PCB Nr. 1270053
 
 - visual: OK
 
@@ -98,8 +95,7 @@ Defect - VReg -> TLDR: U20/6VReg
     - 3V -> max C (300mA) down to 2V -> U21 gets really hot > 60C
 
 
-PCB Nr. 1270057
-~~~~~~~~~~~~~~~
+### PCB Nr. 1270057
 
 - Visual OK
 - GPIO Toggling Port A & B all Pins OK
@@ -107,8 +103,7 @@ PCB Nr. 1270057
 
 - TODO: Cal with & without additional Caps, GPIO-Direction-Change,
 
-PCB Nr. 1270060
-~~~~~~~~~~~~~~~
+### PCB Nr. 1270060
 
 - Initial Tests OK
 - High C after Mods (EN)
@@ -119,8 +114,7 @@ PCB Nr. 1270060
     - -6V
 - -> Fixed (with cleaning?)
 
-PCBs for TB
-~~~~~~~~~~~~
+### PCBs for TB
 
 - 1270051: 92mA On
 - 1270052: 94mA On
@@ -138,18 +132,21 @@ PCBs for TB
 - 1270064: 92mA On
 - 1270065: 90mA On
 
-Cal...
+Calibrate...
 
+```Shell
 shepherd-cal calibration measure -v --cape-serial 1270060 --write --smu-ip 10.0.0.24 sheep0
 shepherd-cal calibration write -v --cal-file ./2023-08-27_12-39-20_shepherd_cape.cal_data.yaml sheep0
+```
 
 profile..
 
+```Shell
 shepherd-cal profile measure -v --short --cape-serial 1270060 --smu-ip 10.0.0.24 sheep0
 shepherd-cal profile analyze -v --plot ./
+```
 
-Errors & Improvements (for 2.4c)
---------------------------------
+## Errors & Improvements (for 2.4c)
 
 - BB does not survive turning on the cape
 
@@ -180,9 +177,11 @@ Errors & Improvements (for 2.4c)
 - stabilize Emu, Current measurement
 - hardwire 10mV only to Emu
 
+## Profiling
 
-Ref = GND
+### Ref = GND
 
+```
   DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=466.85, stddev=99.89
   DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=4903.37, stddev=85.11
   DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3995 V;      I_raw: mean=49276.55, stddev=88.43
@@ -197,9 +196,11 @@ Ref = GND
   DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9732 V;       I_raw: mean=4900.14, stddev=5.81
   DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8746 V;      I_raw: mean=49275.76, stddev=7.61
   DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7552 V;      I_raw: mean=98601.86, stddev=12.64
+```
 
-Ref = 10 mV
+### Ref = 10 mV
 
+```
   DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1023.15, stddev=99.29
   DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5464.52, stddev=85.00
   DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3996 V;      I_raw: mean=49884.01, stddev=88.74
@@ -214,9 +215,11 @@ Ref = 10 mV
   DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9732 V;       I_raw: mean=5899.41, stddev=6.18
   DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8756 V;      I_raw: mean=50311.76, stddev=7.57
   DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7576 V;      I_raw: mean=99679.24, stddev=12.69
+```
 
-Ref = 10 mV, double 0R
+### Ref = 10 mV, double 0R
 
+```
   DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1335.36, stddev=99.78
   DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5776.61, stddev=85.28
   DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3996 V;      I_raw: mean=50194.40, stddev=88.54
@@ -231,62 +234,16 @@ Ref = 10 mV, double 0R
   DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9732 V;       I_raw: mean=6212.20, stddev=6.03
   DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8753 V;      I_raw: mean=50624.02, stddev=7.78
   DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7568 V;      I_raw: mean=99989.86, stddev=12.78
+```
 
+```
 adc_voltage = value_raw * 1.25 * 4.096 / (2**18)
             = 8.39 mV observed offset-error
+```
 
-Bughunt with AD8421 Datasheet
+## Bughunt with AD8421 Datasheet
 
 RREF: 2;
 GAIN: 2 * (10e3 + RREF) / (20e3 + RREF);
 Error: 5*GAIN - 5;
 -> ~ 500 uV
-
-
-TODO for V25
-------------
-
-- lower current-limiting resistors from 470 R to 240 R (see new target)
-- emu U32 replace OPA189 bei OPA388
-- LP for InAmp AD8421 -> 80kHz with 2x 100R, +2x 1nF to GND
-- change invNr-Sys to solid white rect
-- Emu - use 10mV Ref directly, without Switch
-- Rec - use GND as Ref directly
-- stabilize 10 mV -> 1uF increase to 2x 10uF, 2R increase to 10R
-- replace electrolytic Caps by MLCC (Optionals on Backside)
-
--> implemented in V2.5 - https://github.com/orgua/shepherd_v2_planning/tree/main/PCBs/shepherd_cape_v2.5a
-
-- xp: add 150R as LP for Emu-InAmp (~50kHz)
-- xp: double C141, C3 (Emu around U32 Opa)
-- xp: 10mV Ref input - C149 - 1uF + 10uF
-
-TODO NextGen
-------------
-
-- change ADC to higher resolution?
-- change OP-Ampdriver to higher output? Double Opa388?
-- make system modular?
-- direction pin GPO:3 for leveltranslators is named strangely
-- Recorder -> Harvester
-
-PWR-Board
-~~~~~~~~~~
-
-- 3 inputs (Enable, 5V, <= 17V)
-- 4 Output (L3V3, -6V, L5, 10V)
-- GND
-
-EMU / HRV Board
-~~~~~~~~~~~~~~~~
-
-- GND
-- 10 inputs (4 voltages, 3 SPI, 3 SPI-CS,
-- 4 outputs (2 Rails, 2 Feedback)
-- (generalized) - no enable needed
-
-advantages
-
-- would allow to specialized BBones
-- sub-pcbs are reusable
-- harvesting with a cheaper network of nrf52 + pwr + hrv (rf-syncronized)

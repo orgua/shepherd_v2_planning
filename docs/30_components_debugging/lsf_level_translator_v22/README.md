@@ -15,7 +15,7 @@
 - Side A has constant supply voltage of 3.3 V
 - side B supply is dynamic, 0 to 5 V, but voltages below 1 V are not expected to be covered by the translator
 
-![lvl](media/leveltranslator_schematic.png)
+![lvl](leveltranslator_schematic.png)
 
 ## Nexperia LSF0108
 
@@ -77,7 +77,7 @@ VRefAA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 + R2*R3);
 # VRefA = 0.89 V for TI, 0.85 V for Nexperia
 ```
 
-![lvl_fixed](media/leveltranslator_schematic_fixed.png)
+![lvl_fixed](leveltranslator_schematic_fixed.png)
 
 ## Single Supply Verification
 

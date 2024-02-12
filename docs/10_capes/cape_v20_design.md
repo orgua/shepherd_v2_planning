@@ -1,4 +1,4 @@
-# Design of Cape v2.0 to v2.2
+# Cape PCB v2.0
 
 ## General rule for assembly-drawings
 
@@ -14,7 +14,7 @@
     - Top Overlay
 -> print in Color
 
-## Changes for v2.0r0
+## Implemented Changes v2.0r0
 
 - 4 Layer! Planes for Sig, GND, A5V, (3V3)
 - decide Manufacturer, EC, Aisler, Betalayout
@@ -29,7 +29,7 @@
 - thermal pad of switch unused? yes, no word of use in datasheet
 - increase restring / holesize, sheph seems to have 0.15mm holes?, target 0.075 ring
 
-## Changes for v2.0r1
+## Implemented Changes v2.0r1
 
 - Beaglebone
 - Emulator
@@ -150,7 +150,7 @@
 - update BOM
 - v2r1 ordered
 
-## Changes for v2.0r2
+## Implemented Changes v2.0r2
 
 - silkscreen - 10k array are 1k
 - 3d-Step: shield transparent for better view below
@@ -215,7 +215,7 @@
 - add open source hardware logo?
 
 
-### Schematic Changes - Open
+## Schematic Changes - Open
 
 - prepare calibration
 - ordered not enough 15uH Coils, need 30 more
@@ -223,7 +223,7 @@
 - shepV1 had a user-space led, which is still there, same pin, but pru-controlled, was it the same in v1?
 - explain schematics,
 
-### Part Changes
+## Part Changes
 
 Note: after Mouser-Order - NOW already ordered
 
@@ -236,7 +236,7 @@ Note: after Mouser-Order - NOW already ordered
 - all       4x 15uH/4mm -> 15uH/3mm
 - parts of nRF-Target
 
-### Schematic Changes Postponed
+## Schematic Changes Postponed
 
 - internal calibration? with 2 switches and 1 calibration-linear-power-supply
 - OP-Amp, bias Subtractor: LMP7701MF, not needed now
@@ -257,181 +257,3 @@ Note: after Mouser-Order - NOW already ordered
 - oscillating opAmp should be outside of cage
 - allow install of a big cap on A5V or 5V, 5v5 1F is cheap
 - add longer pinheader for p8/p9 23-46
-
-## Changes for v2.1r0
-
-- level translators - implement single voltage supply
-- smooth 6v-boost -> larger capacitors 58uF to 158uF, ferrite, lower boost-voltage 5.38 V instead of 6.766
-    - typical on A5V are 38mA for Quiet/On, 150mA max, mp3221 gives formular for upper thresholds of Vpp
-    - old config: 164 uVpp (38mA) to 645 uVpp (150mA)
-    - new config: 27 uVpp (38mA) to 104 uVpp (150mA) -> effect of ferrite not included
-    - LDO is rated for 60 dB dampening, but measurements show a factor of ~ 500x of ripple rejection
-- 6V Regulator overdrive is edgy, sw-pin is good for +8V, currently there are ~ 7.14 V
-- Target-IO-PUs - get powered by unmonitored voltage buffer
-- add 3v3 converter (linear), because BB provides very noisy power (both 5V & 3V)
-- make sure shepherd works (theoretically) with BB Black (not only Green) -> Boot-CFG is identical
-- recheck which IC gets which voltage (5V Sys is exceptional noisy)
-- allow to run completely from external power -> move sys-5v ferrite
-- main power switch not needed
-- mark ext input
-- sensitive lines should get more distance from gnd-polygon
-- consider ultra low noise ldo for -6 and 10V
-    - No suitable 5 to 10V voltage doubler found (fast switching, low noise)
-    - there are quiet inverters (LM27761) though
-    - see "noise_performance.rst" for more info
-- adjusted Pads of some footprints - reduce width a bit when solder resist was too narrow on ICs
-- improve GPIO signal integrity (1k from target can be removed), 100k PU on Sys-Side replace by 10 k
-- better buffer the io voltage, needs single OPA, but gets rid of one NLAS-Switch
-- PI-Filter is bad for varying loads, so only use with dac / adc
-    - keep 100 uF constant, but vary inductance to optimize voltage drop -> << 1 mV
-- external cables, filter and buffer (100nF)
-- (NOT DONE) if there is enough space -> switch out 47uH Coil of LC-LP to 150uF (larger)
-- **gpio - RC lowpass** -> Line-Capacity vs. current-limiting resistor
-    - L1L2 distance 2x 180 um, e_r ~4.2
-    - trace width 250 um
-    - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
-    - C = e*A/d = 3.4 pF -> max capacitance of 1 gpio-trace on shepherd-pcb
-    - C_lvl = 12.5 pF
-    - R = 1k
-    - fc = 10 MHz (neglecting target and BB capacitances)
-- re-evaluate spi-lines -> fine
-- via-fence near the lan-port
-- QR-Code is readable, but still a bit messed up -> negative
-- target-connector-redefinition, bring GND to first and last position (EMV)
-- (target) reset (P0.18) with Resistor bridge to gpio-header
-- (target) remove more metal around antenna
-- compare LSF-Versions of TI with nexperia ones -> seems to be exact copy
-- would 1000 Hz on-off-pattern be possible? YES
-- (if there is time) - implement fixed recorder design
-
-### Additional Parts v2.1r0
-
-- lvl trans: 2x 240k, 2x 1M, 1x NLAS4684
-- emu vSwing: 10R 0.1%, 1.1k 1%
-- emu vDrop: NLAS4684, 100nF?
-- A3v3: lp2989-3.3, 10nF X7R,
-- VSenseStabilize: 1k
-- 6V Stabilize: 576k, 100uF, Ferrite
-- InAmp Stabilize: 100nF, 100k
-- DNP: Ferrite 5V_SYS (for pwr-rerouting)
-- 16VStability: 4x 33uH, 4x 10uF
-- 20x 10k, Opa388, 100nF, 1uF
-- removed: 1x NLAS, 2x Ferrite
-- removed: 20x 100k, 10x 1k
-- new: opa189 for recorder
-- removed / rec: mosfet, 1M, 10k
-
-### Power-Budget
-
-- see separate spreadsheet (PowerConsumption.ods)
-- BB takes <= 2W
-- Shepherd MAX ~ 1 W (4mW @ 3V, 743mW @ 5V, 36mW @ 6V, 74mW @ 16V) (with 2x 50mA Target)
-- Shepherd ON ~ 340 mW (4mW @ 3V, 190mW @ 5V, 36mW @ 6V, 74mW @ 16V)
-- ON Quiet Current matches with reality (66mA measured, 68mA calculated)
-
-### Open Issues
-
-- additional PCB for POE
-    - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
-    - switching regulator for 12/9 to 6V
-    - linear regulator with proper noise resistance for 6 to 5V
-    - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
-- fix layerwindows
-- optimize position of current limiting resistors
-- power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out
-- check / measure real reverse current of diode
-- evaluate higher driving strength for Target-Supply
-TODO:
-- new coil is now 963-NR3015T3R3M
-
-
-## Changes for v2.2
-
-- INFO for v2.1r0:
-    - first 4 Target-Boards has green LED1 (down) and red LED2 (up)
-    - Vanilla Shepherd v2.1 Cape stopped BB from booting and even putting it on while running failed (p8 41-44)
-    - removed watchdogpins (pwrOn&reset) allowed to put cape on while running (still not while booting)
-- L3V-TestPosition is bad, easy to produce shorts with neighbour
-- update expected voltage levels in schematic
-- label for pwr-led
-- AB-label of target bigger
-- P7/P8 seems wrong name for big pinheaders
-- testpoints without paste, and small hole in copper to lock a probe -> just less paste
-- is there a way for cage-selfalignment? -> negative solder mask exp
-- remove layerwindows and make number bigger
-- describe external powering better in schematic
-- pin1 markings should be bigger
-- emulationBug! - Critical
-    - solutionA - MinimalEffort: Swap FbB- with RailA-Trace
-        - FbB -> rotate R1/10k clockwise and attach it to middle pad
-        - RailA -> cut Trace between R9 and Via
-        - connect enamel from R9 to (now) free Pad of R1 -> this routes RailA to Switch
-        - connect enamel from TP1-Pad to rotated R1 -> this routes FbB to Switch
-    - solutionB - clean: rewire output of AnalogSwitch
-- silk: vCap is now V_SimBuf
-- schem: recorder gain is now just 10
-- more Metal for cooling the recorder-Path
-- Rail-LED is twisted! -> No its not
-- add 2x23 to BOM SSQ-123-03-G-D , digikey  	SAM1196-23-ND
-- VHarv lowpass is 160 kHz not 16 kHz as shown
-- change all lowpasses to 160 kHz
-- emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp -> now 2R & 1:50
-- Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and dont forget Silkscreens!
-- EEPROM needs to be always powered (BB 3V3)
-- reduce V_IO_BUF OPAmp-Resistor to 10 Ohms
-- a little bit bigger 0402-pads, they get loose quiet fast
-- level-change performance is still bad! maybe add 1k back?
-    - add back 1 kOhm as series resistor for LSF0801. maybe a bit lower because edges are a bit slow (1 us)
-- put a note in schematic for WD
-    - BB_START has 5V Level when BB is on, gets pulled to 3V3 when WD does its routine because schematic uses BB3V on it. but that seems ok!
-- get target A/B/1/2 straight. it is target 1/2 from now on! -> Skip it
-- C over Shunt is sometimes contraproductive (100 nF || 2 Ohm produce 1 MHz oscillation without any load but 100 nF buffer, 1uF/0uF is fine)
-- provide more help with switching to external pwr, switch? backside would be good
-    - switch + jumper?
-- add 74HC4066 and OPA189 to consumer-list, build a low-pwr Overview
-- optimize shepherd-EN (unlink rec/emu?`, better buffering?)
-- hw may be glitching BB - caps are getting big, voltage drop also -> critical!
-    - maybe add lowpass to en-pin of regulators or limit power
-    - TEST: run unittests 2-5x, often bb hangs itself somewhere between 47...80%
-    - scope shows:
-        - AC: 600mV dip on shepherd-enable, 3x 200mV stages, lowest point 600 us after start, then fast recovery to -300mV, slow after (quickshot 1-2)
-        - DC: 800 - 1100 mV Dip, but the first one (after a break of some minutes) is more severe
-    - another hang: converters did not start as planned, only 6V is up, L3V3 is at 2V, the others well below that
-    - mitigations: 1mF/16V Cap on 5VBB reduces voltage drops to ~ 200mV (max 300), in a 5 ms Windows (quickshot 4)
-- Add Cap
-- run through hw_performance_v2.1r0 for final cross-check
-- allow to turn off ADCs (not that important for EMU-only)
-- maybe add 2nd Switch for PRU-Ports, or lower resistors to <= 100 Ohm (speed-improvement)
-- around switch-IC, avoid solder bridges per design even more -> space out vias, reduce solder mask expansion
-
-### Additional Parts 
-
-Note: numbers for one Unit, refs are Mouser-Numbers
-
-- 2 Ohm precision shunt: 603-RT1206CRD072RL
-- 2 Ohm shunt: 667-ERJ-2GEJ2R0X
-- more 1k 0402 (2xRec, 2xEmu, 10x LvlChg)
-- 210R InAmp-Gain-Setter: 603-RT0402BRD07210RL
-- 1mF, 6V3, 647-UVR0J102MPD1TD (D8mm,L11mm,3.5mm Spacing)
-- analog switch, 2x 771-HC4066BQ115
-- 4x 963-NR3015T1R5N
-- LSF dev-kit
-
-### Open Issues
-
-- feducials could be removed - panel has plenty
-- more pinnumbers on big headers
-- test changed recorder
-- is harvest-LED working? YES, but only with higher currents
-    - var1: bind to vsim to allow more refined feedback
-    - var2: 3x 2.0V Leds from adc-input to -6V (with resistor, should always light up)
-    - var3: v-to-i converter
-- switch to TI Version of LSF0801 -> out of stock till feb.22
-- optimize LSF for 1 MBaud (see
-- WDog is still not triggering nSTART (pulse too short)
-- HC2G04 still has wrong comment
-- wrongly linked in schematic
-    - C53 L3V is part of recorder, but should be open domain
-    - C48 is recorder, but should be emu
-    - C24 is open domain, but should be recoder
-- has DAC also pin to disable?

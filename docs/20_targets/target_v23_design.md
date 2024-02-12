@@ -1,8 +1,6 @@
-Target with nRF52 and MSP430
-============================
+# Target with nRF52 and MSP430
 
-Changes still Open
-------------------
+## Implemented Changes
 
 - new Target-Port
 - wider PCB allowed, BB-Heigth is 54.1 mm -> half is max 27 mm
@@ -38,4 +36,7 @@ Changes still Open
 - msp430
 - shared pins are working fine on squeece, ~ 10nA draw on high impedance
 - add star-resistors
+
+## Open Issues
+
 - programmer - compensate lines with passive network

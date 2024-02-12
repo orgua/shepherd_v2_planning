@@ -67,7 +67,6 @@ It's beneficial to take macro-shots of the untouched PCBs for later reference as
     - Recorder is following, with 5V in, 1k pre-resistor, the op-amp switches from 0..5V with 20us period, shape of thin half sine
         - big voltage jumps take 1 to 1.7 ms, 0 to 5V, thats also the period duration for no active load
 - Performance (v2.1r0)
-    -
 
 Current PCB-Mods (v2.0r1):
     - P8-43/44 disconnected, messes with boot
