@@ -1,9 +1,6 @@
-Virtual Source
-==============
+# Virtual Source
 
-
-Current Features
-----------------
+## Current Features
 
 - general features
     - fully customizable per yaml-parameter-set
@@ -14,7 +11,7 @@ Current Features
     - oneway, imagine a perfect diode at the start so no current can flow back
     - diode voltage-drop can be configured from 0 to x Volt
     - maxima for input voltage and current (power limit)
-- Boostconverter, optional, with
+- Boost-converter, optional, with
     - enable minimum threshold voltage for input
     - disable maximum threshold for boost-output (intermediate voltage)
     - efficiency factor with 2D-LUT (12x12), depending on input voltage & current
@@ -38,13 +35,11 @@ Current Features
 - switchable output
     - simulated external Capacitor - should be set to buffer size of target: fast transients can't be fully monitored by shepherd
 
+![vsrc](virtual_source_schemdraw.png)
 
-.. image:: ./32_virtual_source_schemdraw.png
+![Sim_i100uW_o2mW](media/vSource_in100uW_out2mW.png)
 
-.. image:: media/vSource_in100uW_out2mW.png
-
-Implementation
---------------
+## Implementation
 
 - fixed point math with u32 & u64 with voltages in uV, currents in nA, power in fW, capacity in nF
 - a python port is available
@@ -98,8 +93,7 @@ Implementation
     - resulting in < 4300 ns for all
 - TODO: benchmark new extended code
 
-How PRU0 Spends the 10 us per Cycle
------------------------------------
+## How PRU0 Spends the 10 us per Cycle
 
 - ~ 1 - 2 us busy waiting for trigger (headroom for more workload)
 - 100 ns trigger ADC-Reading
@@ -113,14 +107,11 @@ How PRU0 Spends the 10 us per Cycle
 - 2000 ns write DAC (currently both channels are written for debug) and buffer-output
 - 200 ns message handling
 
+![EmuSrc](media/vSource_on_emu.png)
 
-.. image:: media/vSource_on_emu_detail.png
+![EmuDetail](media/vSource_on_emu_detail.png)
 
-.. image:: media/vSource_on_emu.png
-
-
-Performance on real hardware
-----------------------------
+## Performance on real hardware
 
 - dataset: indoor_solar/sheep4/office_sd.h5
 - cap 22 uF, 50% eta_in, 80% eta_out
@@ -129,62 +120,59 @@ Performance on real hardware
     - 1 mA drain, dutycycle ~ 2.7 %, On-Time ~ 8.16 ms.
 - cap voltage moves between power-good-thresholds of 2.4 and 2.8 V
 
-.. image:: media/vSource_indoor_solar_with_10mA_drain_pwrgood.png
+![vsrc_10mA](media/vSource_indoor_solar_with_10mA_drain_pwrgood.png)
 
-.. image:: media/vSource_indoor_solar_with_10mA_drain_pwrgood_detail.png
+![vsrc_10mA_detail](media/vSource_indoor_solar_with_10mA_drain_pwrgood_detail.png)
 
-.. image:: media/vSource_indoor_solar_with_1mA_drain_pwrgood.png
+![vsrc_1mA](media/vSource_indoor_solar_with_1mA_drain_pwrgood.png)
 
-.. image:: media/vSource_indoor_solar_with_1mA_drain_pwrgood_detail.png
+![vsrc_1mA_detail](media/vSource_indoor_solar_with_1mA_drain_pwrgood_detail.png)
 
-Dev Scratch Area
-----------------
+## Dev Scratch Area
 
-TI Compiler behaviour::
+TI Compiler behaviour
 
-    u64 * u64 -> 7 us
-    u32 * u64 -> 2.56 us
-    u64 * u32 -> 0.03 us, es rechnet nur u32*u32
+```C
+// u64 * u64 -> 7 us
+// u32 * u64 -> 2.56 us
+// u64 * u32 -> 0.03 us, es rechnet nur u32*u32
 
-    uint64_t debug_math_fns(const uint32_t factor, const uint32_t mode)
+uint64_t debug_math_fns(const uint32_t factor, const uint32_t mode)
+{
+    const uint64_t f2 = factor + ((uint64_t)(factor) << 32);
+    const uint64_t f3 = factor - 10;
+    GPIO_TOGGLE(DEBUG_PIN1_MASK);
+    uint64_t result = 0;
+    if (mode == 1)
     {
-        const uint64_t f2 = factor + ((uint64_t)(factor) << 32);
-        const uint64_t f3 = factor - 10;
-        GPIO_TOGGLE(DEBUG_PIN1_MASK);
-        uint64_t result = 0;
-        if (mode == 1)
-        {
-            const uint32_t r32 = factor * factor;
-            result = r32;
-        }									// ~ 28 ns, limits 0..65535
-        else if (mode == 2)	result = factor * factor; 			// ~ 34 ns, limits 0..65535
-        else if (mode == 3)	result = (uint64_t)factor * factor; 		// ~ 42 ns, limits 0..65535 -> wrong behaviour!!!
-        else if (mode == 4)	result = factor * (uint64_t)factor; 		// ~ 48 ns, limits 0..(2^32-1) -> works fine?
-        else if (mode == 5)	result = (uint64_t)factor * (uint64_t)factor; 	// ~ 54 ns, limits 0..(2^32-1)
-        else if (mode == 5)	result = ((uint64_t)factor)*((uint64_t)factor); // ~ 54 ns, limits 0..(2^32-1)
-        else if (mode == 11)	result = factor * f2;				// ~ 3000 - 4800 - 6400 ns, limits 0..(2^32-1) -> time depends on size (4, 16, 32 bit)
-        else if (mode == 12)	result = f2 * factor;				// same as above
-        else if (mode == 13)	result = f2*f2;					// same as above
-        else if (mode == 21)	result = factor + f2;				// ~ 84 ns, limits 0..(2^31-1) or (2^63-1)
-        else if (mode == 22)	result = f2 + factor;				// ~ 90 ns, limits 0..(2^31-1) or (2^63-1)
-        else if (mode == 23)	result = f2 + f3;				// ~ 92 ns, limits 0..(2^31-1) or (2^63-1)
-        else if (mode == 24)	result = f2 + 1111ull;				// ~ 102 ns, overflow at 2^32
-        else if (mode == 25)	result = 1111ull + f2;				// ~ 110 ns, overflow at 2^32
-        else if (mode == 26)	result = f2 + (uint64_t)1111u;			//
-        else if (mode == 31)	result = factor - f3;				// ~ 100 ns, limits 0..(2^32-1)
-        else if (mode == 32)	result = f2 - factor;				// ~ 104 ns, limits 0..(2^64-1)
-        else if (mode == 33)	result = f2 - f3;				// same
-        else if (mode == 41)	result = ((uint64_t)(factor) << 32u);		// ~ 128 ns, limit (2^32-1)
-        else if (mode == 42)	result = (f2 >> 32u);				// ~ 128 ns, also works
-        GPIO_TOGGLE(DEBUG_PIN1_MASK);
-        return result;
-    }
+        const uint32_t r32 = factor * factor;
+        result = r32;
+    }									// ~ 28 ns, limits 0..65535
+    else if (mode == 2)	result = factor * factor; 			// ~ 34 ns, limits 0..65535
+    else if (mode == 3)	result = (uint64_t)factor * factor; 		// ~ 42 ns, limits 0..65535 -> wrong behaviour!!!
+    else if (mode == 4)	result = factor * (uint64_t)factor; 		// ~ 48 ns, limits 0..(2^32-1) -> works fine?
+    else if (mode == 5)	result = (uint64_t)factor * (uint64_t)factor; 	// ~ 54 ns, limits 0..(2^32-1)
+    else if (mode == 5)	result = ((uint64_t)factor)*((uint64_t)factor); // ~ 54 ns, limits 0..(2^32-1)
+    else if (mode == 11)	result = factor * f2;				// ~ 3000 - 4800 - 6400 ns, limits 0..(2^32-1) -> time depends on size (4, 16, 32 bit)
+    else if (mode == 12)	result = f2 * factor;				// same as above
+    else if (mode == 13)	result = f2*f2;					// same as above
+    else if (mode == 21)	result = factor + f2;				// ~ 84 ns, limits 0..(2^31-1) or (2^63-1)
+    else if (mode == 22)	result = f2 + factor;				// ~ 90 ns, limits 0..(2^31-1) or (2^63-1)
+    else if (mode == 23)	result = f2 + f3;				// ~ 92 ns, limits 0..(2^31-1) or (2^63-1)
+    else if (mode == 24)	result = f2 + 1111ull;				// ~ 102 ns, overflow at 2^32
+    else if (mode == 25)	result = 1111ull + f2;				// ~ 110 ns, overflow at 2^32
+    else if (mode == 26)	result = f2 + (uint64_t)1111u;			//
+    else if (mode == 31)	result = factor - f3;				// ~ 100 ns, limits 0..(2^32-1)
+    else if (mode == 32)	result = f2 - factor;				// ~ 104 ns, limits 0..(2^64-1)
+    else if (mode == 33)	result = f2 - f3;				// same
+    else if (mode == 41)	result = ((uint64_t)(factor) << 32u);		// ~ 128 ns, limit (2^32-1)
+    else if (mode == 42)	result = (f2 >> 32u);				// ~ 128 ns, also works
+    GPIO_TOGGLE(DEBUG_PIN1_MASK);
+    return result;
+}
+```
 
-
-
-
-BQ25504 - Datasheet RevE
-------------------------
+## BQ25504 - Datasheet RevE
 
 - Input MAX: 0.1 A, 3 V, 300 mW
 - Input MIN: Cold Start Voltage 0.6 V, Harvesting down to 130 mV, Datasheet speaks of 10uW min Charging
@@ -204,7 +192,8 @@ BQ25504 - Datasheet RevE
 	- model needs better definition of limits
 - TODO: continue on p. 11, https://www.ti.com/lit/ds/symlink/bq25504.pdf?ts=1625558784652&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FBQ25504%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dapp-null-null-GPN_EN-cpc-pf-google-eu%2526utm_content%253DBQ25504%2526ds_k%253DBQ25504%2526DCM%253Dyes%2526gclid%253DEAIaIQobChMI_6nZmf7N8QIVmrd3Ch3Q4AxNEAAYASAAEgKpwPD_BwE%2526gclsrc%253Daw.ds
 
-Implemented:
+### Implemented
+
 - pru - check overflow with custom mul(), add(), sub() and limit to max / min
 - add min to limits in python
 - change efficiency to native 0 - 1 num
@@ -213,22 +202,14 @@ Implemented:
 - check and warn about limits in Python
 - add BQ25504
 
-HowTo fill Efficiency LUTs:
+### HowTo fill Efficiency LUTs:
+
 - find lowest threshold for current and voltage
 - it helps to add current/voltage-values for each column/row as comment on the outside
 - additional help: use editor that can highlight a string and fill table with placeholders (1.00 or 0.00 should work)
 - efficiency-graphs in datasheet allowed to deduct values and fill single columns and rows of 12x12-Table
 - the bq25504-input LUT had less than 30 (of 144) undetermined values -> interpolation with not much guesswork
 
-BQ25570
--------
+## BQ25570
+
 - implemented / defined and tested
-
-
-General Points
---------------
--
-
-
-- todo: extend converter: quiescent current when output is off in OV, UV,
-- TODO: 16s MPPT-Sampling

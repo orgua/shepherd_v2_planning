@@ -36,4 +36,4 @@ drawing += elm.Line().right()
 drawing += elm.Line().down().length(1.7)
 drawing += elm.Dot()
 
-drawing.save("32_virtual_source_schemdraw.png")
+drawing.save("virtual_source_schemdraw.png")
