@@ -25,23 +25,26 @@ Welcome to Shepherd's DevLog!
    10_capes/concept_capes
    10_capes/concept_cad
    10_capes/design_cape_v20
+   10_capes/test_for_functionality
    10_capes/harvesting_sources
 
 .. toctree::
    :maxdepth: 2
    :caption: Targets
 
-   30_hw_debugging/beaglebone_boot_pins
-   30_hw_debugging/watchdog
-   30_hw_debugging/gpio_level_translator
-   30_hw_debugging/noise_performance
-   30_hw_debugging/target_voltage
-   30_hw_debugging/recorder_drain
-
 
 .. toctree::
    :maxdepth: 2
-   :caption: HW-Debugging
+   :caption: Components & Debugging
+
+   30_components_debugging/beaglebone_boot_pins
+   30_components_debugging/watchdog
+   30_components_debugging/gpio_level_translator
+   30_components_debugging/noise_performance
+   30_components_debugging/target_voltage
+   30_components_debugging/recorder_drain
+   30_components_debugging/virtual_source_regulator
+   30_components_debugging/improve_pru
 
 .. toctree::
    :maxdepth: 2
@@ -49,6 +52,17 @@ Welcome to Shepherd's DevLog!
 
    40_embedded_sys/concept_pru
    40_embedded_sys/concept_py
+
+   40_embedded_sys/improve_linux
+   40_embedded_sys/improve_security
+   40_embedded_sys/fix_device_tree
+
+   40_embedded_sys/crypto_module
+
+   40_embedded_sys/evaluate_beaglebone_AI
+   40_embedded_sys/evaluate_beaglebone_AI64
+   40_embedded_sys/evaluate_raspberry_CM4
+
 
 .. toctree::
    :maxdepth: 2

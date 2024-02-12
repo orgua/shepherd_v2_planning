@@ -245,7 +245,7 @@ Note: after Mouser-Order - NOW already ordered
 - (maybe) add PU to watchdog outputs
 - separate PCBs for PPS-Source, Recorder, Emulator
 
-## Open Issues
+### Open Issues
 
 - only 5 diodes of type PMEG in order?
 - change 100 uF to 47u? one less component
