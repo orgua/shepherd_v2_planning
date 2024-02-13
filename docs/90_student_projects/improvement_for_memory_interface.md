@@ -10,7 +10,7 @@
 
 - focus is on the emulation part as this is most constrained
 - the PRUs are sampling an ADC, writing to a DAC and reading GPIO … and calculating some real-time math (virtual power source)
-- the linux side is controlled by a python-program that has a direct memory interface to the PRUs -> that program supplies input data and collects the resulting measurement stream
+- the linux side is controlled by a python-program that has a direct memory interface to the PRUs ⇾ that program supplies input data and collects the resulting measurement stream
 - (side-info) there is an optional second communication channel to a kernel module (python and PRU can each talk to that module) controlling most of the state-machine
 
 - Problem: the memory interface for exchanging that described measurement-data has some design-flaws described in "Current Situation" and "Known Constraints" below
@@ -19,7 +19,7 @@
 
 - overly complicated and "expensive" borrow & return system with a 64 segment ringbuffer (SampleBuffer)
 - SampleBuffer currently holds 100 ms of data (10 kSamples) and gpio-samples
-- nested gpio-struct (GPIOEdges) inside SampleBuffer holds only ~ 16 kSamples -> artificial bottleneck
+- nested gpio-struct (GPIOEdges) inside SampleBuffer holds only ~ 16 kSamples ⇾ artificial bottleneck
 - current trick / dirty hack as real time constraints got violated from time to time (when reading from RAM took to long): pru1 does the reading from RAM now and shares data via fast shared RAM (exclusive for PRUs) for pru0
 
 Timings for reference (emulation, data from mid 2021):

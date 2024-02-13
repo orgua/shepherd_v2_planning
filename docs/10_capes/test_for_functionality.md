@@ -28,7 +28,7 @@ It's beneficial to take macro-shots of the untouched PCBs for later reference as
 
 - BB starts 390 mA on VDD-5V line, booted: 170-240 mA
 - sudden 66 mA increase on shepherd EN is no problem for BB
-- WD-Pins could be a problem - my current test-BB is sensitive for power-button and shuts down -> use jumper?
+- WD-Pins could be a problem - my current test-BB is sensitive for power-button and shuts down ⇾ use jumper?
 - P8-43 or 44 is sensitive for input - BB does not boot when shepherd connects with these pins
     - both are for boot-config, BUT
     - LA shows that both pins are high even before 3v3 gets to the pins, lasts 7.4s for a fresh BB
@@ -36,7 +36,7 @@ It's beneficial to take macro-shots of the untouched PCBs for later reference as
         - p8-41/42 are HIGH for the same 7.5 s on boot
 - EN-Shepherd (P8-13) stays low during boot - perfect!
 - a fresh BB is sensitive for boot-pin during operation, it will shut down! start by triggering boot-pin again. Reset does nothing during power-off
-    - boot is high even before power-up. then low 2.3s until 3v3 come to pin -> shutdown command (short low), but then stays high during power-off
+    - boot is high even before power-up. then low 2.3s until 3v3 come to pin ⇾ shutdown command (short low), but then stays high during power-off
         - react to shutdown seem to be controlled by software (important for watchdog)
     - reset is low, changes to high when 3v3 come to pin, when 3v3 go on shutdown, the pin also changes to low
 
@@ -48,7 +48,7 @@ It's beneficial to take macro-shots of the untouched PCBs for later reference as
     - swdIO is inversed? low for 80ms instead of 10 ms high, or something is pulling
     - swdCLK is fine
 - Noise from Outside (v2.0r1)
-    - BB 5V Lines (both) show cutting 1V transients every 23.6 ms, around 400 us long (quickshot 73/74/80) -> due to diode between both 5V-Lines
+    - BB 5V Lines (both) show cutting 1V transients every 23.6 ms, around 400 us long (quickshot 73/74/80) ⇾ due to diode between both 5V-Lines
     - entry-filtering is not doing much for these rails
     - 6V has +120/-80 mV Spikes (qs77, 78)
     - 5V and 6V are only used as intermediate voltage steps
@@ -56,7 +56,7 @@ It's beneficial to take macro-shots of the untouched PCBs for later reference as
     - -6V +42/-30 mV
     - A5V +36/-28
     - 36 us, +-10mV Spikes, 500 ns long (qs82, 84)
-    - -> add a big external Cap on 5V
+    - ⇾ add a big external Cap on 5V
     - diode-connection between the two 5V-Rails could be the problem - there are no voltage-spikes over the diode, so the current seemed to be constant
         - without diode: Big Spikes are gone, 5V has now max -200 mV and other (qs85)
         - -6V & 10v & A5V are cleaner, delta 30mV (qs86-88)
@@ -75,13 +75,13 @@ Current PCB-Mods (v2.0r1):
     - 2x 1k-PU for boot, reset pins, only on shep-pcb als external jumper
     - switched inputs of R13, Shunt of Recorder, 2 lines cut and rerouted
     - diode over reverse-pol-mosfet
-    - 1k for LEDs -> OK
+    - 1k for LEDs ⇾ OK
     - 1 Level Translator fixed (single supply & lower threshold voltage ~ 900 mV)
     - (NO!) 5V_SYS switched over to 5V_VDD
-    - 8 Ohm right before Shunt -> stabilize
+    - 8 Ohm right before Shunt ⇾ stabilize
 
 Current PCB-Mods (v2.1r0):
 - switched target-power-lines between OP-Amp and switch
-- 1 mF / 16 V Cap on 5V PCB-Input -> helps stability during shepherd-enable
+- 1 mF / 16 V Cap on 5V PCB-Input ⇾ helps stability during shepherd-enable
 - change R15 (V_harv_sim), R8 (emu-rail_b) from 10k to 1k to bring lowpass to 160 kHz (6us) instead of 16 kHz (62us)
 - incomplete list, see "44_hw_performance_v2.1r0"

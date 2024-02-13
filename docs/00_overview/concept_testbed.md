@@ -21,14 +21,14 @@
 - **ZIH-Response and -Requirements**:
     - Nodes need installed fusion-inventory (to scan for vulnerabilities)
     - no QoS on Campus ("has more disadvantages")
-    - POE -> Configuration-Access to Switch only when used exclusively for this vLAN
-        - alternative: wake on LAN (WOL) -> no native beaglebone support (BBAI unclear, but unlikely)
+    - POE ⇾ Configuration-Access to Switch only when used exclusively for this vLAN
+        - alternative: wake on LAN (WOL) ⇾ no native beaglebone support (BBAI unclear, but unlikely)
     - current Switches should have very low jitter under low load, time in ASIC-Stack ~ 300 ns
         - lower latency ZIH alternative: infiniband, not applicable for us
     - we can't use the cable canal (== structural change)
     - wifi is used on channel 1, 6, 11, self-managed with varying tx-power, often < 20 mW
     - nodes are allowed to use the 2.4 GHz Band without restrictions, ZIH also offers to disable Wifi on these channels either for one floor or based on a schedule (routers seem to have that option, but it is untested)
-    - cisco switches offer "clean air"-Monitor-Service -> for II57 it reports 100% Quality with < 10 % non Wifi
+    - cisco switches offer "clean air"-Monitor-Service ⇾ for II57 it reports 100% Quality with < 10 % non Wifi
     - ports on corridors can be used but ZIH-Infrastructure has higher priority
     - nodes may not get direct internet connection (relayed)
 
@@ -50,17 +50,17 @@
 - needs access to vLAN of RF-Nodes (mostly ssh-based)
 - **ZIH-Requirements**:
     - managed by ZIH with Centreon
-    - for access from internet the server needs a security-concept -> needs to pass Greenbone Security Manager Test (GSM-Test)
-    - access via subdomain, cfaed, tu-website -> SSL-Certificate
+    - for access from internet the server needs a security-concept ⇾ needs to pass Greenbone Security Manager Test (GSM-Test)
+    - access via subdomain, cfaed, tu-website ⇾ SSL-Certificate
     - no SSH from Internet
 
 ## Data-Storage Constraints
 
-- 1 node, 1 min -> 54 MiB of measurement data
+- 1 node, 1 min ⇾ 54 MiB of measurement data
     - 7z compressible to 12 MiB (22%)
-    - zip -> 23 MiB
-    - tar -> 12 MiB
-- 1 Hour, 30 Nodes -> 100 GiB uncompressed
+    - zip ⇾ 23 MiB
+    - tar ⇾ 12 MiB
+- 1 Hour, 30 Nodes ⇾ 100 GiB uncompressed
 
 
 ## Misc
@@ -68,7 +68,7 @@
 - Casing in laser-acrylic or off-the-shelf case with custom front
     - input Marco: open and transparent is fine
     - Case should blend in, be passive and option to use powerstrips to attach it to wall or below desk
-- dynamic roles of nodes -> config can be "static" (network access, gps attached, mobile) -> ansible-roles
+- dynamic roles of nodes ⇾ config can be "static" (network access, gps attached, mobile) ⇾ ansible-roles
 - switching to BB-AI seems to be an important step, but price increase is 3.5 fold
     - focus is still on the PRUs, now 4 Cores
     - GBE is more than welcome

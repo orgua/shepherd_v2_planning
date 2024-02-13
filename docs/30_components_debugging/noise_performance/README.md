@@ -183,32 +183,32 @@ Scope Noise with grounded signal-input
 - disclaimer
     - some noise is very close to the scopes lower threshold (~ 1.2 mVpp)
     - A5V-LDO should have ~ 18 uV RMS-Noise with 60 dB Ripple Rejection (but show with higher noise)
-    - -> measurements can't be trusted when looking at individual values, but comparisons should be valid
+    - ⇾ measurements can't be trusted when looking at individual values, but comparisons should be valid
     - amplifying active probe should be preferred
-- A5V and VTargetA are very similar -> further analysis will take maximum of these two
+- A5V and VTargetA are very similar ⇾ further analysis will take maximum of these two
 - setup comparison (worst to best)
     - setup4 (NoName POE) shows heavy artifacts, Noise VTarget = 12 mVpp
     - setup3 (TPLink POE) shows some oscillations, Noise A5V = 3.3 mVpp
     - setup2 (Shepherd powered by sourcemeter) shows minor ripple, noise A5V = 2.1 mVpp
     - setup1 (benchPowered BB) shows minor ripple, Noise A5V = 1.9 mVpp
 - Sys_5V-Line is surprisingly noisy, but has limited influence on VTarget
-- 10 V / -6 V has some 7 - 20 kHz Ripple -> most likely bad for InAmp
+- 10 V / -6 V has some 7 - 20 kHz Ripple ⇾ most likely bad for InAmp
 
 ## Conclusion / Mitigations
 
 - BB-Power should be avoided
-    - switch to VDD_5V (less noisy) instead of sys-5v -> NOT POSSIBLE
+    - switch to VDD_5V (less noisy) instead of sys-5v ⇾ NOT POSSIBLE
     - Sys-5V was already used in previous shepherd pcb
     - avoid 3v3, generate on shepherd
     - allow manual "switch" to only use external power (move ferrite from sys_5V input to tap into 5v_ext-rail)
 - InAmp - further improvement in noise
     - filter input, increase shunt to 10 Ohm, and 100nF parallel to the shunt brings 160 kHz Lowpass
-    - filter output, 100k in line to ADC. ADC Pin has Capacitance of 5pF, Line ~1pF, brings ~300 kHz -> option to solder a cap to Testpoint
+    - filter output, 100k in line to ADC. ADC Pin has Capacitance of 5pF, Line ~1pF, brings ~300 kHz ⇾ option to solder a cap to Testpoint
 - POE-Input
     - should be allowed to be > 5V, and filtered by ldo
-    - **TP-Link TL-POE10R V5.0** is rated for 1A @ 9/12V, 2A @ 5V -> ~ 10 W
+    - **TP-Link TL-POE10R V5.0** is rated for 1A @ 9/12V, 2A @ 5V ⇾ ~ 10 W
 - Side Note
-    - TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm -> may shorten life-expectancy
+    - TP-Link POE-Splitter has heat-issues at least when powering ~300@5V, ICs are Ok, but the input Cap (47uF 100V) gets also very warm ⇾ may shorten life-expectancy
     - there is no cheap alternative for this unit
 
 ## Stabilize Supplies
@@ -233,14 +233,14 @@ Scope Noise with grounded signal-input
     - LT3094, ultra low noise, 0 to -20V, 74 dB Rejection, 2.2 nV/sqrt(HZ), 0.8 uV_RMS
 - InAmp AD8421
     - Inputs range from 0 to 5 V,
-    - differential Voltage of 0 to 500 mV, Gain 10 -> Power supply should be at least +9 V & -5 V, Ref = GND
-    - differential Voltage of 0 to 50 mV, Gain 100 -> Power supply should be at least +9 V & -5 V, Ref = GND
+    - differential Voltage of 0 to 500 mV, Gain 10 ⇾ Power supply should be at least +9 V & -5 V, Ref = GND
+    - differential Voltage of 0 to 50 mV, Gain 100 ⇾ Power supply should be at least +9 V & -5 V, Ref = GND
     - Diamond Plot: https://tools.analog.com/en/diamond/#difL=0&difR=0.05&difSl=0&gain=100&l=0&pr=AD8421&r=5&sl=0&tab=1&ty=2&vn=-5&vp=9&vr=0
     - there are two InAmps with a budget of ~ 74 mW, ~ 4.6 mA
-- Positive Voltage -> Voltage Doubler
+- Positive Voltage ⇾ Voltage Doubler
     - LM266x not suited, no low noise
     - LM276x not suited, no low noise
-- Negative Voltage -> Inverter, Charge Pump
+- Negative Voltage ⇾ Inverter, Charge Pump
     - LM27761, 20 uV_RMS, 35 dB rejection, 1.5 mV/V Line and 4.6 uV/mA Load Regulation,
     - LTC1550, not suitable
     - TPS63710

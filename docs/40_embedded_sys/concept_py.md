@@ -1,7 +1,7 @@
 # Concept for Python API
 
 - lean on interface of established entry-level projects (i.e. wiring, arduino)
-- submodules as classes -> basic configuration at instantiation
+- submodules as classes ⇾ basic configuration at instantiation
 - lib could be compiled for speed
 - do we need exact timestamps for start and stop or is a global trigger enough
 - hdf5 for fast storage, data can be segmented into several files, and written incrementally
@@ -22,7 +22,7 @@
 - bidirectional GPIO usage
    - allow to pass thread-function to nodes that handle reactions
 - start of measurement should be triggered by absolute timestamp and marks T=0
-    - what if the absolute time was missed? -> synced start whenever start-signal comes, should be enough
+    - what if the absolute time was missed? ⇾ synced start whenever start-signal comes, should be enough
     - after that it seems easier to use relative time increments for controlling submodules
     - interact with cron-jobs or other linux-scheduler
     - currently implemented: absolute time start with scheduler, node needs no control after config

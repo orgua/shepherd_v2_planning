@@ -5,14 +5,14 @@
 ```
 time openssl speed -evp aes-128-cbc
 
--> Benchmark of disabled module is ~3s
+⇾ Benchmark of disabled module is ~3s
     Doing aes-128-cbc for 3s on 16 size blocks: 5618835 aes-128-cbc's in 2.94s
     Doing aes-128-cbc for 3s on 64 size blocks: 1886183 aes-128-cbc's in 2.98s
     Doing aes-128-cbc for 3s on 256 size blocks: 517655 aes-128-cbc's in 2.98s
     Doing aes-128-cbc for 3s on 1024 size blocks: 132735 aes-128-cbc's in 2.97s
     Doing aes-128-cbc for 3s on 8192 size blocks: 16702 aes-128-cbc's in 2.99s
     Doing aes-128-cbc for 3s on 16384 size blocks: 8359 aes-128-cbc's in 2.98s
--> Benchmark of enabled is <<1.00s (CPU-Time)
+⇾ Benchmark of enabled is <<1.00s (CPU-Time)
     Doing aes-128-cbc for 3s on 16 size blocks: 410104 aes-128-cbc's in 0.38s
     Doing aes-128-cbc for 3s on 64 size blocks: 348184 aes-128-cbc's in 0.28s
     Doing aes-128-cbc for 3s on 256 size blocks: 37545 aes-128-cbc's in 0.02s
@@ -28,9 +28,9 @@ openssl speed -elapsed -evp aes-128-gcm aes-256-gcm des-ede3-cbc chacha20-poly13
 The 'numbers' are in 1000s of bytes per second processed.
 type             16 bytes     64 bytes    256 bytes   1024 bytes   8192 bytes  16384 bytes
 
-aes-128-cbc      30229.13k    40065.07k    43963.48k    45118.46k    45378.22k    45416.45k  --> Insecure
-aes-192-cbc      26305.07k    33554.03k    36051.20k    36890.97k    37188.95k    37191.68k  --> Insecure
-aes-256-cbc      24307.25k    30221.35k    32434.60k    33024.34k    33161.22k    33166.68k  --> Insecure
+aes-128-cbc      30229.13k    40065.07k    43963.48k    45118.46k    45378.22k    45416.45k  ⇾ Insecure
+aes-192-cbc      26305.07k    33554.03k    36051.20k    36890.97k    37188.95k    37191.68k  ⇾ Insecure
+aes-256-cbc      24307.25k    30221.35k    32434.60k    33024.34k    33161.22k    33166.68k  ⇾ Insecure
 
 aes-128-ctr      24565.01k    36514.28k    41899.95k    47885.31k    49993.05k    50173.27k
 aes-192-ctr      22875.85k    32318.14k    35530.50k    40397.14k    42265.26k    42341.72k
@@ -63,10 +63,10 @@ tar zxf cryptodev-linux-1.10.tar.gz
 cd crypt...
 make
 sudo make install
-sudo depmod -a                        -> register
-sudo modprobe cryptodev               -> insert
-lsmod                                 -> check, /dev/crypto now available
-add cryptodev to /etc/modules         -> permanent
+sudo depmod -a                      # ⇾ register
+sudo modprobe cryptodev             # ⇾ insert
+lsmod                               # ⇾ check, /dev/crypto now available
+add cryptodev to /etc/modules       # ⇾ permanent
 sudo sh -c 'echo cryptodev /etc/modules'
 ```
 
@@ -74,18 +74,18 @@ sudo sh -c 'echo cryptodev /etc/modules'
 
 **Note:** hard-coding openSSL-Version is stupidly unsecure)
 
-```
+```Shell
 # Check active OpenSSL Version
-apt list --installed | grep openssl   -> check current version
-openssl engine -t -c                  -> should contain devcrypto
-openssl version -f                    -> should list -DHAVE_CRYPTODEV -DUSE_CRYPTDEV_DIGESTS
+apt list --installed | grep openssl  # ⇾ check current version
+openssl engine -t -c                 # ⇾ should contain devcrypto
+openssl version -f                   # ⇾ should list -DHAVE_CRYPTODEV -DUSE_CRYPTDEV_DIGESTS
 
 # Check what ssh & sshd is using
-wheris -u sshd                         -> /usr/sbin/sshd
+wheris -u sshd                       # ⇾ /usr/sbin/sshd
 ldd /usr/sbin/sshd
     libcrypto is part of openssl
-   -> installed is /lib/arm-linux[...]/libcrypto.so.1.0.0 with 2 year old openSSL 1.1.1 (NOT current 1.1.1g)
-   -> current is /usr/local/lib/libcrypto.so.1.1
+# ⇾ installed is /lib/arm-linux[...]/libcrypto.so.1.0.0 with 2 year old openSSL 1.1.1 (NOT current 1.1.1g)
+# ⇾ current is /usr/local/lib/libcrypto.so.1.1
 
 # compile openSSL with cryptodev-support
 # Manual: https://wiki.openssl.org/index.php/Compilation_and_Installation
@@ -93,29 +93,29 @@ ldd /usr/sbin/sshd
 cd ~/
 wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz
 wget -O openssl.tar.gz https://github.com/openssl/openssl/archive/OpenSSL_1_1_1g.tar.gz
-tar zxf openssl.tar.gz  -> TODO: still unpacks to full name with version nr.
+tar zxf openssl.tar.gz                # ⇾ TODO: still unpacks to full name with version nr.
 cd openssl...
 ./config -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS shared enable-devcryptoeng no-sse2 no-com --openssldir=/usr/local/ssl
 perl configdata.pm --dump
 make clean
-make                                   -> TODO: this takes ~33min
-sudo make install_sw                   -> will be in /usr/local/bin
+make                                  # ⇾ TODO: this takes ~33min
+sudo make install_sw                  # ⇾ will be in /usr/local/bin
 
 # ubuntu has a strange behaviour: local/bin is used, local/lib gets ignored, so dirty fixing it
--> add "/usr/local/lib" as first active line in /etc/ld.so.conf.d/arm-gnueabihf.conf
+# ⇾ add "/usr/local/lib" as first active line in /etc/ld.so.conf.d/arm-gnueabihf.conf
 
-# /etc/ssl/openssl.cnf                  -> TODO: maybe add/uncomment crypto in [engine]-section, seems not to be needed
+# /etc/ssl/openssl.cnf                #  ⇾ TODO: maybe add/uncomment crypto in [engine]-section, seems not to be needed
 
 # Problem: new openSSL gives us libcrypto.so.1.1. but sshd demands libcrypto.so.1.0.0
 cd /usr/local/lib
 # sudo ln -s libcrypto.so.1.1 libcrypto.so.1.0.0
 # sudo shutdown -r now
 # sudo cp libcrypto.so.1.1 libcrypto.so.1.0.0
--> symlinks and copy do not help, sshd relies on old version
+# ⇾ symlinks and copy do not help, sshd relies on old version
 
 # bypass: compile old version of libcrypto.ssl of openssl, could fail for ssh because of ABI-changes
 # readme: https://github.com/openssl/openssl/issues/4597
-apt list --installed | grep sll             -> shows 1.0.2n
+apt list --installed | grep sll           #  ⇾ shows 1.0.2n
 cd ~/
 wget https://github.com/openssl/openssl/archive/OpenSSL_1_0_2n.tar.gz
 tar zxf OpenSSL_1_0_2n.tar.gz
@@ -124,9 +124,9 @@ cd OpenSSL
 make build_generated && make libcrypto.a
 sudo make install_sw
 sudo cp /usr/local/ssl/lib/libcrypto.so.1.0.0 /usr/lib/arm-linux-gnueabihf/libcrypto.so.1.0.0
-# -> WORKS but is slow (see benchmark)
+# ⇾ WORKS but is slow (see benchmark)
 
-TODO: openssl config option: no-comp, no-sslv3, -DOPENSSL_NO_HEARTBEATS
+# TODO: openssl config option: no-comp, no-sslv3, -DOPENSSL_NO_HEARTBEATS
 ```
 
 ## Compile SSHd with support for new openSSL-Version
@@ -149,9 +149,9 @@ make tests
 
 ```Shell
 rsync -r -v --progress -e ssh ./rec.2.h5 hans@10.0.0.52:/home/hans/
-    3.7 - 4.7 MB/s at 45% cpu usage out-of-the-box
-    6.x - 7.0 MB/s at 66% cpu usage after optimizations
-    -> similar results with "external" sd-card
-    -> cpu has most likely no crypto, or does not use it
-    1.5 - 2.8 MB/s  with 50% usage
+#   3.7 - 4.7 MB/s at 45% cpu usage out-of-the-box
+#   6.x - 7.0 MB/s at 66% cpu usage after optimizations
+#   ⇾ similar results with "external" sd-card
+#   ⇾ cpu has most likely no crypto, or does not use it
+#   1.5 - 2.8 MB/s  with 50% usage
 ```

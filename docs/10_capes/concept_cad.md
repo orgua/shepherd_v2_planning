@@ -20,7 +20,7 @@
 
 ## Skidl
 
-- pro: offers a schematic design language in python -> jump right to kiCAD PCB Layout, seems to support user moderated properties, has constraints
+- pro: offers a schematic design language in python ⇾ jump right to kiCAD PCB Layout, seems to support user moderated properties, has constraints
 - con: v0.2 - but it seems to be usable, documentation is loose
 - <https://xesscorp.github.io/skidl/docs/_site/index.html>
 

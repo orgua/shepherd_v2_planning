@@ -5,28 +5,28 @@
 - ZIH offers hosting of (self provided) physical server and virtual ones
     - see ZIH Server-FAQ Link below
     - phyServer: gets power, ethernet, USV, cooling, ...
-    - vServer: preferred by ZIH, free of charge, 3-5 Days prepare -> vServer-SelfService link below
-    - ZIH offers Sub-Domains on Website -> SubDomain-FAQ link below
+    - vServer: preferred by ZIH, free of charge, 3-5 Days prepare ⇾ vServer-SelfService link below
+    - ZIH offers Sub-Domains on Website ⇾ SubDomain-FAQ link below
     - extended storage can be requested for research-groups: Gruppenlaufwerk link below
 - ZIH-Rules for using their infrastructure
-    - central dhcp: only by IT-Admin of facility -> DHCP-FAQ link below
+    - central dhcp: only by IT-Admin of facility ⇾ DHCP-FAQ link below
     - network access: IT-Admin [FAQ](https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/bereitstellung_datennetz)
     - see cfaed IT-Admin link below
     - WIFI interference und network capability undocumented online
 - Answer to inquiry, from IT / ZIH
-    - we could use right side of nw-sockets (currently mostly unpatched) -> TODO: talk with the leaders of groups that occupy offices
+    - we could use right side of nw-sockets (currently mostly unpatched) ⇾ TODO: talk with the leaders of groups that occupy offices
     - vLAN and DHCP from ZIH
     - we could use the server-room in BAR
     - ZIH offers more powerful vServers than listed on website
     - distribution plan shows that patch-cables of the floor all end in the same patch-room (BAR II65 S2/S3)
         - if switches do not meet our standards we can provide our own, needs to be a supported cisco model
-        - if even that does not suffice it will get a lot harder -> bringing new cable / devices into the wall is a structural change with a whole book of needed permissions
+        - if even that does not suffice it will get a lot harder ⇾ bringing new cable / devices into the wall is a structural change with a whole book of needed permissions
     - if LAN-Sockets do not suffice, we can use a (cisco-)switch locally in offices
     - unix-nodes should host fusion-inventory (to scan for vulnerabilities)
     - hardware > 150 € needs to be in inventory (sticker & database listing)
     - vServer gets monitored / managed with Centreon
         - for access from outside (internet) the server needs a security-concept
-    - passwords and access-data should be managed with "TeamPass" -> password manager for groups
+    - passwords and access-data should be managed with "TeamPass" ⇾ password manager for groups
 
 **Link-Sammlung**:
 
@@ -140,9 +140,9 @@
     - einbinden über fstab als smb-lw, spezielle root-rechte
 - Server Roadmap
     - mit fake ssl zum laufen bekommen
-    - self service -> sicherheits-prüfung kontinierlich durchgeführt
+    - self service ⇾ sicherheits-prüfung kontinierlich durchgeführt
     - subdomain shepherd.cfaed. ... beantragen
-    - ssl-zertifikat anfordern (anleitung ZIH) -> kein pW-Schutz beim private Key, sonst ist bei jedem boot ein PW erforderlich
+    - ssl-zertifikat anfordern (anleitung ZIH) ⇾ kein pW-Schutz beim private Key, sonst ist bei jedem boot ein PW erforderlich
 - Webseite
     - Barrierefreiheit und Impressum, sonst keine Weltweite freigabe (und ssl-force, subdomain)
 
@@ -178,7 +178,7 @@
     - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
 - NW-Switch in Raum II65
     - GBE (maximal benötigte Geschwindigkeit)
-    - optimal ist ein dediziertes Gerät mit >= 40 Ports -> Ziel: sehr geringer Jitter bei PTP-Zeitsynchronisierung der Knoten
+    - optimal ist ein dediziertes Gerät mit >= 40 Ports ⇾ Ziel: sehr geringer Jitter bei PTP-Zeitsynchronisierung der Knoten
     - vLan-Zugriff für Knoten
     - wenn möglich Kontrolle über POE der Ports zum Energiesparen, da embedded Knoten zwar runtergefahren werden können, aber kein WOL beherrschen
 
@@ -204,8 +204,8 @@
 - Einzeichnung Standorte in Grundrisse
     - Standorte müssen noch ermitteln werden
 - Zustimmung der aktuellen Nutzer ist schriftlich vom Kostenstellenverantwortlichen zu zeichnen
-- Standorte im Flur und der Küche -> separater Antrag an das Sachgebiet 4.3
-- ggf. Brandschutzbewertung notwendig -> Kostenstelle in Höhe ca. 1-1,5 TEuro benötigt
+- Standorte im Flur und der Küche ⇾ separater Antrag an das Sachgebiet 4.3
+- ggf. Brandschutzbewertung notwendig ⇾ Kostenstelle in Höhe ca. 1-1,5 TEuro benötigt
     - Formular von Herrn Heyner
 - formloses Betreiberkonzept
 - Gefährdungsbeurteilung ist mit der Arbeitssicherheit SG 4.5 abzustimmen

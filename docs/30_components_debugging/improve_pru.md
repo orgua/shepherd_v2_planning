@@ -19,7 +19,7 @@ sudo su
 echo "stop" > /sys/class/remoteproc/remoteproc1/state
 echo "stop" > /sys/class/remoteproc/remoteproc2/state
 
-# stop and start kernel module -> warning: some states are not reset this way
+# stop and start kernel module ⇾ warning: some states are not reset this way
 modprobe -r shepherd
 modprobe -a shepherd
 # fw gets flashed and PRUs started by module
@@ -61,7 +61,7 @@ sudo chown -R user ./
     - avoid global vars, or restrict them by "static" if possible
     - improve constness of fn-parameters throughout the code
     - expensive modulo was used at least 4 times, but never really needed
-    - raise warning/hinting-level -> fix warnings and errors
+    - raise warning/hinting-level ⇾ fix warnings and errors
     - code compiles with gcc, but linker has problems with cmake
 
 ### Statistics
@@ -83,7 +83,7 @@ sudo chown -R user ./
 
 ### PRU1
 
-- most of the control state-machine should be on PRU0 -> get spi-readout triggered by tmr_cmp1 for high precision readout timing
+- most of the control state-machine should be on PRU0 ⇾ get spi-readout triggered by tmr_cmp1 for high precision readout timing
 - virtqueue / rpmsg is heavily unoptimized for 2-8 byte transfers (~5 us)
 - timer-defines in config and main are codependent, it would be easier to base them on the CLK
 - clean up timecalc, it seems complicated, at least the naming of vars
@@ -109,7 +109,7 @@ sudo chown -R user ./
 - currently already implemented
     - ringbuffer can be optimized
     - ``init_ring`` should be ``ringbuffer_init``, consistency
-    - int_source is global, it shouldn't -> it can be reduced to a local bool ``got_sig_block_end``
+    - int_source is global, it shouldn't ⇾ it can be reduced to a local bool ``got_sig_block_end``
     - free_buffers is global, but then passed by pointer
     - shared_mem is global
     - int-return is mostly const and not needed

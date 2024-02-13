@@ -12,7 +12,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - improvement 4: it would be beneficial to make MPPT-Conv & Cap Modular
 - assessment:
     - mostly critical is software / firmware implementation
-    - -> hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
+    - ⇾ hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
     - also allows On-Off-Pattern for target-power
 
 ## More GPIO to Target
@@ -41,7 +41,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 
 ## User-provided Energy-Traces
 
-- assumption: 8 byte timestamp, 2x 4 byte U/I-ADC-Value, 100 kHz -> ~ 1.6 MB/s
+- assumption: 8 byte timestamp, 2x 4 byte U/I-ADC-Value, 100 kHz ⇾ ~ 1.6 MB/s
 - Problem: traces for an hour or day become hard to handle via internet
 - improvement 1: allow looping of short sequences (also mirroring for continuity)
 - improvement 2: U/I-Values could be partial linear dependent and therefore compressible (data-compression-algorithm, vectorization, delta-conversion)
@@ -56,7 +56,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - Improvement 1: use ethernet switches with ptp-support, QoS and GPS-Interface
 - Improvement 2: GBE of beaglebone AI could bring advantage (faster processing in stack / switch, stricter timing constraints)
 - Improvement 3: change crystal oscillators of beaglebone to temperature compensated ones (lower PPMs for drift and aging). Oven controlled crystals would be to big
-- Improvement 4: "external" sync signal -> "sync port" is already available for the gps-capelet, and even if it is not used for time-keeping, it can be recorded for later trace-alignment
+- Improvement 4: "external" sync signal ⇾ "sync port" is already available for the gps-capelet, and even if it is not used for time-keeping, it can be recorded for later trace-alignment
 - improvement 5: ptp has a lot of bad-undocumented set-screws to optimize performance ...
 - assessment:
     - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
@@ -83,8 +83,8 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - Enabler 2: bring usb to target device if possible (beaglebone-Pinheader does not have USB, but could be realized via cable)
 - assessment:
    - if openOCD supports targets and programming-protocol (or implementing them is doable), chances are good
-   - pin-sharing with target-gpio is hard -> device-tree seems pretty static
-   - general idea seems viable -> TODO: more reading
+   - pin-sharing with target-gpio is hard ⇾ device-tree seems pretty static
+   - general idea seems viable ⇾ TODO: more reading
 
 ## Support for two selectable Targets
 
@@ -94,7 +94,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - enabler: software-defined PRU-openOCD could try to probe, get chip-ID with various methods (jtag, swd), similar to JTAGulator
 - assessment:
     - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
-    - software could be more tricky -> py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
+    - software could be more tricky ⇾ py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
     - with some effort even both targets could be powered, one with CV, to allow use as interferer (see next subject) or independent node
 
 ## Separate RF-Interferer

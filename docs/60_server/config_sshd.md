@@ -8,7 +8,7 @@ Add to `/etc/ssh/sshd-config`
 ```Shell
 # shepherd-security-settings, additional to above
 Protocol 2
-#RhostsRSAAuthentication no # -> deprecated
+#RhostsRSAAuthentication no # ⇾ deprecated
 
 # forbid weak algorithms ("-" in front)
 KexAlgorithms           -ecdh-sha2*

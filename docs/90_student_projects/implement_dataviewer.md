@@ -15,7 +15,7 @@ Each `Shepherd Node` produces:
 - IV-Samples (voltage & current) with 100 kHz and 18bit resolution
 - event based gpio-sampling of 10 pins (with at least one high-speed capable uart good for 4 - 10 MBaud)
 
-The datalib allows to plot parts of the ivsample-recording -> [CLI-Interface -> Plot IVSamples](https://github.com/orgua/shepherd-datalib#cli-interface>). Multiplots for several recordings are supported, as well as prior downsampling.
+The datalib allows to plot parts of the ivsample-recording ⇾ [CLI-Interface ⇾ Plot IVSamples](https://github.com/orgua/shepherd-datalib#cli-interface>). Multiplots for several recordings are supported, as well as prior downsampling.
 
 There is a basic implementation of a [viewer based on DPG](https://github.com/orgua/shepherd_v2_planning/blob/main/scratch/shepherd_dataview/viewer.py>). It is limited to one recording, only IVSamples and is not optimized at all. So recordings >60s are challenging because there is no downsampling depending on the zoom-levels.
 
@@ -33,11 +33,11 @@ From high to lower priority:
 - preferably written in python (like all other high-level shepherd-tools)
 - allow to overlay several recordings or plot them in individual graphs (no overlay but in series) with the same timebase (both has advantages)
 - decoding digital protocols like uart and spi
-- search / highlight points of interest -> tbd
+- search / highlight points of interest ⇾ tbd
 
 Side-notes:
 
-- data-conversion is OK -> probably a more performant format and a chain of downsamples are needed to handle the performance on large overviews
+- data-conversion is OK ⇾ probably a more performant format and a chain of downsamples are needed to handle the performance on large overviews
 - in terms of usability and functionality the tool [Saleae Logic](https://www.saleae.com/downloads/) is regarded as a role model
 
 ## Milestones / Steps
@@ -60,7 +60,7 @@ source: <https://pauliacomi.com/2020/06/07/plotly-v-bokeh.html>
 
 For bundling and filtering plots in an overview-page:
 
-- <https://awesome-panel.org/> -> the video <https://www.youtube.com/watch?v=0DBEXiMdSKc&t=530s> talks about Terabytes of data visualized with datashader, rapids cuxFilter -> problem: GPU / CUDA based
+- <https://awesome-panel.org/> ⇾ the video <https://www.youtube.com/watch?v=0DBEXiMdSKc&t=530s> talks about Terabytes of data visualized with datashader, rapids cuxFilter ⇾ problem: GPU / CUDA based
 - Alternative: [Streamlit](https://streamlit.io)
 
 More Info on current GPIO-Pins routed to the targets:

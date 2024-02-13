@@ -6,7 +6,7 @@ The goal is to secure the beaglebone, but it is also partly suitable for the vSe
 
 ## Find open Ports 
 
--> delete not needed services (included in ansible)::
+⇾ delete not needed services (included in ansible)::
 
 ```Shell
 sudo netstat -apn | grep LISTEN
@@ -45,7 +45,7 @@ sudo nano /etc/ssh/sshd_config
     ChallengeResponseAuthentication no
 
     X11Forwarding no
-    AllowUsers user1 user2    -> for later
+    AllowUsers user1 user2   # ⇾ for later
 
     # the following ones with "-" in front of list are not recommended (weak, broken) and will be excluded (ssh-audit)
     KexAlgorithms -ecdh-sha2*,diffie-hellman-group-exchange*,diffie-hellman-group14-sha1
@@ -68,18 +68,18 @@ sudo nano /etc/issue.net
 ## Disable Terminal over Serial - Part 1 - Services
 
 ```Shell
-systemctl                                         -> shows current services
-systemctl list-unit-files                         -> shows current services
-sudo systemctl mask serial-getty@ttyGS0.service   -> usb gadget serial shell
-sudo systemctl mask serial-getty@ttyS0.service    -> uart0 shell
-sudo systemctl mask getty@tty1.service            -> semi-shell
+systemctl                                        # ⇾ shows current services
+systemctl list-unit-files                        # ⇾ shows current services
+sudo systemctl mask serial-getty@ttyGS0.service  # ⇾ usb gadget serial shell
+sudo systemctl mask serial-getty@ttyS0.service   # ⇾ uart0 shell
+sudo systemctl mask getty@tty1.service           # ⇾ semi-shell
 
 # also handle the issuing source of the console in /boot/grub/grub.cfg, as kernel command line parameter "console="
 
 # additional things to disable (resource saving)
-systemctl set-default multi-user                      -> prereq to turn of graphical.target
-sudo systemctl disable ofono.service                  -> most of these better be handled by apt
-sudo systemctl disable motd-news.service              -> TODO: could be helpful later to show stats on logon
+systemctl set-default multi-user                 # ⇾ prereq to turn of graphical.target
+sudo systemctl disable ofono.service             # ⇾ most of these better be handled by apt
+sudo systemctl disable motd-news.service         # ⇾ TODO: could be helpful later to show stats on logon
 sudo systemctl disable motd-news.timer
 sudo systemctl disable graphical.target
 sudo systemctl disable dbus-org.bluez.service
@@ -90,7 +90,7 @@ sudo systemctl disable bluetooth.service
 
 ```Shell
 sudo nano /etc/default/grub
-    -> remove "console=ttyO0,115200n8 " part
+#  ⇾ remove "console=ttyO0,115200n8 " part
 sudo update-grub
 ```
 
@@ -100,7 +100,7 @@ sudo update-grub
 # DEPRECATED - to access config download u-boot-tools and adapt config
 sudo nano /etc/fw_env.config
     /dev/mmcblk1boot1 0x0000 0x20000 0x20000
-    # -> hint: there is nothing there, check with ``sudo hexdump /dev/mmcblk1boot1`` or ``hexedit``
+    # ⇾ hint: there is nothing there, check with ``sudo hexdump /dev/mmcblk1boot1`` or ``hexedit``
     # seems to be on mmcblk1 0x20000 0x20000
     CONFIG_BOOT_ENV =
 sudo fw_printenv
@@ -108,8 +108,8 @@ sudo fw_setenv
 # if that fails ``echo 0 > /sys/block/mmcblkXbootY/force_ro``
 
 # now you have to interrupt u-boot to get to it's console (use serial on J1)
-saveenv         -> will create /boot/uboot.env
-# this is no handy way for remote management -> maybe the first image could be modified for that
+saveenv       #  ⇾ will create /boot/uboot.env
+# this is no handy way for remote management ⇾ maybe the first image could be modified for that
 
 # uEnv.txt can run cmds! (TODO: figure out the right command, these are wrong)
 uenvcmd=run saveenv;
@@ -120,16 +120,16 @@ cmdline= ...
 ## Disable Terminal over Serial - Part 4 - Failures
 
 ```Shell
-dmesg | grep tty                               -> still shouts "Kernel command line: console=ttyO0,115200n8" ...
-sudo grep -rinI  'console=tty' /etc /boot      -> finds entry in console-setup
-    -> /etc/default/grub.ucf-dist
-    -> /etc/default/grub
+dmesg | grep tty                             # ⇾ still shouts "Kernel command line: console=ttyO0,115200n8" ...
+sudo grep -rinI  'console=tty' /etc /boot    # ⇾ finds entry in console-setup
+# ⇾ /etc/default/grub.ucf-dist
+# ⇾ /etc/default/grub
 sudo grep -rinI  'ttyO0' /etc /boot
-    -> /boot/SOC.sh:31:serial_tty=ttyO0
-    -> /etc/securetty:348
+# ⇾ /boot/SOC.sh:31:serial_tty=ttyO0
+# ⇾ /etc/securetty:348
 
-sudo rm /etc/default/grub.ucf-dist              -> copy of "grub" because of manual edit
-sudo nano /boot/SOC.sh                          -> contains uboot start?
+sudo rm /etc/default/grub.ucf-dist            # ⇾ copy of "grub" because of manual edit
+sudo nano /boot/SOC.sh                        # ⇾ contains uboot start?
 
 # there is a /bbb-uEnv.txt and /nfs-uEnv.txt
 remove >>console=tty0 console=${console} <<

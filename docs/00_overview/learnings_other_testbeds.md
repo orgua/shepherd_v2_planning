@@ -19,7 +19,7 @@
     - allows easy analysis of data
     - immediate access is nice! real time or direct access for devs (even jupyterNB)
     - needs lots of RAM
-    - easiest interface is a socket with json-interface -> inefficient for embedded systems, can often be avoided
+    - easiest interface is a socket with json-interface ⇾ inefficient for embedded systems, can often be avoided
     - can produce downloadable data on the fly (at least csv)
 - hdf5 / raw-data
     - needs more custom code
@@ -41,7 +41,7 @@
 
 ## Nodes
 
-- lockups -> powercycle
+- lockups ⇾ powercycle
     - we (shepherd) may not have the chance to control POE
     - there is an external watchdog on the shepherd-capelet
     - there should also be a watchdog integrated in cpu (untested)
@@ -51,7 +51,7 @@
     - BBone stays below 40 deg, case will support convectional cooling
 - avoid storage without wear-leveling
     - sd-cards are not up for constant data-storage (and industrial SLC-Versions are expensive)
-    - large usb-sticks tend to have wear leveling -> ours probably hasn't
+    - large usb-sticks tend to have wear leveling ⇾ ours probably hasn't
     - BBone has eMMC for the linux image, support for wear leveling is unclear
     - filesystems like F2FS have a software-based wear-leveling
     - possible solution

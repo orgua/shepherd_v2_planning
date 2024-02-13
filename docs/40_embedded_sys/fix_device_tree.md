@@ -17,7 +17,7 @@ Original DT-Driver fails to work with 4.19 or newer.
     - shprd:    0x034 0x06  /* P8.11, pr1_pru0_pru_r30_15 */
     - bbuniv:   AM33XX_IOPAD(0x0834, PIN_OUTPUT | INPUT_EN | MUX_MODE6)
 - exclusive-use seems fine
-- target pruss overlay -> fine
+- target pruss overlay ⇾ fine
 - overlay is not announcing itself in fragment@0
 
 ## Shepherd Firmware

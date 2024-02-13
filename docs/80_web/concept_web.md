@@ -55,7 +55,7 @@
     - documentation and instructions
     - target-management (specify slots of nodes)
     - (optional) benchmark-management (post-scripts)
-- live-view -> lower prio
+- live-view ⇾ lower prio
 
 
 ## Implementation
@@ -66,11 +66,11 @@
         - authentication (also oauth client), accounts
         - session-management
         - sub-websites with html-templates
-        - -> security seems to be OK, attach surface is big, but >v3.0 seems to be mature
+        - ⇾ security seems to be OK, attach surface is big, but >v3.0 seems to be mature
     - flask is a microframework, offers minimal attack surface and seems perfect for the python REST API
 - basic implementation could be similar to https://github.com/fkt/36c3-junior-ctf-pub (web-interface for a ctf, that didn't get compromised)
 - API: rest
-- (prio) allow scripted workflow -> yaml -> rest ->
+- (prio) allow scripted workflow ⇾ yaml ⇾ rest ⇾ 
     - this could also be the base for the web-page-interface
 - Database
     - influxDB or
@@ -80,23 +80,23 @@
     - Protobuf
     - RabbitMQ
     - RPC
-- visualisation, analysis -> dash?
+- visualisation, analysis ⇾ dash?
 - option to sample down
 
 ## DB Decision
 
 - needed:
     - 30x 100k Inserts of timestamp (8B), node_id (1B), voltage (4B), current (4B)
-    - -> 3M Inserts of >=17 Bytes -> 3 GB / minute
+    - ⇾ 3M Inserts of >=17 Bytes ⇾ 3 GB / minute
     - can happen locally or remote, concurrently is fine
 - main bottleneck:
     - databases with timeseries do not seem to have a low level api for insertions, interface is ascii and needs parsing
-    - (solution) low level api (raw data, shared mem, ...) -> there are possible formats like::
-        - BSON -> MongoDB
-        - UBJSON -> TeradataDB, Wolfram (no use for us)
-        - apache avro -> Apache Spark SQL
-        - JSONB -> Postgresql, but they say: "JSON is faster to ingest vs. JSONB"
-- Timescale DB vs Influx -> influx seems to dominate with fewer devices <= 100
+    - (solution) low level api (raw data, shared mem, ...) ⇾ there are possible formats like::
+        - BSON ⇾ MongoDB
+        - UBJSON ⇾ TeradataDB, Wolfram (no use for us)
+        - apache avro ⇾ Apache Spark SQL
+        - JSONB ⇾ Postgresql, but they say: "JSON is faster to ingest vs. JSONB"
+- Timescale DB vs Influx ⇾ influx seems to dominate with fewer devices <= 100
 - timescale: SQL, robust, based on postgreSQL, time series, relational, various datatypes
     - looks more professional, but like influx they want to sell
     - presetup hard to script
@@ -104,7 +104,7 @@
     - no low level api available, but some SQLs allow to load from file (csv)
 - influxDB2:
     - inserting 200s data takes ~ 190s (1 node), with almost no load on VM or system
-        - -> makes 108k/s inserts from one node
+        - ⇾ makes 108k/s inserts from one node
         - marketing documents say the insert-rate of free-database is good for ~ 250k/s
         - is it artificially limited or is it another invisible bottleneck?
     - ram usage seems to be ok << 1 GB

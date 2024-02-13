@@ -3,7 +3,7 @@
 There are currently three problems with synchronization:
 
 - (1) PTP seems to miss-align the clock from time to time when cpu is under load (rings for 10-20 seconds)
-- (2) kernelspace hr-timer are not that precise -> can overshoot 20++ usec
+- (2) kernelspace hr-timer are not that precise ⇾ can overshoot 20++ usec
 - (3) sync-loop between kernel and PRU is oscillating (~ 0.2 Hz, +- 400 nsec)
 
 Context:
@@ -17,7 +17,7 @@ A logic analyzer that observes the gpio-output plus a some [python code](https:/
 
 ## Fixes for Problem 1
 
-- switch to RT-Kernel -> downside: higher load, up to 20 % for shepherd
+- switch to RT-Kernel ⇾ downside: higher load, up to 20 % for shepherd
 - give PTP & phc2sys higher prio
 
 observations:
@@ -98,7 +98,7 @@ ll /lib/modules/4.19.94-ti-rt-r74/extra/
 sudo apt install linux-headers-5.10.168-ti-rt-r73
 # additional changes
 sudo systemctl stop shepherd-launcher
-nano /boot/uEnv.txt -> disable uboot_overlay_pru= & dtb_overlay=
+nano /boot/uEnv.txt ⇾ disable uboot_overlay_pru= & dtb_overlay=
   uboot_overlay_pru=AM335X-PRU-UIO-00A0.dtbo
   enable_uboot_cape_universal=1
 sudo nano /etc/modprobe.d/pruss-blacklist.conf
@@ -138,7 +138,7 @@ Current default Kernel 5.10 RT is much worse at triggering hrtimer
 ```
 
 Higher System-Load - Update Python
--> does not work (missing libs brought by apt & 3.12 internals crashing) 
+⇾ does not work (missing libs brought by apt & 3.12 internals crashing) 
 
 ```Shell
 sudo add-apt-repository ppa:deadsnakes/ppa
@@ -169,7 +169,7 @@ TODO:
 - rpi3 still only software timestamping
 - Raspberry CM4 and RPI5 should also support hardware timestamping, [link](https://forums.raspberrypi.com/viewtopic.php?t=358275)
   - [two CM4 within 15ns](https://www.jeffgeerling.com/blog/2022/ptp-and-ieee-1588-hardware-timestamping-on-raspberry-pi-cm4)
-  - CM4 has quad-core Cortex-A72 ArmV8 64bit @ 1.5GHz (BB AI 64 has dual A72 @ 2 GHz) -> only 28 GPIO though
+  - CM4 has quad-core Cortex-A72 ArmV8 64bit @ 1.5GHz (BB AI 64 has dual A72 @ 2 GHz) ⇾ only 28 GPIO though
 
 ## General TODO
 
@@ -178,13 +178,13 @@ TODO:
 - CLI
 - improve kMod
     - 30 us capture does not suffice!
-    - first non-busy-wait (100us) -> shorter busy-wait (10) -> loop-count (<1)
+    - first non-busy-wait (100us) ⇾ shorter busy-wait (10) ⇾ loop-count (<1)
     - retest timing-performance
     - make
 - reduce load (py) - read from PRU
-    - sharedMem.read_buffer(): np.frombuffer() -> DataBuffer(voltage, current)
-    - shpIO.get_buffer(): buf -> buf
-    - ShpEmu.run(): buf -> writer.write_buffer(buf)
+    - sharedMem.read_buffer(): np.frombuffer() ⇾ DataBuffer(voltage, current)
+    - shpIO.get_buffer(): buf ⇾ buf
+    - ShpEmu.run(): buf ⇾ writer.write_buffer(buf)
     - writer.write_buffer(): add parts of buf to group[]
 - name threads & change their prio?
 - code from pps-kernel-module

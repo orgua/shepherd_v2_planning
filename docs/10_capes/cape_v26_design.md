@@ -6,7 +6,7 @@
 - change OP-Ampdriver to higher output? Double Opa388?
 - make system modular?
 - direction pin GPO:3 for leveltranslators is named strangely
-- rename Recorder -> Harvester
+- rename Recorder ⇾ Harvester
 - maybe switch to rpi Cm4 Platform
 
 ### PWR-Board

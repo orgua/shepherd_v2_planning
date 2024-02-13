@@ -10,7 +10,7 @@ Test of various harvesting algorithms with a solar cell
     - an area with low light
     - an area with bright light and eventually a detailed shot of the measurement
 - interesting findings
-    - voc: setpoint of 76 % in low-light seems off -> is the VOC wrong?
+    - voc: setpoint of 76 % in low-light seems off ⇾ is the VOC wrong?
     - voc & iv: opening the circuit lets the voltage rise significantly above VOC (especially in low light scenario) and it takes time to stabilize
     - voc: jumping to setpoint lets the power increase for a short time in bright light (hidden capacitor?)
     - iv: sawtooth-ramp is highly non-linear in the cross-section coming from VOC (1000 Hz, bright light detail)

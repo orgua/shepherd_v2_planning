@@ -10,13 +10,13 @@ sudo systemctl status sshd
 # service should be active (running)
 sudo netstat -tulpn | grep 22^
 sudo systemctl enable ssh
-# -> seems all ok on the Server itself
+# ⇾ seems all ok on the Server itself
 ```
 
 # Adapt Firewall
 
-- selfservice -> cloud service -> enterprise cloud -> vm management -> fw rules
-- add vpn or your specific ip-group -> reboot VM or wait till full our for update
+- selfservice ⇾ cloud service ⇾ enterprise cloud ⇾ vm management ⇾ fw rules
+- add vpn or your specific ip-group ⇾ reboot VM or wait till full our for update
 
 
 
@@ -39,7 +39,7 @@ ZIH offers storage for measurement data within a day via web-form.
 sudo apt install sshfs
 sudo mkdir /mnt/shp_ds
 chown service /mnt/shp_ds
-# -> ./glw/shepherdDS links to /svm/vs-grp04/shepherdDS, same for ./glw_new/shepherdDS
+# ⇾ ./glw/shepherdDS links to /svm/vs-grp04/shepherdDS, same for ./glw_new/shepherdDS
 sshfs zihlogin@dgw.zih.tu-dresden.de:/svm/vs-grp04/shepherdDS /mnt/shp_ds/
 umount /mnt/shp_ds
 

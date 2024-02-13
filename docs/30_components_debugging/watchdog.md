@@ -26,11 +26,11 @@
 
 ## Behaviour on Shutdown
 
-- 3V3       -> 0V
-- VDD5V	    -> 0V
-- SYS5V     -> 1.16V
-- PWR_BTN	-> 3.74V
-- nRES_BTN  -> 0.15V
+- 3V3       ⇾ 0V
+- VDD5V	    ⇾ 0V
+- SYS5V     ⇾ 1.16V
+- PWR_BTN	⇾ 3.74V
+- nRES_BTN  ⇾ 0.15V
 
 ## Beaglebone Pin-Schematic
 

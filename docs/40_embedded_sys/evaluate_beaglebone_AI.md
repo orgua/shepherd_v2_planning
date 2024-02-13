@@ -17,13 +17,13 @@ Update from 2024: the board was silently discontinued and vanished from earth, p
     - takes about 1.2 GB of the 15 GB eMMC
     - dmesg reports 24.59 BogoMIPS (BBG shows 995?!?)
     - uname: 4.19.94-ti-r36
-    - dd if=/dev/zero of=./testfile bs=100M count=1 oflag=direct -> 73 MB/s (x3.5 of BBG)
+    - dd if=/dev/zero of=./testfile bs=100M count=1 oflag=direct ⇾ 73 MB/s (x3.5 of BBG)
     - GBE works with Cat 5e, 5m
 
-    - 2nd AI shows "sudo hexdump -C /dev/mmcblk1boot1" -> .U3.BBONE-AI00A1 | 1933EMAI000015 -> board 15
+    - 2nd AI shows "sudo hexdump -C /dev/mmcblk1boot1" ⇾ .U3.BBONE-AI00A1 | 1933EMAI000015 ⇾ board 15
 - ansible: bootstrap, install, setup_linux_configuration, _performance, _security
     - uname: 4.19.94-ti-r51
-    - uname: 5.4.24-armv7-x20 -> not booting
+    - uname: 5.4.24-armv7-x20 ⇾ not booting
 
 ## Oddities
 
@@ -31,22 +31,22 @@ Update from 2024: the board was silently discontinued and vanished from earth, p
 - cpu stays boiling hot, even with 99.6% idling, governor set to powersave, tested:
     - ubuntu 18.4.4 from elinux, with 4.19.94-r36 & r51
     - debian 10.4 iot from elinux, with 4.19.94-r41?
-    - debian 10.4 console -> does not even flash
+    - debian 10.4 console ⇾ does not even flash
     - debian 10.3 iot from bb.org with 4.19.94-r42
-    - debian 9.12 console from elinux with 4.14.108-r134 stays at 50 deg -> only one distro?!?
+    - debian 9.12 console from elinux with 4.14.108-r134 stays at 50 deg ⇾ only one distro?!?
 - ram only shows 578 MB ?!? it should be 1 Gig
     - DSP reserves 300 MB+
     - get ram back: https://groups.google.com/g/beagleboard/c/-kDcIPsLCkc/m/xHyrFKepAgAJ
 - there is no device-tree overlay yet, just a big monolithic dts
 - forum-post: it is easy to kill a cpu with wrong pin-inputs, https://groups.google.com/forum/embed/?place=forum/beagleboard&showsearch=true&showpopout=true&showtabs=false&hideforumtitle=true&parenturl=http%3A%2F%2Fbeagleboard.org%2Fdiscuss#!category-topic/beagleboard/beaglebone-ai/fzwYWLDrQJw
     - some pins are connected to two balls on the CPU, but io-use must be mutual exclusive
-- PRU-Changes -> ll /sys/class/remoteproc/ -> remoteproc4 to remoteproc7
+- PRU-Changes ⇾ ll /sys/class/remoteproc/ ⇾ remoteproc4 to remoteproc7
 - addresses in RAM changed most likely as well
 
 ## Documentation
 
 - nice pin-overview https://docs.google.com/spreadsheets/d/1fE-AsDZvJ-bBwzNBj1_sPDrutvEvsmARqFwvbw_HkrE/edit#gid=1518010293
-- nice to distinguish BB-Models: cat /proc/device-tree/model -> BeagleBoard.org BeagleBone AI
+- nice to distinguish BB-Models: cat /proc/device-tree/model ⇾ BeagleBoard.org BeagleBone AI
 - device tree is raw, see https://www.elinux.org/EBC_Exercise_41_Pin_Muxing_for_the_AI
     - AI.dts https://github.com/beagleboard/BeagleBoard-DeviceTrees/blob/v4.19.x-ti-overlays/src/arm/am5729-beagleboneai.dts
     - overlays, general: https://github.com/beagleboard/bb.org-overlays

@@ -3,17 +3,17 @@
 ## Implemented Changes
 
 - level translators - implement single voltage supply
-- smooth 6v-boost -> larger capacitors 58uF to 158uF, ferrite, lower boost-voltage 5.38 V instead of 6.766
+- smooth 6v-boost ⇾ larger capacitors 58uF to 158uF, ferrite, lower boost-voltage 5.38 V instead of 6.766
     - typical on A5V are 38mA for Quiet/On, 150mA max, mp3221 gives formular for upper thresholds of Vpp
     - old config: 164 uVpp (38mA) to 645 uVpp (150mA)
-    - new config: 27 uVpp (38mA) to 104 uVpp (150mA) -> effect of ferrite not included
+    - new config: 27 uVpp (38mA) to 104 uVpp (150mA) ⇾ effect of ferrite not included
     - LDO is rated for 60 dB dampening, but measurements show a factor of ~ 500x of ripple rejection
 - 6V Regulator overdrive is edgy, sw-pin is good for +8V, currently there are ~ 7.14 V
 - Target-IO-PUs - get powered by unmonitored voltage buffer
 - add 3v3 converter (linear), because BB provides very noisy power (both 5V & 3V)
-- make sure shepherd works (theoretically) with BB Black (not only Green) -> Boot-CFG is identical
+- make sure shepherd works (theoretically) with BB Black (not only Green) ⇾ Boot-CFG is identical
 - recheck which IC gets which voltage (5V Sys is exceptional noisy)
-- allow to run completely from external power -> move sys-5v ferrite
+- allow to run completely from external power ⇾ move sys-5v ferrite
 - main power switch not needed
 - mark ext input
 - sensitive lines should get more distance from gnd-polygon
@@ -25,24 +25,24 @@
 - improve GPIO signal integrity (1k from target can be removed), 100k PU on Sys-Side replace by 10 k
 - better buffer the io voltage, needs single OPA, but gets rid of one NLAS-Switch
 - PI-Filter is bad for varying loads, so only use with dac / adc
-    - keep 100 uF constant, but vary inductance to optimize voltage drop -> << 1 mV
+    - keep 100 uF constant, but vary inductance to optimize voltage drop ⇾ << 1 mV
 - external cables, filter and buffer (100nF)
-- (NOT DONE) if there is enough space -> switch out 47uH Coil of LC-LP to 150uF (larger)
-- **gpio - RC lowpass** -> Line-Capacity vs. current-limiting resistor
+- (NOT DONE) if there is enough space ⇾ switch out 47uH Coil of LC-LP to 150uF (larger)
+- **gpio - RC lowpass** ⇾ Line-Capacity vs. current-limiting resistor
     - L1L2 distance 2x 180 um, e_r ~4.2
     - trace width 250 um
     - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
-    - C = e*A/d = 3.4 pF -> max capacitance of 1 gpio-trace on shepherd-pcb
+    - C = e*A/d = 3.4 pF ⇾ max capacitance of 1 gpio-trace on shepherd-pcb
     - C_lvl = 12.5 pF
     - R = 1k
     - fc = 10 MHz (neglecting target and BB capacitances)
-- re-evaluate spi-lines -> fine
+- re-evaluate spi-lines ⇾ fine
 - via-fence near the lan-port
-- QR-Code is readable, but still a bit messed up -> negative
+- QR-Code is readable, but still a bit messed up ⇾ negative
 - target-connector-redefinition, bring GND to first and last position (EMV)
 - (target) reset (P0.18) with Resistor bridge to gpio-header
 - (target) remove more metal around antenna
-- compare LSF-Versions of TI with nexperia ones -> seems to be exact copy
+- compare LSF-Versions of TI with nexperia ones ⇾ seems to be exact copy
 - would 1000 Hz on-off-pattern be possible? YES
 - (if there is time) - implement fixed recorder design
 

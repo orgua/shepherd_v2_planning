@@ -12,7 +12,7 @@
     - L1 Pads / Via
     - Keepout
     - Top Overlay
--> print in Color
+⇾ print in Color
 
 ## Implemented Changes v2.0r0
 
@@ -52,9 +52,9 @@
             - 2CH, 80 mA, 5 V/us, 8 nV/sqrtHz, 20 uV Input Offset,
     - shunt-Resistor
         - nRF52 takes 9 mA @ 4dBm, 16 mA @ 8 dBm for ~ 200 us, rest is below 2 mA,
-        - previous: 2 Ohm 1% -> 16 mA => 32 mV, would mean 1% Voltage drop at 3V3, less would be better
+        - previous: 2 Ohm 1% ⇾ 16 mA => 32 mV, would mean 1% Voltage drop at 3V3, less would be better
         - current sensors are no alternative, too expensive, not enough resolution
-        - replacement: 1 Ohm 0.1%-> 1:1 mA:mA, 0603 or 1206
+        - replacement: 1 Ohm 0.1% ⇾ 1:1 mA:mA, 0603 or 1206
             - **RT1206BRD071RL**, mouser 603-RT1206BRD071RL
     - OP-Amp for Shunt
         - previous: AD8422BRMZ in combination with LM27762DSSR
@@ -69,20 +69,20 @@
             - 18 bit, 4 CH, two V-Rails for A&D, 500 kSPS, 18 MHz SPI, variable LPF, 1175 ns Acq & 825 ns Conv.
         - constraints: 2CH, 18-24 Bit, SMD, >100 kSPS
         - replacement: **ADS8691**, 1CH 1 MSPS 8€, ADS8695 1CH 500kSPS 9€, ADS8699 1CH 100kSPS 6€, Acq 335/1000/5000ns, Conv 665/1000/5000ns
-    - analog switch -> is there a way to power the offline target? Switch up supplies
+    - analog switch ⇾ is there a way to power the offline target? Switch up supplies
         - previous: TMUX1101DCK, 4 Ohm, 1 SPST SinglePole-SingleThrow
         - constraints: 2 Ch, legs, supply >= 5, rdson <= 500 mOhm,
         - replacement: **NLAS4684MR2G**, mouser 863-NLAS4684MR2G, 2CH, 300 mA Conti, 500 mOhm rds
-    - Target-Port-IO (GPIO, SPI, I2C, UART, SWD/JTAG, BAT_OK PRU) -> Q: is HS-GPIO enough? rest is userspace-logged
+    - Target-Port-IO (GPIO, SPI, I2C, UART, SWD/JTAG, BAT_OK PRU) ⇾ Q: is HS-GPIO enough? rest is userspace-logged
 - debug to target
     - voltage-level-translator,
         - previous1: TXB0304RUTR BiDir, autosense, min 3mA input drive current, 4 CH, >40 Mbps
         - previous2: SN74LV4T125PWR UniDir
         - constraints: 1 Mbps, high channelcount, autosensing, 2-5V, HighZ-Mode
         - replacement: **NXS0108PWJ**, mouser 771-NXS0108PWJ, 50 Mbps, BiDir, Autosense, open drain, 8 Bit, NXB-Version: 2mA input drive req.
-            - -> WARNING: expected 18.01.2021, **nxs0101** already in stock, nxs0102 in may
-- target-port -> default pin-header, maybe smaller version of it
-- suppply for second target -> 2. CH of DAC + Buffer
+            - ⇾ WARNING: expected 18.01.2021, **nxs0101** already in stock, nxs0102 in may
+- target-port ⇾ default pin-header, maybe smaller version of it
+- suppply for second target ⇾ 2. CH of DAC + Buffer
 - status-Leds
     - green 575nm, 0603, 60mcd 2V@20mA, 150060VS55040, mouser 710-150060VS55040
     - blue 470nm, 0603, 80 mcd 3.2V@60mA, 150060BS55040, mouser 710-150060BS55040
@@ -103,7 +103,7 @@
     - OPAmp OPA388ID, pin-compatible with LTC2050HV
     - nMOS SI2374DS, test with BSH103
     - ShuntOPAmp Ina190A1IDCKR
-- power in via vdd_5v (P5/6) -> Test shows: BB does not power up via sys_5v
+- power in via vdd_5v (P5/6) ⇾ Test shows: BB does not power up via sys_5v
 - reboot / boot via Pin-Toggle (Shutdown via command), we should trigger both (RESn->PD,PWR->PD), Test shows: Reset works while PWR is in PD
 - add 256 GB USB-Stick
 - switch to smaller IC-Packages and 0402
@@ -119,9 +119,9 @@
 - EMI-guard SPI, currentlimit at pinheader, terminate at ICs, 33 Ohms close to cpu recommended (avoid reflections)
 - add alarm-feature, something SPI-programmable, that can act like a watchdog, with at least max 1-4h windows
 - check against shepherd v1.5
-- don't shut down individual Emu / Rec - Parts (delete or just disable all at once) -> done by Pwr-control
+- don't shut down individual Emu / Rec - Parts (delete or just disable all at once) ⇾ done by Pwr-control
 - Harvester needs second channel ADC with very low input current, 1MOhm is too low
-- manual button with LED -> connector S4B-ZR-SM4A-TF, P1 3V3, P2 LED ODrain, P3 SenseButton with PU, P4-6 GND
+- manual button with LED ⇾ connector S4B-ZR-SM4A-TF, P1 3V3, P2 LED ODrain, P3 SenseButton with PU, P4-6 GND
 - add ultra low noise LDO to A5V, and possibly a boost-converter upfront
 - find better level translator, less current (best if near 0)
 - reprocessed 11_concept.file
@@ -129,7 +129,7 @@
 - added boost/Inverter for proper voltage rail
 - add target port (comparator-include?) System will be a nRF52840 and most likely a MSP430
     - try to make it compatible with breadboard / dev-Kit
-    - is spy-by-wire physically compatible with swd -> it is, TClock is uni-dir, TDIO is bi-dir
+    - is spy-by-wire physically compatible with swd ⇾ it is, TClock is uni-dir, TDIO is bi-dir
 - replace 100nF/16, 1uF/16, 10uF/16
 - BOM, more precise alternative - BB uses 32.768 kHz osci MC-306 (20 ppm, 8x3.8mm) or similar, package says 327A5M
     - alternative: 5 ppm, 12.5pF, 50 kOhm, https://www.mouser.de/ProductDetail/Citizen-FineDevice/CM200C32768HZFT?qs=rkhjVJ6%2F3ELrGt3qchcVtQ%3D%3D
@@ -145,7 +145,7 @@
 - add 1kR & 100R high precision for current measurement, EMU
 - order digikey (extBut, samtec), mouser, csv
 - add footprint for quality-control-panel
-- BB Pinheader Cape-Design Stays -> possible alternaltive Producer is Samtech, design is now divided
+- BB Pinheader Cape-Design Stays ⇾ possible alternaltive Producer is Samtech, design is now divided
 - add production-constraints
 - update BOM
 - v2r1 ordered
@@ -187,7 +187,7 @@
 - Font/Writing in copper is unreadable on target (slighly below spec)
 - add layer for manual / pick'and'place descriptions (m15, m?)
 - qr code is not readable, blurred, reduce size of "pixel"
-- warning for harvest V_sense -> Voltage floats if not connected and will most likely show V-Max in this state
+- warning for harvest V_sense ⇾ Voltage floats if not connected and will most likely show V-Max in this state
 - ADC nRST should not get A5V, only 3.3, also there is no need for a resistor-switch
 - Connector for external switch was copied from old schematic, but this one had inversed pin-numbering on connector, different from datasheet
 - Testpoint on RVS-Pin of
@@ -211,7 +211,7 @@
     - 100k PD for wd-pin (or keep 10k)
     - 3V3 goes low on powerdown, so watchdog can enable (pull low wake) BB again,
     - polling has no effect during normal operation
-    - TEST if 1k is enough to pull line low to enable -> it is
+    - TEST if 1k is enough to pull line low to enable ⇾ it is
 - add open source hardware logo?
 
 
@@ -227,20 +227,20 @@
 
 Note: after Mouser-Order - NOW already ordered
 
-- DAC       100nF -> 1uF
-- Boost     10uF -> 10uF (inv)
+- DAC       100nF ⇾ 1uF
+- Boost     10uF ⇾ 10uF (inv)
 - Inv       +47uF
-- Rec       2x 10k 0603 -> 0402
-- All       34x 1uF/16V/0603 -> 1uF/25V/0402
+- Rec       2x 10k 0603 ⇾ 0402
+- All       34x 1uF/16V/0603 ⇾ 1uF/25V/0402
 - final Shield, cover & frame
-- all       4x 15uH/4mm -> 15uH/3mm
+- all       4x 15uH/4mm ⇾ 15uH/3mm
 - parts of nRF-Target
 
 ## Schematic Changes Postponed
 
 - internal calibration? with 2 switches and 1 calibration-linear-power-supply
 - OP-Amp, bias Subtractor: LMP7701MF, not needed now
-- sync to pps -> external pcb
+- sync to pps ⇾ external pcb
 - usb-socket is impossible to hand-solder right now
 - (maybe) add PU to watchdog outputs
 - separate PCBs for PPS-Source, Recorder, Emulator

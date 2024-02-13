@@ -47,7 +47,7 @@ Steps
 
 - update sw
 - install kernel-headers
-- use `P8.03` -> `GPIO 1 20` or `GPIO0_20`
+- use `P8.03` ⇾ `GPIO 1 20` or `GPIO0_20`
   - REG 0x00011C054
   - MODE 7 - GPIO0_20
 
@@ -76,11 +76,11 @@ gpiofind P8_03
 # gpiochip1 20
 
 ls -ltr /sys/class/gpio/gpiochip*
-# /sys/class/gpio/gpiochip428 -> ../../devices/platform/bus@100000/bus@100000:bus@28380000/42110000.gpio/gpio/gpiochip428
-# /sys/class/gpio/gpiochip264 -> ../../devices/platform/bus@100000/601000.gpio/gpio/gpiochip264
-# /sys/class/gpio/gpiochip300 -> ../../devices/platform/bus@100000/600000.gpio/gpio/gpiochip300
+# /sys/class/gpio/gpiochip428 ⇾ ../../devices/platform/bus@100000/bus@100000:bus@28380000/42110000.gpio/gpio/gpiochip428
+# /sys/class/gpio/gpiochip264 ⇾ ../../devices/platform/bus@100000/601000.gpio/gpio/gpiochip264
+# /sys/class/gpio/gpiochip300 ⇾ ../../devices/platform/bus@100000/600000.gpio/gpio/gpiochip300
 
-# P8_03 is on gpiochip1 -> chip1 = 600000.gpio --> 600000.gpio = /sys/class/gpio/gpiochip300
+# P8_03 is on gpiochip1 ⇾ chip1 = 600000.gpio ⇾ 600000.gpio = /sys/class/gpio/gpiochip300
 # P8_03 = 320 (value to export)
 ```
 
@@ -216,7 +216,7 @@ Comes with
 - linux 6.1.46-ti-arm64-r13
 - python 3.11.2
 
-GPIO also NOT working. -> try device-tree fix - 5.10-branch?
+GPIO also NOT working. ⇾ try device-tree fix - 5.10-branch?
 
 there are also images (mainline) with RT and kernel 6.6 / 6.7
 
@@ -239,11 +239,11 @@ gpiofind P8_03
 # gpiochip1 20
 
 ls -ltr /sys/class/gpio/gpiochip*
-# /sys/class/gpio/gpiochip724 -> ../../devices/platform/bus@100000/601000.gpio/gpio/gpiochip724
-# /sys/class/gpio/gpiochip512 -> ../../devices/platform/bus@100000/bus@100000:bus@28380000/42110000.gpio/gpio/gpiochip512
-# /sys/class/gpio/gpiochip596 -> ../../devices/platform/bus@100000/600000.gpio/gpio/gpiochip596
+# /sys/class/gpio/gpiochip724 ⇾ ../../devices/platform/bus@100000/601000.gpio/gpio/gpiochip724
+# /sys/class/gpio/gpiochip512 ⇾ ../../devices/platform/bus@100000/bus@100000:bus@28380000/42110000.gpio/gpio/gpiochip512
+# /sys/class/gpio/gpiochip596 ⇾ ../../devices/platform/bus@100000/600000.gpio/gpio/gpiochip596
 
-# P8_03 is on gpiochip1 -> chip1 = 600000.gpio --> 600000.gpio = /sys/class/gpio/gpiochip596
+# P8_03 is on gpiochip1 ⇾ chip1 = 600000.gpio ⇾ 600000.gpio = /sys/class/gpio/gpiochip596
 # P8_03 = 616 (value to export)
 ```
 
@@ -255,7 +255,7 @@ sudo echo 1 > /sys/class/gpio/gpio616/value
 
 Does not work!
 
-Shepherd-Kernel-Module now also configures MUX -> GPIO works there, AFTER running once: 
+Shepherd-Kernel-Module now also configures MUX ⇾ GPIO works there, AFTER running once: 
 
 ```Shell
 gpioset 1 20=1
@@ -322,7 +322,7 @@ git checkout Kernel510
 git pull
 sudo cp shepherd/deploy/roles/ptp_host/files/* /etc/systemd/system/
 # nano /etc/linuxptp/ptp4l.conf
-# -> switch "slaveOnly  1" to disable server-cap
+# ⇾ switch "slaveOnly  1" to disable server-cap
 
 sudo systemctl disable systemd-timesyncd
 sudo systemctl stop systemd-timesyncd
@@ -342,15 +342,15 @@ sudo journalctl -u phc2sys@eth0.service -b -f
 # Semi-working config - same for server & clients
 ExecStart=/usr/sbin/phc2sys -rr -w -s %I -E linreg
 ExecStart=/usr/sbin/ptp4l -A -H -f /etc/linuxptp/ptp4l.conf -i %I
-# NEW: /etc/linuxptp/ptp4l.conf -> clock_servo linreg
+# NEW: /etc/linuxptp/ptp4l.conf ⇾ clock_servo linreg
 
 # new for client
 ExecStart=/usr/sbin/phc2sys -r -w -s %I -E linreg
-/etc/linuxptp/ptp4l.conf -> slaveOnly 1, pi-servo
+sudo nano /etc/linuxptp/ptp4l.conf ⇾ slaveOnly 1, pi-servo
 
 # new for server
 ExecStart=/usr/sbin/phc2sys -a -rr -E linreg
-/etc/linuxptp/ptp4l.conf -> slaveOnly 0, pi-servo
+sudo nano /etc/linuxptp/ptp4l.conf ⇾ slaveOnly 0, pi-servo
 ```
 
 - install kernel module
@@ -416,9 +416,9 @@ Compiling and activating the Shepherd-KMod
 [  +0.000102] shprd.k: ktime_get_real_fast_ns() = 1960 n / ~100us
 ```
 
--> requesting kernel-time only takes ~40 ns, compared to 300 ns on BBB.
--> 100k loop-iterations take 400 us
--> same results for kernel 5.10ti and 6.6rt
+⇾ requesting kernel-time only takes ~40 ns, compared to 300 ns on BBB.
+⇾ 100k loop-iterations take 400 us
+⇾ same results for kernel 5.10ti and 6.6rt
 
 Getting direct GPIO access for P8_03. 
 
@@ -436,7 +436,7 @@ Getting direct GPIO access for P8_03.
 Setting MuX-Register
 
 1 0 0 0 0 0 1 00 0 0 1 0 1 000 00000 00 0111
--> compare with J721_registers1.pdf, page 1108
+⇾ compare with J721_registers1.pdf, page 1108
 - set Mode 7, bit[3:0] = 7
 - activate RX, bit[18] = 1
 - Activate TX, bit[21] = 0

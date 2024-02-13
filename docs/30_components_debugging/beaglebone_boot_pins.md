@@ -40,13 +40,13 @@ gpio4   P8-28   9       LOW
 
 - 1k input resistance is fine
 - shepherd PCB alone shows
-    - (fresh PCB) pin 41-46 has 110k to GND, 101k to 3v3  -> maybe still a short
+    - (fresh PCB) pin 41-46 has 110k to GND, 101k to 3v3  ⇾ maybe still a short
     - (test PCB) pin 41-46 has open connection to GND, 101k to 3v3
 - with BB connected
     - pin 41-44 show 44k to GND, 42k to 3v3
     - pin 45/46 show 106k to GND, 100k to 3v3
 - previous 1.x hw-revision shows diodes to these pins, but this seems sub-optimal. makes pins to input-only, but only fast-switching for rising-edges
-- shepherd-enable (p8-13) stays low during boot -> perfect to disconnect board from power
+- shepherd-enable (p8-13) stays low during boot ⇾ perfect to disconnect board from power
 - behaviour of secondary pins (see table above)
     - BOOT[0:3] stay low
     - BOOT[4] stays high

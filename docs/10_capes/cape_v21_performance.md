@@ -32,7 +32,7 @@
 - adding a 1 mF / 16 V Cap on 5 V Input improves situation (Quickprint4.png)
     - drop of 200 mV for ~ 4 ms
     - 2 remaining Spikes with 328 mV
-    - no recovery after that -> quick return to previous rail-voltage
+    - no recovery after that ⇾ quick return to previous rail-voltage
 
 ### DAC-Responses
 
@@ -64,7 +64,7 @@ Goal: optimize analog circuit connected to the DAC
     - 3V fall   - ~ 10 us for ~ 90 % (QuickPrint95.png)
     - 4V8 raise - ~ 14 us, 5 % overshoot (QuickPrint97.png)
     - 4V8 fall  - ~ 12 us for ~ 90 % (QuickPrint98.png)
-    - result: significantly better performance, but still no match with speed of VMatch, probably because of additional 100 nF -> preview of possible Mod for Emu-Rails (reduce 1uF to 100 nF)
+    - result: significantly better performance, but still no match with speed of VMatch, probably because of additional 100 nF ⇾ preview of possible Mod for Emu-Rails (reduce 1uF to 100 nF)
 
 #### Emulator
 
@@ -111,7 +111,7 @@ Goal: optimize analog circuit connected to the DAC
     - 3V fall   - ~ 12 us for ~ 90 % (QuickPrint204.png)
     - 4V8 raise - ~ 14 us, no overshoot (QuickPrint206.png)
     - 4V8 fall  - ~ 12 us for ~ 90 % (QuickPrint207.png)
-    - result: small cap brings edge-response from 30-80 us down to 8-14 us -> target can buffer on its own
+    - result: small cap brings edge-response from 30-80 us down to 8-14 us ⇾ target can buffer on its own
 - Emulate, Rail B, 1 kOhm Drain, 160 kHz Mod, Small Loop Mod, 1 Ohm Shunt Mod
     - 1V raise  - ~ 6 us, 30 % overshoot (QuickPrint301.png)
     - 1V fall   - ~ 8 us for ~ 90 % (QuickPrint302.png)
@@ -156,17 +156,17 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
     - I0 = 2.338 # mA
     - V = [1, 2, 3, 4, 5, 4.8] # V
     - I = [3.255, 4.155, 5.068, 5.977, 6.797, 6.711] # mA
-    - -> R = [1090.513, 1100.715, 1098.901, 1099.203, 1121.328, 1097.645] # Ohm
+    - ⇾ R = [1090.513, 1100.715, 1098.901, 1099.203, 1121.328, 1097.645] # Ohm
     - result:
         - at 5 V system has a 100 mV drop when adding 1 kOhm Load. gone below 4.9 V
         - resulting R for 2-4.8 V is very consistent (not considering noise, or further filtering)
 
-- Emulator -> after Shunt-Mod (1 Ohm)
+- Emulator ⇾ after Shunt-Mod (1 Ohm)
     - ohm-meter says R = 995 Ohm
     - I0 = 2.346 # mA
     - V = [1, 2, 3, 4, 5, 4.8] # V
     - I = [3.173, 3.996, 4.821, 5.647, 6.429, 6.308] # mA
-    - -> R = [1209.19, 1212.121, 1212.121, 1211.754, 1224.59, 1211.509] # Ohm
+    - ⇾ R = [1209.19, 1212.121, 1212.121, 1211.754, 1224.59, 1211.509] # Ohm
     - result:
         - resulting R for 2-4.8 V is very consistent, similar to first measurement
 
@@ -176,7 +176,7 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
     - VCombinations = 0/5, 4.9/1, 4/1, 3/1, 2/1, 2/0, 1/0, 4/3
     - V = [-5, 3.9, 3, 2, 1, 2, 1, 1] # VDiff
     - I = [1.84, 5.821, 5.001, 4.092, 3.181, 4.092, 3.182, 3.180] # mA
-    - -> R = [11520.737, 1099.521, 1100.11, 1100.11, 1102.536, 1100.11, 1101.322, 1103.753] # Ohm
+    - ⇾ R = [11520.737, 1099.521, 1100.11, 1100.11, 1102.536, 1100.11, 1101.322, 1103.753] # Ohm
     - result:
         - reverse current is significantly higher than expected (400 nA instead of 40 nA), even seconds diode can't fix that :( replace it?
         - resulting R is very consistent, similar to emulator-results
@@ -186,7 +186,7 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 - setup
     - aux channel with 10 Ohm shunt
     - v-target = 2.0 V
-    - loads: 10, 20, 30, 40, 50 mA -> 200, 100, 66.7, 50, 40 Ohm
+    - loads: 10, 20, 30, 40, 50 mA ⇾ 200, 100, 66.7, 50, 40 Ohm
     - resulting load-resistors: 200, 100, 68, 51, 43 Ohm
     - buffering: 100 nF, 1 uF
     - scope in AC-Mode,
@@ -230,26 +230,26 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 
 ### Noise Behaviour
 
-- Short -> Quickprint 49 - 54 (Ground-noise-floor)
+- Short ⇾ Quickprint 49 - 54 (Ground-noise-floor)
     - 1.38 mVpp (10ms), 900 uVpp (100ns)
-- L3V3 -> Quickprint 34 - 40
+- L3V3 ⇾ Quickprint 34 - 40
     - 1.94 mVpp (50ms), 1.44 mVpp with 5 MHz ripple (1us)
-- RailB TargetA -> Quickprint 41 - 48
+- RailB TargetA ⇾ Quickprint 41 - 48
     - 1.56 mVpp (10ms), 980 uVpp (100ns)
-- A5V -> Quickprint 55 - 61
+- A5V ⇾ Quickprint 55 - 61
     - 1.8 mVpp (50ms), 1.4 mVpp with 100 kHz RampRipple (10us), 1.06 mVpp (100ns)
-- 6V -> Quickprint 62 - 68
+- 6V ⇾ Quickprint 62 - 68
     - 4.56 mVpp (50ms), 4.24 mVpp with spiky ripple (1ms), 1.52 mVpp with 1 MHz switching noise (1us)
-- 10V -> Quickprint 69 - 75 -> high Noise
+- 10V ⇾ Quickprint 69 - 75 ⇾ high Noise
     - 2.8 mVpp (50ms), 2.68 mVpp with spiky ripple (1ms), 1.48 mVpp with 1 MHz switching noise (1us)
-- -6V -> Quickprint 76 - 82 -> high Noise
+- -6V ⇾ Quickprint 76 - 82 ⇾ high Noise
     - 5.12 mVpp (50ms), 4.6 mVpp still noisy (1ms), 3.68 mVpp with 1 MHz switching noise (1us) (!!!!!)
-- 10 Ohm shunt@1V, RailB, 1k Load, A5V -> Quickprint 83 - 86 -> 40 mVpp ???
+- 10 Ohm shunt@1V, RailB, 1k Load, A5V ⇾ Quickprint 83 - 86 ⇾ 40 mVpp ???
     - 21-30 mVpp with strong 50 Hz switching noise (10ms)
 
 #### TODO
 
-- shunt-noise is bad, why? -> it isn't, ~
+- shunt-noise is bad, why? ⇾ it isn't, ~
 - are -6V and 6V and 10V improved to last time?
   - 10 V is similar
   - 6 V has no record
@@ -259,26 +259,26 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 ### GPIO to Target
 
 - PRU-Recording
-    - GPIO 0 -> 1   (r31_00) -> GPIO0
-    - GPIO 1 -> 2   (r31_01) -> GPIO1
-    - GPIO 2 -> 64  (r31_06) -> GPIO2
-    - GPIO 3 -> 128 (r31_07) -> GPIO3
-    - GPIO 4 -> 256 (r31_08) -> GPIO4
-    - GPIO 5 -> 16  (r31_04) -> UART_TX
-    - GPIO 6 -> 32  (r31_05) -> UART_RX
-    - GPIO 7 -> 4   (r31_02) -> SWD_CLK
-    - GPIO 8 -> 8   (r32_03) -> SWD_IO
+    - GPIO 0 ⇾ 1   (r31_00) ⇾ GPIO0
+    - GPIO 1 ⇾ 2   (r31_01) ⇾ GPIO1
+    - GPIO 2 ⇾ 64  (r31_06) ⇾ GPIO2
+    - GPIO 3 ⇾ 128 (r31_07) ⇾ GPIO3
+    - GPIO 4 ⇾ 256 (r31_08) ⇾ GPIO4
+    - GPIO 5 ⇾ 16  (r31_04) ⇾ UART_TX
+    - GPIO 6 ⇾ 32  (r31_05) ⇾ UART_RX
+    - GPIO 7 ⇾ 4   (r31_02) ⇾ SWD_CLK
+    - GPIO 8 ⇾ 8   (r32_03) ⇾ SWD_IO
     - result: 0,1,5-8 are not connected (P8-41 to P8-46) and can't be handled by PRU
         - fix: connect afterwards (avoid boots-issues)
 - Logic-Analyzer Target 1
     - GPIO 0 to 4 correspond to Pin 3 to 7
     - GPIO 5 to 8 correspond to Pin 9 to 12
-    - BATOK -> Pin 8
+    - BATOK ⇾ Pin 8
     - result: ALL OK
 - Logic-Analyzer Target 2
     - GPIO 0 to 4 correspond to Pin 3 to 7
     - GPIO 5 to 8 correspond to Pin 9 to 12
-    - BATOK  -> Pin 8
+    - BATOK  ⇾ Pin 8
     - result: ALL OK (after removing solder bridge)
 - Getting Pin6 to work
     - disable uart in uEnv.txt
@@ -313,9 +313,9 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
 Trying to find reason of slow rising edges
 - Taking apart the LSF
     - refB is sources with 240k on 3.306 V, settling at 1.524 V
-    - refA settles at 0.967 V (between 1M and 100k) -> voltage drop over FET (refAB) is 0.558 mV
-    - modding refB with 200k increases refB to 1.625 V, refA to 1.053 V -> drop = .572 V
-- LSF-SignalPads A to B -> resistance while on = 6 Ohm, off = infinite
+    - refA settles at 0.967 V (between 1M and 100k) ⇾ voltage drop over FET (refAB) is 0.558 mV
+    - modding refB with 200k increases refB to 1.625 V, refA to 1.053 V ⇾ drop = .572 V
+- LSF-SignalPads A to B ⇾ resistance while on = 6 Ohm, off = infinite
 - 100k as PU on Target side worsens the edge-timing
 
 #### TODO
@@ -346,7 +346,7 @@ sudo shepherd-sheep -vvv eeprom write -v 00B0 -s 210617AA0001 --no-calib
 
 ### External Power
 
-- Switching Ferrite is not as intuitive as imagined -> mark better
+- Switching Ferrite is not as intuitive as imagined ⇾ mark better
 
 TODO: measure changes in Noise
 
@@ -354,15 +354,15 @@ TODO: measure changes in Noise
 
 - BB_nSTART = P9_09, BB_nRES = B9_10, WD_ACK = P8_10
 - watchdog is set to 60min per schematic, but is now modded to 20 min (parallel 2x 100k as R101)
-- launcher is sending an ACK every 600s ->
+- launcher is sending an ACK every 600s
     - confirmed: 2.5 ms High from launcher
     - nice extra: ACK-Pin is high for 10s during uboot
 - boot works with connected WD
 - during normal BB run
     - ACKs come in like clockwork
-    - @ 350 s -> some jitter on logic-analyzer ACK was high for ~ 100 ns, nRES also 100 ns 8x during 0.1 ms without harm (Soldering Iron was switched off)
-    - @ 1100 s -> BB_nSTART was pulled low for 15 us without any harm
-    - @ 2179 s -> BB_nSTART was again pulled low for 15 us
+    - @ 350 s ⇾ some jitter on logic-analyzer ACK was high for ~ 100 ns, nRES also 100 ns 8x during 0.1 ms without harm (Soldering Iron was switched off)
+    - @ 1100 s ⇾ BB_nSTART was pulled low for 15 us without any harm
+    - @ 2179 s ⇾ BB_nSTART was again pulled low for 15 us
 - on shutdown state
     - ACK and nRES are low
     - nSTART is @3V3
@@ -411,17 +411,17 @@ TODO: Why is boot not working? Even a fresh BB does not respond to a ~ 20 ms LOW
     - 41, 42, 43, 44 are high
     - 45, 46 are low
 - leaving one pin unconnected
-    - 41 -> all Leds light up forever
-    - 43 -> short break + flashes, repeat forever
-    - 42, 44, 45, 46 -> no led response
+    - 41 ⇾ all Leds light up forever
+    - 43 ⇾ short break + flashes, repeat forever
+    - 42, 44, 45, 46 ⇾ no led response
 - leaving some pins unconnected
-    - 41+43 -> NoLeds
-    - 42+44 -> NoLeds
-    - 41 - 44 -> OK
-    - 41+42 -> All Leds light up forever
-    - 43+44 -> NoLeds
-    - 42+43 -> Flashes
-    - 42 - 44 -> NoLeds (????, pin 41 is high and expected to be high)
+    - 41+43 ⇾ NoLeds
+    - 42+44 ⇾ NoLeds
+    - 41 - 44 ⇾ OK
+    - 41+42 ⇾ All Leds light up forever
+    - 43+44 ⇾ NoLeds
+    - 42+43 ⇾ Flashes
+    - 42 - 44 ⇾ NoLeds (????, pin 41 is high and expected to be high)
 - Function during Boot
     - 41 - Bootdevice, High
     - 42 - CLKOUT, High
@@ -432,4 +432,4 @@ TODO: Why is boot not working? Even a fresh BB does not respond to a ~ 20 ms LOW
 
 ## Validation
 
-- 2nd (fresh) BBone was tested with current Shepherd v2.1 -> works fine (when omitting pins p9 41-44 during uboot)
+- 2nd (fresh) BBone was tested with current Shepherd v2.1 ⇾ works fine (when omitting pins p9 41-44 during uboot)

@@ -38,7 +38,7 @@ The sections below are a rough description of possible topics. [Contact us](http
 - reference implementation using arduino and a 5 € DCF-Module: <https://blog.blinkenlight.net/experiments/dcf77/local-clock/>
 - phase-detection enables high-res time sync
 - what min error would be possible?
-- interesting for far away nodes (uwb) -> distant subnets that can't use ptp via LAN
+- interesting for far away nodes (uwb) ⇾ distant subnets that can't use ptp via LAN
 - how to correct for error introduced by physical distance?
 - topics could also include: antenna design, module concept, control loop optimization
 

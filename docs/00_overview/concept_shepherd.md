@@ -11,7 +11,7 @@
     - intermediate storage-capacitor
     - "software defined" is largely true, but changing basic behaviour needs a deep dive into PRU-Code
 - allows to experiment with emulated spatio-temporal energy availability
-- recording of energy-traces -> key-parameters like current-drain and (virtual) capacitor-voltage
+- recording of energy-traces ⇾ key-parameters like current-drain and (virtual) capacitor-voltage
 - additional functionality: recording of harvesting sources (not part of testbed)
 
 ## Nodes
@@ -75,7 +75,7 @@
     - gpio can be turned off, < 10 nA leak from target-side
 - data-rates
     - 1 min ~ >= 54 MiB of measurement data (more with heavy GPIO actions)
-    - 1 Hour, 30 Nodes -> 100 GiB uncompressed (hdf5)
+    - 1 Hour, 30 Nodes ⇾ 100 GiB uncompressed (hdf5)
 - time-synchronization
     - in linux via PTP,
     - chip-select edge of two test-nodes have a maximum jitter of about +- 300 ns, 95% quantile is 160 ns

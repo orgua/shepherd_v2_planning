@@ -23,7 +23,7 @@
     - pro: fast, clean, simple
     - con: no high impedance, could feed into a harvest source
 - Switched OpAmp-Sink
-    - Mosfet above OpAmp -> would need voltage offset to control mosfet
+    - Mosfet above OpAmp ⇾ would need voltage offset to control mosfet
     - analog switch would be a nicer solution than mosfet
     - con: could still feed into harvest source
 - oneway OpAmp-Sink

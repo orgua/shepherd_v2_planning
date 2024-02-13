@@ -14,11 +14,11 @@ Update 2024-01: Ubuntu 22.04 Images from [rcn-ee](https://rcn-ee.com/rootfs/) ar
 
 - BBone with Ubuntu 18.04.44, image from 2020-03, linux-image-4.19.94-ti-r36
 - Python 3.6
-    - scipy 0.19.1      -> (1.7.0)
-    - numpy 1.13.3      -> 1.19.5 (1.21.1)
-    - h5py 2.7.1        -> 3.1 (3.3)
-    - setuptools 39.x,  -> 57.4.0
-    - pip 9.x           -> 21.2.1
+    - scipy 0.19.1      ⇾ (1.7.0)
+    - numpy 1.13.3      ⇾ 1.19.5 (1.21.1)
+    - h5py 2.7.1        ⇾ 3.1 (3.3)
+    - setuptools 39.x,  ⇾ 57.4.0
+    - pip 9.x           ⇾ 21.2.1
 - python 3.9.5 (ubuntu 21.04/hirsute)
     - scipy 1.6.0
     - numpy 1.19.5
@@ -42,7 +42,7 @@ Tutorial: https://www.howtogeek.com/351360/how-to-upgrade-to-the-latest-version-
 sudo apt install update-manager-core
 
 # switch to normal
-sudo nano /etc/update-manager/release-upgrades -> normal
+sudo nano /etc/update-manager/release-upgrades ⇾ normal
 
 # show current Version
 do-release-upgrade -V
@@ -54,8 +54,8 @@ do-release-upgrade -c
 sudo rm -rf /var/log/*
 do-release-upgrade --allow-third-party
 # TODO: does not run without interaction
-# -> brings python3.8.10 and gcc9.3/10 and kernel 5.4.24?
-# wants to install linux-image-5.4.24-armv7-x20, check uEnv.txt -> is fine, 4.19 stays default
+# ⇾ brings python3.8.10 and gcc9.3/10 and kernel 5.4.24?
+# wants to install linux-image-5.4.24-armv7-x20, check uEnv.txt ⇾ is fine, 4.19 stays default
 sudo apt remove linux-headers-5.4.* linux-image-5.4.*
 sudo rm -rf /boot/initrd*
 sudo apt autoremove
@@ -108,9 +108,9 @@ sudo apt install python3-h5py
 /usr/bin/python3 -m pip install --upgrade --only-binary :all: h5py
 # update not working with pip: pyYAML, xdg
 
-# trouble with numpy -> libcblas.so.3: cannot open shared object file: No such file or directory
+# trouble with numpy ⇾ libcblas.so.3: cannot open shared object file: No such file or directory
 sudo apt install libopenblas-dev libblas-test
-# -> does not fix error
+# ⇾ does not fix error
 sudo /usr/bin/python3 -m pip uninstall numpy scipy h5py
 sudo /usr/bin/python3 -m pip uninstall cryptography pyzmq
 sudo /usr/bin/python3 -m pip uninstall six pillow
@@ -119,7 +119,7 @@ sudo apt remove  python3-numpy python3-h5py python3-scipy python3-h5py-serial py
 sudo apt install python3-numpy python3-h5py python3-scipy python3-h5py-serial python3-zmq python3-six python3-cryptography
 ```
 
-Alternative -> fresh test-images, debian only: https://rcn-ee.com/rootfs/bb.org/testing/2021-07-26/buster-console/
+Alternative ⇾ fresh test-images, debian only: https://rcn-ee.com/rootfs/bb.org/testing/2021-07-26/buster-console/
 
 BBone PIP-Transactions can take forever, speedup by not installing from sources::
 
@@ -149,7 +149,7 @@ sudo apt install python3-msgpack-numpy
     - some timejumps during recording detected (in 10s window)
     - flushing and closing hdf5 file seems to hang at the end, some load
     - a litte deprecation-warning for str-compares with "is"
-    - gevent.signal() is ancient -> gevent.signal_handler()
+    - gevent.signal() is ancient ⇾ gevent.signal_handler()
 - `sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml`
     - ~ 57 % cpu-load for recording, 118 MB Ram (85 MB before)
 - EMU: `sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml`
@@ -158,7 +158,7 @@ sudo apt install python3-msgpack-numpy
 
 ```Shell
 sudo mount -t exfat /dev/mmcblk0p1 /var/shepherd/recordings2
-# -> TODO: fails after update despite installing all 3 extfat-packages in apt
+# ⇾ TODO: fails after update despite installing all 3 extfat-packages in apt
 
 sudo nano /etc/shepherd/example_config_emulation.yml
 

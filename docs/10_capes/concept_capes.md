@@ -23,7 +23,7 @@ This is mostly a documentation of changes in comparison to v1.x
     - con: real-time not out of the box, low gpio-count
 - PRU replacement or extension
     - CPLD would be overkill
-    - Teensy 4 -> lots of iO, SPI with DMA, interrupts for everything, FPU, 600 MHz, proper [toolchain](https://www.pjrc.com/store/teensy40.html)
+    - Teensy 4 ⇾ lots of iO, SPI with DMA, interrupts for everything, FPU, 600 MHz, proper [toolchain](https://www.pjrc.com/store/teensy40.html)
     - FPGA in between embedded CPU and Shepherd
         - some lattice even have a open source toolchain
         - FPGA could be transparent if not needed
@@ -33,14 +33,14 @@ This is mostly a documentation of changes in comparison to v1.x
 ## Shepherd-Cape
 
 - add fixed & robust power-connector and possibility to switch system on/off, reverse-polarity-detection
-- external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer -> record via PRU
+- external (SMA) connector for PPS (in addition to Link from GPS), possible switch / level-changer ⇾ record via PRU
 - power stage:
-    - remove / untie EH-recording (and mppt-conv) -> recorder can stay on pcb or be even modularized
+    - remove / untie EH-recording (and mppt-conv) ⇾ recorder can stay on pcb or be even modularized
     - EH-recording after Converter not absolutely needed
     - current load solution seem a bit overkill and brings non-linearity with the LEDs
     - simplify "emulator" power-stage with virtual Converter
 - easier (dis)assembly by reducing / removing pin-header-forwarding (only take what is needed)
-    - reduce or bundle pins to shepherd (or another way to make disassembly easier) -> used pins don't have to be forwarded
+    - reduce or bundle pins to shepherd (or another way to make disassembly easier) ⇾ used pins don't have to be forwarded
     - using a pointy thin rod that can get between pin-rows helps to non-destructive get cape off
 - compatibility with and optimization for beagle AI (dedicated concept-file)
 - addressable i2c - flash storage for calibration and distinction
@@ -55,25 +55,25 @@ This is mostly a documentation of changes in comparison to v1.x
 
 ## Capelet - System
 
-- get rid of pin-headers for b2b / mezzanine - interconnect -> molex, flex cable, hirose ...
+- get rid of pin-headers for b2b / mezzanine - interconnect ⇾ molex, flex cable, hirose ...
 - support for addressable i2c-flash for distinction and configuration
 - maybe rotate capelets, so they stick orthogonal on shepherd (would benefit antenna)
 
 ## Capelet - GPS 
 
-- look for similar gps-module with external antenna support (currently ublox SAM M8Q) -> ublox Neo M8Q, same but with external antenna, 30-60 ns accuracy
+- look for similar gps-module with external antenna support (currently ublox SAM M8Q) ⇾ ublox Neo M8Q, same but with external antenna, 30-60 ns accuracy
 - backup power (LiPo / Supercap)
 - there are special timing modules
     - uBlox ZED-F9T (~ 140 €, < 5ns clear sky)
     - uBlox LEA-M8F (~60 €, < 20 ns clear sky)
-    - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky) -> already in inventory
+    - uBlox LEA/NEO-M8T (~50 €, < 20 ns clear sky) ⇾ already in inventory
     - trimble also offers precise timing gps modules
 - preferred solution: module without antenna and sma-port, smd-antenna on same pcb with sma-port, short interconnect or remote antenna
 - PPS currently on Timer4 P8_7, GPS on UART2
 
 ## Target Port
 
-- allow a second target -> switch inputs and power (could also lead to a third if space is available)
+- allow a second target ⇾ switch inputs and power (could also lead to a third if space is available)
 - try to keep power (constant) for the not connected target, so it can run independently
 - allow different targets (probably limited by software) even fpga or other untypical combinations
 - handling with standardized data interfaces:
@@ -84,12 +84,12 @@ This is mostly a documentation of changes in comparison to v1.x
 - fast level-changer for >= 1 Mbps UART (BB-Uart max is 3.7 Mbps)
 - bidirectional gpio-connection, tri-state (input, output, disconnected)
     - perfect if also flexible muxer included
-    - make gpio-connections to target switchable if possible -> no transfer of energy (if needed)
+    - make gpio-connections to target switchable if possible ⇾ no transfer of energy (if needed)
     - possible usb-interface (has to be cable based, beagle does not offer usb on pin-header)
 - if there is low cost one, make power-connection switchable (for on-off-pattern if power-emulation does not work)
 - if usb to target (via cable), then make it off-switchable
 - routing of v_in_SHT+/- can be removed - it was never used and is a big noise-source for ADC
-- low prio: rf attenuator and connector for antenna -> depending on target capabilities
+- low prio: rf attenuator and connector for antenna ⇾ depending on target capabilities
 
 ## Beaglebone timekeeping
 
@@ -99,8 +99,8 @@ This is mostly a documentation of changes in comparison to v1.x
 
 ## Special Constraints for parts
 
-- subtractor for V_EMU_I needed, because DAC does not reach 0 -> differential DAC would be nice
-- ADC-mode is differential -> <0 currently not needed, one bit wasted, but not bad to have, for reversed current-flow
+- subtractor for V_EMU_I needed, because DAC does not reach 0 ⇾ differential DAC would be nice
+- ADC-mode is differential ⇾ <0 currently not needed, one bit wasted, but not bad to have, for reversed current-flow
 - Diodes between beagle-pins and level-changer needed on some pins, because they are active at boot
 
 ## Hardware - PinOuts
@@ -115,7 +115,7 @@ This is mostly a documentation of changes in comparison to v1.x
     - 1Pin: select LOAD Pru
     - 1Pin: ADC RST/PDN
     - [3Pin: Debug-Pins (will be reserved by dts, but not in layout)]
-    - -> leaves 9 (+3) PRU controllable pins on beagle Black
+    - ⇾ leaves 9 (+3) PRU controllable pins on beagle Black
 - PRU Tasks
     - PRU0 seems to handle SPI, Leds, load select
     - PRU1 seems to handle target gpios, uart, adc-reset
@@ -156,31 +156,31 @@ This is mostly a documentation of changes in comparison to v1.x
     - Target (4 GPIo, SWD, UART, VCC, BatOK)
     - Jumper to tap into current path
 - fixed supply voltage for target
-    - DAC6571IDBVR -> i2c-DAC,
-    - TPS73101DBVR -> LDO
-    - TMUX1101DCK -> Switch 1Port 1Endpoint
-- LM27762DSSR -> low_noise pos&neg analog voltage (VDD, VSS) for some OP-Amps
-- CAT24C256WI-GT3 -> i2c-EPROM
+    - DAC6571IDBVR ⇾ i2c-DAC,
+    - TPS73101DBVR ⇾ LDO
+    - TMUX1101DCK ⇾ Switch 1Port 1Endpoint
+- LM27762DSSR ⇾ low_noise pos&neg analog voltage (VDD, VSS) for some OP-Amps
+- CAT24C256WI-GT3 ⇾ i2c-EPROM
 - Target IO
-    - TXB0304RUTR -> BiDir level converter for target uart & swd (switchable)
-    - LMP7701MF -> OP-Amp, voltage buffer
-    - SN74LV4T125PWR -> UniDir level converter, high imp (Sep. Switchable, not used)
-- BQ25504_RGT_16 -> Voltage Reg with MPPT
-    - ADG736LBRMZRM_10-L -> Analog Switch 2Port 2Endpoints
+    - TXB0304RUTR ⇾ BiDir level converter for target uart & swd (switchable)
+    - LMP7701MF ⇾ OP-Amp, voltage buffer
+    - SN74LV4T125PWR ⇾ UniDir level converter, high imp (Sep. Switchable, not used)
+- BQ25504_RGT_16 ⇾ Voltage Reg with MPPT
+    - ADG736LBRMZRM_10-L ⇾ Analog Switch 2Port 2Endpoints
 - ref Voltage emulation
-    - DAC8562_DGS_10 -> 2CH SPI-DAC
-    - OPA2388DGK8_L -> dual OP-Amp, Voltage2Current Converter
-    - LMP7701MF -> OP-Amp, bias subtractor
+    - DAC8562_DGS_10 ⇾ 2CH SPI-DAC
+    - OPA2388DGK8_L ⇾ dual OP-Amp, Voltage2Current Converter
+    - LMP7701MF ⇾ OP-Amp, bias subtractor
 - current & voltage measurement (harvesting & load)
-    - ADS8694TSSOP38 -> 4CH SPI-ADC
-    - OPA2388DGK8 -> OP-Amp, 2x voltage buffers
-    - AD8422BRMZ -> precision OP-Amp, 2? Ohm Shunt Amperemeter
+    - ADS8694TSSOP38 ⇾ 4CH SPI-ADC
+    - OPA2388DGK8 ⇾ OP-Amp, 2x voltage buffers
+    - AD8422BRMZ ⇾ precision OP-Amp, 2? Ohm Shunt Amperemeter
 - dummy load
-    - OPA2388DGK8_L -> dual OP-Amp, voltage buffer & Schmitt Trigger to switch on two LEDs
-    - ADG849YKSZ-REELKS_6-L -> Switch 1Port 2Endpoints
+    - OPA2388DGK8_L ⇾ dual OP-Amp, voltage buffer & Schmitt Trigger to switch on two LEDs
+    - ADG849YKSZ-REELKS_6-L ⇾ Switch 1Port 2Endpoints
 - harvesting
-    - G3VM-31HR22SOP -> low on-res switch to disconnect harvester
-    - AD8422BRMZ -> precision OP-Amp, 2? Ohm Shunt Amperemeter
+    - G3VM-31HR22SOP ⇾ low on-res switch to disconnect harvester
+    - AD8422BRMZ ⇾ precision OP-Amp, 2? Ohm Shunt Amperemeter
 
 
 ## Eagle Project
@@ -197,7 +197,7 @@ This is mostly a documentation of changes in comparison to v1.x
     - Pwr - power pin (supply input)
     - Sup - supply output (also for ground)
 - swap-level (>0) allow easy pin-changes in later design stages (pins with same swap level)
-- function -> inverted (dot), clock, invClk
-- add parameters for partnumber, order-number (mouser, digikey), some key specs (forward current, max power, max voltage, ..), price -> eagle does not seem to support that at all?!?
+- function ⇾ inverted (dot), clock, invClk
+- add parameters for partnumber, order-number (mouser, digikey), some key specs (forward current, max power, max voltage, ..), price ⇾ eagle does not seem to support that at all?!?
     - reason to switch to kicad?
 - minimize BOM

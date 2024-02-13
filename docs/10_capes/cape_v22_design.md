@@ -11,26 +11,26 @@
 - label for pwr-led
 - AB-label of target bigger
 - P7/P8 seems wrong name for big pinheaders
-- testpoints without paste, and small hole in copper to lock a probe -> just less paste
-- is there a way for cage-selfalignment? -> negative solder mask exp
+- testpoints without paste, and small hole in copper to lock a probe ⇾ just less paste
+- is there a way for cage-selfalignment? ⇾ negative solder mask exp
 - remove layerwindows and make number bigger
 - describe external powering better in schematic
 - pin1 markings should be bigger
 - emulationBug! - Critical
     - solutionA - MinimalEffort: Swap FbB- with RailA-Trace
-        - FbB -> rotate R1/10k clockwise and attach it to middle pad
-        - RailA -> cut Trace between R9 and Via
-        - connect enamel from R9 to (now) free Pad of R1 -> this routes RailA to Switch
-        - connect enamel from TP1-Pad to rotated R1 -> this routes FbB to Switch
+        - FbB ⇾ rotate R1/10k clockwise and attach it to middle pad
+        - RailA ⇾ cut Trace between R9 and Via
+        - connect enamel from R9 to (now) free Pad of R1 ⇾ this routes RailA to Switch
+        - connect enamel from TP1-Pad to rotated R1 ⇾ this routes FbB to Switch
     - solutionB - clean: rewire output of AnalogSwitch
 - silk: vCap is now V_SimBuf
 - schem: recorder gain is now just 10
 - more Metal for cooling the recorder-Path
-- Rail-LED is twisted! -> No its not
+- Rail-LED is twisted! ⇾ No its not
 - add 2x23 to BOM SSQ-123-03-G-D , digikey  	SAM1196-23-ND
 - VHarv lowpass is 160 kHz not 16 kHz as shown
 - change all lowpasses to 160 kHz
-- emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp -> now 2R & 1:50
+- emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp ⇾ now 2R & 1:50
 - Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and dont forget Silkscreens!
 - EEPROM needs to be always powered (BB 3V3)
 - reduce V_IO_BUF OPAmp-Resistor to 10 Ohms
@@ -39,13 +39,13 @@
     - add back 1 kOhm as series resistor for LSF0801. maybe a bit lower because edges are a bit slow (1 us)
 - put a note in schematic for WD
     - BB_START has 5V Level when BB is on, gets pulled to 3V3 when WD does its routine because schematic uses BB3V on it. but that seems ok!
-- get target A/B/1/2 straight. it is target 1/2 from now on! -> Skip it
+- get target A/B/1/2 straight. it is target 1/2 from now on! ⇾ Skip it
 - C over Shunt is sometimes contraproductive (100 nF || 2 Ohm produce 1 MHz oscillation without any load but 100 nF buffer, 1uF/0uF is fine)
 - provide more help with switching to external pwr, switch? backside would be good
     - switch + jumper?
 - add 74HC4066 and OPA189 to consumer-list, build a low-pwr Overview
 - optimize shepherd-EN (unlink rec/emu?`, better buffering?)
-- hw may be glitching BB - caps are getting big, voltage drop also -> critical!
+- hw may be glitching BB - caps are getting big, voltage drop also ⇾ critical!
     - maybe add lowpass to en-pin of regulators or limit power
     - TEST: run unittests 2-5x, often bb hangs itself somewhere between 47...80%
     - scope shows:
@@ -57,7 +57,7 @@
 - run through hw_performance_v2.1r0 for final cross-check
 - allow to turn off ADCs (not that important for EMU-only)
 - maybe add 2nd Switch for PRU-Ports, or lower resistors to <= 100 Ohm (speed-improvement)
-- around switch-IC, avoid solder bridges per design even more -> space out vias, reduce solder mask expansion
+- around switch-IC, avoid solder bridges per design even more ⇾ space out vias, reduce solder mask expansion
 
 ## Additional Parts 
 
@@ -81,7 +81,7 @@ Note: numbers for one Unit, refs are Mouser-Numbers
     - var1: bind to vsim to allow more refined feedback
     - var2: 3x 2.0V Leds from adc-input to -6V (with resistor, should always light up)
     - var3: v-to-i converter
-- switch to TI Version of LSF0801 -> out of stock till feb.22
+- switch to TI Version of LSF0801 ⇾ out of stock till feb.22
 - optimize LSF for 1 MBaud (see
 - WDog is still not triggering nSTART (pulse too short)
 - HC2G04 still has wrong comment

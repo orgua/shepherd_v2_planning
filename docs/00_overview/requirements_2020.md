@@ -2,7 +2,7 @@
 
 ## Testbed-Infrastructure
 
-- 12 - 30 nodes -> depending on budget calculations
+- 12 - 30 nodes ⇾ depending on budget calculations
 - distributed on one floor, several rooms
 - use own infrastructure or parts of the university
 - dedicated server or (better) use infrastructure of ZIH
@@ -47,7 +47,7 @@
 - support individual energy-traces per node
 - control GPIOs (copy, for reference)
 - dynamic addressing of targets (firmware-manipulation before flashing)
-- API modular and encapsulated -> separation between scenario and measurement, for reusability
+- API modular and encapsulated ⇾ separation between scenario and measurement, for reusability
 - allow switching between targets
 
 ## Software - Website / Frontend

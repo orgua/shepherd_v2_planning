@@ -83,7 +83,7 @@ DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9731 V;       I_raw: mean=6152.22, stdde
 DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8745 V;      I_raw: mean=50559.49, stddev=7.67
 DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7553 V;      I_raw: mean=99919.79, stddev=13.19
 
--> deltas: 415 n (lowC), 400 n (highC)
+⇾ deltas: 415 n (lowC), 400 n (highC)
 ```
 
 ## Ref = 10 mV, like prev + remove hrv inAmp from as ref-sink
@@ -99,8 +99,8 @@ DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9729 V;       I_raw: mean=5438.26, stdde
 DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8746 V;      I_raw: mean=49839.18, stddev=7.63
 DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7555 V;      I_raw: mean=99205.87, stddev=12.89
 
--> deltas: 1 n (lowC), 47 n (highC)
--> relatively high stddev
+⇾ deltas: 1 n (lowC), 47 n (highC)
+⇾ relatively high stddev
 ```
 
 ## Ref = 10 mV, like prev + but with 2R for ref-source again
@@ -116,7 +116,7 @@ DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9730 V;       I_raw: mean=5453.93, stdde
 DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8743 V;      I_raw: mean=49862.53, stddev=7.69
 DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7547 V;      I_raw: mean=99225.21, stddev=12.89
 
--> deltas: 22 n (lowC), 98 n (highC)
+⇾ deltas: 22 n (lowC), 98 n (highC)
 ```
 
 ## Ref = 10 mV, like prev + terminate ref-end at hrv with 100 nF
@@ -132,7 +132,7 @@ DAC @ 5.000 V;        SMU: 1.000 mA @ 4.9731 V;       I_raw: mean=5450.96, stdde
 DAC @ 5.000 V;        SMU: 10.000 mA @ 4.8751 V;      I_raw: mean=49861.05, stddev=7.84
 DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7566 V;      I_raw: mean=99225.34, stddev=12.98
 
--> worse performance?
+⇾ worse performance?
 ```
 
 ## Ref = 10 mV, short 2R again with 0R

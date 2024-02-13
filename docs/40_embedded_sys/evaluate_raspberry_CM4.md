@@ -129,10 +129,10 @@ sudo gpiofind GPIO21
 # gpiochip0 21
 
 ls -ltr /sys/class/gpio/gpiochip*
-# /sys/class/gpio/gpiochip504 -> ../../devices/platform/soc/soc:firmware/soc:firmware:gpio/gpio/gpiochip504
-# /sys/class/gpio/gpiochip0 -> ../../devices/platform/soc/fe200000.gpio/gpio/gpiochip0
+# /sys/class/gpio/gpiochip504 ⇾ ../../devices/platform/soc/soc:firmware/soc:firmware:gpio/gpio/gpiochip504
+# /sys/class/gpio/gpiochip0 ⇾ ../../devices/platform/soc/fe200000.gpio/gpio/gpiochip0
 
-# -> hints @ something like 0x200000
+# ⇾ hints @ something like 0x200000
 ```
 
 (BCM2711-datasheet](https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf)
@@ -185,7 +185,7 @@ sudo modprobe -rf shepherd
 [  176.137510] shprd.k: ktime_get_real_ns() = 689 n / ~100us
 [  176.137629] shprd.k: ktime_get_raw() = 722 n / ~100us
 [  176.137747] shprd.k: ktime_get_real_fast_ns() = 777 n / ~100us
-[  176.139146] shprd.k: 100000-increment-Loops -> measure-time
+[  176.139146] shprd.k: 100000-increment-Loops ⇾ measure-time
 [  176.139173] shprd.k: hres-mode: 1
 [  176.139191] shprd.k: timer.is_rel = 0
 [  176.139208] shprd.k: timer.is_soft = 0
@@ -196,7 +196,7 @@ sudo modprobe -rf shepherd
   - overclocked in performance-mode: 41 ns
 - Reference: old BBB takes 300 ns, BB-AI64 takes ~ 40 ns
 - NOTE: its the same core as the AI64, is there a powersaving or 
--> unmodded rpi has 1040 n
+⇾ unmodded rpi has 1040 n
 
 ### Performance-Improvements
 
@@ -244,14 +244,14 @@ Configured PTP4L and Phc2sys like shown in AI64.md, changes from that:
 - set governor to performance in phc-service ExecStartPre `-/usr/bin/cpufreq-set --governor performance`
 - ptp4l.conf
   - # run time options
-  - tx_timestamp_timeout  1 -> 10
+  - tx_timestamp_timeout  1 ⇾ 10
   - 
   - # servo options
-  - pi_proportional_exponent -0.3 -> ~~-0.5~~
-  - pi_integral_exponent 0.4 -> ~~0.2~~ made it faster? 0.4 worked better / slower
+  - pi_proportional_exponent -0.3 ⇾ ~~-0.5~~
+  - pi_integral_exponent 0.4 ⇾ ~~0.2~~ made it faster? 0.4 worked better / slower
     - sync between clients was never that stable (007 ... 1u2)
   - # default interface options
-  - delay_filter_length 10 -> 100
+  - delay_filter_length 10 ⇾ 100
 - phc2sys
-  - P kp 0.7 -> 0.2
-  - I Ki 0.3 -> 0.1
+  - P kp 0.7 ⇾ 0.2
+  - I Ki 0.3 ⇾ 0.1
