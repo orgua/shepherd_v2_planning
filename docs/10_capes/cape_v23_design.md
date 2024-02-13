@@ -13,7 +13,7 @@ NOTE: this could also be the changes for v2.4
     - reduced cost (~ 3*9 €)
     - emu gets voltage-measurement for free
     - ⇾ no for now
-- ADC seems to act up sometimes after sheph-EN ⇾ test in PRU, reenable a couple of times ⇾ seems to be fixed with EN
+- ADC seems to act up sometimes after shp-EN ⇾ test in PRU, re-enable a couple of times ⇾ seems to be fixed with EN
 - Pwr-by-BB does not work with current cape-revision ⇾ just add a switch?
     - switch for input power, 1 A, 5V Switch: https://www.mouser.de/ProductDetail/Dialog-Semiconductor/SLG5NT1594V?qs=sGAEpiMZZMtxrAS98ir%252BsxAQ5ATuKOGcAYPhn0zy8SaYiCqL8FxMXA%3D%3D
     - test shows that the unpowered watchdog is responsible ⇾ add another diode to also power WD from BB 5V OR power diode directly from middle-pad of 2-WayJumper
@@ -54,7 +54,7 @@ NOTE: this could also be the changes for v2.4
         - TPS65217C, PB_IN, Pin25, internal 100k PU
         - SIM: 1 uF from BB-START to GND shows 100ms delay for signal rise to 2.0V ⇾ sums to 120 ms
             - ~ 64ms in real test
-    - ⇾ Var1 preferred, less dependant from BB-Design-Changes
+    - ⇾ Var1 preferred, less dependent from BB-Design-Changes
 - PUs on sys-side should also be powered by BB 3V3
 - New Connector, 4x Pwr, 4x Prog, 10x GPIO ⇾ 18 Pins ⇾ 2x9 Connector
     - info1 ⇾ BB outer width is 54 mm ⇾ 27mm per module

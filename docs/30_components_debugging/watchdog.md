@@ -6,7 +6,7 @@
 - Fallback if we can't control POE-Power of ports (most likely)
 - with a WD the BB can shut down and be woken up periodically
 - BB does not mind a wake-up-signal when already running
-- routine: BB aks server for tasks, waits or goes to sleep again
+- routine: BB asks server for tasks, waits or goes to sleep again
 
 ## TPL5000 Watchdog behaviour
 

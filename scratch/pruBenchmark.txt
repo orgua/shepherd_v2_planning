@@ -30,6 +30,7 @@ PRU0	PRU1	Changes
 76032   60964   further restructuring (2021-05)
 77744   61244   still ufloat (2021-06-04)
 85080   63740   bigJump 2022-07-29
+85304   64276   bigJump 2023-10-07
 
 <<<PRU1>>>
 Benchmark debug-pin around gpio-read from pru1 - state was offline :(
@@ -39,9 +40,9 @@ Benchmark debug-pin around gpio-read from pru1 - state was offline :(
     after Sync-kernel-Update -> min-frequency should now be a bit over 1 MHz
 Benchmark, same premise, for GPIO with normal routine / forced writing
 	~1490 ns / ~360 ns	(base) new code, sometimes 620 ns for normal routine
-	~720 ns / ~100 ns	reduce reads to far-ram to one 
+	~720 ns / ~100 ns	reduce reads to far-ram to one
 	~80 ns for checking events
-Benchmark, code after gpio-read 
+Benchmark, code after gpio-read
 	140ns	regular
 	~360ns	regular on adc-trigger
 	80 ns	iep-optimization

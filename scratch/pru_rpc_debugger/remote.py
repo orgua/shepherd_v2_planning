@@ -1,9 +1,8 @@
-from typing import NoReturn
-import os
 import zerorpc
 
+
 def connect_to_node(host: str):
-    # todo: could also use fabric/connection to start rpc server on node
+    # TODO: could also use fabric/connection to start rpc server on node
     rpc_client = zerorpc.Client(timeout=60, heartbeat=20)
     rpc_client.connect(f"tcp://{host}:4242")
 
@@ -14,6 +13,7 @@ def connect_to_node(host: str):
         return rpc_client
     else:
         return None
+
 
 def check_connection(rpc_client=None) -> bool:
     if rpc_client is None:
@@ -26,6 +26,7 @@ def check_connection(rpc_client=None) -> bool:
     except zerorpc.exceptions.RemoteError:
         return False
     return True
+
 
 client = connect_to_node("10.0.0.52")
 

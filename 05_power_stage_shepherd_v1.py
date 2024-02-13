@@ -1,23 +1,27 @@
 import SchemDraw
-# short introduction: https://schemdraw.readthedocs.io/en/latest/usage/placement.html
 
+# short introduction: https://schemdraw.readthedocs.io/en/latest/usage/placement.html
 import SchemDraw.elements as elm  # electrical (Resistor, Capacitor, Diode, Opamp, Dot)
-from SchemDraw import dsp  # https://schemdraw.readthedocs.io/en/latest/elements/dsp.html
-import matplotlib.pyplot as plt
-#plt.xkcd()
+from SchemDraw import dsp
+
+# plt.xkcd()
 
 # MPPT
 sch_mppt = SchemDraw.Drawing(unit=1, fontsize=10)
 prt_sw_mppt = sch_mppt.add(elm.SwitchDpdt(reversed=True))
-mppt_pins = [elm.IcPin(name="V_BQ", pin=1, side="left"),
-            elm.IcPin(name="VOC", pin=2, side="left"),
-            elm.IcPin(name="VREF", pin=3, side="left"),
-            elm.IcPin(name="VBAT", pin=4, side="right"),
-            elm.IcPin(name="VSTOR", pin=5, side="right")]
+mppt_pins = [
+    elm.IcPin(name="V_BQ", pin=1, side="left"),
+    elm.IcPin(name="VOC", pin=2, side="left"),
+    elm.IcPin(name="VREF", pin=3, side="left"),
+    elm.IcPin(name="VBAT", pin=4, side="right"),
+    elm.IcPin(name="VSTOR", pin=5, side="right"),
+]
 mppt = elm.Ic(pins=mppt_pins, botlabel="Conv_MPPT", anchor="VREF")
 sig_vref_samp = sch_mppt.add(dsp.Arrow(label="VREF_SAMP", xy=prt_sw_mppt.p1))
 prt_mppt = sch_mppt.add(mppt)
-sig_voc_samp = sch_mppt.add(dsp.Arrow(label="VOC_SAMP", xy=prt_sw_mppt.p2, tox=prt_mppt.VOC))
+sig_voc_samp = sch_mppt.add(
+    dsp.Arrow(label="VOC_SAMP", xy=prt_sw_mppt.p2, tox=prt_mppt.VOC),
+)
 
 # V_EMU_I
 sch_i_emu = SchemDraw.Drawing(unit=1, fontsize=10)
@@ -43,8 +47,16 @@ sig_vcref = sch_vcref.add(dsp.Arrow("right", label="VCREF", tox=prt_sw_mppt.t2))
 
 # P_HARVEST - Connector
 sch_harv = SchemDraw.Drawing(unit=1, fontsize=10)
-prt_p_harv = sch_harv.add(elm.connectors.Header(label="P_Harv", rows=2, cols=1, ))
-sig_voc_vc = sch_harv.add(dsp.Arrow(label="VOC_VD", xy=prt_p_harv.p1, tox=prt_sw_mppt.t4))
+prt_p_harv = sch_harv.add(
+    elm.connectors.Header(
+        label="P_Harv",
+        rows=2,
+        cols=1,
+    ),
+)
+sig_voc_vc = sch_harv.add(
+    dsp.Arrow(label="VOC_VD", xy=prt_p_harv.p1, tox=prt_sw_mppt.t4),
+)
 sig_v_h = sch_harv.add(dsp.Arrow(label="V_H", xy=prt_p_harv.p2))
 prt_sw_vh = sch_harv.add(elm.Switch(label="SW"))
 sig_v_in_sht_p2 = sch_harv.add(dsp.Arrow("down", tox=jct_v_in_sht_p.center))
@@ -62,7 +74,7 @@ sch_v_const.add(dsp.Arrow("right"))
 sch_v_const.add(dsp.Dot(label="V_LD_SHT+"))
 
 
-'''
+"""
 
 
 sig_v_in_sht_p2 = sch_i_emu.add(dsp.Arrow("right"))
@@ -102,6 +114,6 @@ prt_adc_vin = sch_i_emu.add(dsp.Adc(label="ADC", lftlabel="SPI"))
 #SW_VOC =
 
 # Adc,
-'''
+"""
 
 sch_mppt.save("05_power_stage_shepherd_v1.png")

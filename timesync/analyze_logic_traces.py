@@ -1,33 +1,28 @@
 from pathlib import Path
 
-import pandas as pd
 import matplotlib.pyplot as plt
-
-# saleae logic outputs:
-# Time[s], Channel 0, Channel 1
-# 0.000000000000000, 1, 1
-# 7.642110550000000, 1, 0
+import pandas as pd
 
 files = [
-    #"sync_2BB_20_pi-64-128",
+    # "sync_2BB_20_pi-64-128",
     "sync_2BB_19_smooth_ctrl",
     "sync_2BB_18b_new_trigger",  # pru0 now only watches for interrupt and immediatly triggers a fresh adc sample
-    #"sync_2BB_18_new_trigger",
-    #"sync_2BB_17_tuning", #
+    # "sync_2BB_18_new_trigger",
+    # "sync_2BB_17_tuning", #
     "sync_2BB_16_tuning",
     "sync_2BB_15_sawtooth_fix",
     "sync_2BB_14_delay_p350",
     "sync_2BB_13_trigger_opt",  #
-    #"sync_2BB_12_pru_opt", # duration to short
-    #"sync_2BB_11_pru_opt",  #
-    #"sync_2BB_10_pru_opt",  #
-    #"sync_2BB_08_pru_opt",  #
+    # "sync_2BB_12_pru_opt", # duration to short
+    # "sync_2BB_11_pru_opt",  #
+    # "sync_2BB_10_pru_opt",  #
+    # "sync_2BB_08_pru_opt",  #
     "sync_2BB_07_kernel_opt",
-    #"sync_2BB_06_kernel_opt",  #
-    #"sync_2BB_05_pru_opt", # the following changes are mostly to reduce pru-overhead
+    # "sync_2BB_06_kernel_opt",  #
+    # "sync_2BB_05_pru_opt", # the following changes are mostly to reduce pru-overhead
     "sync_2BB_04_crystal_2h",  # changed crystal to a defined 5ppm version
     "sync_2BB_03_n20_4h",  #
-    #"sync_2BB_02_n20_30min",
+    # "sync_2BB_02_n20_30min",
     "sync_2BB_01_n10_30min",  # ptp delay_filter_length = 10, 30 min time to sync
 ]
 file_names_short = [file.split(".")[0][9:] for file in files]  # reduces to "04_crystal_2h"
@@ -35,6 +30,7 @@ file_names_short = [file.split(".")[0][9:] for file in files]  # reduces to "04_
 sample_frequency = 100e6
 sync_list = list([])
 trigger_list = list([])
+
 
 def filter_cs_falling_edge(data: pd.Series) -> pd.Series:
     data.columns = data.columns.str.strip()  # fixes weird space before column-names
@@ -70,11 +66,11 @@ def series_statistics(data: pd.Series, name: str):
     dq05 = int(data.quantile(0.05))
     dq95 = int(data.quantile(0.95))
     dmean = round(data.mean(), 2)
-    print(f"       \t[  min <|  q05% ||  mean   ||  q95% |>  max ]")
+    print("       \t[  min <|  q05% ||  mean   ||  q95% |>  max ]")
     print(f"{name} \t[ {dmin} <| {dq05} || {dmean} || {dq95} |> {dmax} ]")
 
 
-def plot_graph(x: list, y: list, y_name: str, filename: str, size:tuple = (18, 8)):
+def plot_graph(x: list, y: list, y_name: str, filename: str, size: tuple = (18, 8)):
     fig, ax = plt.subplots(figsize=size)
     len_min = min(len(x), len(y))
     plt.plot(x[:len_min], y[:len_min])
@@ -85,7 +81,9 @@ def plot_graph(x: list, y: list, y_name: str, filename: str, size:tuple = (18, 8
     plt.close()
 
 
-def plot_graph2(x1: list, y1: list, x2: list, y2: list, y_name: str, filename: str, size: tuple = (18, 8)):
+def plot_graph2(
+    x1: list, y1: list, x2: list, y2: list, y_name: str, filename: str, size: tuple = (18, 8)
+):
     fig, ax = plt.subplots(figsize=size)
     len_min = min(len(x1), len(y1), len(x2), len(y2))
     plt.plot(x1[:len_min], y1[:len_min])
@@ -113,19 +111,37 @@ if __name__ == "__main__":
         print(f"\n\nFILE: {file}")
         ch0t = data["Ch0"]
         ch1t = data["Ch1"]
-        time_delta = (ch1t - ch0t)
+        time_delta = ch1t - ch0t
         series_statistics(time_delta, "dt_ns")
         ch0td = pd.Series(ch0t.values[1:] - ch0t.values[:-1], index=ch0t.index[1:])
         series_statistics(ch0td, "Ch0_ns")
         ch1td = pd.Series(ch1t.values[1:] - ch1t.values[:-1], index=ch1t.index[1:])
         series_statistics(ch1td, "Ch1_ns")
-        ch0t = ch0t.div(1e9) # bring ns to sec
+        ch0t = ch0t.div(1e9)  # bring ns to sec
         ch1t = ch1t.div(1e9)
 
         plot_graph(ch0t.values, time_delta.values, "sync_delay [ns]", file + "_sync_overview.png")
-        plot_graph(ch0t.values[0:22000], time_delta.values[0:22000], "sync_delay [ns]", file + "_sync_detail.png", (30,8))
-        plot_graph(ch0t.values[:22000], ch0td.values[:22000], "trigger_delay [ns]", file + "_trigger_period_ch0.png", (30,8))
-        plot_graph(ch1t.values[:22000], ch1td.values[:22000], "trigger_delay [ns]", file + "_trigger_period_ch1.png", (30,8))
+        plot_graph(
+            ch0t.values[0:22000],
+            time_delta.values[0:22000],
+            "sync_delay [ns]",
+            file + "_sync_detail.png",
+            (30, 8),
+        )
+        plot_graph(
+            ch0t.values[:22000],
+            ch0td.values[:22000],
+            "trigger_delay [ns]",
+            file + "_trigger_period_ch0.png",
+            (30, 8),
+        )
+        plot_graph(
+            ch1t.values[:22000],
+            ch1td.values[:22000],
+            "trigger_delay [ns]",
+            file + "_trigger_period_ch1.png",
+            (30, 8),
+        )
         sync_list.append(time_delta)
         trigger_list.append(ch0td)
 
@@ -153,5 +169,16 @@ if __name__ == "__main__":
     plt.close()
 
     file_title = "improvement_sync"
-    plot_graph(sync_list[0].values, time_delta.values, "sync_delay [ns]", file_title + "_sync_overview_vs.png")
-    plot_graph(ch0t.values[0:22000], time_delta.values[0:22000], "sync_delay [ns]", file_title + "_sync_detail_vs.png", (30, 8))
+    plot_graph(
+        sync_list[0].values,
+        time_delta.values,
+        "sync_delay [ns]",
+        file_title + "_sync_overview_vs.png",
+    )
+    plot_graph(
+        ch0t.values[0:22000],
+        time_delta.values[0:22000],
+        "sync_delay [ns]",
+        file_title + "_sync_detail_vs.png",
+        (30, 8),
+    )

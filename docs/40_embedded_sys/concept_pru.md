@@ -79,7 +79,7 @@
     - PyPRUSS (programming PRUs on beaglebone black),
     - libpruio (high speed data handling),
     - BeagleLogic (100 MHz, 14CH Logic Analyzer),
-    - High Speed data aquisition
+    - High Speed data acquisition
 
 ### Latency Benchmarks
 

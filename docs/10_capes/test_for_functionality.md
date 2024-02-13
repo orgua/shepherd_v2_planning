@@ -65,7 +65,7 @@ It's beneficial to take macro-shots of the untouched PCBs for later reference as
     - 0 to 5V Target A, with 1 kOhm Load, 75 us for 80%, ~100 us for 100% (QS92 & 94)
     - 5V to 0V T-A, ...., 75 us for 80%, 400 us for 100%?, qs93
     - Recorder is following, with 5V in, 1k pre-resistor, the op-amp switches from 0..5V with 20us period, shape of thin half sine
-        - big voltage jumps take 1 to 1.7 ms, 0 to 5V, thats also the period duration for no active load
+        - big voltage jumps take 1 to 1.7 ms, 0 to 5V, that's also the period duration for no active load
 - Performance (v2.1r0)
 
 Current PCB-Mods (v2.0r1):

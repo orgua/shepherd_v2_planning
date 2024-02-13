@@ -2,7 +2,6 @@ import logging
 import os
 from pathlib import Path
 from sys import stdout
-from typing import Union, List
 
 import numpy as np
 
@@ -10,9 +9,13 @@ logger = logging.getLogger("Logic")
 logger.addHandler(logging.StreamHandler(stream=stdout))
 logger.setLevel(logging.DEBUG)
 
+
 def get_files(
-    start_path: Path, stem: str = "", suffix: str = ".log", recursion_depth: int = 0
-) -> List[Path]:
+    start_path: Path,
+    stem: str = "",
+    suffix: str = ".log",
+    recursion_depth: int = 0,
+) -> list[Path]:
     if recursion_depth == 0:
         suffix = suffix.lower().split(".")[-1]
     dir_items = os.scandir(start_path)
@@ -38,17 +41,18 @@ def get_files(
 class LogicAnalyze:
     def __init__(
         self,
-        content: Union[Path, np.ndarray],
+        content: Path | np.ndarray,
     ):
         """Provide a file with two columns:
         - timestamp (seconds with fraction) and signal (can be analog).
         - class-parameters that are None (above) get auto-detected
           (some detectors still missing)
         """
-
         if isinstance(content, Path):
             self.events_sig: np.ndarray = np.loadtxt(
-                content.as_posix(), delimiter=",", skiprows=1
+                content.as_posix(),
+                delimiter=",",
+                skiprows=1,
             )
             # TODO: if float fails load as str -
             #  cast first col as np.datetime64 with ns-resolution, convert to delta
@@ -58,7 +62,7 @@ class LogicAnalyze:
         # verify table
         if self.events_sig.shape[1] != 2:
             raise TypeError(
-                "Input file should have 2 rows -> (comma-separated) timestamp & value"
+                "Input file should have 2 rows -> (comma-separated) timestamp & value",
             )
         if self.events_sig.shape[0] < 8:
             raise TypeError("Input file is too short (< state-changes)")
@@ -73,7 +77,7 @@ class LogicAnalyze:
         self._add_duration()
 
     def _convert_analog2digital(self, invert: bool = False) -> None:
-        """divide dimension in two, divided by mean-value"""
+        """Divide dimension in two, divided by mean-value"""
         data = self.events_sig[:, 1]
         mean = np.mean(data)
         if invert:
@@ -82,7 +86,7 @@ class LogicAnalyze:
             self.events_sig[:, 1] = data >= mean
 
     def _filter_redundant_states(self) -> None:
-        """sum of two sequential states is always 1 (True + False) if alternating"""
+        """Sum of two sequential states is always 1 (True + False) if alternating"""
         data_0 = self.events_sig[:, 1]
         data_1 = np.concatenate([[not data_0[0]], data_0[:-1]])
         data_f = data_0 + data_1
@@ -96,16 +100,14 @@ class LogicAnalyze:
             )
 
     def _add_duration(self) -> None:
-        """calculate third column -> duration of state in [baud-ticks]"""
+        """Calculate third column -> duration of state in [baud-ticks]"""
         if self.events_sig.shape[1] > 2:
             logger.warning("Tried to add state-duration, but it seems already present")
             return
 
         dur_steps = self.events_sig[1:, 0] - self.events_sig[:-1, 0]
         dur_steps = np.reshape(dur_steps, (dur_steps.size, 1))
-        self.events_sig = np.append(
-            self.events_sig[:-1, :], dur_steps, axis=1
-        )
+        self.events_sig = np.append(self.events_sig[:-1, :], dur_steps, axis=1)
 
     def get_state_stats(self, state: bool):
         if state:
@@ -117,7 +119,13 @@ class LogicAnalyze:
         smin = round(durations.min() * 1e9)
         smax = round(durations.max() * 1e9)
         smea = round(durations.mean() * 1e9)
-        logger.info("State %s was enabled \tmin=%d, mean=%d, max=%d [ns]", state, smin, smea, smax)
+        logger.info(
+            "State %s was enabled \tmin=%d, mean=%d, max=%d [ns]",
+            state,
+            smin,
+            smea,
+            smax,
+        )
         # TODO: allow grouping by duration
 
     def histogram(self):

@@ -11,7 +11,6 @@ analog_sample_index = 0
 compensation_dist_count = 0
 
 for index in range(analog_sample_steps):
-
     value = copy.deepcopy(analog_sample_index)
     value = value + analog_sample_period
     compensation_dist_count += 1
@@ -39,7 +38,6 @@ analog_sample_index = 0
 compensation_counter = 0
 
 for index in range(analog_sample_steps):
-
     value = copy.deepcopy(analog_sample_index)
     value = value + analog_sample_period
     compensation_counter += compensation_increment
@@ -56,4 +54,3 @@ for index in range(analog_sample_steps):
     analog_sample_index = value
 
 print(f"Final value = {analog_sample_index}, expected = {buffer_block_period}")
-

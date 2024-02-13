@@ -1,7 +1,7 @@
-from copy import copy
+import random
 import threading
 import time
-import random
+from copy import copy
 
 config: dict[str, int] = {
     "timestep_a": 0.100,  # seconds
@@ -24,6 +24,7 @@ class DataStructure:
 
     def __str__(self):
         return f"IV[{self.current}, {self.voltage}]"
+
 
 class SharedMem:
     def __init__(self, size: int):
@@ -49,7 +50,9 @@ class SupervisorMem:
             data_a = self.data_a_out.pop(0)
             data_b = self.data_b_in.pop(0)
             if data_a != data_b:
-                raise ValueError(f"[supervisor] AB-Mismatch - {data_a} != {data_b} (AB)")
+                raise ValueError(
+                    f"[supervisor] AB-Mismatch - {data_a} != {data_b} (AB)",
+                )
             self.counter_ab += 1
             return True
         else:
@@ -60,16 +63,25 @@ class SupervisorMem:
             data_a = self.data_a_in.pop(0)
             data_b = self.data_b_out.pop(0)
             if data_a != data_b:
-                raise ValueError(f"[supervisor] BA-Mismatch - {data_b} != {data_a} (AB)")
+                raise ValueError(
+                    f"[supervisor] BA-Mismatch - {data_b} != {data_a} (AB)",
+                )
             self.counter_ab += 1
             return True
         else:
             return False
 
     def report(self):
-        queue = [len(self.data_a_out), len(self.data_b_in), len(self.data_b_out), len(self.data_a_in)]
-        print(f"\t -> supervisor compared {[self.counter_ab, self.counter_ba]} (AB, BA) messages, "
-              f"  -> fill of message-queues = {queue} (ABBA)")
+        queue = [
+            len(self.data_a_out),
+            len(self.data_b_in),
+            len(self.data_b_out),
+            len(self.data_a_in),
+        ]
+        print(
+            f"\t -> supervisor compared {[self.counter_ab, self.counter_ba]} (AB, BA) messages, "
+            f"  -> fill of message-queues = {queue} (ABBA)",
+        )
 
 
 class Supervisor(threading.Thread):
@@ -94,7 +106,7 @@ class Supervisor(threading.Thread):
 
 
 class DeviceA(threading.Thread):
-    """ TODO:
+    """TODO:
          - implement reading back from dev_b
          - "bug": dev_a writes more than configured
 
@@ -136,7 +148,7 @@ class DeviceA(threading.Thread):
             ds = DataStructure(
                 current=self.counter,
                 voltage=random.sample(range(1, 2**20), 1),
-                )
+            )
             self.buffer.data[self.idx_write] = copy(ds)
             self.idx_write = (self.idx_write + 1) % self.buffer_size
             self.counter += 1
@@ -144,14 +156,13 @@ class DeviceA(threading.Thread):
 
 
 class DeviceB(threading.Thread):
-    """
-    shared-mem access stat:
-        - start_b   -> read once after a reset
-        - timestamp -> read once every bufferoverflow
-        - data      -> read and write once every timestep
-        - idx_b     -> only write once every timestep
+    """shared-mem access stat:
+    - start_b   -> read once after a reset
+    - timestamp -> read once every bufferoverflow
+    - data      -> read and write once every timestep
+    - idx_b     -> only write once every timestep
 
-        -> is this the optimal solution?
+    -> is this the optimal solution?
     """
 
     def __init__(self, buffer_data: SharedMem, buffer_s: SupervisorMem):
@@ -177,7 +188,9 @@ class DeviceB(threading.Thread):
                 if self.buffer.timestamp == self.timestamp_old + 1:
                     self.timestamp_old = self.buffer.timestamp
                 else:
-                    raise ValueError(f"[dev_b] timestamp unusual (expected {self.buffer.timestamp} == {self.timestamp_old} + 1)")
+                    raise ValueError(
+                        f"[dev_b] timestamp unusual (expected {self.buffer.timestamp} == {self.timestamp_old} + 1)",
+                    )
 
             self.read_and_write()
             time.sleep(config["timestep_b"])
@@ -190,7 +203,7 @@ class DeviceB(threading.Thread):
         dso = DataStructure(
             current=self.counter,
             voltage=random.sample(range(1, 2**20), 1),
-            )
+        )
         self.buffer.data[self.idx_read] = copy(dso)
         self.visor.data_b_out.append(copy(dso))
         self.buffer.idx_b = self.idx_read

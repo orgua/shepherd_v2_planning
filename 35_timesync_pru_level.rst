@@ -2,7 +2,7 @@ Timesync
 ========
 
 Problem
-    - ptp4l runs, but two sheeps don't seem to be in sync when comparing ADC-CS-Trigger-Edges
+    - ptp4l runs, but two sheep don't seem to be in sync when comparing ADC-CS-Trigger-Edges
     - spoiler: it was a slow switch and untuned ptp
 
 Setup

@@ -125,7 +125,7 @@ Defect - VReg → TLDR: U20/6VReg
 - 1270057: 2nd LabPrototype ⇾ Kai
 - 1270058: 90mA On
 - 1270059: 96mA On
-- 1270060: 92mA On, 3nd LabPrototype ⇾ Short?
+- 1270060: 92mA On, 3rd LabPrototype ⇾ Short?
 - 1270061: 96mA On
 - 1270062: 96mA On
 - 1270063: 99mA On

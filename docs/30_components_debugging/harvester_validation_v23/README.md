@@ -22,7 +22,7 @@ Test of various harvesting algorithms with a solar cell
 ## MPPT VOC
 
 - setpoint 76 %
-- 100 ms intervall with 1.2 ms VOC-measurement
+- 100 ms interval with 1.2 ms VOC-measurement
 
 Overview
 

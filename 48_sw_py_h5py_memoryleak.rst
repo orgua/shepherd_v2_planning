@@ -71,5 +71,5 @@ Disable Submodules (logging, memread, h5pywrite, compression) one by one
     - rec. 10.7 - 11.3
 - isolated datalogger, 25 min sim,
     - rec 5.6 - 7.9 % (seems to be maxed there), emu
-    - emu 6.0 % - 16 % (after 2330 s) -> **thats the bug! reading from h5py, (lzf?)**
+    - emu 6.0 % - 16 % (after 2330 s) -> **that's the bug! reading from h5py, (lzf?)**
 - with this result the code could be isolated and the bug is reproducible with pypthon 3.10, windows and even on x86/64bit

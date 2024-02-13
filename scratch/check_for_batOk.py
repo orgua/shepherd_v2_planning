@@ -1,19 +1,21 @@
-import numpy as np
-from pathlib import Path
 import click
 import h5py
+import numpy as np
+
 
 @click.command()
 @click.argument("database", type=click.Path(exists=True, dir_okay=False))
 def cli(database):
     with h5py.File(database, "r") as db:
         print(f"File got {len(db['gpio']['value'])} entries for GPIO")
-        tt = db["gpio"]["value"][:] & (int(2**9) + int(2**10))  # BitPosition r30_09/out  TARGET_BAT_OK
+        tt = db["gpio"]["value"][:] & (
+            int(2**9) + int(2**10)
+        )  # BitPosition r30_09/out  TARGET_BAT_OK
         counts = np.unique(tt, return_counts=True)
-        print(f"got the following result for BatOK:")
+        print("got the following result for BatOK:")
         print(counts)
         counts = np.unique(db["gpio"]["value"][:], return_counts=True)
-        print(f"got the following result (all)")
+        print("got the following result (all)")
         print(counts)
 
         print(f"voltage-attributes keys   {list(db['data']['voltage'].attrs.keys())}")

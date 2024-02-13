@@ -1,6 +1,5 @@
-import threading
-import time
 import random
+import threading
 
 # writing and reading pointers
 writing_ts_py = 0
@@ -137,12 +136,15 @@ class SupervisorThread(threading.Thread):
             global writing_ts_py, reading_ts_pru
             if writing_ts_py < reading_ts_pru:
                 print(
-                    f"SupervisorThread]Error: The reading pointer{reading_ts_pru} exceeded the writing pointer {writing_ts_py}")
+                    f"SupervisorThread]Error: The reading pointer{reading_ts_pru} exceeded the writing pointer {writing_ts_py}",
+                )
                 exit()
 
             if data_read != data_processed:
                 if len(data_read) == len(data_processed):
-                    print(f"[SupervisorThread]Error: Mismatch in data processed by PRU and data read by Python\n")
+                    print(
+                        "[SupervisorThread]Error: Mismatch in data processed by PRU and data read by Python\n",
+                    )
                     exit()
 
 
