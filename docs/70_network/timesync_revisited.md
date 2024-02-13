@@ -1,4 +1,4 @@
-# TimeSync
+# TimeSync Revisit 2023
 
 There are currently three problems with synchronization:
 
@@ -15,7 +15,7 @@ Context:
 
 A logic analyzer that observes the gpio-output plus a some [python code](https://github.com/orgua/shepherd/tree/dev/software/test_timesync) allow to analyze performance.
 
-## Fixes for Problem 1
+## Fixes for Problem 1 - PTP under load
 
 - switch to RT-Kernel ⇾ downside: higher load, up to 20 % for shepherd
 - give PTP & phc2sys higher prio
@@ -52,9 +52,9 @@ Hardware Receive Filter Modes:
         ptpv2-event           (HWTSTAMP_FILTER_PTP_V2_EVENT)
 ```
 
-TODO: should be checked in general!
+TODO: should be verified in general from time to time!
 
-## Fixes for Problem 2
+## Fixes for Problem 2 - Kernel HR-Timer
 
 - add busy-wait to trigger gpio exactly (preemt disabled)
   - Observations: longer busy-waits also decrease sync-performance
@@ -149,9 +149,9 @@ python3.12 -m pip install --upgrade pip
 sudo update-alternatives --config python3
 ```
 
-## Fixes for Problem 3
+## Fixes for Problem 3 - PRU-sync
 
-TODO:
+TODO
 
 - redesign sync-loop to avoid shortcomings of the system
 - bb ai 64 already supports hardware timestamping (ubuntu 22.04, kernel 5.10.168-ti-arm64-r112 ti)
@@ -161,19 +161,38 @@ TODO:
   - [fedora-guide](https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/servers/Configuring_PTP_Using_ptp4l/)
   - [redhat-guide](https://www.redhat.com/en/blog/combining-ptp-ntp-get-best-both-worlds)
 
-## Eval 2023 for new platforms
+### Use Kmodule to generate PPS-Signal
+
+Resources:
+
+- https://stackoverflow.com/questions/44930443/how-are-the-steps-to-access-gpios-in-linux-kernel-modules
+- http://elinux.org/images/9/9b/GPIO_for_Engineers_and_Makers.pdf
+  - `/sys/bus/gpio/devices/gpiochip2`
+  - `/sys/bus/gpio/devices/gpiochip2/gpio/gpio65/value`
+- https://github.com/jsln/pps-gen-gpio
+
+Solution: write directly to registers
+
+This produced 2 two branches
+
+- [Kernel510](https://github.com/orgua/shepherd/tree/Kernel510/software/kernel-module/src): allows direct gpio-access for BBone Black & AI64
+- [Kernel61RPi](https://github.com/orgua/shepherd/tree/Kernel61RPi/software/kernel-module/src): same for Raspberry PI CM4
+
+## Eval for new platforms
+
+TLDR: A dedicated Software-Analysis and Tutorial is located here: https://github.com/orgua/shepherd/tree/dev/software/test_timesync
 
 - there is a [ptp-hat for raspberry](https://hackaday.com/2021/08/16/new-part-day-raspberry-pi-hat-for-ieee1588-precision-time-protocol/) now
--
 - `ethtool -T eth0` shows BB AI 64 is already capable (per software)
 - rpi3 still only software timestamping
 - Raspberry CM4 and RPI5 should also support hardware timestamping, [link](https://forums.raspberrypi.com/viewtopic.php?t=358275)
   - [two CM4 within 15ns](https://www.jeffgeerling.com/blog/2022/ptp-and-ieee-1588-hardware-timestamping-on-raspberry-pi-cm4)
   - CM4 has quad-core Cortex-A72 ArmV8 64bit @ 1.5GHz (BB AI 64 has dual A72 @ 2 GHz) ⇾ only 28 GPIO though
 
-## General TODO
+## Implemented Changes
 
 - every 2 mins clock jumps away on ptp-client (ringing for 10-20s, < 300us)
+  - solution: still active sync-services
 - box-plot of channel-diffs
 - CLI
 - improve kMod
@@ -189,7 +208,6 @@ TODO:
 - name threads & change their prio?
 - code from pps-kernel-module
 - update kernel and try reduced module
-
 
 hrv mppt_opt 200s
     54 - 60% cpu load (RT)

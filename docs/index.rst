@@ -42,12 +42,6 @@ Welcome to Shepherd's DevLog!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Targets
-
-   20_targets/target_v23_design.md
-
-.. toctree::
-   :maxdepth: 2
    :caption: Components & Debugging
 
    30_components_debugging/beaglebone_boot_pins
@@ -62,6 +56,12 @@ Welcome to Shepherd's DevLog!
    30_components_debugging/harvester_validation_v23/README
    30_components_debugging/virtual_source_regulator/README
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Targets
+
+   20_targets/target_v23_design
+   20_targets/nRF52_FRAM_concept
 
 .. toctree::
    :maxdepth: 2
@@ -101,6 +101,12 @@ Welcome to Shepherd's DevLog!
    :caption: Network
 
    70_network/requirements
+
+   70_network/timesync_gpio_level_pru/README
+   70_network/timesync_tune_ptp
+   70_network/timesync_dedicated_ptp_switch
+   70_network/timesync_revisited
+
 
 .. toctree::
    :maxdepth: 2

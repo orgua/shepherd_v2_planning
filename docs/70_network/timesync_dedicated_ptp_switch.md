@@ -1,8 +1,7 @@
-PTP-Switch
-==========
+# PTP-capable Switches
 
-Switch Comparison
------------------
+## Switch Comparison
+
 - current tests: 2012 Cisco Catalyst 2960-S / WS-C2960S-24PS-L
     - ~ 11 us path delay (ptp4l)
 - testbed: Cisco Catalyst 2960-X / WS-C2960X-48FPD-L
@@ -13,8 +12,8 @@ Switch Comparison
     - -X version seems to be the newer Model (compared to -S) with layer 3 routing and >doubled spec
         - https://ipwithease.com/cisco-2960-x-vs-2960-s/
 
-PTP-Capable Switches
---------------------
+## PTP-Capable Switches
+
 - D-Link DGS-3630-52PC
     - https://www.bechtle.com/shop/d-link-dgs-3630-52pc-si-poe-switch--4292164--p
     - 3770 €
@@ -29,9 +28,10 @@ PTP-Capable Switches
     - ptp seems to be supported: https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/q-and-a-c67-744007.pdf
         - needs "network-advantage" paket
         - <100ns is expected
+- juniper switches
 
-TODO
-----
+## TODO
+
 - does the catalyst 9300L fit into ZIH-Infrastructure?
     - ZIH confirms compatibility and offers to help configuring the box
 - can we get a test-device from cisco?
