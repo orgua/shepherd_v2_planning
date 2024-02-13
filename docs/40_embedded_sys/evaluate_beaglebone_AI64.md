@@ -11,7 +11,7 @@
 ## Advantages
 
 - dual-core 2GHz 64-bit Cortex A72 (instead 1x 1GHz Cortex A8 32-bit)
-  - ArmV8, Neon, AArch64, 
+  - ArmV8, Neon, AArch64,
 - 10x faster USB, GBE
 - 6x 1 GHz Cortex-R5F MCUs
 - 8x larger eMMC & RAM
@@ -67,7 +67,7 @@ SysFS-Derivation
 ######## SYSFS-Approach #################
 # following https://forum.beagleboard.org/t/ai-64-gpio-sysfs/32268
 
-gpiodetect 
+gpiodetect
 # gpiochip0 [42110000.gpio] (84 lines)
 # gpiochip1 [600000.gpio] (128 lines)
 # gpiochip2 [601000.gpio] (36 lines)
@@ -92,7 +92,7 @@ Looking for solutions presents a possible fix
 # Referenced File: https://github.com/beagleboard/BeagleBoard-DeviceTrees/blob/v5.10.x-ti-arm64/src/arm64/k3-j721e-beagleboneai64-bone-buses.dtsi
 git clone https://github.com/beagleboard/BeagleBoard-DeviceTrees.git
 cd BeagleBoard*
-git checkout v5.10.x-ti-arm64 
+git checkout v5.10.x-ti-arm64
 # ... (instead of default v5.10.x-ti-unified)
 make all_arm64
 sudo make install_arm64
@@ -143,7 +143,7 @@ Err:   serial@2800000
 ti_i2c_eeprom_am6_parse_record: Ignoring record id 17
 Net:   am65_cpsw_nuss_slave ethernet@46000000: K3 CPSW: nuss_ver: 0x6BA00101 cpsw_ver: 0x6BA80100 ale_ver: 0x00293904 Ports:1 mdio_freq:1000000
 eth0: ethernet@46000000
-Hit any key to stop autoboot:  2 \x08\x08\x08 1 \x08\x08\x08 0 
+Hit any key to stop autoboot:  2 \x08\x08\x08 1 \x08\x08\x08 0
 board_name=[BBONEAI-64-B0-] ...
 name_fdt=[k3-j721e-beagleboneai64.dtb] ...
 i2c_write: error waiting for data ACK (status=0x116)
@@ -230,7 +230,7 @@ SysFS-Derivation (changed here)
 ######## SYSFS-Approach #################
 # following https://forum.beagleboard.org/t/ai-64-gpio-sysfs/32268
 
-gpiodetect 
+gpiodetect
 # gpiochip0 [42110000.gpio] (84 lines)
 # gpiochip1 [600000.gpio] (128 lines)
 # gpiochip2 [601000.gpio] (36 lines)
@@ -255,7 +255,7 @@ sudo echo 1 > /sys/class/gpio/gpio616/value
 
 Does not work!
 
-Shepherd-Kernel-Module now also configures MUX ⇾ GPIO works there, AFTER running once: 
+Shepherd-Kernel-Module now also configures MUX ⇾ GPIO works there, AFTER running once:
 
 ```Shell
 gpioset 1 20=1
@@ -266,7 +266,7 @@ xfce or other service throws higher interrupts
 ```Shell
 sudo apt purge alsa-utils btrfs-progs can-utils cloud-guest-utils
 sudo apt purge firmware-atheros firmware-brcm80211 firmware-iwlwifi wireless-tools vim
-sudo apt purge xfdesktop4 
+sudo apt purge xfdesktop4
 sudo apt purge bluetooth bluez gnome-system-tools mesa-utils-extra tightvncserver
 sudo apt purge novnc xserver-xorg-video-fbdev libxfce4ui-utils xfce*
 sudo apt purge xfconf xfwm4 qt5ct firefox-esr
@@ -292,7 +292,7 @@ process-view is now much shorter, and ram-usage down to 90 MB.
 - 5.10.90-ti-arm64-r28 #1bullseye SMP PREEMPT Thu Jan 13 15:02:48 UTC 2022 aarch64 GNU/Linux
 - Python 3.9.2
 
-Gpioset and SYSFS work out-of-the-box! 
+Gpioset and SYSFS work out-of-the-box!
 
 ### Debian-11.8-minimal-arm64-2023-12-03-4gb_510ti
 
@@ -404,7 +404,7 @@ sudo journalctl -u ptp4l@eth0.service -b -f
 
 ## Shepherd-Eval
 
-Compiling and activating the Shepherd-KMod 
+Compiling and activating the Shepherd-KMod
 
 ```Shell
 [  +0.000002] shprd.k: Benchmark high-res busy-wait Variants
@@ -420,7 +420,7 @@ Compiling and activating the Shepherd-KMod
 ⇾ 100k loop-iterations take 400 us
 ⇾ same results for kernel 5.10ti and 6.6rt
 
-Getting direct GPIO access for P8_03. 
+Getting direct GPIO access for P8_03.
 
 - Line is located in `gpiochip1 [600000.gpio] (128 lines)`
 - SPRUIL1C tells us memory map: start @ 0x600000, end @ 0x6000FF, size 256 B

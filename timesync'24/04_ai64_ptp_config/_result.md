@@ -113,5 +113,3 @@ Jun 18 15:02:33 sheep65 phc2sys[719]: [400.897] CLOCK_REALTIME phc offset       
 Jun 18 15:02:34 sheep65 phc2sys[719]: [401.897] CLOCK_REALTIME phc offset        23 s2 freq    -926 delay    620
 Jun 18 15:02:35 sheep65 phc2sys[719]: [402.897] CLOCK_REALTIME phc offset        76 s2 freq    -914 delay    620
 ```
-
-

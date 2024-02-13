@@ -59,7 +59,7 @@ This is mostly a documentation of changes in comparison to v1.x
 - support for addressable i2c-flash for distinction and configuration
 - maybe rotate capelets, so they stick orthogonal on shepherd (would benefit antenna)
 
-## Capelet - GPS 
+## Capelet - GPS
 
 - look for similar gps-module with external antenna support (currently ublox SAM M8Q) ⇾ ublox Neo M8Q, same but with external antenna, 30-60 ns accuracy
 - backup power (LiPo / Supercap)

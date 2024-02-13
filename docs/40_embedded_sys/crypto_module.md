@@ -70,7 +70,7 @@ add cryptodev to /etc/modules       # ⇾ permanent
 sudo sh -c 'echo cryptodev /etc/modules'
 ```
 
-## Force OpenSSL to use Crypto-Module-Hardware 
+## Force OpenSSL to use Crypto-Module-Hardware
 
 **Note:** hard-coding openSSL-Version is stupidly unsecure)
 

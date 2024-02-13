@@ -81,7 +81,7 @@
     - BeagleLogic (100 MHz, 14CH Logic Analyzer),
     - High Speed data aquisition
 
-### Latency Benchmarks 
+### Latency Benchmarks
 
 source: "sprace8a.pdf"
 
@@ -89,7 +89,7 @@ source: "sprace8a.pdf"
 - transfer shared RAM to DDR 5 cycles / 4 byte, to 65 cycles / 128 byte
 - transfer DDR to shared RAM 47 cycles / 4 byte, 107 cycles / 128 byte ⇾ prefer large chunks
 
-### PRUs (ICSS, ICSSG) Supported techniques 
+### PRUs (ICSS, ICSSG) Supported techniques
 
 source: link for feature-comparison
 

@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Shepherd DevLog'
-copyright = '2024, Networked Embedded Systems Lab, TU Dresden / TU Darmstadt'
-author = 'Ingmar Splitt'
-release = '2024'
+project = "Shepherd DevLog"
+copyright = "2024, Networked Embedded Systems Lab, TU Dresden / TU Darmstadt"
+author = "Ingmar Splitt"
+release = "2024"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -25,7 +25,7 @@ extensions = [
     "sphinx_copybutton",
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = ["Thumbs.db", ".DS_Store"]
 
 myst_enable_extensions = ["colon_fence"]
@@ -33,7 +33,7 @@ myst_enable_extensions = ["colon_fence"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 html_title = project
 html_collapsible_definitions = True

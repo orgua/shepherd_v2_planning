@@ -218,6 +218,3 @@
 - Betreiberkonzept Vorentwurf
 - mit SG 4.3 in Verbindung setzen
 - mit SG 4.5 in Verbindung setzen
-
-
-

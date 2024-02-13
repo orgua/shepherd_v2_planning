@@ -152,7 +152,7 @@ sudo apt list --installed | grep linux- # ⇾ remove other
 ```Shell
 cd /opt/scripts/tools/
 sudo git pull
-sudo ./update_kernel.sh --lts-5_4 
+sudo ./update_kernel.sh --lts-5_4
 # ⇾ warning: does not work for BBB yet, just update to latest 4.19 release by omitting --lts..
 sudo reboot
 
@@ -246,7 +246,7 @@ sudo dpkg -P linux-image-5.4.24-armv7-x20
 More packages to remove
 
 ```Shell
-sudo apt -y remove 
+sudo apt -y remove
 
     gcc-pru
     gdb-dbg
@@ -268,9 +268,9 @@ sudo nano /boot/uEnv.txt
     disable_uboot_overlay_adc=1
 ```
 
-### Switch to Ubuntu 20.04 
+### Switch to Ubuntu 20.04
 
-(bionic to focal) 
+(bionic to focal)
 ```Shell
 # pro: brings fresh gcc 10, python 3.8, sshd 8.2,
 sudo apt update && sudo apt upgrade
@@ -326,8 +326,3 @@ sudo rm /boot/initrd.img-*
 - u_serial, usb_f_acm       ⇾ serial emulation on USB
 - sch_fq_codel              ⇾ Fair Queue controlled delay
 - libcomposite              ⇾ usb HID and massstorage
-
-
-
-
-

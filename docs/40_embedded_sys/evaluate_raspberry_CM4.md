@@ -35,7 +35,7 @@
 # mostly copied from ai64-notes
 sudo apt purge alsa-utils btrfs-progs can-utils cloud-guest-utils
 sudo apt purge firmware-atheros firmware-brcm80211 firmware-iwlwifi wireless-tools vim
-sudo apt purge xfdesktop4 
+sudo apt purge xfdesktop4
 sudo apt purge bluetooth bluez gnome-system-tools mesa-utils-extra tightvncserver
 sudo apt purge novnc xserver-xorg-video-fbdev libxfce4ui-utils xfce*
 sudo apt purge xfconf xfwm4 qt5ct firefox-esr
@@ -67,7 +67,7 @@ sudo systemctl stop ModemManager
 sudo dpkg -l
 sudo apt purge vim* systemd-timesyncd rpicam* modemmanager firmware-realtek firmware-misc-non* bluez*
 sudo apt purge mkvtoolnix gdb iso-codes libqt5core5a
-sudo apt purge linux-image-6.1.0-rpi7-rpi-2712 
+sudo apt purge linux-image-6.1.0-rpi7-rpi-2712
 sudo apt autoremove
 
 # already installed
@@ -95,7 +95,7 @@ sudo nano /boot/config.txt
   otg_mode=0
 # add
   hdmi_blanking=2
-  
+
 # ram usage down to 72 mb with < 20 programs running
 ```
 
@@ -121,7 +121,7 @@ It works!
 ### Determine Address of GPIO21 in Memory
 
 ```Shell
-sudo gpiodetect 
+sudo gpiodetect
 # gpiochip0 [pinctrl-bcm2711] (58 lines)
 # gpiochip1 [raspberrypi-exp-gpio] (8 lines)
 
@@ -195,7 +195,7 @@ sudo modprobe -rf shepherd
 - requesting kernel-time with ktime_get_real() takes 145 ns (lowest freq-step)
   - overclocked in performance-mode: 41 ns
 - Reference: old BBB takes 300 ns, BB-AI64 takes ~ 40 ns
-- NOTE: its the same core as the AI64, is there a powersaving or 
+- NOTE: its the same core as the AI64, is there a powersaving or
 ⇾ unmodded rpi has 1040 n
 
 ### Performance-Improvements
@@ -231,13 +231,13 @@ sudo cpufreq-set --governor ondemand
 [  436.756812] shprd.k: ktime_get_real_fast_ns() = 2778 n / ~100us
 ```
 
-Final-Setting: 
+Final-Setting:
 - 2000 MHz in `/boot/config.txt`
 - Performance-Gov in `/etc/default/cpufr` added to ptp-service
 
 ### Eval Sync
 
-Configured PTP4L and Phc2sys like shown in AI64.md, changes from that: 
+Configured PTP4L and Phc2sys like shown in AI64.md, changes from that:
 
 - ptp prio reduced from 99 to 80
 - phc prio reduced from x to 70
@@ -245,7 +245,7 @@ Configured PTP4L and Phc2sys like shown in AI64.md, changes from that:
 - ptp4l.conf
   - # run time options
   - tx_timestamp_timeout  1 ⇾ 10
-  - 
+  -
   - # servo options
   - pi_proportional_exponent -0.3 ⇾ ~~-0.5~~
   - pi_integral_exponent 0.4 ⇾ ~~0.2~~ made it faster? 0.4 worked better / slower

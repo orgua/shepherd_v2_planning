@@ -17,7 +17,7 @@
     - role management
     - groups (share datapool)
     - Quota (data is linked to user and deleted with the account)
-- authentication via external service like OAuth (i.e. Github) (if possible)
+- authentication via external service like OAuth (i.e. GitHub) (if possible)
 - Upload user provided data
     - Harvesting- / Energy-Traces, -traces, IV-Curves
     - regulator / converter-definition
@@ -70,7 +70,7 @@
     - flask is a microframework, offers minimal attack surface and seems perfect for the python REST API
 - basic implementation could be similar to https://github.com/fkt/36c3-junior-ctf-pub (web-interface for a ctf, that didn't get compromised)
 - API: rest
-- (prio) allow scripted workflow ⇾ yaml ⇾ rest ⇾ 
+- (prio) allow scripted workflow ⇾ yaml ⇾ rest ⇾ server internals
     - this could also be the base for the web-page-interface
 - Database
     - influxDB or
@@ -127,7 +127,7 @@
     - these metrics could be displayed on the website as a condensed result
     - these metrics could also be used for some kind of leaderboard
 - a downsampled dataset (1 kHz?) could be fed into a database for semi-live analysis / observation
-- a full-res dataset could be fed into the database afterwards but would mean a longer blocking time between measurements
+- a full-res dataset could be fed into the database afterward but would mean a longer blocking time between measurements
 
 ## TODO
 

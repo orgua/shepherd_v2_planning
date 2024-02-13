@@ -6,7 +6,7 @@ Requirements Refresh / Refinement 2022-06
 - more focus on a general testbed for the Internet of Things, especially:
 - GPIO Monitoring -> higher min sampling frequency / guarantees
 	- nRF and MSP430 have 16 MHz baseclock -> same region would be nice
-	- chip-rate of 2 MChip/s, 
+	- chip-rate of 2 MChip/s,
 	- 200ns per loop == must, 150 ns == nice, more welcome
 	- idea: state-machine triggered sampling with max window size (example: target uses one pin to trigger sampling for 50 ms)
 - UART Monitoring (RX from Target-Side), min 461 kBaud, better 922 kBaud (1MBaud maybe easier)
@@ -18,12 +18,12 @@ Requirements Refresh / Refinement 2022-06
 	- test for ascii control chars (storage in h5 and csv-file) -> or document forbidden chars
 		- also base64, 85, 91, or raw
 	- continuous stream should also be functional (1MBaud, long duration, creates 10Mbyte stream currently -> might be a problem) -> specify max rate if not possible
-- actuation (like UART-Sending): 
+- actuation (like UART-Sending):
 	- telnet seems not useful (tests can run at night, )
 	- top-feature: script on observer with additional logic would be nice (read and write gpio / uart)
 	- nice-feature: config-file with time-based send-commands
 	- min feature: gpio-actuation per PRU, synced
-	- idea: state-machine preload, without reads during run, 
+	- idea: state-machine preload, without reads during run,
 - lower sampling bounds should be guaranteed and known -> avoid spurious phantom signals
 - Sync-Error should be lower than Clock of GPIO-Register of target
 
@@ -73,4 +73,3 @@ TODO
 - fork PRU-Firmware with focus on GPIO-Speed
 
     - test capabilities
-

@@ -101,4 +101,3 @@ TODO
 - implement variable pin-choice (4 banks á 32 pins -> 128 n)
 - plausibility-check of programmer-struct in kernel-module / sysFS before allowing "start"
 - firmware-size is probably more useful in sysfs than
-

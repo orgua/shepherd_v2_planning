@@ -39,7 +39,7 @@ cd deloy/ubu
 
 sudo ./setup_sdcard.sh --img-2gb am335x-ubuntu-20.04.5-console-armhf-2023-03-14 --dtb beaglebone --distro-bootloader --enable-cape-universal --enable-uboot-disable-pru --enable-bypass-bootup-scripts
 
-xz -v6 am335 
+xz -v6 am335
 #  ⇾ 4 MB/s, -v6 got ~8 MB/s
 mv am ~/
 
@@ -109,7 +109,7 @@ switch to older kernel by default (focal)
     linux-image-4.19.94-ti-r73
     4.19.94-ti-r73
     4.19-ti
-    cmem = 4.16.00.01       
+    cmem = 4.16.00.01
         ⇾ installs ti-cmem-{version}
         https://github.com/rcn-ee/ti-cmem
         https://github.com/rcn-ee/ipc-ludev
@@ -147,7 +147,7 @@ sudo nano /etc/apt/sources.list
 
 sudo do-release-upgrade -d
 
-shepherd install 
+shepherd install
 apt installs python3-numpy 1.24.2-1
 # but pip install shepherd-package installs numpy again - with full compile
 ```

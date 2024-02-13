@@ -60,7 +60,7 @@ nano /home/zihuser/.ssh/authorized_key
 # automount - add mount to ~/.bashrc
 ```
 
-### Better solution 
+### Better solution
 
 From Helpdesk:
 

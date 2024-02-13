@@ -59,7 +59,7 @@
 - maybe add 2nd Switch for PRU-Ports, or lower resistors to <= 100 Ohm (speed-improvement)
 - around switch-IC, avoid solder bridges per design even more ⇾ space out vias, reduce solder mask expansion
 
-## Additional Parts 
+## Additional Parts
 
 Note: numbers for one Unit, refs are Mouser-Numbers
 

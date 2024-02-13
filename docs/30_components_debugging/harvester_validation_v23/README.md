@@ -112,4 +112,3 @@ Bright Light Detail
 1000 Hz
 
 ![1000Hz](hrv_iv1000Hz_open_input.png)
-

@@ -170,7 +170,7 @@ No additional Buffering on A5V-Line
 ![Emu3](media_v23/hrv_iv110Hz_A5V_1mF.png)
 
 
-## Stabilize ADC-Readings 
+## Stabilize ADC-Readings
 
 Plan: work through datasheet for more design guideline hints
 

@@ -164,5 +164,3 @@ h5py-compilation-cookbook from kai (slightly modded):
     sudo /usr/bin/python3 -m pip install --no-binary=h5py h5py
     # -> v3.4, created wheel filename=h5py-3.4.0-cp39-cp39-linux_armv7l.whl size=5487437
     # -> relatively quick, but no benefit to precompiled version
-
-

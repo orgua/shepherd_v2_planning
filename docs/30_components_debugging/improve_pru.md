@@ -1,6 +1,6 @@
 # Improvements to PRU-Code
 
-Classification: irrelevant, mostly dev-dump 
+Classification: irrelevant, mostly dev-dump
 
 ## Getting started - handling PRUs
 

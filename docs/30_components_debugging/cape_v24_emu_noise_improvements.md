@@ -1,4 +1,4 @@
-# Reduce Noise in Current-Measurement for Emulator 
+# Reduce Noise in Current-Measurement for Emulator
 
 ## Problem
 

@@ -4,7 +4,7 @@ The goal is to secure the beaglebone, but it is also partly suitable for the vSe
 
 **Note:** all of these are included in ansible playbooks now, BUT might be checked manually from time to time.
 
-## Find open Ports 
+## Find open Ports
 
 ⇾ delete not needed services (included in ansible)::
 
@@ -23,7 +23,7 @@ userdel ubuntu
 exit
 ```
 
-## SSHD-Security-Improvements 
+## SSHD-Security-Improvements
 
 ```Shell
 sudo nano /etc/ssh/sshd_config

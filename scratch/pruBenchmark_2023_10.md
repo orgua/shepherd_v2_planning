@@ -1,4 +1,4 @@
-## PRU0 
+## PRU0
 
 - has access to analog Frontend (DAC, ADC)
 - fixed 10 us schedule
@@ -18,7 +18,7 @@
 - _780 ns Buffer-swap (every 10us)
 OR
 - __90 ns check conditions
-- _120 ns kernel-COM 
+- _120 ns kernel-COM
 
 **TOTAL**: 7990 ns (worst case)
 
@@ -64,9 +64,9 @@ OR
 
 ## new firmwares
 
-### static voltage, only current-tracing 
+### static voltage, only current-tracing
 
-pru0 
+pru0
 - ~ 1000 ns ADC & Store
 - could actuate gpio now (cpu-registers)
 

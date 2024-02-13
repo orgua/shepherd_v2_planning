@@ -61,12 +61,12 @@ TODO: should be checked in general!
   - optimization: disable busy-wait, analyze jitter (currently 35us for 99%-quantile)
 - lowest bound: getting time (like `ktime_get_real()`) can take 300ns on BBone
   - added a benchmark in sync_init()
-- add finer loop-counter-busy-wait 
+- add finer loop-counter-busy-wait
   - BIG FAIL - did not improve performance, but even increased jitter
-- upgrade Kernel to 5.10 (from 4.19) 
+- upgrade Kernel to 5.10 (from 4.19)
   - FAIL - made reliability of hrtimer much worse
   - HRTIMER_MODE_ABS shows missing gpio-edges during operation
-  - UNSOLVED MYSTERY: 
+  - UNSOLVED MYSTERY:
     - switching back to 4.19 still shows higher jitter (but it should be minimal)
     - also: PINNED & HARD are available, but shouldn't (ti-rt-mod)
     - full kModule with _ABS (confirmed soft) has too good performance
@@ -138,7 +138,7 @@ Current default Kernel 5.10 RT is much worse at triggering hrtimer
 ```
 
 Higher System-Load - Update Python
-⇾ does not work (missing libs brought by apt & 3.12 internals crashing) 
+⇾ does not work (missing libs brought by apt & 3.12 internals crashing)
 
 ```Shell
 sudo add-apt-repository ppa:deadsnakes/ppa
@@ -155,7 +155,7 @@ TODO:
 
 - redesign sync-loop to avoid shortcomings of the system
 - bb ai 64 already supports hardware timestamping (ubuntu 22.04, kernel 5.10.168-ti-arm64-r112 ti)
-- ptp4l: 
+- ptp4l:
   - switch to newer clock servo (linreg instead of pi), [link](https://medium.com/inatech/sync-your-clocks-better-ptp-settings-on-raspberry-pi-37a9a54e4802)
   - ptp4l -i eth0 [--masterOnly 1] -m --tx_timestamp_timeout 200
   - [fedora-guide](https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/servers/Configuring_PTP_Using_ptp4l/)
@@ -164,7 +164,7 @@ TODO:
 ## Eval 2023 for new platforms
 
 - there is a [ptp-hat for raspberry](https://hackaday.com/2021/08/16/new-part-day-raspberry-pi-hat-for-ieee1588-precision-time-protocol/) now
-- 
+-
 - `ethtool -T eth0` shows BB AI 64 is already capable (per software)
 - rpi3 still only software timestamping
 - Raspberry CM4 and RPI5 should also support hardware timestamping, [link](https://forums.raspberrypi.com/viewtopic.php?t=358275)
@@ -199,4 +199,3 @@ sudo shepherd-sheep run /etc/shepherd/config.yaml
     100% and lots of errors (RT)
     55 - 59 % (r73)
     66 - 71 % (RT) + 5-8 for SYSMon
-
