@@ -1,0 +1,28 @@
+line-length = 100
+target-version = "py310"
+
+[lint]
+select = ["ALL"]
+
+ignore = [
+    "N802", "N803", "N806", "N815", "N816", # naming (si-units should stay)
+    "PLR2004", # magic values
+]
+
+exclude= [
+]
+
+[lint.per-file-ignores]
+#"*/tests/**" = ["ARG", "S", "D", "SLF001"]
+
+[lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[lint.isort]
+force-single-line = true
+
+[lint.pyupgrade]
+keep-runtime-typing = true
+
+[format] # per default like Black
