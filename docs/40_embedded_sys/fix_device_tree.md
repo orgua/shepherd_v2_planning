@@ -1,6 +1,6 @@
 # Fix Shepherd Device Tree Drivers
 
-Original DT-Driver fails to work with 4.19 or newer.
+Original DT-Driver from shp v1 fails to work with 4.19 or newer.
 
 ## Device Tree Versions
 

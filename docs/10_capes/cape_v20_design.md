@@ -14,6 +14,11 @@
     - Top Overlay
 ⇾ print in Color
 
+## Proposed Changes compared to v1
+
+
+
+
 ## Implemented Changes v2.0r0
 
 - 4 Layer! Planes for Sig, GND, A5V, (3V3)

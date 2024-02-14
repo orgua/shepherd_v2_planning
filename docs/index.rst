@@ -25,6 +25,7 @@ Welcome to Shepherd's DevLog!
    10_capes/concept_capes
    10_capes/concept_cad
    10_capes/cape_v20_design
+   10_capes/cape_v20_performance
    10_capes/cape_v21_design
    10_capes/cape_v21_performance
    10_capes/cape_v22_design
@@ -55,6 +56,7 @@ Welcome to Shepherd's DevLog!
 
    30_components_debugging/harvester_validation_v23/README
    30_components_debugging/virtual_source_regulator/README
+   30_components_debugging/programming_interface_improvements
 
 .. toctree::
    :maxdepth: 2
@@ -70,18 +72,23 @@ Welcome to Shepherd's DevLog!
    40_embedded_sys/concept_pru
    40_embedded_sys/concept_py
 
-   40_embedded_sys/concept_casing.md
+   40_embedded_sys/concept_casing
+
+   40_embedded_sys/initialize_sys_manually
 
    40_embedded_sys/improve_linux
    40_embedded_sys/improve_security
    40_embedded_sys/improve_py_upgrade
    40_embedded_sys/fix_device_tree
+   40_embedded_sys/ubuntu_2204_migration
 
    40_embedded_sys/crypto_module
 
    40_embedded_sys/evaluate_beaglebone_AI
    40_embedded_sys/evaluate_beaglebone_AI64
    40_embedded_sys/evaluate_raspberry_CM4
+
+   40_embedded_sys/legacy_branch_backports
 
 
 .. toctree::

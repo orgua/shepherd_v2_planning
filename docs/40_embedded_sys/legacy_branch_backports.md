@@ -1,8 +1,9 @@
-Legacy Code-Branch
-==================
+# Legacy V1 Code-Branch
 
-Intro
------
+This document is for tracking backports made for v1 branch
+
+## Intro
+
 - for hw revision 1.x
 - where: https://github.com/orgua/shepherd/tree/hw_revision_1.x
 - branched on 15. Jan 2021 [52f087a]
@@ -15,14 +16,11 @@ Intro
     - legacy (20. Apr) vs master -> https://github.com/orgua/shepherd/compare/fw_ok..orgua:master
 
 
-Improvements 2021-06-01
------------------------
+## Improvements 2021-06-01
 
 - fix overwrite-bug in playbook for files in /etc/shepherd/
--
 
-Improvements 2021-05-06
------------------------
+## Improvements 2021-05-06
 
 - 1.x branch is now on par with v2-branch from 2021-05-06, except for
     - rpmsg-replacement for buffer exchange -> must be thoroughly tested first
@@ -72,53 +70,49 @@ Improvements 2021-05-06
     - show when a message to pru stays unread (backpressure) or it is altered (hint for mem-corruption)
     - [...]
 
-Known Bugs
-----------
+## Known Bugs / Open Issues
+
 - ending python programs with ctrl&c can result in (false) error-messages - graceful shutdown is yet to come
 - starting the sheep with
 
-TODO
-----
-- asm-code in main-branch is cleaner and edges are clock-synchronous
-- commits from legacy
-- commits from main:
-- synced with master: 72aad92 - may 06
-- original/dev-branch: 8b3054d 9e5925729e60939e137b970e1791e9a4f (21-04-19) ..d9a5073 24e1123fc6af10117351d0a703f28f1ef (21-05-05)
+### Pipenv-Trouble
 
-
-test::
-
-    cd /opt/shepherd/software/python-package/
-    sudo python3 setup.py test --addopts "-vvv"
-
-    cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
-    sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
-    dmesg -wH
-    watch -n 1 "df -h"
-    # plot with tool in /extras
-
-    # merge several commits from A to B to another branch
-    git cherry-pick A^..B
-
-Open Issues
------------
-- None
-
-
-Pipenv-Trouble
---------------
 - pipenv fails to scan for deps in sub-folders when python wasn't pinned to v3 (
 - black-lib had troubles -
     - kai uses "--pre" for installation
     - i used "pipenv install "black==20.8b1" (if i recall correctly)
 - dbus-python package had trouble with sub-dependency (dbus-1), when the following apt-package wasn't installed: libdbus-glib-1-dev
 
-Pipenv (TODO: not perfect place here)::
+Pipenv (TODO: not perfect place here)
 
-    pipenv --three
-    pipenv install
-    pipenv shell
-    pipenv run pip list
-    pipenv --rm
-    pipenv update
-    pipenv graph
+```Shell
+pipenv --three
+pipenv install
+pipenv shell
+pipenv run pip list
+pipenv --rm
+pipenv update
+pipenv graph
+```
+
+## TODO
+
+- asm-code in main-branch is cleaner and edges are clock-synchronous
+- commits from legacy
+- commits from main:
+- synced with master: 72aad92 - may 06
+- original/dev-branch: 8b3054d 9e5925729e60939e137b970e1791e9a4f (21-04-19) ..d9a5073 24e1123fc6af10117351d0a703f28f1ef (21-05-05)
+
+```Shell
+cd /opt/shepherd/software/python-package/
+sudo python3 setup.py test --addopts "-vvv"
+
+cp /opt/shepherd/software/meta-package/example_config.yml /etc/shepherd/config.yml
+sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
+dmesg -wH
+watch -n 1 "df -h"
+# plot with tool in /extras
+
+# merge several commits from A to B to another branch
+git cherry-pick A^..B
+```

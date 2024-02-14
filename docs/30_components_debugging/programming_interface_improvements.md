@@ -1,16 +1,14 @@
-Programming Interface to Target
-===============================
+# Programming Interface to Target
 
-OpenOCD and Patches from Kai
-----------------------------
+## OpenOCD and Patches from Kai
+
 - latest patch / fix: OpenOCD seems to poll when still active after programming -> higher IO-Traffic
 - bring OpenOCD-Patches to mainline
 - Comments for PatchSet before merging: https://review.openocd.org/c/openocd/+/4671
 - full repo: https://sourceforge.net/p/openocd/code/ci/master/tree/
 
+## Solutions for wider variety of Targets
 
-Solutions for wider variety of Targets
---------------------------------------
 - Idea
     - currently only SWD-Compatible ICs are supported (nRF)
     - support more than 1 IC on the target-board would be preferred (ie. msp-storage + nRF-radio)
@@ -39,8 +37,8 @@ Solutions for wider variety of Targets
         - firmware could just be dumped by UART
         - Needs the most custom Code & Debugging would be hard to achieve
 
-TargetConnector-Modifications for HW v2.3 (Proposal)
-----------------------------------------------------
+## TargetConnector-Modifications for HW v2.3 (Proposal)
+
 - make programming pins officially exclusive for programming -> no logging via PRU
 - add second pair of programming pins to target
 - extend GPIO count from 7 to 9 (now free on pru) also counting the uart-pins (that could also work as GPIO)
@@ -53,11 +51,9 @@ TargetConnector-Modifications for HW v2.3 (Proposal)
     - use SMD-Header to BB
     - more expensive manufacturing with smaller vias
 
-PRU-Programmer-Framework
-------------------------
+## PRU-Programmer-Framework
 
-python frontend
-...............
+### python frontend
 
 Sheep supports new command ``shepherd-sheep programmer``
 
@@ -66,38 +62,28 @@ Sheep supports new command ``shepherd-sheep programmer``
 - copies fw to ram
 - configures programmer-struct
 
-sysfs-files /sys/shepherd/programmer/
-......................................
+### Sysfs-Api
+
+Files in `/sys/shepherd/programmer/`
 
 Should be written after filling ram area with firmware - specially the state-attribute.
 
-.. list-table:: Programming-Attributes
-   :widths: 25 75
-   :header-rows: 1
-
-   * - File
-     - Description
-   * - ``./state``
-     - [str] write "start" or "stop" and get current states like "idle", "running", [..], "error" -> **write at last!**
-   * - ``./protocol``
-     - [str] write swd, sbw or jtag
-   * - ``./datarate``
-     - [u32] in baud, currently limited in kernel-module to 10 MBaud
-   * - ``./datasize``
-     - [u32] in byte
-   * - ``./pin_%name%``
-     - [u32] with pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module
+| File           | Description                                                                                                           |
+|----------------|-----------------------------------------------------------------------------------------------------------------------|
+| `./state`      | write "start" or "stop" and get current states ("idle", "running", [..], "error") -> **write at last!**               |
+| `./protocol`   | write swd, sbw or jtag                                                                                                |                                                                           
+| `./datarate`   | in baud, currently limited in kernel-module to 10 MBaud                                                               |
+| `./datasize`   | in byte                                                                                                               |
+| `./pin_%name%` | pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module |
 
 
-PRU0
-....
+## PRU0
 
 Includes programmer.c and jumps into programmer()-fn when "state" != IDLE or ERROR. The current demo checks firmware-struct, tinkers with the ctrl-struct and flashes the LED of the external button
 
-TODO
-....
+## TODO
 
-- implement routines in PRU
 - implement variable pin-choice (4 banks á 32 pins -> 128 n)
 - plausibility-check of programmer-struct in kernel-module / sysFS before allowing "start"
-- firmware-size is probably more useful in sysfs than
+- firmware-size is probably more useful in sysfs
+- generalize concept, ideas documented [here](https://github.com/orgua/shepherd/issues/23)
