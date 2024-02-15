@@ -1,4 +1,4 @@
-# Cape PCB v2.0
+# Cape v2.0 - PCB Changes
 
 ## General rule for assembly-drawings
 
@@ -13,11 +13,6 @@
     - Keepout
     - Top Overlay
 ⇾ print in Color
-
-## Proposed Changes compared to v1
-
-
-
 
 ## Implemented Changes v2.0r0
 

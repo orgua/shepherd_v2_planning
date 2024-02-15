@@ -1,4 +1,4 @@
-# Cape PCB v2.1
+# Cape v2.1 - PCB Changes
 
 ## Implemented Changes
 

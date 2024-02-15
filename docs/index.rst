@@ -12,11 +12,16 @@ Welcome to Shepherd's DevLog!
 
    00_overview/requirements_2020
    00_overview/feasibility_2020
+
    00_overview/concept_shepherd
    00_overview/concept_testbed
    00_overview/concept_tu_dresden
+
+   00_overview/requirement_refinement_2022
+
    00_overview/comparison_other_testbeds
    00_overview/learnings_other_testbeds
+   00_overview/flocklab_inheritance
 
 .. toctree::
    :maxdepth: 2
@@ -24,6 +29,8 @@ Welcome to Shepherd's DevLog!
 
    10_capes/concept_capes
    10_capes/concept_cad
+   10_capes/harvesting_sources
+
    10_capes/cape_v20_design
    10_capes/cape_v20_performance
    10_capes/cape_v21_design
@@ -39,11 +46,11 @@ Welcome to Shepherd's DevLog!
    10_capes/cape_v25_design
    10_capes/cape_v26_design
 
-   10_capes/harvesting_sources
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Components & Debugging
+   :caption: HW Components & Debugging
 
    30_components_debugging/beaglebone_boot_pins
    30_components_debugging/watchdog
@@ -52,10 +59,9 @@ Welcome to Shepherd's DevLog!
    30_components_debugging/target_voltage
    30_components_debugging/recorder_drain
    30_components_debugging/cape_v24_emu_noise_improvements
-   30_components_debugging/improve_pru
 
    30_components_debugging/harvester_validation_v23/README
-   30_components_debugging/virtual_source_regulator/README
+
    30_components_debugging/programming_interface_improvements
 
 .. toctree::
@@ -90,6 +96,17 @@ Welcome to Shepherd's DevLog!
 
    40_embedded_sys/legacy_branch_backports
 
+.. toctree::
+   :maxdepth: 2
+   :caption: SW Components & Debugging
+
+   50_sw_debugging/virtual_source_regulator/README
+
+   50_sw_debugging/improve_pru
+   50_sw_debugging/h5py_memoryleak
+   50_sw_debugging/usb_thumbdrive_trouble
+   50_sw_debugging/python_optimization/README
+   50_sw_debugging/kernel_panics
 
 .. toctree::
    :maxdepth: 2

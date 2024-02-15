@@ -1,8 +1,6 @@
-Hunting a Memoryleak
-====================
+# Hunting a Memory-leak (h5py)
 
-First Proof
------------
+## First Proof
 
 - RAM-Increase 5% (24mb) in 10 min, slower but steady increase later on
 - sheep starts with 13.2 % of system memory -> after 5000 s it uses 28 % already
@@ -12,8 +10,7 @@ First Proof
 
 **TLDR: h5py was the culprit -> reading from files**
 
-Investigation
--------------
+## Investigation
 
 - only a few possibilities to leaking memory in python -> look for circular references and custom __del__()-methods
 - try to avoid exception-handling as a default-strategy in mainloop -> only in shepherdio._get_msg() -> no difference
@@ -24,25 +21,26 @@ Investigation
     - finds nothing, code must hide in cpython (compiled libs) out of scope for profiles
 - valgrind -> powerful, but too slow to work
 
-.. code-block:: bash
-
-    sudo valgrind --tool=memcheck shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
-    sudo valgrind --tool=memcheck --leak-check=yes shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
-
+```Shell
+sudo valgrind --tool=memcheck shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
+sudo valgrind --tool=memcheck --leak-check=yes shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
+```
 
 - chap https://stackoverflow.com/questions/61288749/finding-memory-leak-in-python-by-tracemalloc-module
 - fil, python memory profiler, https://pythonspeed.com/fil/docs/fil/what-it-tracks.html
     - trouble as arm is not natively supported, but github-issue for arm-macos gives a fix
 
-.. code-block:: bash
+```Shell
+#sudo /usr/bin/python3 -m pip install filprofiler
+sudo apt install rustc
+pip install git+https://github.com/pythonspeed/filprofiler.git#egg=filprofiler
+fil-profile run --no-browser shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
+# -> fails to compile for armV7 -> missing SYS_mmap2
+```
 
-    #sudo /usr/bin/python3 -m pip install filprofiler
-    sudo apt install rustc
-    pip install git+https://github.com/pythonspeed/filprofiler.git#egg=filprofiler
-    fil-profile run --no-browser shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
-    -> fails to compile for armV7 -> missing SYS_mmap2
+## Disable Submodules 
 
-Disable Submodules (logging, memread, h5pywrite, compression) one by one
+candidates: logging, memread, h5pywrite, compression -> one by one
 
 - loglevel = 0
 - disable h5-writer & compression

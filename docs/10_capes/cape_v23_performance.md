@@ -1,4 +1,4 @@
-# Shepherd Cape v2.3 - Performance
+# Cape v2.3 - Performance
 
 ## Tested
 

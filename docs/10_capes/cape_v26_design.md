@@ -1,9 +1,9 @@
-# Cape PCB v2.6 WIP
+# Cape v2.6 - PCB Changes (WIP)
 
 ## TODO NextGen
 
 - change ADC to higher resolution?
-- change OP-Ampdriver to higher output? Double Opa388?
+- change OP-Ampdriver to higher current output? Double Opa388?
 - make system modular?
 - direction pin GPO:3 for leveltranslators is named strangely
 - rename Recorder ⇾ Harvester

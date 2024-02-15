@@ -1,4 +1,4 @@
-# Concepts for TU Dresden & ZIH
+# Concept for TU Dresden & ZIH
 
 ## Administrative Info
 

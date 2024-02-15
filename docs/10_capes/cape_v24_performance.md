@@ -1,4 +1,4 @@
-# Cape v2.4b Review
+# Cape v2.4b - Performance
 
 ## Hardware
 

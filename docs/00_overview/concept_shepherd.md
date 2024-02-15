@@ -1,4 +1,6 @@
-# Concept for Shepherd
+# Concept for Shepherd V2
+
+A more detailed moved to [shepherd/docs/dev/v2_improvements.rst](https://github.com/orgua/shepherd/blob/main/docs/dev/v2_improvements.md)
 
 ## Overview
 

@@ -1,4 +1,4 @@
-# HW Performance v2.2
+# Cape v2.2 - Performance
 
 ## Hardware
 
@@ -19,15 +19,19 @@
 - External powered single cape (current limited)
     - disabled cape ⇾ draws 0 mA @ 5 V
     - 35 mA @ 5 V when EN-Pin is Pulled Up with 3 V
-    - ⇾ no unsual behaviour
-- BB powered by benchsupply 5.1 V, ~ 350 - 400 mA
+    - ⇾ no unusual behaviour
+- BB powered by bench-supply 5.1 V, ~ 350 - 400 mA
 - Shepherd powered by BB, VIn 5.08V
 - Main Voltages on enabled Cape
-    - A5V/L5V 	⇾ 5.000 V    	Should be Spot On
-    - A3V/L3V3 	⇾ 3.300 V    	Should be Spot On
-    - 6V 	⇾ 5.38 V		    [5.29; 5.47] V with 1% Res
-    - 10V 	⇾ 9.73 V		    [9.56; 9.90] V with 1% Res
-    - -6V 	⇾ -6 V		        [5.94; 6.06] V with 1% Res
+
+| Name      | expected V | Comment                    |
+|-----------|------------|----------------------------|
+| A5V/L5V 	 | 5.000 V    | Should be Spot On          |
+| A3V/L3V3  | 3.300 V    | Should be Spot On          |
+| 6V        | 5.38 V     | [5.29; 5.47] V with 1% Res |
+| 10V 	     | 9.73 V     | [9.56; 9.90] V with 1% Res |
+| -6V       | -6 V	      | [5.94; 6.06] V with 1% Res |
+
 - calibration with 10 uF (1206, 25 VMax, 16 nA Leak) on both Ports
 - Generated Voltages on Target Ports ⇾ deviation is ~ 0.1 mV
 - ADC Current-Readout is noisy, despite 10 uF Buffer

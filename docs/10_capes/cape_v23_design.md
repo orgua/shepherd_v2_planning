@@ -1,4 +1,4 @@
-# Cape PCB v2.3
+# Cape v2.3 - PCB Changes
 
 NOTE: this could also be the changes for v2.4
 

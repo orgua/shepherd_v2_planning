@@ -1,4 +1,4 @@
-# Concept
+# Cape Concept
 
 This is mostly a documentation of changes in comparison to v1.x
 

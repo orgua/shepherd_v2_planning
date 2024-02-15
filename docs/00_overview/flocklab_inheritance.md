@@ -1,16 +1,12 @@
-Flocklab
-=========
+# Inheriting Flocklab
 
-The Package
------------
+## The Package
 
 - 30 complete observer-nodes (current deployment)
 - one laptop as server
 - and / or 25 boards as extension, replacement or second flocklab-testbed
 
-
-Current State
--------------
+## Current State
 
 - flocklab is open-source, with no plans to commercialize
 - testbed is very mature and stable (nodes only fail rarely, 1 node in 2y)
@@ -40,23 +36,19 @@ Current State
 
 - wireless energy traces were planned for special nodes, also interference-generators
 
-Why should we inherit Flocklab
-------------------------------
+## Why should we inherit Flocklab
 
 - do we learn something from running it?
 - do we plan to use it more frequently?
 - there are two other interested parties / maintainers
 
-
-Flocklab Details
-----------------
+## Flocklab Details
 
 API: https://gitlab.ethz.ch/tec/public/flocklab/wiki/-/wikis/Man/Services
 
 XML: https://gitlab.ethz.ch/tec/public/flocklab/wiki/-/wikis/Man/XmlConfig#debug-configuration
 
 - it is possible to configure a test online, download the xml and use variations of it for later experiments
-
 
 - experiments
 
@@ -84,12 +76,10 @@ XML: https://gitlab.ethz.ch/tec/public/flocklab/wiki/-/wikis/Man/XmlConfig#debug
 
 - adc for current measurement can capture single digit nano-amps - but noise is reducing resolution to ~ 100 nA
 
-
-Learnings and Homework for Shepherd
------------------------------------
+## Learnings and Homework for Shepherd
 
 - flocklab backbone / infrastructure is not helpful for shepherd, but the mature APIs collect years of user-experience
-- interference and wireless energy traces would be awesome to have -> simulated channel environment would be best -> without that the tests are not reliably reproducable
+- interference and wireless energy traces would be awesome to have -> simulated channel environment would be best -> without that the tests are not reliably reproducible
 
 - targets
 
@@ -126,7 +116,6 @@ Learnings and Homework for Shepherd
 - writing in bulk to RAM seems important - as the PRU locks up the ARM-Core
 - PRU: min & max cycles per loop for both PRUs
 - simulation is interesting -> only solar ? iv-curve -> basic idea: take an embedded system, remove solar cell and connect it to our testbed
-
 
 
 - sub ms sync - xx us - for debug traces

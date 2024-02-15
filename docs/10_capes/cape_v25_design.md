@@ -1,8 +1,8 @@
-# Cape PCB v2.5
+# Cape v2.5 - PCB Changes
 
 Status 2024-02: still not produced - maybe skipped for switching platform
 
-# Implemented Changes
+## Implemented Changes
 
 - lower current-limiting resistors from 470 R to 240 R (see new target)
 - emu U32 replace OPA189 bei OPA388

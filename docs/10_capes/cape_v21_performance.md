@@ -1,4 +1,4 @@
-# HW Performance v2.1r0
+# Cape v2.1r0 - Performance
 
 ## Setup
 

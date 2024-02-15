@@ -1,4 +1,4 @@
-# HW Performance v2.0
+# Cape v2.0 - Performance
 
 ## Advantages of v2
 

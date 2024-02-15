@@ -1,5 +1,4 @@
-Requirements Refresh / Refinement 2022-06
-=========================================
+# Requirements - Refinement 2022-06
 
 (rough version)
 
@@ -38,22 +37,21 @@ Requirements Refresh / Refinement 2022-06
 
 - GPIO Actuation for Live View could be beneficial (users can check if system is alive, but what else?) (only nice to have)
 
-Thoughts on Feasibility
-=======================
+## Thoughts on Feasibility
 
-GPIO Monitoring
+### GPIO Monitoring
 
 - with constant voltage (only current-monitoring, no virtual source model) one PRU-Core would be idle -> custom firmware
 - PRU0 handles monitoring el. current, actuating GPIOs, Sync timebase, exchange data-buffers
 - PRU1 handles only GPIO-Monitoring -> busy waiting
 
-UART Monitoring
+### UART Monitoring
 
 - current design routes UART to ARM controlled Pins (Linux) and PRU (GPIO Monitoring, discrete timestamped Events)
 - Linux UART RX will be tested -> we are currently stuck at kernel 4.19 but have to switch to 5.10+ eventually
 - for PRU monitoring the dedicated section applies
 
-Sync-Error
+### Sync-Error
 
 - there is still a low frequency with unknown origin (~ 0.2 Hz)
 - current limits are hard to improve
@@ -61,8 +59,7 @@ Sync-Error
     - error between local triggers: ~ +- 120 ns abs, q95% ~ +- 50 ns
 - tbd: deployed cisco-switch in TUD has layer 3 routing and >doubled spec -> could improve sync
 
-TODO
-====
+## TODO
 
 - implement enablers / general improvements
 
