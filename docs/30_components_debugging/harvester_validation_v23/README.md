@@ -24,19 +24,19 @@ Test of various harvesting algorithms with a solar cell
 - setpoint 76 %
 - 100 ms interval with 1.2 ms VOC-measurement
 
-Overview
+### Overview
 
 ![overview](hrv_mppt_voc_overview.png)
 
-Lowlight
+### Lowlight
 
 ![LowLight](hrv_mppt_voc_lowlight.png)
 
-Bright Light
+### Bright Light
 
 ![BrightLight](hrv_mppt_voc_led_light.png)
 
-Bright Light Detail
+### Bright Light Detail
 
 ![BrightDetail](hrv_mppt_voc_led_light_detail.png)
 
@@ -45,15 +45,15 @@ Bright Light Detail
 - 6 ms intervals with visible 10 mV (minimal) step-size
 - "follow the highest power-output"
 
-Overview
+### Overview
 
 ![overview](hrv_mppt_po_overview.png)
 
-Lowlight
+### Lowlight
 
 ![LowLight](hrv_mppt_po_lowlight.png)
 
-Bright Light
+### Bright Light
 
 ![BrightLight](hrv_mppt_po_led_light.png)
 
@@ -63,19 +63,19 @@ Bright Light
 
 - 0 to 5 V, 909 Steps (between 50 & 60 Hz)
 
-Overview
+### Overview
 
 ![overview](hrv_ivcurve110Hz_overview.png)
 
-Lowlight
+### Lowlight
 
 ![LowLight](hrv_ivcurve110Hz_lowlight.png)
 
-Bright Light
+### Bright Light
 
 ![brightLight](hrv_ivcurve110Hz_led_light.png)
 
-Bright Light Detail
+### Bright Light Detail
 
 ![BrightDetail](hrv_ivcurve110Hz_led_light_detail.png)
 
@@ -84,19 +84,19 @@ Bright Light Detail
 
 - 0 to 5 V, 100 Steps
 
-Overview
+### Overview
 
 ![overview](hrv_ivcurve1000Hz_overview.png)
 
-Lowlight
+### Lowlight
 
 ![LowLight](hrv_ivcurve1000Hz_lowlight.png)
 
-Bright Light
+### Bright Light
 
 ![BrightLight](hrv_ivcurve1000Hz_led_light.png)
 
-Bright Light Detail
+### Bright Light Detail
 
 ![BrightDetail](hrv_ivcurve1000Hz_led_light_detail.png)
 
@@ -105,10 +105,10 @@ Bright Light Detail
 - no solar!
 - 110 Hz and 1000 Hz Plots
 
-110 Hz
+### 110 Hz Sampling
 
 ![110Hz](hrv_iv110Hz_open_input.png)
 
-1000 Hz
+### 1000 Hz Sampling
 
 ![1000Hz](hrv_iv1000Hz_open_input.png)

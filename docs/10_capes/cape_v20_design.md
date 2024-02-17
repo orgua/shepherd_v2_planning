@@ -104,7 +104,7 @@
     - nMOS SI2374DS, test with BSH103
     - ShuntOPAmp Ina190A1IDCKR
 - power in via vdd_5v (P5/6) ⇾ Test shows: BB does not power up via sys_5v
-- reboot / boot via Pin-Toggle (Shutdown via command), we should trigger both (RESn->PD,PWR->PD), Test shows: Reset works while PWR is in PD
+- reboot / boot via Pin-Toggle (Shutdown via command), we should trigger both (RESn⇾PD,PWR⇾PD), Test shows: Reset works while PWR is in PD
 - add 256 GB USB-Stick
 - switch to smaller IC-Packages and 0402
 - order / add GPS

@@ -42,21 +42,20 @@ Get log-data from sync
 
 ```Shell
 sudo find / -name ptp*
--> shows no log-files
+# ⇾ shows no log-files
 
 sudo pmc -u -b 0  'GET CURRENT_DATA_SET'
--> offsetFromMaster is jumping like crazy
+# ⇾ offsetFromMaster is jumping like crazy
 sudo pmc -u -b 0  'GET TIME_STATUS_NP'
 
 sudo pmc -u -b 0  'GET PORT_DATA_SET'
--> one sheep should show "master", the others "client"
-
+# ⇾ one sheep should show "master", the others "client"
 
 sudo journalctl -f -u phc2sys@eth0
-# -> not so helpful
+# ⇾ not so helpful
 
 sudo journalctl -f -u ptp4l@eth0
-# -> most helpful feedback
+# ⇾ most helpful feedback
 
 # for the herd:
 shepherd-herd -vvv shell-cmd -s 'journalctl -n 10 -u ptp4l@eth0'
@@ -148,9 +147,9 @@ PRU-Code
 - a method was added that distributes the correction steps equally over remaining sample-triggers
 - sampling was strictly aligned to 0
 - old intc-code was disabled / removed
-- latest improvements made sync_state useless -> intc-routine just sends out timer-count right away
+- latest improvements made sync_state useless ⇾ intc-routine just sends out timer-count right away
     - no need to wait for timer wrap before sending out msg
-- the previous compensation attempts all produced a sawtooth -> fixed
+- the previous compensation attempts all produced a sawtooth ⇾ fixed
 
 
 Kernel-Module
@@ -186,21 +185,21 @@ FILE: sync_2BB_18b_new_trigger
 dt_ns 	[ -280 <| -110  || 45.39   || 230   |> 320   ]
 Ch0_ns 	[ 9910 <| 9960  || 10000.4 || 10060 |> 10090 ]
 Ch1_ns 	[ 9910 <| 9960  || 10000.4 || 10060 |> 10090 ]
--> trigger min/max-jitter is smaller then previous 5% quantiles
+⇾ trigger min/max-jitter is smaller then previous 5% quantiles
 
 FILE: sync_2BB_15_sawtooth_fix
         [  min <|  q05% ||  mean    ||  q95% |>  max  ]
 dt_ns 	[ -550 <| -370  || -89.1    || 190   |> 420   ]
 Ch0_ns 	[ 9740 <| 9860  || 10000.41 || 10180 |> 10310 ]
 Ch1_ns 	[ 9740 <| 9790  || 10000.41 || 10110 |> 10310 ]
--> greatly improvement static offset and min/max outliers
+⇾ greatly improvement static offset and min/max outliers
 
 FILE: sync_2BB_01_n10_30min
         [  min <|  q05% ||  mean    ||  q95% |>  max  ]
 dt_ns 	[ -590 <| -30   || 394.75   || 790   |> 1320  ]
 Ch0_ns 	[ 9500 <| 9860  || 10000.43 || 10120 |> 10550 ]
 Ch1_ns 	[ 9460 <| 9800  || 10000.43 || 10190 |> 10570 ]
--> already improved in comparison to untouched shepherd-v1 code
+⇾ already improved in comparison to untouched shepherd-v1 code
 ```
 
 ![syncbox](improvement_sync_statistics_boxplot.png)
@@ -210,5 +209,5 @@ note: the folder `./` contains more images.
 
 TODO
 
-- PI controller or ptp are oscillating with 0.2 Hz -> could be improved for resulting ~ +-200ns-jitter (now +-500)
+- PI controller or ptp are oscillating with 0.2 Hz ⇾ could be improved for resulting ~ +-200ns-jitter (now +-500)
 - measure between two or more clients

@@ -3,13 +3,15 @@
 ## Problem
 
 - A: target voltage with current-measurement is unstable (oscillation for low voltage / low load)
-- B: voltage buffer feedback is excluding the switch afterwards
+- B: voltage buffer feedback is excluding the switch afterward
 
 ## Setup
 
 - BB powered by bench-supply
 - Target voltage drained by keithley source meter (current mode)
 - target voltage is monitored by scope with probe in AC-Mode to analyse Noise
+
+NOTE: part of the oscillation is probably also partly caused by the measurement setup ⇾ heisenbug
 
 ## Measurements for unstable Voltage
 

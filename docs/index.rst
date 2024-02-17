@@ -29,7 +29,9 @@ Welcome to Shepherd's DevLog!
 
    10_capes/concept_capes
    10_capes/concept_cad
+
    10_capes/harvesting_sources
+   10_capes/test_for_functionality
 
    10_capes/cape_v20_design
    10_capes/cape_v20_performance
@@ -37,7 +39,6 @@ Welcome to Shepherd's DevLog!
    10_capes/cape_v21_performance
    10_capes/cape_v22_design
    10_capes/cape_v22_performance
-   10_capes/test_for_functionality
    10_capes/cape_v23_design
    10_capes/cape_v23_performance
    10_capes/cape_v24_design
@@ -46,7 +47,12 @@ Welcome to Shepherd's DevLog!
    10_capes/cape_v25_design
    10_capes/cape_v26_design
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Targets
 
+   20_targets/nRF52_FRAM_concept
+   20_targets/target_v23_design
 
 .. toctree::
    :maxdepth: 2
@@ -63,13 +69,6 @@ Welcome to Shepherd's DevLog!
    30_components_debugging/harvester_validation_v23/README
 
    30_components_debugging/programming_interface_improvements
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Targets
-
-   20_targets/target_v23_design
-   20_targets/nRF52_FRAM_concept
 
 .. toctree::
    :maxdepth: 2

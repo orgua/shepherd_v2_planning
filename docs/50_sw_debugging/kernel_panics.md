@@ -127,7 +127,7 @@ sudo modprobe -a shepherd
 What to read out of this?
 
 - crash in pru0_comm_receive_msg
-- cause: mem_interface was unloaded before msg_system was halted -> classic race condition for use after free
+- cause: mem_interface was unloaded before msg_system was halted ⇾ classic race condition for use after free
 - after switching two lines of code: testsuite runs through!
 
 ## Are there more skeletons?
@@ -153,6 +153,6 @@ While running the testsuite a second time it caused an allocation error::
 [ 2152.001506] shprd.k: Couldn't boot PRU0
 ```
 
--> never caught in the wild, so maybe just triggered for massive loading/unloading the kernel-module, includes reinitializing the PRUs.
+⇾ never caught in the wild, so maybe just triggered for massive loading/unloading the kernel-module, includes reinitializing the PRUs.
 
 There was also some kind of pru crash. The message or sample buffer to the PRU was suddenly full, probably because the PRU wasn't working as expected.

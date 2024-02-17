@@ -18,7 +18,7 @@
 
 ## Hardware - Cape & Capelets
 
-- >= 2 Target-Ports with preselection before measurement (software defined targets)
+- `>=2` Target-Ports with preselection before measurement (software defined targets)
     - nice to have: second target continues to get powered, so there would be a choice to support two different targets or one target and a monitoring device
 - record traces for >= 4 Target-GPIOs (better 8 - 16), if 8 then 8+1 would be perfect
 - Target-GPIO-Connection bidirectional, usable per script

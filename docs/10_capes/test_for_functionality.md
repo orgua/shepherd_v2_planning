@@ -1,4 +1,4 @@
-# Functionality-Tests
+# Tests-Protocol for Capes
 
 ## Visual Inspection
 

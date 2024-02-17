@@ -2,14 +2,14 @@
 
 ## Advantages of v2
 
-- shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same -> voltages sensing ADC only needed for calibration
+- shunt for current-sensing included in Voltage-Buffer-Loop, so output stays the same ⇾ voltages sensing ADC only needed for calibration
     - also switches that come afterward (before target)
 - 2 separate fast ADCs are perfect for parallel and faster data acquisition, up to 50 MHz SPI
     - goal: maximize time for calculations
 - Analog-Switch to target had 4 Ohms Resistance? Now 500mOhm. leakage is < 10 nA when off
 - old biDir Level-Translators Type TXB needed 3mA drive strength, and even leaked 1-2uA when off
     - TI: TXS and TXB need side A to have a higher Vin as side B because of a protection diode
-    - TI: LSF needs side B to be higher Voltage -> wrong assumption / conclusion
+    - TI: LSF needs side B to be higher Voltage ⇾ wrong assumption / conclusion
     - specs of new one: operational from 1.3 to 5 V, 100 k PUs, 1 MOhm when running
 - low noise LDO for all analog ICs, with additional PI-Filter for ICs with continuous current draw
 - EMI-Cage for recorder and emulator
@@ -38,7 +38,7 @@ Target-GPIO of triggered edges on Port, without target present.
 - target voltage 3v3, triggering from user-space-pins
 - (quickprint102/103)  < 2 us from 0 to 2V, but last 1/2 Volt can take 100 us
 - (qs104) < 5 us for complete transition, < 2 us for first 2 V
-- -> performance should be good for at least 500 kHz
+- ⇾ performance should be good for at least 500 kHz
 - pru-pins - rising edge - first 2V ~ 1us, complete in 2-3 us
 - pru-pins - falling edge - first 2V ~ 1us, complete in 3-4 us
 
@@ -62,9 +62,9 @@ measured with Keithley 2604B
     - 3.0 V, > 30 GOhm, ADC shows 3001 mV
     - 2.0 V, > 20 GOhm, ADC shows 2000 mV
     - 1.0 V, ~ 10 GOhm, ADC shows 1000 mV
-    - -> 100 pA lost through pin
+    - ⇾ 100 pA lost through pin
 - Recorder - V-Harvest, Mosfet disabled (VHarv = 5V/Max, currentlimit of source meter 10mA)
-    - 5.0 V, ~ 0.25 MOhm -> drain showing 7 - 20 mA
+    - 5.0 V, ~ 0.25 MOhm ⇾ drain showing 7 - 20 mA
     - 4.9 V, ~ 110 MOhm
     - 4.8 V, ~ 43 MOhm
     - 4.0 V, ~ 8.64 MOhm

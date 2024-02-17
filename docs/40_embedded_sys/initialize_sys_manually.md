@@ -21,12 +21,12 @@ sudo shepherd-sheep -vvv run --config /etc/shepherd/config.yml
 
 cd /opt/shepherd/software/python-package/
 sudo python3 setup.py test --addopts "-vvv"
-# bump2version --tag patch # -> just hand in PR or hash
+# bump2version --tag patch # ⇾ just hand in PR or hash
 
 # test code on live system
 sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml
 
--> done in unit-tests now
+⇾ done in unit-tests now
 sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_harvester.yml
 sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_harvester.yml
 sudo shepherd-sheep -vv run --config /opt/shepherd/software/meta-package/example_config_emulator.yml
@@ -49,7 +49,7 @@ sudo chown -R user ./
 ## Check Components (on sheep)
 
 ```Shell
-# DT-Overlay: there should be an BB-SHPRD-... -> overlay is active
+# DT-Overlay: there should be an BB-SHPRD-... ⇾ overlay is active
 ll /proc/device-tree/chosen/overlays/
 
 # Custom-Services: should show 3x shepherd entries, only shepherd-launcher.service enabled, also: shepherd-rpc, shepherd
@@ -77,7 +77,7 @@ ll /sys/shepherd/
 # Shepherd program: >
 cp /opt/shepherd/software/meta-package/example_config_harvest.yml /etc/shepherd/config.yml
 shepherd-sheep -vv run --config /etc/shepherd/config.yml
-    -> error, no /sys/shepherd/state
+    ⇾ error, no /sys/shepherd/state
         there is /sys/module/shepherd, without "state"
 ```
 
@@ -89,7 +89,7 @@ sudo nano /etc/modules
 /lib/modules/$(KVERSION)/extra/shepherd.ko
 
 # manual load fw into pru
-/sys/class/remoteproc/remoteprocX/firmware      -> fw-name in lib/firmware/ usually am335x_pru0-shepherd-fw
+/sys/class/remoteproc/remoteprocX/firmware      ⇾ fw-name in lib/firmware/ usually am335x_pru0-shepherd-fw
 echo "start" > /sys/class/remoteproc/remoteprocX/state
 ```
 

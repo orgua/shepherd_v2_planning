@@ -39,7 +39,7 @@ sudo journalctl -u ptp4l (Client)
     Feb 16 10:58:42 sheep1 ptp4l[378]: [826.631] master offset      -2634 s2 freq +283375 path delay     12439
     Feb 16 10:58:43 sheep1 ptp4l[378]: [827.631] master offset      -3034 s2 freq +282184 path delay     12480
     Feb 16 10:58:44 sheep1 ptp4l[378]: [828.632] master offset      -2953 s2 freq +281355 path delay     12480
-    -> output of ptp-master shows no strange messages, BUT phc2sys on master
+    ⇾ output of ptp-master shows no strange messages, BUT phc2sys on master
 ```
 
 ```
@@ -114,7 +114,7 @@ Feb 16 11:29:38 sheep1 ptp4l[378]: [2682.360] master offset          7 s2 freq  
 Feb 16 11:29:39 sheep1 ptp4l[378]: [2683.361] master offset         40 s2 freq  +65067 path delay     12484
 Feb 16 11:29:40 sheep1 ptp4l[378]: [2684.361] master offset        -78 s2 freq  +64961 path delay     12484
 Feb 16 11:29:41 sheep1 ptp4l[378]: [2685.362] master offset       -110 s2 freq  +64905 path delay     12484
--> near < 100 ns jitter
+⇾ near < 100 ns jitter
 ```
 
 ### Tuning delay filter length to 20 - after 4h
@@ -151,7 +151,7 @@ Feb 16 14:48:42 sheep1 ptp4l[378]: [14626.672] master offset         33 s2 freq 
 Feb 16 14:48:43 sheep1 ptp4l[378]: [14627.672] master offset         46 s2 freq  +73223 path delay     12500
 Feb 16 14:48:44 sheep1 ptp4l[378]: [14628.672] master offset        -65 s2 freq  +73126 path delay     12500
 Feb 16 14:48:45 sheep1 ptp4l[378]: [14629.673] master offset        -94 s2 freq  +73077 path delay     12500
--> clearly < 100 ns jitter
+⇾ clearly < 100 ns jitter
 ```
 
 ### Tuning Config with DelayAsymmetry for ptp4l
@@ -163,11 +163,11 @@ Feb 16 14:48:45 sheep1 ptp4l[378]: [14629.673] master offset        -94 s2 freq 
 
 ### Tuning Config with delay_filter_length for ptp4l
 
-- a higher filter length, shows very slow asymptotic behaviour, but clock seems more stable -> try higher pi_integral_value
+- a higher filter length, shows very slow asymptotic behaviour, but clock seems more stable ⇾ try higher pi_integral_value
 - change from 10 to 20 had huge success
 - change to 30 and restart of both nodes brought a very slow startup. 1800 s (30min) for sub 1 us (CS-edges)
     - could be improved by raising limit for clock-skew
-    - -> ptp4l-log does not show any improvements
+    - ⇾ ptp4l-log does not show any improvements
 
 ## Clock-Crystal on BB
 
@@ -178,7 +178,7 @@ Feb 16 14:48:45 sheep1 ptp4l[378]: [14629.673] master offset        -94 s2 freq 
     - load capacitance CL: 6, 9, 12.5, 7 pF
     - C_12 = 2 * (CL - C_Pin - C_pcb)
         - with guesses for the unknown capacities: C_pin ~ 1 pF, C_pcb ~ 4pF (Script), C_12_max ~ 20 pF
-        - CL = C_12/2 + C_Pin + C_pcb = 18/2 + 1 + 4 = 14 pF -> next best match is the 12.5 pF Version
+        - CL = C_12/2 + C_Pin + C_pcb = 18/2 + 1 + 4 = 14 pF ⇾ next best match is the 12.5 pF Version
 - replaced client, master kept running, resync only took 80s and it was on a level that is similar to the previous 4h period
 
 ## TODO

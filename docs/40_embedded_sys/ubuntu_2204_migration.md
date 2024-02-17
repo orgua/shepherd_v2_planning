@@ -1,7 +1,7 @@
 # Migration to Ubuntu 22.04
 
 - starting-point is Ubuntu 20.04.04
-- release: https://rcn-ee.com/rootfs/ubuntu-armhf-22.04-console-v5.10-ti/ -> bone ... console armhf
+- release: https://rcn-ee.com/rootfs/ubuntu-armhf-22.04-console-v5.10-ti/ ⇾ bone ... console armhf
 - kernel 5.10.168-ti-r72
 - minimal image with 2.1 GB of free space
 - software versions on 20.04
@@ -18,10 +18,10 @@
 ## Install Steps
 
 - mostly: https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC
-- flashing to eMMC via user-button was not active by default -> activated by changing line in /boot/uEnv.txt
+- flashing to eMMC via user-button was not active by default ⇾ activated by changing line in /boot/uEnv.txt
 - playbook bootstrap
 
-- optional highly manual interlude -> update to ubuntu 22.04 release::
+- optional highly manual interlude ⇾ update to ubuntu 22.04 release::
 
 ```
 # this will leave you with newer package-versions
@@ -30,8 +30,8 @@
 [sheep] sudo apt install update-manager-core
 [sheep] sudo do-release-upgrade --devel-release --quiet --allow-third-party
 [host] playbook setup_allow_ssh_from_pwless_host
-[sheep] sudo nano /etc/sudoers -> %sudo ALL=(ALL) NOPASSWD: ALL
-[sheep] sudo nano /etc/apt/sources.list -> reactivate rcn-repo
+[sheep] sudo nano /etc/sudoers ⇾ %sudo ALL=(ALL) NOPASSWD: ALL
+[sheep] sudo nano /etc/apt/sources.list ⇾ reactivate rcn-repo
 ```
 
 - ansible-playbook deploy/setup_linux_configuration.yml
@@ -77,10 +77,10 @@ sudo apt install python3.10
 
 ## Modifications
 
-- linuxptp switched to systemd service-templates -> ptp-host playbook needs improvement
-- test newest kernel 5.10.100 -> expected trouble with memory interface to pru
+- linuxptp switched to systemd service-templates ⇾ ptp-host playbook needs improvement
+- test newest kernel 5.10.100 ⇾ expected trouble with memory interface to pru
   - will downgrade to 4.19 for now
-- update apt-install-list against pip-list -> fresh
+- update apt-install-list against pip-list ⇾ fresh
     - 29_improve...rst is a good base for setup
 
 - failed unittests
@@ -125,7 +125,7 @@ linux-libc-dev
 
 sudo ntpdate -b -s -u pool.ntp.org
 
-downgrade -> https://rcn-ee.com/repos/ubuntu/pool/main/l/linux-upstream/
+downgrade ⇾ https://rcn-ee.com/repos/ubuntu/pool/main/l/linux-upstream/
 sudo apt install linux-image-5.4.70-ti-r22
 
       CC [M]  /opt/shepherd/software/kernel-module/src/pru_comm.o
@@ -164,7 +164,7 @@ sudo apt install linux-headers-5.4.52-ti-r17
 - same as .70
 
 switch back to 4.19.94-ti-r72' with script
--> works
+⇾ works
 
 sudo apt install linux-image-5.4.106-ti-r26
 sudo apt install linux-headers-5.4.106-ti-r26
@@ -194,7 +194,7 @@ sudo apt install linux-image-5.4.182-bone64 linux-headers-5.4.182-bone64 libprui
 - new 106 error
 
 sudo apt install linux-image-5.9.16-bone40 linux-headers-5.9.16-bone40 libpruio-modules-5.9.16-bone40
--> whole new can of worms (timespec and timespec_to_ns is unknown now)
+⇾ whole new can of worms (timespec and timespec_to_ns is unknown now)
 ```
 
 Quickfix:
@@ -232,7 +232,7 @@ later:
     - calc_state    1000
     - spi_write     800
     - calc_end      200
-    - kernelcom     140 or bufferswap 680 -> now 800
+    - kernelcom     140 or bufferswap 680 ⇾ now 800
 - util-manager shows that ram-read can take from 420 to ~3000 ns
     - even with mean-util = 67 % max gets over 100 %
     - sharedmem-read shows 160 ns (includes entering fn)

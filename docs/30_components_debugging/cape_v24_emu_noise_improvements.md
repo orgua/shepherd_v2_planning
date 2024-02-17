@@ -1,5 +1,7 @@
 # Noise in Current-Measurement for Emu
 
+**TLDR**: even after tuning, fixes and redesigns the noise level is higher than expected.
+
 ## Problem
 
 - Cape PCB v2.4
@@ -28,6 +30,7 @@ All @3V
 
 ## Measurements
 
+```
 modded emu
 	mean: 1.6004410204895745e-05
 	min: 0.0
@@ -115,6 +118,7 @@ Use groung-ref (instead of 10mV)
 	max: 0.053087651207939214
 	std: 0.000185190245376952
 
+Redone same Meas
 	mean: 5.434298259766783e-06
 	min: 0.0
 	max: 0.053087651207939214
@@ -174,7 +178,7 @@ SAME, but now with negative values
 	min: -0.00010665508840421124
 	max: 0.051104246202174
 	std: 0.00018421319283520122
-
+```
 
 InAmp ⇾ Add LP with 2x150R, 2x1nF to GND, 10nF mid
 

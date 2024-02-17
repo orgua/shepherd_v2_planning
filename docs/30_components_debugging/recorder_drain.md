@@ -1,5 +1,7 @@
 # Recorder Drain
 
+conclusion from the future: voltage buffering OpAmp works flawlessly!
+
 ## Problem
 
 - harvest source is weak, so it should be connected with low leakage

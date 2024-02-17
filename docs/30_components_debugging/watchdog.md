@@ -1,6 +1,8 @@
 # Watchdog
 
-## Advantages
+**TLDR**: dedicated external WD is important and is kept on cape.
+
+## Advantages of dedicated WD
 
 - nodes are in remote rooms, often without access
 - Fallback if we can't control POE-Power of ports (most likely)
@@ -24,7 +26,7 @@
     - diode was added to allow operation from internal power
     - use
 
-## Behaviour on Shutdown
+## BBB Behaviour on Shutdown
 
 - 3V3       ⇾ 0V
 - VDD5V	    ⇾ 0V

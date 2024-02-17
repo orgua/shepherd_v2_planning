@@ -1,5 +1,7 @@
 # LSFxyz GPIO Level Translators
 
+**TLDR**: LSF-IC is not suited for the testbed - use translators with switchable direction 
+
 ## Problem
 
 - cape versions: v2.0 to v2.2 (and higher?)
@@ -122,7 +124,7 @@ VRefAA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 + R2*R3);
 - special uniDir solutions
     - spi, sn74lv4t125, spi, https://www.ti.com/product/SN74LV4T125#product-details##features
     - 1bit unidir, sn74lv1t34, https://www.ti.com/product/SN74LV1T34#product-details##features
-- voltage constraints could be solved by a two-stage approach 3v3 <-> 0v9 <-> 1.x - 5V
+- voltage constraints could be solved by a two-stage approach 3v3 <⇾ 0v9 <-> 1.x - 5V
 - BiDir with Dir-Pin
 	- https://www.ti.com/lit/ds/symlink/sn74lvc2t45.pdf?ts=1625563250176&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FSN74LVC2T45
 

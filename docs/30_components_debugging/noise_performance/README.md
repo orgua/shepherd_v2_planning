@@ -27,7 +27,7 @@
     - scope-math: Voltage-peak-peak, frequency
 - Scope-Screenshots (DS1Z_Quickprint#.png) are not linked or included here, only referenced for each measurement (./media_noise/)
 
-Scope Noise with grounded signal-input
+### Scope Noise with grounded signal-input
 
 ![noise](DS1Z_QuickPrint28.png)
 
