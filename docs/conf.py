@@ -44,7 +44,7 @@ html_theme = "sphinx_rtd_theme"
 html_theme_options = {}
 github_url = "https://github.com/orgua/shepherd_v2_planning"
 
-html_baseurl = "https://orgua.github.io/shepherd_dev_log/"
+html_baseurl = "https://orgua.github.io/shepherd_v2_planning/"
 html_extra_path = ["robots.txt"]
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
