@@ -1,0 +1,6 @@
+sphinx
+sphinx-rtd-theme
+sphinx-sitemap
+sphinx-design
+sphinx-copybutton
+myst-parser
