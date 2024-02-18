@@ -11,7 +11,7 @@ jobs:
 #    uses: ./.github/workflows/qc_tests.yml
   build-pages:
     runs-on: ubuntu-latest
-    needs:
+#    needs:
 #      - run-quality-control
     environment:
       name: github-pages
