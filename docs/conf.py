@@ -16,7 +16,6 @@ release = "2024"
 
 extensions = [
     "sphinx.ext.napoleon",
-    "sphinx_click.ext",
     "sphinx.ext.mathjax",
     "sphinx_sitemap",
     "sphinx_rtd_theme",
