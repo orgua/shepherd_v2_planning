@@ -6,6 +6,12 @@
 Welcome to Shepherd's DevLog!
 =============================================
 
+Main-Documentation: https://orgua.github.io/shepherd
+
+Source to this DevLog: https://github.com/orgua/shepherd_v2_planning
+
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Overview
@@ -30,7 +36,6 @@ Welcome to Shepherd's DevLog!
    10_capes/concept_capes
    10_capes/concept_cad
 
-   10_capes/harvesting_sources
    10_capes/test_for_functionality
 
    10_capes/cape_v20_design

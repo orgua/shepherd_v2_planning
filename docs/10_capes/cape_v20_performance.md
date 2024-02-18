@@ -42,7 +42,7 @@ Target-GPIO of triggered edges on Port, without target present.
 - pru-pins - rising edge - first 2V ~ 1us, complete in 2-3 us
 - pru-pins - falling edge - first 2V ~ 1us, complete in 3-4 us
 
-## Input Drain and Leakage 
+## Input Drain and Leakage
 
 measured with Keithley 2604B
 

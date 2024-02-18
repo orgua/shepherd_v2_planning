@@ -38,7 +38,7 @@ fil-profile run --no-browser shepherd-sheep -vv run --config /etc/shepherd/examp
 # ⇾ fails to compile for armV7 ⇾ missing SYS_mmap2
 ```
 
-## Disable Submodules 
+## Disable Submodules
 
 candidates: logging, memread, h5pywrite, compression ⇾ one by one
 

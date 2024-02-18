@@ -73,7 +73,7 @@ Should be written after filling ram area with firmware - specially the state-att
 | File           | Description                                                                                                           |
 |----------------|-----------------------------------------------------------------------------------------------------------------------|
 | `./state`      | write "start" or "stop" and get current states ("idle", "running", [..], "error") ⇾ **write at last!**                |
-| `./protocol`   | write swd, sbw or jtag                                                                                                |                                                                           
+| `./protocol`   | write swd, sbw or jtag                                                                                                |
 | `./datarate`   | in baud, currently limited in kernel-module to 10 MBaud                                                               |
 | `./datasize`   | in byte                                                                                                               |
 | `./pin_%name%` | pin_tck (clock), data in (pin_tdio), data out (pin_tdo), mode (pin_tms), currently limited to 10'000 in kernel-module |

@@ -2,7 +2,7 @@
 
 
 
-## Install on System 
+## Install on System
 
 ```Shell
 sudo git clone https://github.com/orgua/shepherd

@@ -7,6 +7,6 @@
 
 **Main-Documentation**: <https://orgua.github.io/shepherd>
 
-**DevLog-Documentation**: <https://orgua.github.io/shepherd_dev_log>
+**DevLog-Documentation**: <https://orgua.github.io/shepherd_v2_planning/>
 
 ---

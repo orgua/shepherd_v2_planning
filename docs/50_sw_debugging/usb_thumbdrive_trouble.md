@@ -104,4 +104,3 @@ Meaning of mount-options
 | users                   | FSTAB, allows mount and umount without sudo                                                                                                             |
 | noauto                  | FSTAB, disable auto-mount                                                                                                                               |
 | async                   | should already be default                                                                                                                               |
-

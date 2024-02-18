@@ -1,6 +1,6 @@
 # LSFxyz GPIO Level Translators
 
-**TLDR**: LSF-IC is not suited for the testbed - use translators with switchable direction 
+**TLDR**: LSF-IC is not suited for the testbed - use translators with switchable direction
 
 ## Problem
 
