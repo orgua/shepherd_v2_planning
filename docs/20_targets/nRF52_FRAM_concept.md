@@ -61,7 +61,9 @@ Design is based on Squeeze
  + spannungsbegreuntzung diode checken
  + PWR-LED mit Mosfet + only 220 R ? as much current as possible
 
-## Changes / Bugfixes
+⇾ implemented for v1.0, https://github.com/orgua/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.0
+
+## Changes after v1.0 / Bugfixes
 
 - marking of module footprint is irritating ⇾ copper crosses more inwards
 - name LEDs!

@@ -5,7 +5,7 @@
 
 **Main Project**: <https://github.com/orgua/shepherd>
 
-**Main-Documentation**: <https://orgua.github.io/shepherd>
+**Main Documentation**: <https://orgua.github.io/shepherd>
 
 **DevLog-Documentation**: <https://orgua.github.io/shepherd_v2_planning/>
 

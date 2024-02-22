@@ -33,11 +33,13 @@ The sections below are a rough description of possible topics. [Contact us](http
 - examples for possibles PHYs: lora, wifi, 15.4, uwb
 - design, validation of PCB
 
-## Optional sync via DCF77
+## Optional time-sync Strategies
 
-- reference implementation using arduino and a 5 € DCF-Module: <https://blog.blinkenlight.net/experiments/dcf77/local-clock/>
-- phase-detection enables high-res time sync
-- what min error would be possible?
+- idea: when ptp and gps are out of reach
+- DCF77: reference implementation using arduino and a 5 € DCF-Module: <https://blog.blinkenlight.net/experiments/dcf77/local-clock/>
+  - phase-detection enables high-res time sync
+  - what min error would be possible?
+- alternative: lora heartbeat or similar rf-signal to sync on
 - interesting for far away nodes (uwb) ⇾ distant subnets that can't use ptp via LAN
 - how to correct for error introduced by physical distance?
 - topics could also include: antenna design, module concept, control loop optimization
