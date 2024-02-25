@@ -1,33 +1,15 @@
 
+TODO:
 
-Architecture
-    requirements
-    feasibility
-    concepts
+- add target concept
+- explain star-network for Targets
+- incorporate Slides
+- incorporate reqs from TUDa
 
-Components-HW
+- update main doc
 
-Components-SW
+- presentation 1
+- presentation 2
 
-
-====== OR ======
-
-Overview
-
-    requirements
-    feasibility
-    concepts
-
-Cape
-    Harvester
-    Emulator
-
-CapeDebugging
-
-Targets
-
-EmbeddedSys
-
-Server
-
-Network
+- collaboration
+- adapt issue -> hint to subprojects

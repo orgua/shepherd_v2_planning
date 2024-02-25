@@ -11,7 +11,7 @@ Main-Documentation: https://orgua.github.io/shepherd
 Source to this DevLog: https://github.com/orgua/shepherd_v2_planning
 
 .. Note::
-   The search-function is often able to find the needle in the haystack
+   The included search-function is often able to find the needle in the haystack (especially in the overwhelming dev-log)
 
 
 .. toctree::
