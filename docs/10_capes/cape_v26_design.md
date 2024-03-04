@@ -4,12 +4,16 @@
 
 - change ADC to higher resolution?
 - change OP-Ampdriver to higher current output? Double Opa388?
-- make system modular?
-  - downside: cal-data is harder to store, sync
+- make system modular? 
+  - (+) less complexity -> dedicated emu OR hrv
+  - (-) cal-data is harder to store, sync
+  - (+) hrv can be ported to other platforms (cheaper, scalable)
+  - (+) changing subsystems is easier
 - direction pin GPO:3 for leveltranslators is named strangely
 - rename Recorder ⇾ Harvester
 - maybe switch to rpi Cm4 Platform
 - offer gps-port with pps & uart on Cape
+- 
 
 ### PWR-Board
 
