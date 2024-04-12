@@ -33,6 +33,14 @@ The sections below are a rough description of possible topics. [Contact us](http
 - examples for possibles PHYs: lora, wifi, 15.4, uwb
 - design, validation of PCB
 
+## Virtual Source Re-Implementation
+
+- motivation: change of platform removes a lot of constraints and offers new capabilities
+- platform: was Beaglebone + PRUs -> raspberry 4+ & external MCU (i.e. RP2040)
+- PRU of Beaglebone
+  - no FPU, proper Div or Mult
+  - limited RAM and ProgSpace
+
 ## Optional time-sync Strategies
 
 - idea: when ptp and gps are out of reach
@@ -54,3 +62,41 @@ The sections below are a rough description of possible topics. [Contact us](http
 - statistically valid data
 - how to scale (50 .. 80 .. 100 nodes)
 - sounds easy, but goes in depth and is on master-level
+
+## permanent RSSISpy-Streamer
+
+- currently RSSISpy sends data out via UART - which has some downsides
+- FTDI offers (quad) SPI-to-Host-ICs which offer a large bandwidth without the downsides
+- nrf-datasheet says: rssi only valid when rx is on -> otherwise run out of spec
+- radio on, rx on by setting a 32bit receive address, grab RSSI-Samples - only active until that address was received
+- 32bit address can be set to unlikely value, but it can still be triggered by accident / interference
+- host
+    - config ftdi chip
+    - select rf-channel
+    - start / stop
+    - timestamping?
+
+## Determine Timings of the nRF52 RF-Frontend
+
+- motivation: synchronous transmission, sehr genaue sendezeitpunkte
+- problem: 
+    - radio start-signal, delays bestimmen (verstärker an, einschwingen, usw.)
+    - gleiche geräte können eventuell funktionieren -> unterschiedliche devices problematisch
+    - nrf weist deutliche delays auf
+- Bilder: 1symb/1us
+- 1 Takt versatz im schlimmsten Fall 1/16MHz
+- Aufgabe: 
+    - sende-delay nicht direkt beobachtbar
+    - empfangsdelay nur zusammen mit sende delay erfassbar
+    - wie rausrechnen? 
+        - A: verschiedene radios, gleichunssystem
+        - B: messtechnik - ON AIR beobachten
+- Messung0: gpio versatz, tx erzeugt flanke - rx routet gpio durch PPI und gibt es auf anderen gpio -> Versatz messbar 
+- Messung1: , empfänger vs sender, sync, eventuell auch ON-AIR
+- RSSISpy - Repo mit tutorial für main.c mit spy im packet layer, 17 vs 70 kB
+- Logic pro verifizieren - gps PPS
+- -> Email mit SideInfo von Carsten
+- [https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay](https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay) 
+
+- Timings des rf-frontends vermessen
+. Fmag ist Fabian, car bin ich.
