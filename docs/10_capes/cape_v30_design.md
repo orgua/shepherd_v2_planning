@@ -72,14 +72,13 @@
 
 ### GPIO-Trace-MCU
 
-- 4+ pins for Host-Link
+- 4+ pins for Host-Link (SPI, or similar)
 - 1 pin Clock-Sync Input
 - 10..16 pins gpio-tracing
 - 2..4 pins for direction selection
-- 1..2 pins for target selection (set once, 2 or 4 Ports)
 - 2 pins for logging power good (optional?)
 
--> 20..29+ pins in total
+-> 19..27+ pins in total
 
 ### Programmer MCU
 
@@ -172,12 +171,15 @@ Pi5
   - RPI - usb3 - usb3-hub - ftdi QSPI - rp2040
   - parallel interface
   - cypress - usb2 480 MBit - free programmable - i.e. massstorage - 
+    - https://www.infineon.com/cms/en/product/universal-serial-bus/usb-peripheral-controllers-for-superspeed/ez-usb-fx3-usb-5gbps-peripheral-controller/
+    - cyusb301### costs 20€/IC
+    - usb-analyzer: https://www.ellisys.com/products/usbcompare.php
   - sdio 
 - Test:
   - RP2040 - serial usb firmware - max output - receive per terminal - 
     - rpi should ask interface regularily, buffer on rp2040 should not overflow
     - 
--   
+- SDIO is documented in https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf, Chapter 4, Page 60
 ```
 
 ### Power-Output to Target
