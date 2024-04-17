@@ -68,6 +68,7 @@ sudo dpkg -l
 sudo apt purge vim* systemd-timesyncd rpicam* modemmanager firmware-realtek firmware-misc-non* bluez*
 sudo apt purge mkvtoolnix gdb iso-codes libqt5core5a
 sudo apt purge linux-image-6.1.0-rpi7-rpi-2712
+sudo apt purge exfatprogs firmware-libertas
 sudo apt autoremove
 
 # already installed
@@ -79,15 +80,15 @@ sudo apt install build-essential
 #                after: 1.5gb        65 MB
 
 sudo apt install iperf3 linuxptp ntpdate
-
 ```
 
 Remove more overhead
 
 ```Shell
-sudo nano /boot/config.txt
+# sudo nano /boot/config.txt
+sudo nano /boot/firmware/config.txt
 
-# change
+# change (includes commenting-out lines)
   # dtparam=audo=off
   camera_auto_detect=0
   display_auto_detect=0
