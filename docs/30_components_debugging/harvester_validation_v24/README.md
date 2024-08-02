@@ -5,7 +5,6 @@ Test of various harvesting algorithms with a solar cell
 - solar cell: IXYS SM101K09L
 - lighting by philips LED 5.9 W 806 lm 2000-2700 K, 50 Hz
 - lamp was ~ 10 cm above solar cell & the setup was covered with a white lampshade
-- [harvesting Profiles in detail](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
 
 Algorithms used:
 
@@ -13,6 +12,8 @@ Algorithms used:
 - `mppt_bq`: MPPT of TI BQ-Converters for solar
 - `cv20`: constant voltage of 2.0 V
 - `ivcurve`: postponed harvesting by sampling ivcurves (voltage stepped as sawtooth-wave)
+
+- [harvesting Profiles in detail](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
 
 Commands used:
 
@@ -31,6 +32,8 @@ Values are calculated for a 10 s trace.
 - `mppt_bq`: 35.957 mWs
 - `cv20`: 26.371 mWs
 - `ivcurve`: 19.718 mWs
+
+The files itself are published [here](https://drive.google.com/drive/folders/1ceOPv-2ci8bqypXK_aRST_ngh57R9bhM?usp=sharing).
 
 ## Plots
 
@@ -97,15 +100,42 @@ Comparing that to the harvested energy from the beginning:
 
 Losses of > 50% are visible.
 
-That also shows in an emulation of a BQ25570 with V_out = 3V and a 1 kOhm Resistor as Target.
+### Extra Emu Comparison:
 
-First the emulation is run on a real cape with `mppt_opt` as input where 36.7 mWs go in and 25 mWs can be used, resulting in a ~50 % duty cycle:
+The `IVCurve`-Discrepancies also shows in an emulation of a BQ25570 with V_out = 3V and a 1 kOhm Resistor as Target. 
+ 
 
-![emu with mppt_opt](emu_2.plot_1s000_to_5s000.png)
+#### MPPT_Opt into BQ25570
 
-Second the same running from `ivcurve`, where only 9 mWs can be used and the duty cycle is much lower:
+First the emulation is run on a real cape with `mppt_opt` as input where 36.72 mWs go in and 24.99 mWs are used, resulting in a ~50 % duty cycle:
 
-![emu with ivcurve](emu_5.plot_1s000_to_5s000.png)
+![emu with mppt_opt with bq](emu_opt.plot_1s000_to_5s000.png)
 
+Simulating the target-resistor by using the python-implementation of the vSource will produce almost the exact same graph:
 
+![sim with mppt_bq](emu_opt_sim.plot_1s000_to_5s000.png)
 
+Comparison:
+
+- input = 36.72 mWs
+- emu output = 24.99 mWs
+- sim output = 24.54 mWs
+
+The simulation is missing the transient spikes from the HIL-emulation.
+
+#### IVCurve into BQ25570
+
+The same setup & config running with `ivcurve`-input, where only 10.54 mWs are used and the duty cycle is much lower and irregular:
+
+![emu with ivcurve](emu_ivcurve.plot_1s000_to_5s000.png)
+
+The simulation shows a more regular pattern:
+
+![sim with mppt_bq from ivcurve](emu_ivcurve_sim.plot_1s000_to_5s000.png)
+
+Comparison:
+
+- emu output = 10.54 mWs
+- sim output = 10.64 mWs
+
+The simulation shows a higher activation-count (20 vs 17 in 4 s). The HIL-Emulation shows a slightly different behavior that manifest in a larger 3V plateau.
