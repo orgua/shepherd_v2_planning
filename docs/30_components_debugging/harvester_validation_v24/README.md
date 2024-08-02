@@ -73,3 +73,39 @@ In more detail:
 ![detail](hrv_ivcurve.plot_0s000_to_0s100.png)
 
 Due to the 50 Hz line flicker every current ramp is uniquely shaped.
+
+### Extra IVCurve-Processing
+
+Using the given [vHarv-Example-code](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/examples/vharvester_simulation.py) shows discrepancies when working with IVCurves.
+
+```
+E_out = 17.279 mWs -> cv20
+E_out = 11.129 mWs -> cv10
+E_out = 21.933 mWs -> mppt_voc
+E_out = 17.069 mWs -> mppt_bq_solar
+E_out = 17.069 mWs -> mppt_bq_thermoelectric
+E_out = 38.276 mWs -> mppt_po
+E_out = 28.517 mWs -> mppt_opt
+```
+
+Comparing that to the harvested energy from the beginning:
+
+- `mppt_opt`: 36.720 mWs
+- `mppt_bq`: 35.957 mWs
+- `cv20`: 26.371 mWs
+- `ivcurve`: 19.718 mWs
+
+Losses of > 50% are visible.
+
+That also shows in an emulation of a BQ25570 with V_out = 3V and a 1 kOhm Resistor as Target.
+
+First the emulation is run on a real cape with `mppt_opt` as input where 36.7 mWs go in and 25 mWs can be used, resulting in a ~50 % duty cycle:
+
+![emu with mppt_opt](emu_2.plot_1s000_to_5s000.png)
+
+Second the same running from `ivcurve`, where only 9 mWs can be used and the duty cycle is much lower:
+
+![emu with ivcurve](emu_5.plot_1s000_to_5s000.png)
+
+
+
