@@ -33,7 +33,7 @@ class SMU:
         limit_i: float,
     ) -> float:
         value_v = min(max(value_v, 0.0), 5.5)
-        limit_i = min(max(limit_i, -0.050), 0.050)
+        limit_i = min(max(limit_i, -0.080), 0.080)
         smu.sense = smu.SENSE_REMOTE if self.mode_4wire else smu.SENSE_LOCAL
         smu.source.levelv = value_v
         smu.source.limiti = limit_i
@@ -49,7 +49,7 @@ class SMU:
         value_i: float,
         limit_v: float = 5.0,
     ) -> float:
-        value_i = min(max(value_i, -0.050), 0.050)
+        value_i = min(max(value_i, -0.080), 0.080)
         limit_v = min(max(limit_v, 0.0), 5.5)
         smu.sense = smu.SENSE_REMOTE if self.mode_4wire else smu.SENSE_LOCAL
         smu.source.leveli = value_i
