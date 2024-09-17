@@ -9,7 +9,7 @@ Projects with detailed sub-pages:
 
 The sections below are a rough description of possible topics. [Contact us](https://nes-lab.org/) for more details.
 
-## Concept for externalizing IO Sampling
+## ~~Concept for externalizing IO Sampling~~
 
 - High-Speed, high temporal resolution (>= 1 MHz, <= 100 ns)
 - FPGA or MCU as Interface in front of SBC
@@ -33,7 +33,7 @@ The sections below are a rough description of possible topics. [Contact us](http
 - examples for possibles PHYs: lora, wifi, 15.4, uwb
 - design, validation of PCB
 
-## Virtual Source Re-Implementation
+## ~~Virtual Source Re-Implementation~~
 
 - motivation: change of platform removes a lot of constraints and offers new capabilities
 - platform: was Beaglebone + PRUs -> raspberry 4+ & external MCU (i.e. RP2040)
@@ -52,7 +52,7 @@ The sections below are a rough description of possible topics. [Contact us](http
 - how to correct for error introduced by physical distance?
 - topics could also include: antenna design, module concept, control loop optimization
 
-## Cape Redesign - HowTo - Feasibility-Study
+## ~~Cape Redesign - HowTo - Feasibility-Study~~
 
 - characterize constraints
 - survey of SBC with included feature-set
@@ -79,24 +79,24 @@ The sections below are a rough description of possible topics. [Contact us](http
 ## Determine Timings of the nRF52 RF-Frontend
 
 - motivation: synchronous transmission, sehr genaue sendezeitpunkte
-- problem: 
+- problem:
     - radio start-signal, delays bestimmen (verstärker an, einschwingen, usw.)
     - gleiche geräte können eventuell funktionieren -> unterschiedliche devices problematisch
     - nrf weist deutliche delays auf
 - Bilder: 1symb/1us
 - 1 Takt versatz im schlimmsten Fall 1/16MHz
-- Aufgabe: 
+- Aufgabe:
     - sende-delay nicht direkt beobachtbar
     - empfangsdelay nur zusammen mit sende delay erfassbar
-    - wie rausrechnen? 
+    - wie rausrechnen?
         - A: verschiedene radios, gleichunssystem
         - B: messtechnik - ON AIR beobachten
-- Messung0: gpio versatz, tx erzeugt flanke - rx routet gpio durch PPI und gibt es auf anderen gpio -> Versatz messbar 
+- Messung0: gpio versatz, tx erzeugt flanke - rx routet gpio durch PPI und gibt es auf anderen gpio -> Versatz messbar
 - Messung1: , empfänger vs sender, sync, eventuell auch ON-AIR
 - RSSISpy - Repo mit tutorial für main.c mit spy im packet layer, 17 vs 70 kB
 - Logic pro verifizieren - gps PPS
 - -> Email mit SideInfo von Carsten
-- [https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay](https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay) 
+- [https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay](https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay)
 
 - Timings des rf-frontends vermessen
 . Fmag ist Fabian, car bin ich.
