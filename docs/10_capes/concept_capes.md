@@ -9,7 +9,7 @@ This is mostly a documentation of changes in comparison to v1.x
     - con: fairly old CPU, 100 MBit Ethernet, RTUs could be to slow for the requirements, storage is slow, encrypted network traffic is slow (< 50 MBit)
     - biggest challenges:
         - pre and post data-transfer
-        - high speed emulation in PRUs with the slow L3-Access, unflexible GPIO, missing FPU and int-division
+        - high speed emulation in PRUs with the slow L3-Access, inflexible GPIO, missing FPU and int-division
 - Beaglebone AI
     - pro: same as BBG, GBE, faster CPU, 4 Real time Cores
     - con: 3x Price of BBG, still the same PRU IP with its limitations
@@ -27,7 +27,7 @@ This is mostly a documentation of changes in comparison to v1.x
     - FPGA in between embedded CPU and Shepherd
         - some lattice even have a open source toolchain
         - FPGA could be transparent if not needed
-    - argument to keep everything as is for now: "inbetween" could be added later by sandwiching PCBs
+    - argument to keep everything as is for now: "in between" could be added later by sandwiching PCBs
 
 
 ## Shepherd-Cape
@@ -77,7 +77,7 @@ This is mostly a documentation of changes in comparison to v1.x
 - try to keep power (constant) for the not connected target, so it can run independently
 - allow different targets (probably limited by software) even fpga or other untypical combinations
 - handling with standardized data interfaces:
-    - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasable)
+    - maximize gpio-count between beagle and target, parallel usage also for programmer-pins and uart if possible / needed (and spi if feasible)
     - host-cpu should offer SWD, JTAG, GPIO, SPI, UART to target (unified pins), PRU is recorder and power-supply-emulator (if PRU cant access host gpio periphery)
     - reasons: PRU is very static (pin-dir is predefined), python needs access to all pins
 - target could also use i2c-bus to enable eprom-storage for config- and ID-Data
@@ -105,7 +105,7 @@ This is mostly a documentation of changes in comparison to v1.x
 
 ## Hardware - PinOuts
 
-- PRUs seems to have 28 Pins accessable (PRU0 15, PRU1 13), with the current occupation
+- PRUs seems to have 28 Pins accessible (PRU0 15, PRU1 13), with the current occupation
     - 2Pin: target UART (on dedicated uart-pins)
     - 1Pin: target SWDCLK (seems to use normal gpio-fn, SWDIO on regular gpio/clkout2)
     - 4Pin: target GPIO

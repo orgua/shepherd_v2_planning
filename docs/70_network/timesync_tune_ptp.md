@@ -163,7 +163,7 @@ Feb 16 14:48:45 sheep1 ptp4l[378]: [14629.673] master offset        -94 s2 freq 
 
 ### Tuning Config with delay_filter_length for ptp4l
 
-- a higher filter length, shows very slow asymptotic behaviour, but clock seems more stable ⇾ try higher pi_integral_value
+- a higher filter length, shows very slow asymptotic behavior, but clock seems more stable ⇾ try higher pi_integral_value
 - change from 10 to 20 had huge success
 - change to 30 and restart of both nodes brought a very slow startup. 1800 s (30min) for sub 1 us (CS-edges)
     - could be improved by raising limit for clock-skew

@@ -60,7 +60,7 @@
 - add >16 V Cap to BOM, or 2x ~10V ⇾ wurth, see orderlist ⇾ lifetime,
 - new 100nF to +10 - 6V directly, 2x
 - more pads for Caps on backside
-- big 0402 caps near device ⇾ dont bother with 100nF or smaller ⇾ NO, skip this one, ESR / impedance is better on smaller values (same package)
+- big 0402 caps near device ⇾ don't bother with 100nF or smaller ⇾ NO, skip this one, ESR / impedance is better on smaller values (same package)
 - change 0402 footprint, bring pads closer together
 - ref-input for InAmp AD8421 (voltage divider + op1177)
 - emu, use free opa388 for reference voltage offset, 5mV (60uV input offset * 50 + 400uV output offset) ⇾ 33R || 10k + Cap

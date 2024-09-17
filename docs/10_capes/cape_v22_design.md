@@ -31,7 +31,7 @@
 - VHarv lowpass is 160 kHz not 16 kHz as shown
 - change all lowpasses to 160 kHz
 - emulator should go back to 1 Ohm Shunt, 100 Ohms for InAmp for 100:1 Amp ⇾ now 2R & 1:50
-- Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and dont forget Silkscreens!
+- Switch Ext-Pwr Pins (instincts are strong for edge-pin to be GND) and don't forget Silkscreens!
 - EEPROM needs to be always powered (BB 3V3)
 - reduce V_IO_BUF OPAmp-Resistor to 10 Ohms
 - a little bit bigger 0402-pads, they get loose quiet fast

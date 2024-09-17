@@ -2,7 +2,7 @@
 
 ## TLDR
 
-Thumb-drive was the culprit - it got not even warm, but refused to take additional data after first ~ 200 mb. Even Syncs inbetween confirmed that writing was done up to this point...
+Thumb-drive was the culprit - it got not even warm, but refused to take additional data after first ~ 200 mb. Even Syncs in between confirmed that writing was done up to this point...
 
 ## Problem
 

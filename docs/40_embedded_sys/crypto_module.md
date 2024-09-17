@@ -101,7 +101,7 @@ make clean
 make                                  # ⇾ TODO: this takes ~33min
 sudo make install_sw                  # ⇾ will be in /usr/local/bin
 
-# ubuntu has a strange behaviour: local/bin is used, local/lib gets ignored, so dirty fixing it
+# ubuntu has a strange behavior: local/bin is used, local/lib gets ignored, so dirty fixing it
 # ⇾ add "/usr/local/lib" as first active line in /etc/ld.so.conf.d/arm-gnueabihf.conf
 
 # /etc/ssl/openssl.cnf                #  ⇾ TODO: maybe add/uncomment crypto in [engine]-section, seems not to be needed

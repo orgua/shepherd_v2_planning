@@ -126,7 +126,7 @@ result
     319 MB  1363 MB     home-build, unchanged   (50 MB ram usage)
     150      578        without (1/2 of) above
     147      571        apply above (except cloud-guest)
-    139      547        swith to 4.19           ⇾ works!
+    139      547        switch to 4.19           ⇾ works!
 
 ## switch apt to jammy (dirty)
 

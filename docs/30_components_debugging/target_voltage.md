@@ -9,7 +9,7 @@
 
 - BB powered by bench-supply
 - Target voltage drained by keithley source meter (current mode)
-- target voltage is monitored by scope with probe in AC-Mode to analyse Noise
+- target voltage is monitored by scope with probe in AC-Mode to analyze Noise
 
 NOTE: part of the oscillation is probably also partly caused by the measurement setup ⇾ heisenbug
 

@@ -72,7 +72,7 @@ XML: https://gitlab.ethz.ch/tec/public/flocklab/wiki/-/wikis/Man/XmlConfig#debug
 - rocketlogger is pru-code + analog frontend (8 channel, 24 bit ADC)
 
 - sync with gps is sub 100 ns accurate
-- sync with ptp is only < 10 us ⇾ most definitly caused by nw-switch
+- sync with ptp is only < 10 us ⇾ most definitely caused by nw-switch
 
 - adc for current measurement can capture single digit nano-amps - but noise is reducing resolution to ~ 100 nA
 
@@ -95,7 +95,7 @@ XML: https://gitlab.ethz.ch/tec/public/flocklab/wiki/-/wikis/Man/XmlConfig#debug
     - updates and maintenance messages per email
     - high level overview for data useful ⇾ plots with bokeh
     - flockid variable of the taget-images will be patched with node-id
-    - sweep for automatized tests very useful ⇾ also add human readable fields (title & description) to encode documentation
+    - sweep for automated tests very useful ⇾ also add human readable fields (title & description) to encode documentation
     - netcat link to beaglebones ⇾ serial-interface to targets
     - User can choose which observer ID (fixed hardware ID) is part of the experiment ⇾ gets (re)numbered as node ID (also used as flockid for target-fw)
     - some or most logs can be compiled to one per experiment (currently one per observer)
@@ -112,7 +112,7 @@ XML: https://gitlab.ethz.ch/tec/public/flocklab/wiki/-/wikis/Man/XmlConfig#debug
 - managed userbase with quotas seems like a valid approach
 
 - beaglebones ethernet interface can lock up ⇾ bbbrtc unlock, long reset ⇾ josh.com
-- add plausability tests, ie. BBone pings server and restarts if not accessible
+- add plausibility tests, ie. BBone pings server and restarts if not accessible
 - writing in bulk to RAM seems important - as the PRU locks up the ARM-Core
 - PRU: min & max cycles per loop for both PRUs
 - simulation is interesting ⇾ only solar ? iv-curve ⇾ basic idea: take an embedded system, remove solar cell and connect it to our testbed

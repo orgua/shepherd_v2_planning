@@ -181,7 +181,7 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
         - reverse current is significantly higher than expected (400 nA instead of 40 nA), even seconds diode can't fix that :( replace it?
         - resulting R is very consistent, similar to emulator-results
 
-### Emulator - Dynamic Behaviour to load-changes
+### Emulator - Dynamic Behavior to load-changes
 
 - setup
     - aux channel with 10 Ohm shunt
@@ -228,7 +228,7 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
     - on: - 48 mV, < 5 us, Quickprint361
     - off: + 56 mV, < 5 us, some dampened ringing afterwards < 30 us, Quickprint362
 
-### Noise Behaviour
+### Noise Behavior
 
 - Short ⇾ Quickprint 49 - 54 (Ground-noise-floor)
     - 1.38 mVpp (10ms), 900 uVpp (100ns)
@@ -296,7 +296,7 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
     - 4.8 fall: 4 us, fully, quickprint314
     - confirmed with same pin on target B and pin3
     - result: 20 kbaud ?!? is it enough that 66% of signal is there after 5 us?
-- faulty behaviour: both target-gpios are limited to 3V ?
+- faulty behavior: both target-gpios are limited to 3V ?
     - V_IO_Buf is also limited to 3V
     - V_IO is on full rail > 4.6 V
     - 1k shunt too high! 10 * 10 k are pulling down, resulting in 1 k
@@ -306,7 +306,7 @@ latest Mod: rail B, long loop, 1.6 MHz Feedback Lowpass with 100 Ohms
     - 4.8 V rise: 40 us for fully, 12.5 us for 80 %, Quickprint315
     - 4.8 V fall: 10 us for fully, 8 us for 80 %, Quickprint316
 - 10x ScopeProbe with reduced capacitance has low impact on rise-time
-- faulty behaviour: previous version had edge-timing of 3-4 us both ways!
+- faulty behavior: previous version had edge-timing of 3-4 us both ways!
     - difference: TargetGPIO was pulled up with 100k instead of 10k and 1k to lvl-changer
     - Theory: something is pulling down, maybe FET-Connection is not working as expected
 

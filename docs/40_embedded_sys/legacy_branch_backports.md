@@ -60,7 +60,7 @@ This document is for tracking backports made for v1 branch
     - output ⇾ output_path (still -o)
     - length ⇾ duration (now -d instead of -l)
     - force ⇾ force_overwrite (still -f)
-    - eeprom_wp ⇾ eeprom_write (properly reflect behaviour)
+    - eeprom_wp ⇾ eeprom_write (properly reflect behavior)
     - NOTE1: if only an output-directory is specified the recording will be saved with an ISO 8601 timestamp (ie. rec_2021-04-20_12-12-12.h5)
     - NOTE2: this fixes (theoretical) conflict with -l for shepherd-herd (--limit) and sheep (--length)
 - removed virtcap-code, as it was not working as intended

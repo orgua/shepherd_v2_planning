@@ -7,7 +7,7 @@
 - cape versions: v2.0 to v2.2 (and higher?)
 - voltages on B-side seemed to work fine from 2.5 V to 5V, but showed errors below,
 - Nexperia LSF0108 seems to have hidden properties that are not mentioned in the datasheet
-- expected behaviour
+- expected behavior
     - open drain on both sides when pins float / only PUs active
     - PUs bring pins to ref-voltage
     - a low on side results in a low on the opposite side

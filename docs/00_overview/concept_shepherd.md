@@ -11,7 +11,7 @@ A more detailed moved to [shepherd/docs/dev/v2_improvements.rst](https://github.
     - harvesting source (pre-recorded, simulated)
     - regulator / converter - circuit
     - intermediate storage-capacitor
-    - "software defined" is largely true, but changing basic behaviour needs a deep dive into PRU-Code
+    - "software defined" is largely true, but changing basic behavior needs a deep dive into PRU-Code
 - allows to experiment with emulated spatio-temporal energy availability
 - recording of energy-traces ⇾ key-parameters like current-drain and (virtual) capacitor-voltage
 - additional functionality: recording of harvesting sources (not part of testbed)

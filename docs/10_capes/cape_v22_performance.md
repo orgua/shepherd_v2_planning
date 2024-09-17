@@ -19,7 +19,7 @@
 - External powered single cape (current limited)
     - disabled cape ⇾ draws 0 mA @ 5 V
     - 35 mA @ 5 V when EN-Pin is Pulled Up with 3 V
-    - ⇾ no unusual behaviour
+    - ⇾ no unusual behavior
 - BB powered by bench-supply 5.1 V, ~ 350 - 400 mA
 - Shepherd powered by BB, VIn 5.08V
 - Main Voltages on enabled Cape

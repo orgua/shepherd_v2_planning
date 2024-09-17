@@ -32,7 +32,7 @@
 - baking pcb off (80 °C, 30min) had no effect (mentioned in datasheet)
 - this leakage is often not existent when SMU is freshly started for the day ⇾ firmware-update to 3.4.0 (2021-04, from 3.2.2 2016-04) did not help
     - see profile 25, whole voltage range, down to 0 uA
-- changing R20 (Feedback-Lowpass) to 100R or 10k does not change behaviour
+- changing R20 (Feedback-Lowpass) to 100R or 10k does not change behavior
 - tests with solar-cell (SM101K09L) shows that 2uA is near to dark environment
 - old TODO:
     - reverse position of diode and shunt
@@ -89,7 +89,7 @@ Power from Solar Cell (SM101KO9L) in various conditions
     - 1k results in offset = ~ 182 n (Good) and lower Noise, mostly on full range (3-14x better)
     - 100R seems to worsen limited area (slightly), but improve full range (almost x2)
     - Cap was varied to match 80 - 160 kHz lowpass, but influence is minimal
-    - 0R caused trouble with voltage dependend current reading +-10uA from 0 to 5V
+    - 0R caused trouble with voltage dependent current reading +-10uA from 0 to 5V
     - **33R / 10nF** is fine, limited range gets minimal worse, but full range improves
 - buffered shunt (parallel cap C35)
     - 470 nF instead of nothing: 10 - 20% improvement on limited and full range

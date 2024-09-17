@@ -17,7 +17,7 @@ NOTE: this could also be the changes for v2.4
 - Pwr-by-BB does not work with current cape-revision ⇾ just add a switch?
     - switch for input power, 1 A, 5V Switch: https://www.mouser.de/ProductDetail/Dialog-Semiconductor/SLG5NT1594V?qs=sGAEpiMZZMtxrAS98ir%252BsxAQ5ATuKOGcAYPhn0zy8SaYiCqL8FxMXA%3D%3D
     - test shows that the unpowered watchdog is responsible ⇾ add another diode to also power WD from BB 5V OR power diode directly from middle-pad of 2-WayJumper
-    - tests still show unreliable starting-behaviour when BB-Pwrd (start on second try), hints at trouble with big coil & Cap ⇾ also implement the switch
+    - tests still show unreliable starting-behavior when BB-Pwrd (start on second try), hints at trouble with big coil & Cap ⇾ also implement the switch
 - remove overvoltage-protection, due to space constraints
 - ditch LSF-LevelTranslator, use 74LVC2T45DC,125 with directed pairs
     - 74LVCH2T45GT, holds, 1.0 * 1.9 mm Package: https://www.mouser.de/ProductDetail/Nexperia/74LVCH2T45GT115?qs=jquClx72t9BCfx5QcUZHzg%3D%3D

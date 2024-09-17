@@ -5,7 +5,7 @@
 - RAM-Increase 5% (24mb) in 10 min, slower but steady increase later on
 - sheep starts with 13.2 % of system memory ⇾ after 5000 s it uses 28 % already
 - setup: 10 h input file, no output-writing for V & C & GPIO
-- mem-profiler shows slightly asymptotic behaviour ⇾ maybe normal lazy garbage collection depending on free ram?
+- mem-profiler shows slightly asymptotic behavior ⇾ maybe normal lazy garbage collection depending on free ram?
 - after not even 6h the BB became unstable due to saturated RAM
 
 **TLDR: h5py was the culprit ⇾ reading from files**

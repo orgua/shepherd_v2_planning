@@ -87,7 +87,7 @@ Ansible
     - https://linuxconfig.org/how-to-automatically-execute-shell-script-at-startup-boot-on-systemd-linux
     - https://askubuntu.com/questions/814/how-to-run-scripts-on-start-up
     - may be a good addition for role "ptp_host"
-- dont use apt for python-libs, install and update with pip
+- don't use apt for python-libs, install and update with pip
 - replace debian-installer-scripts with ansible deploy-tasks
 - roles can be indirectly in inventory: seconds main-tree called ntp-hosts: with a list of all sheep
     - https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html -> ranges sheep[2:10]

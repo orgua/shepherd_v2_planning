@@ -19,7 +19,7 @@
     - setup3: BB powered by NoName POE-Splitter (EC-PD0520USB)
     - setup4: BB powered by TP-Link POE-Splitter (TL-POE10R), buffered by 1 mF on Input
 - Measurement
-    - scope input set to AC to analyse ripple, internal 20 MHz low pass active
+    - scope input set to AC to analyze ripple, internal 20 MHz low pass active
     - probe set to 1x for low noise
     - probe connected with short ground-loop to closest GND
     - timebases /div (mostly): 50 ms, 10 ms, 1 ms, 100 us, 10 us, 1 us, 100 ns

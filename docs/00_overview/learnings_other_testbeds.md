@@ -60,7 +60,7 @@
         - keep system read-only (only deactivate for updates)
         - have replacement BBones at hand (automate installation)
 - collect logs
-    - gives debugging-hints in events of unwanted behaviour
+    - gives debugging-hints in events of unwanted behavior
     - temperature, ram-usage, cpu-usage, ...
 - target repurposing
     - keep functionality general so it can be used for dev, testing, ...

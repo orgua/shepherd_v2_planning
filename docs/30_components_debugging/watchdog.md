@@ -10,7 +10,7 @@
 - BB does not mind a wake-up-signal when already running
 - routine: BB asks server for tasks, waits or goes to sleep again
 
-## TPL5000 Watchdog behaviour
+## TPL5000 Watchdog behavior
 
 - time-delay is configured via resistor (100ms to 2h)
 - "wake" is triggered for 31 ms on timer-match
@@ -26,7 +26,7 @@
     - diode was added to allow operation from internal power
     - use
 
-## BBB Behaviour on Shutdown
+## BBB behavior on Shutdown
 
 - 3V3       ⇾ 0V
 - VDD5V	    ⇾ 0V
