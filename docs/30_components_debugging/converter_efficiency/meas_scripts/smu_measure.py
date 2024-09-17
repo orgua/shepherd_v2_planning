@@ -46,8 +46,12 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
             # store results
             p_inp = vim * iim
             p_out = vom * max(0.0, -iom)
+            try:
+                eta = p_out / p_inp
+            except ZeroDivisionError:
+                continue
             result = [
-                v_out, v_inp, i_inp, vim, iim, vom, iom, p_out / p_inp]
+                v_out, v_inp, i_inp, vim, iim, vom, iom, eta]
             results.append(result)
 
     smu.set_smu_off(smu.inp)
@@ -94,10 +98,14 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
 
             p_inp = vim * iim
             p_out = vom * max(0.0, -iom)
-            result = [v_inp, i_out, vim, iim, vom, iom, p_out / p_inp]
+            try:
+                eta = p_out / p_inp
+            except ZeroDivisionError:
+                continue
+            result = [v_inp, i_out, vim, iim, vom, iom, eta]
 
-            is_reached &= p_out / p_inp >= 0.0
-            is_reached &= p_out / p_inp <= 1.0
+            is_reached &= eta >= 0.0
+            is_reached &= eta <= 1.0
 
             # store results
             results.append(result)
