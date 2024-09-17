@@ -37,7 +37,9 @@ sudo python3 -m timeit -n 1 -r 1 "import shepherd_core"
 # 12.4 s on sheep, pydantic 2.5.0 - new pydantic import-improvements?
 # 12.1 s on sheep, pydantic 2.5.2
 # 12.1 s on sheep, pydantic 2.6.1
-# TODO: 2.7 should give a speed boost
+# 12.8 s on sheep, pydantic 2.7.0 / 2.18.1 - with lib 24.4.2 (16.6s without cache, 17.7/13.8 deferred)
+#  sudo rm /root/.cache/shepherd_datalib/fixtures.pickle
+#
 sudo python3 -X importtime -c "import shepherd_core"
 # to shell
 sudo python3 -X importtime -c 'from shepherd_core.data_models.task import EmulationTask' 2> profile_pydantic.csv
