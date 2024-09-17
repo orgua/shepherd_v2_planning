@@ -1,5 +1,6 @@
 line-length = 100
 target-version = "py310"
+output-format = "concise"
 
 [lint]
 select = ["ALL"]
@@ -26,3 +27,4 @@ force-single-line = true
 keep-runtime-typing = true
 
 [format] # per default like Black
+docstring-code-format = true
