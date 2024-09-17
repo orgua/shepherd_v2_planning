@@ -102,8 +102,8 @@ Losses of > 50% are visible.
 
 ### Extra Emu Comparison:
 
-The `IVCurve`-Discrepancies also shows in an emulation of a BQ25570 with V_out = 3V and a 1 kOhm Resistor as Target. 
- 
+The `IVCurve`-Discrepancies also shows in an emulation of a BQ25570 with V_out = 3V and a 1 kOhm Resistor as Target.
+
 
 #### MPPT_Opt into BQ25570
 

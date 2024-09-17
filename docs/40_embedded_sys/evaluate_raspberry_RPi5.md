@@ -19,8 +19,8 @@
     - **user: jane, temppwd**
     - **enable ssh with pw**
 - Powered via USB Type C & Power-Brick
-- Platform is definitely hot to the touch, compared to CM4 
-  - cam shows 56..60 deg C for idle 
+- Platform is definitely hot to the touch, compared to CM4
+  - cam shows 56..60 deg C for idle
   - new power converters seem to run hot also
 
 Connect via
@@ -75,7 +75,7 @@ sudo apt autoremove
 
 # already installed
 uname --kernel-release
-# take output & modify 
+# take output & modify
 sudo apt install linux-headers-6.6.20+rpt-rpi-2712
 sudo apt install build-essential
 
@@ -195,7 +195,7 @@ atomic bitmask clear-> addr + 0x3000
 ##### Kernel Module
 
 https://github.com/raspberrypi/linux/blob/rpi-6.6.y/drivers/pinctrl/pinctrl-rp1.c
-```c 
+```c
 #define RP1_RIO_OUT			0x00
 #define RP1_RIO_OE			0x04
 #define RP1_RIO_IN			0x08

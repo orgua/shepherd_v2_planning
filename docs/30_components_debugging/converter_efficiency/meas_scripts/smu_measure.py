@@ -1,19 +1,21 @@
 import time
+from itertools import product
 
 import pandas as pd
 from keithley2600.keithley_driver import KeithleyClass
-from tqdm import tqdm
-from itertools import product
 from smu import SMU
+from tqdm import tqdm
+
 
 def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
     smu = SMU()
-    results: list = [] # np.zeros(shape=(len(vs_input) * len(vs_output) * len(is_input), 8))
+    results: list = []  # np.zeros(shape=(len(vs_input) * len(vs_output) * len(is_input), 8))
     total = len(vs_input) * len(vs_output) * len(is_input)
-    for index, (v_out, v_inp, i_inp) in tqdm(enumerate(product(vs_output, vs_input, is_input)), total=total):
-
+    for index, (v_out, v_inp, i_inp) in tqdm(
+        enumerate(product(vs_output, vs_input, is_input)), total=total
+    ):
         # check if set-point is valid
-        v_oc = v_inp*(100/78)
+        v_oc = v_inp * (100 / 78)
         if v_oc > v_out:
             print("SKIP - V_IN > V_OUT")
             continue
@@ -28,7 +30,7 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
         while not is_reached:
             iim = smu.inp.measure.i()
             is_reached = abs(iim) < 0.5 * i_inp
-            if time.time() - time_start > 2*16:
+            if time.time() - time_start > 2 * 16:
                 print("SKIP - Timeout while looking for VOC")
                 break
         if not is_reached:
@@ -50,8 +52,7 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
                 eta = p_out / p_inp
             except ZeroDivisionError:
                 continue
-            result = [
-                v_out, v_inp, i_inp, vim, iim, vom, iom, eta]
+            result = [v_out, v_inp, i_inp, vim, iim, vom, iom, eta]
             results.append(result)
 
     smu.set_smu_off(smu.inp)
@@ -73,9 +74,8 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
     time.sleep(5)
 
     for index, (v_inp, i_out) in tqdm(enumerate(product(v_input, i_output)), total=total):
-
         # prepare set-point
-        smu.set_smu_to_vsource(smu.inp, value_v=v_inp, limit_i=4*i_out)
+        smu.set_smu_to_vsource(smu.inp, value_v=v_inp, limit_i=4 * i_out)
         time.sleep(1)
         # smu.inp.source.levelv = min(max(v_inp, 0.0), 5.5)
         # smu.inp.source.limiti = min(max(6*i_out, -0.080), 0.080)
@@ -93,7 +93,7 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
 
             is_reached = abs(vim / v_inp - 1) < 0.03 or abs(vim - v_inp) < 0.05  # % & V
             is_reached &= iim > 0
-            is_reached &= abs(vom / v_output - 1) < 0.05 # %
+            is_reached &= abs(vom / v_output - 1) < 0.05  # %
             is_reached &= abs(iom / i_out + 1) < 0.05  # %
 
             p_inp = vim * iim
@@ -119,7 +119,6 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
             counter += 1
         smu.set_smu_off(smu.out)
 
-
     smu.set_smu_off(smu.inp)
     smu.set_smu_off(smu.out)
     return pd.DataFrame(
@@ -127,7 +126,6 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
         columns=["V_inp_nom", "I_out_nom", "V_inp", "I_inp", "V_out", "I_out", "eta"],
         dtype=float,  # np.float256 ?
     )
-
 
 
 def old_meas_loop(smu: KeithleyClass, v_inp, i_inp, v_out):
@@ -138,7 +136,7 @@ def old_meas_loop(smu: KeithleyClass, v_inp, i_inp, v_out):
         iim = smu.inp.measure.i()
         vom = smu.out.measure.v()
         iom = smu.out.measure.i()
-        is_reached = abs(vim / v_inp - 1) < 0.10  or abs(vim - v_inp) < 0.05 # not that important
+        is_reached = abs(vim / v_inp - 1) < 0.10 or abs(vim - v_inp) < 0.05  # not that important
         is_reached &= abs(iim / i_inp - 1) < 0.05
         is_reached &= abs(vom / v_out - 1) < 0.05
         is_reached &= iom < 0
@@ -147,5 +145,5 @@ def old_meas_loop(smu: KeithleyClass, v_inp, i_inp, v_out):
             smu.set_smu_off(smu.out)
             break
     if not is_reached:
-        print(f"SKIP - Timeout while measuring")
+        print("SKIP - Timeout while measuring")
         # continue

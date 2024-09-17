@@ -12,7 +12,7 @@ files = [
     "sync_2BB_16_tuning",
     "sync_2BB_15_sawtooth_fix",
     "sync_2BB_14_delay_p350",
-    "sync_2BB_13_trigger_opt",  #
+    "sync_2BB_13_trigger_opt",
     # "sync_2BB_12_pru_opt", # duration to short
     # "sync_2BB_11_pru_opt",  #
     # "sync_2BB_10_pru_opt",  #
@@ -21,7 +21,7 @@ files = [
     # "sync_2BB_06_kernel_opt",  #
     # "sync_2BB_05_pru_opt", # the following changes are mostly to reduce pru-overhead
     "sync_2BB_04_crystal_2h",  # changed crystal to a defined 5ppm version
-    "sync_2BB_03_n20_4h",  #
+    "sync_2BB_03_n20_4h",
     # "sync_2BB_02_n20_30min",
     "sync_2BB_01_n10_30min",  # ptp delay_filter_length = 10, 30 min time to sync
 ]
@@ -53,8 +53,10 @@ def filter_cs_falling_edge(data: pd.Series) -> pd.Series:
     ch1t = ch1t[(ch1t > time_start) & (ch1t < time_stop)].reset_index(drop=True)
     min_length = min(ch0t.shape[0], ch1t.shape[0])
     # cut series to proper length and determine channel offset
-    data_new = [ch0t.iloc[0:min_length].mul(1e9).round(0),
-                ch1t.iloc[0:min_length].mul(1e9).round(0)]
+    data_new = [
+        ch0t.iloc[0:min_length].mul(1e9).round(0),
+        ch1t.iloc[0:min_length].mul(1e9).round(0),
+    ]
     df = pd.concat(data_new, axis=1)
     df.columns = ["Ch0", "Ch1"]
     return df
@@ -82,7 +84,13 @@ def plot_graph(x: list, y: list, y_name: str, filename: str, size: tuple = (18, 
 
 
 def plot_graph2(
-    x1: list, y1: list, x2: list, y2: list, y_name: str, filename: str, size: tuple = (18, 8)
+    x1: list,
+    y1: list,
+    x2: list,
+    y2: list,
+    y_name: str,
+    filename: str,
+    size: tuple = (18, 8),
 ):
     fig, ax = plt.subplots(figsize=size)
     len_min = min(len(x1), len(y1), len(x2), len(y2))
@@ -96,12 +104,17 @@ def plot_graph2(
 
 
 if __name__ == "__main__":
-
     for file in files:
         if Path(file + ".pkl").exists():
             data = pd.read_pickle(file + ".pkl", compression="xz")
         elif Path(file + ".csv").exists():
-            data_raw = pd.read_csv(file + ".csv", delimiter=",", decimal=".", float_precision="high", index_col=False)  #index_col="Time[s]"
+            data_raw = pd.read_csv(
+                file + ".csv",
+                delimiter=",",
+                decimal=".",
+                float_precision="high",
+                index_col=False,
+            )  # index_col="Time[s]"
             data = filter_cs_falling_edge(data_raw)
             # preprocessing csv and save them as pickle, reduces 240 to 7 mb
             data.to_pickle(file + ".pkl", compression="xz")

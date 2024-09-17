@@ -11,8 +11,7 @@ def connect_to_node(host: str):
     # shepherd_io.__enter__()
     if check_connection(rpc_client):
         return rpc_client
-    else:
-        return None
+    return None
 
 
 def check_connection(rpc_client=None) -> bool:

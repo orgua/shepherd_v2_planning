@@ -2,18 +2,18 @@ import math
 
 
 def get_left_zero_count(num: int) -> int:
-    return int(32 - math.ceil(math.log(num, 2)))
+    return int(32 - math.ceil(math.log2(num)))
 
 
 def get_bit_space(num: int) -> int:
-    return math.ceil(math.log(num + 1, 2))
+    return math.ceil(math.log2(num + 1))
 
 
 def udiv(value1: int, value2: int) -> int:
     lzc2 = get_left_zero_count(value2) + 32
 
     v2_sub = value2 * (2**lzc2)
-    print(f"got log(x)={math.log(v2_sub,2)}")
+    print(f"got log(x)={math.log2(v2_sub)}")
     v2_add = 2**lzc2
     v1_rem = value1
     v3 = 0

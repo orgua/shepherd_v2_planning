@@ -23,10 +23,8 @@ for i in range(20):
     dI = I_cIn - I_cOut - I_leak
     dV_cap = (dI * dt) / C
     V_cap = V_cap + dV_cap
-    if V_cap > V_cap_max:
-        V_cap = V_cap_max
-    if V_cap < V_cap_min:
-        V_cap = V_cap_min
+    V_cap = min(V_cap, V_cap_max)
+    V_cap = max(V_cap, V_cap_min)
     print(f"V = {V_cap} incl \t dV = {dV_cap}")
 
 # switching on supply with output capacitor -> try to model a more correct approach

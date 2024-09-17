@@ -49,15 +49,13 @@ class RingBuffer:
         if self.write_size == self.capacity:
             self.write_size = 0
             return True
-        else:
-            return False
+        return False
 
     def isEmpty(self):
         if self.read_size == self.capacity:
             self.read_size = 0
             return True
-        else:
-            return False
+        return False
 
 
 class write_by_python(threading.Thread):

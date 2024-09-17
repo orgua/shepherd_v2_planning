@@ -4,9 +4,7 @@ from keithley2600.keithley_driver import KeithleyClass
 
 
 class SMU:
-
     def __init__(self, ip: str = "10.0.0.24", pwrline_cycles: float = 8, mode_4wire: bool = True):
-
         self.kth: Keithley2600Base = Keithley2600(f"TCPIP0::{ip}::INSTR")
         self.kth.reset()
         self.inp: KeithleyClass = self.kth.smua
@@ -21,10 +19,8 @@ class SMU:
         smu.measure.autorangei = smu.AUTORANGE_ON
         smu.measure.nplc = self.pwrline_cycles
 
-
     def set_smu_off(self, smu: KeithleyClass) -> None:
         smu.source.output = smu.OUTPUT_OFF
-
 
     def set_smu_to_vsource(
         self,
@@ -41,7 +37,6 @@ class SMU:
         smu.source.autorangev = smu.AUTORANGE_ON
         self.set_smu_auto_on(smu)
         return value_v
-
 
     def set_smu_to_isource(
         self,

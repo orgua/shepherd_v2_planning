@@ -55,8 +55,7 @@ class SupervisorMem:
                 )
             self.counter_ab += 1
             return True
-        else:
-            return False
+        return False
 
     def compare_b(self) -> bool:
         if len(self.data_b_out) and len(self.data_a_in):
@@ -68,8 +67,7 @@ class SupervisorMem:
                 )
             self.counter_ab += 1
             return True
-        else:
-            return False
+        return False
 
     def report(self):
         queue = [
