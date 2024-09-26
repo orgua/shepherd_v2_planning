@@ -107,5 +107,8 @@ plt.close(fig)
 
 results_processed: pd.DataFrame = pd.concat(results_processed)
 results_processed.to_csv(
-    path_here / "buck_results_processed.csv", sep=";", decimal=",", index=False
+    path_here / "buck_results_processed.csv",
+    sep=";",
+    decimal=",",
+    index=False,
 )

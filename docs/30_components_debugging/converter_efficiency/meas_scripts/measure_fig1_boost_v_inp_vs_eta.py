@@ -12,8 +12,8 @@ vs_input = np.flip(
         (
             np.arange(100e-3, 600e-3, 50e-3),
             np.arange(600e-3, 3.001, 100e-3),
-        )
-    )
+        ),
+    ),
 )
 vs_output = [2.0, 3.0, 4.0, 5.0]
 is_input = [100e-6]

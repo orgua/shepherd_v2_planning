@@ -25,7 +25,7 @@ vs_inputs = [
     2.0,
     2.5,
     3.0,
-    3.5
+    3.5,
 ]
 vs_output = [2.0, 2.5, 3.0, 3.5, 4.0]
 is_input = [
@@ -60,7 +60,7 @@ is_input.reverse()  # avoids startup-problems for the BQ
 # vs_inputs.reverse()
 results_processed: list = []
 
-path_here = Path(__file__).parent / "board_b"
+path_here = Path(__file__).parent / "board_a"
 
 for vs_input in vs_inputs:
     path_result = path_here / f"boost_results_raw_vin{vs_input:.2f}.csv"
@@ -96,7 +96,7 @@ for vs_input in vs_inputs:
             f"Plotgroup (VOut={v_out}, VInp={v_inp}) has "
             f"{countA} total entries, "
             f"{countD} valid, "
-            f"{countE} medians"
+            f"{countE} medians",
         )
         if len(data) <= 1:
             continue
@@ -115,5 +115,8 @@ for vs_input in vs_inputs:
 # store processed data
 results_processed: pd.DataFrame = pd.concat(results_processed)
 results_processed.to_csv(
-    path_here / "boost_results_processed.csv", sep=";", decimal=",", index=False
+    path_here / "boost_results_processed.csv",
+    sep=";",
+    decimal=",",
+    index=False,
 )

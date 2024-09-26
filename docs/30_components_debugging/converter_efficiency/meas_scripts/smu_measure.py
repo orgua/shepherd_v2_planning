@@ -12,7 +12,8 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
     results: list = []  # np.zeros(shape=(len(vs_input) * len(vs_output) * len(is_input), 8))
     total = len(vs_input) * len(vs_output) * len(is_input)
     for index, (v_out, v_inp, i_inp) in tqdm(
-        enumerate(product(vs_output, vs_input, is_input)), total=total
+        enumerate(product(vs_output, vs_input, is_input)),
+        total=total,
     ):
         # check if set-point is valid
         v_oc = v_inp * (100 / 78)
