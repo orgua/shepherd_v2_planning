@@ -5,8 +5,13 @@ from matplotlib import pyplot as plt
 from smu_measure import smu_measure_buck
 
 # CONFIG
-v_inputs = [2.0, 2.5, 3.0, 3.5, 4.0, 4.5]
+v_inputs = [2.0, 2.5, 2.75, 3.0, 3.25, 3.5, 4.0, 4.5]
 i_outputs = [
+    500e-9,
+    600e-9,
+    700e-9,
+    800e-9,
+    900e-9,
     1e-6,
     2e-6,
     3e-6,
@@ -55,7 +60,7 @@ i_outputs = [
 v_output = 1.8  # nominal
 
 
-path_here = Path(__file__).parent / "board_b"
+path_here = Path(__file__).parent / "data_board_a2"
 
 path_result = path_here / "buck_results_raw.csv"
 
@@ -63,6 +68,7 @@ path_result = path_here / "buck_results_raw.csv"
 if path_result.exists():
     results_pd = pd.read_csv(path_result, sep=";", decimal=",")
 else:
+    path_result.parent.mkdir(parents=True, exist_ok=True)
     results_pd = smu_measure_buck(v_inputs, v_output, i_outputs)
     results_pd.to_csv(path_result, sep=";", decimal=",", index=False)
 

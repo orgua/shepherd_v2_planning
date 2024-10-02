@@ -22,7 +22,7 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
             continue
 
         # prepare set-point
-        smu.set_smu_to_vsource(smu.out, value_v=v_out, limit_i=i_inp)
+        smu.set_smu_to_vsource(smu.out, value_v=v_out, limit_i=10 * i_inp)
         smu.set_smu_to_isource(smu.inp, value_i=i_inp, limit_v=v_oc)
 
         # wait for VOC-Measurement
@@ -37,9 +37,20 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
         if not is_reached:
             continue
 
+        # limit & autorange input for maximum resolution
+        i_theory = 0.10 * i_inp * v_inp / v_out
+        for _ in range(4):
+            time.sleep(1)
+            iom = smu.out.measure.i()
+            print(f"AUTORANGING - measured {iom} A, theory_min = {i_theory} A")
+            iom = max(abs(iom), i_theory)
+            smu.out.source.limiti = min(max(1.4 * iom, -0.080), 0.080)
+            smu.out.measure.autorangei = smu.inp.AUTORANGE_ON
+
         # give time to stabilize, measure & store
-        time.sleep(5)
+        time.sleep(1)
         time_start = time.time()
+        result = []
         while time.time() < time_start + 5:
             vim = smu.inp.measure.v()
             iim = smu.inp.measure.i()
@@ -55,7 +66,7 @@ def smu_measure_boost(vs_input, is_input, vs_output) -> pd.DataFrame:
                 continue
             result = [v_out, v_inp, i_inp, vim, iim, vom, iom, eta]
             results.append(result)
-
+        print(result)
     smu.set_smu_off(smu.inp)
     smu.set_smu_off(smu.out)
     return pd.DataFrame(
@@ -69,19 +80,34 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
     smu = SMU()
     results: list = []
     total = len(v_input) * len(i_output)
-    # initial set
-    smu.set_smu_off(smu.out)
-    smu.set_smu_to_vsource(smu.inp, value_v=2, limit_i=100e-3)
-    time.sleep(5)
 
     for index, (v_inp, i_out) in tqdm(enumerate(product(v_input, i_output)), total=total):
         # prepare set-point
-        smu.set_smu_to_vsource(smu.inp, value_v=v_inp, limit_i=4 * i_out)
-        time.sleep(1)
-        # smu.inp.source.levelv = min(max(v_inp, 0.0), 5.5)
-        # smu.inp.source.limiti = min(max(6*i_out, -0.080), 0.080)
+        smu.set_smu_to_vsource(smu.inp, value_v=v_inp, limit_i=20 * i_out)
+        time.sleep(2)
+        # enable load
         smu.set_smu_to_isource(smu.out, value_i=-i_out, limit_v=2.0)
-        # smu.out.source.leveli = min(max(-i_out, -0.080), 0.080)
+
+        # stabilize capacitor-voltage
+        time_start = time.time()
+        is_reached = False
+        while not is_reached:
+            time.sleep(1)
+            vim = smu.inp.measure.v()
+            is_reached = abs(v_inp/vim - 1) < 0.01  # %
+            if time.time() - time_start > 60:
+                print(f"SKIP - Timeout while stabilizing, got {vim} V instead of {v_inp}")
+                break
+
+        # limit & autorange input for maximum resolution
+        i_theory = i_out * 1.8 / v_inp / 0.90
+        for _ in range(5):
+            time.sleep(1)
+            iim = smu.inp.measure.i()
+            print(f"AUTORANGING - measured {iim} A, theory_min = {i_theory} A")
+            iim = max(abs(iim), i_theory)
+            smu.inp.source.limiti = min(max(1.4 * iim, -0.080), 0.080)
+            smu.inp.measure.autorangei = smu.inp.AUTORANGE_ON
 
         # measure, verify, store
         counter = 0
@@ -112,13 +138,14 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
             results.append(result)
 
             if time.time() - time_start > 60:
-                print(f"SKIP - Timeout while stabilizing (n={counter}, last: {result}")
+                print(f"SKIP - Timeout while measuring (n={counter}, last: {result}")
                 break
             if not is_reached:
                 # do not count invalid measurements
                 continue
             counter += 1
         smu.set_smu_off(smu.out)
+        print(result)
 
     smu.set_smu_off(smu.inp)
     smu.set_smu_off(smu.out)
