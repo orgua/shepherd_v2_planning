@@ -17,7 +17,7 @@ source $HOME/.cargo/env
 
 uv python list
 # cpython-3.10.12-linux-armv7-gnu    /usr/bin/python3.10
-uv install python
+uv python install
 # error: No download found for request: cpython-3.11-linux-armv7-gnu
 ```
 
