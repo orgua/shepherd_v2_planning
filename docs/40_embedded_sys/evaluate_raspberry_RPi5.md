@@ -99,6 +99,29 @@ sudo nano /boot/firmware/config.txt
 # ram usage down to 72 mb with < 20 programs running
 ```
 
+try to preserve power
+
+```Shell
+sudo nano /boot/firmware/config.txt
+
+#dtoverlay=vc4-kms-v3d
+max_framebuffers=0
+dtoverlay=disable-wifi
+dtoverlay=disable-bt
+dtoverlay=disable-wifi-pi5
+dtoverlay=disable-bt-pi5
+# under-clocking, ref = 2400
+#arm_freq=2200 
+# under-volting
+over_voltage_delta=-10000  
+```
+
+```Shell
+nano /boot/firmware/cmdline.txt
+
+maxcpus=2
+```
+
 reboot and compare to before
 
 ```shell
