@@ -44,5 +44,5 @@ plt.tight_layout()
 for ax in fig.get_axes():
     ax.get_yaxis().get_major_formatter().set_useOffset(False)
     ax.get_xaxis().get_major_formatter().set_useOffset(False)
-plt.savefig(Path(__file__).with_suffix(".png"))  # can also output SVG
+plt.savefig(Path(__file__).with_suffix(".svg"))  # PNG / SVG
 plt.close(fig)
