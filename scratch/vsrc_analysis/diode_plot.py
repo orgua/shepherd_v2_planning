@@ -27,7 +27,7 @@ shp3 = shp_diode_target_sim(
 
 fig = plt.figure(figsize=(9, 8), layout="tight")
 
-plt.plot(shp1["voltage"], shp1["current"], label="vsrc-diode shepherd")
+plt.plot(shp1["voltage"], shp1["current"], label="vsrc-diode shepherd (V-drop)")
 plt.plot(shp2["voltage"], shp2["current"], label="diode-Target shepherd (1 Ohm)")
 plt.plot(shp3["voltage"], shp3["current"], label="diode-Target shepherd (10 Ohm)")
 
