@@ -9,9 +9,9 @@ runtime = 100
 
 fig = plt.figure(figsize=(9, 8), layout="tight")
 
-plt.plot(cap_real_self[0]["time"], cap_real_self[0]["voltage"], label="100uF MLCC1 (RC, 1k)")
-plt.plot(cap_real_self[1]["time"], cap_real_self[1]["voltage"], label="100uF MLCC2 (RC, 1k)")
-plt.plot(cap_real_self[2]["time"], cap_real_self[2]["voltage"], label="100uF Tantal (RC, 1k)")
+plt.plot(cap_real_self[0]["time"], cap_real_self[0]["voltage"], label="100uF MLCC1")
+plt.plot(cap_real_self[1]["time"], cap_real_self[1]["voltage"], label="100uF MLCC2")
+plt.plot(cap_real_self[2]["time"], cap_real_self[2]["voltage"], label="100uF Tantal")
 
 plt.suptitle(f"Self-Discharge of Capacitors")
 plt.xlabel("time [s]")
