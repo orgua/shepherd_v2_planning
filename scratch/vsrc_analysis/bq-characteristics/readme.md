@@ -30,9 +30,11 @@ NOTE: the .sal-files can be opened by the freely available Logic 2 software.
 
 ## Analog Parts
 
-R100 = 99.79 Ohm
-R1k = 983.263 Ohm
-C_Stor = 79uF
+R100 = 99.79 Ohm,
+
+R1k = 983.263 Ohm,
+
+C_Stor = 79uF,
 
 ## Experiments
 
