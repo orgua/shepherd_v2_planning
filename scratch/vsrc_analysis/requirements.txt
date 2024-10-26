@@ -1,0 +1,4 @@
+shepherd-core
+matplotlib
+numpy
+pandas
