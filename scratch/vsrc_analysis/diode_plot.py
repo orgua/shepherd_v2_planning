@@ -1,10 +1,10 @@
 from pathlib import Path
 
 import numpy as np
-from matplotlib import pyplot as plt
 from diode_shepherd import DiodeTarget
-
-from diode_shepherd import shp_diode_target_sim, shp_diode_sim
+from diode_shepherd import shp_diode_sim
+from diode_shepherd import shp_diode_target_sim
+from matplotlib import pyplot as plt
 
 U_start = -1.0
 U_end = 3.0
@@ -15,9 +15,8 @@ shp1 = shp_diode_sim(
     U_end_V=U_end,
 )
 shp2 = shp_diode_target_sim(
-    diode=DiodeTarget(V_forward_V=0.3, I_forward_A=20e-3, R_Ohm=1),
-    U_start_V=U_start,
-    U_end_V=U_end)
+    diode=DiodeTarget(V_forward_V=0.3, I_forward_A=20e-3, R_Ohm=1), U_start_V=U_start, U_end_V=U_end
+)
 shp3 = shp_diode_target_sim(
     diode=DiodeTarget(V_forward_V=0.3, I_forward_A=20e-3, R_Ohm=10.0),
     U_start_V=U_start,
@@ -31,7 +30,7 @@ plt.plot(shp1["voltage"], shp1["current"], label="vsrc-diode shepherd (V-drop)")
 plt.plot(shp2["voltage"], shp2["current"], label="diode-Target shepherd (1 Ohm)")
 plt.plot(shp3["voltage"], shp3["current"], label="diode-Target shepherd (10 Ohm)")
 
-plt.suptitle(f"Characteristic of Diode-Models")
+plt.suptitle("Characteristic of Diode-Models")
 plt.xlabel("voltage [V]")
 plt.ylabel("current [A]")
 plt.xticks(np.arange(U_start, U_end, 0.5))

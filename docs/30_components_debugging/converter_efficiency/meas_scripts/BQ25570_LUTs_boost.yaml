@@ -90,4 +90,4 @@ board_A_boost_VCap3V25:
     ]
     LUT_input_V_min_log2_uV: 17
     LUT_input_I_min_log2_nA: 13
-  
+

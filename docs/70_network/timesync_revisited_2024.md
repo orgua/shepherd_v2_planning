@@ -49,7 +49,7 @@ Hardware Receive Filter Modes:
         all
 ```
 
-Strangely the path delay doubled! 
+Strangely the path delay doubled!
 
 ```
 Sep 23 19:43:52 sheep13 ptp4l[5882]: [453507.381] master offset         55 s2 freq +126528 path delay     25939
@@ -62,4 +62,4 @@ Sep 23 19:43:54 sheep13 ptp4l[5882]: [453509.381] master offset        -19 s2 fr
 - related systemd services failed after a reboot on the PI - they started too early - changing `Type=simple` to `=idle`
 - timeservers now got `masterOnly 1` in ptp4l.conf
 - ptp has a better `clock_servo linreg` instead of `pi` (phc2sys already had this via cmd-line parameter)
-- 
+-

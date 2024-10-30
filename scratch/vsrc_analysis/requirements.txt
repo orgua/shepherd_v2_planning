@@ -1,4 +1,4 @@
-shepherd-core
 matplotlib
 numpy
 pandas
+shepherd-core

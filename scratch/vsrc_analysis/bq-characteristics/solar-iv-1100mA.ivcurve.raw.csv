@@ -1,4 +1,4 @@
-﻿system time [s] = value * gain + (offset); current [A] = value * gain + offset; voltage [V] = value * gain + offset
+system time [s] = value * gain + (offset); current [A] = value * gain + offset; voltage [V] = value * gain + offset
 2024-10-24 11:50:06.008100; 0; 262143
 2024-10-24 11:50:06.008110; 0; 262143
 2024-10-24 11:50:06.008120; 0; 262143

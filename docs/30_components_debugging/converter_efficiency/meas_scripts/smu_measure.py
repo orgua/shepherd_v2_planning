@@ -94,7 +94,7 @@ def smu_measure_buck(v_input: list, v_output: float, i_output: list) -> pd.DataF
         while not is_reached:
             time.sleep(1)
             vim = smu.inp.measure.v()
-            is_reached = abs(v_inp/vim - 1) < 0.01  # %
+            is_reached = abs(v_inp / vim - 1) < 0.01  # %
             if time.time() - time_start > 60:
                 print(f"SKIP - Timeout while stabilizing, got {vim} V instead of {v_inp}")
                 break

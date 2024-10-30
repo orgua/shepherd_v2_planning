@@ -3,21 +3,22 @@
 - slva372d.pdf - Basic Calculation of a Boost Converter's Power Stage
 - sluuaa7a.pdf - BQ25570 EVM users guide
 """
+
 import numpy as np
 
 
 def efficiency_boost_model(
-        V_In: float,
-        I_In: float,
-        V_Out: float,
-        R_ind: float,
-        L_ind: float,
-        R_sw_ds: float,
-        #Q_sw_gate: float,
-        R_diode: float,
-        V_diode_forward: float,
-        I_ic_quiet: float,
-        t_trans: float, # t_rise + t_fall
+    V_In: float,
+    I_In: float,
+    V_Out: float,
+    R_ind: float,
+    L_ind: float,
+    R_sw_ds: float,
+    # Q_sw_gate: float,
+    R_diode: float,
+    V_diode_forward: float,
+    I_ic_quiet: float,
+    t_trans: float,  # t_rise + t_fall
 ) -> float:
     PL: dict = {}  # losses
     f_switch_max = 1e6
@@ -47,7 +48,7 @@ def efficiency_boost_model(
         # PL["switch_gate"] = Q_sw_gate * 0.7 * f_switch
         # TODO: P_GC is probably part of PL_IC
 
-        PL["switch_trans"] = 1/2 * V_In * I_In * t_trans * f_switch
+        PL["switch_trans"] = 1 / 2 * V_In * I_In * t_trans * f_switch
 
         p_loss = sum(PL.values())
         eta = max(0.01, (P_In - p_loss) / P_In)
@@ -55,18 +56,18 @@ def efficiency_boost_model(
 
 
 def efficiency_boost_fit(
-        xdata: np.ndarray,
-        R_ind: float,
-        L_ind: float,
-        R_sw_ds: float,
-        #Q_sw_gate: float,
-        R_diode: float,
-        V_diode_forward: float,
-        I_ic_quiet: float,
-        t_trans: float, # t_rise + t_fall
+    xdata: np.ndarray,
+    R_ind: float,
+    L_ind: float,
+    R_sw_ds: float,
+    # Q_sw_gate: float,
+    R_diode: float,
+    V_diode_forward: float,
+    I_ic_quiet: float,
+    t_trans: float,  # t_rise + t_fall
 ) -> np.ndarray:
     len = xdata.shape[0]
-    result = np.zeros((len))
+    result = np.zeros(len)
     for index in range(len):
         result[index] = efficiency_boost_model(
             V_In=xdata[index, 0],
@@ -77,7 +78,7 @@ def efficiency_boost_fit(
             L_ind=L_ind,
             # mosfet
             R_sw_ds=R_sw_ds,
-            #Q_sw_gate=Q_sw_gate,
+            # Q_sw_gate=Q_sw_gate,
             # diode
             R_diode=R_diode,
             V_diode_forward=V_diode_forward,
@@ -86,42 +87,43 @@ def efficiency_boost_fit(
         )
     return result
 
+
 params_datasheet = {
-        "R_ind": 0.360,
-        "L_ind": 22e-6,
-        "R_sw_ds": 0.7,
-        #"Q_sw_gate":0.36e-9,
-        "R_diode": 2.3,
-        "V_diode_forward": 0, # because of mosfet instead of diode
-        "I_ic_quiet": 488e-9,
-        "t_trans": 1e-9,
+    "R_ind": 0.360,
+    "L_ind": 22e-6,
+    "R_sw_ds": 0.7,
+    # "Q_sw_gate":0.36e-9,
+    "R_diode": 2.3,
+    "V_diode_forward": 0,  # because of mosfet instead of diode
+    "I_ic_quiet": 488e-9,
+    "t_trans": 1e-9,
 }
 params_bound_low = {
-        "R_ind": 1e-3,
-        "L_ind": 1e-6,
-        "R_sw_ds": 0.1,
-        #"Q_sw_gate":0.36e-9,
-        "R_diode": .3,
-        "V_diode_forward": 0.0,
-        "I_ic_quiet": 1e-9,
-        "t_trans": .1e-9,
+    "R_ind": 1e-3,
+    "L_ind": 1e-6,
+    "R_sw_ds": 0.1,
+    # "Q_sw_gate":0.36e-9,
+    "R_diode": 0.3,
+    "V_diode_forward": 0.0,
+    "I_ic_quiet": 1e-9,
+    "t_trans": 0.1e-9,
 }
 params_bound_high = {
-        "R_ind": 2.0,
-        "L_ind": 100e-6,
-        "R_sw_ds": 2.0,
-        #"Q_sw_gate":0.36e-9,
-        "R_diode": 5.0,
-        "V_diode_forward": 0.3,
-        "I_ic_quiet": 800e-9,
-        "t_trans": 20e-9,
+    "R_ind": 2.0,
+    "L_ind": 100e-6,
+    "R_sw_ds": 2.0,
+    # "Q_sw_gate":0.36e-9,
+    "R_diode": 5.0,
+    "V_diode_forward": 0.3,
+    "I_ic_quiet": 800e-9,
+    "t_trans": 20e-9,
 }
 
 
 def efficiency_boost_datasheet(
-        V_In: float,
-        I_In: float,
-        V_Out: float,
+    V_In: float,
+    I_In: float,
+    V_Out: float,
 ) -> float:
     # mosfet
     R_DS_4V2 = 0.700
@@ -137,16 +139,16 @@ def efficiency_boost_datasheet(
         L_ind=22e-6,
         # mosfet
         R_sw_ds=R_DS_4V2,
-        #Q_sw_gate=0.36e-9,
+        # Q_sw_gate=0.36e-9,
         # diode
         R_diode=2.3,
-        V_diode_forward=0, # because of mosfet instead of diode
+        V_diode_forward=0,  # because of mosfet instead of diode
         I_ic_quiet=488e-9,
         t_trans=1e-9,
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from matplotlib import pyplot as plt
 
     v_storage = 3.0

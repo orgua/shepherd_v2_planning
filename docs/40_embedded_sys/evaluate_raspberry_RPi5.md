@@ -111,9 +111,9 @@ dtoverlay=disable-bt
 dtoverlay=disable-wifi-pi5
 dtoverlay=disable-bt-pi5
 # under-clocking, ref = 2400
-#arm_freq=2200 
+#arm_freq=2200
 # under-volting
-over_voltage_delta=-10000  
+over_voltage_delta=-10000
 ```
 
 ```Shell

@@ -2,10 +2,10 @@
 
 ## Setup
 
-Components discribed from front to back
+Components described from front to back
 
 - constant current (CC) supply
-	- 400 mA, 700 mA, 900 mA, 1100 mA 
+	- 400 mA, 700 mA, 900 mA, 1100 mA
 - LED in wooden light box
 	- Cree XM-L
 - Solar cells in same box, exposed to the LEDs
@@ -14,7 +14,7 @@ Components discribed from front to back
 	- BQ25570 Eval Kit
 - resistive load on output of buck-converter
 	- Open Circuit (OC), 1k, 100 ohm
-	
+
 ## Measurements
 
 - ivcurves of solar cells, recorded with shepherd harvester
@@ -23,7 +23,7 @@ Components discribed from front to back
 	- V_BAT - voltage over storage capacity on Eval Kit
 	- V_Out - output of buck-converter, input of load
 - BAT_OK signal was recorded digitally by the logic pro
-	- signal is analog according to datasheet. (=V_BAT when ON) 
+	- signal is analog according to datasheet. (=V_BAT when ON)
 
 NOTE: the .sal-files can be opened by the freely available Logic 2 software.
 	-> traces can be exported to csv via file -> export raw data
@@ -65,63 +65,65 @@ NOTE: all measurements are started with a disabled LED to show startup-behavior 
 
 ## Flaws of the setup
 
-### Solar Cell VOC is too high
+### VOC of Solar Cell is too high
 
-Looking at "R1k, LED 1100mA.sal" 
+Looking at `R1k, LED 1100mA.sal`
 
 ![900mA_overview](./media/R1k,%20LED%201100mA%20-%20overview.png)
 
-we look at the VOC-Measurement:
+and the VOC-Measurement in detail
 
 ![900mA_overview](./media/R1k,%20LED%201100mA%20-%20detail%20VOC.png)
 
-The sudden spike of V_IN to 3.93 V is the beginning of the VOC-measurement (233 ms duration). The boost-converter is disabled, V_IN is shortly on a plateau, but soon begins to fall, due to V_BAT falling. Looking closer at these two:
+The sudden spike of V_IN to 3.93 V is the beginning of the VOC-measurement (233 ms duration).
+The boost-converter is disabled, V_IN is shortly on a plateau, but soon begins to fall, similar to V_BAT falling. Looking closer at these two voltages:
 
 - V_IN begins to fall when V_BAT is ~ 300 mV below V_IN
 - V_IN falls from 3.93 to 3.22 V (at the end of the 233 ms time-frame)
 - V_BAT falls from 3.65 to 2.75 V during that period
 - the voltage difference between V_IN & V_BAT grows from ~ 300 mV to 500 mV
-- the BQ takes its VOC-measurement at the end of the 233 ms window and therefor jumps to 80% of 3.22 V = 2.57 V
-  - NOTE: the proper MPPT is ~ 3.0 V (76 % of 3.93 V)
-- the MPPT-voltage can only be held for a short period of time until the capacitor on V_BAT is full
+- the BQ takes its VOC-measurement at the end of the 233 ms window and therefore jumps to 80% of 3.22 V = 2.57 V
+  - NOTE: the "real" MPPT is ~ 3.0 V (76 % of 3.93 V), derived from the ivcurve
+- the MPPT-voltage can only be held for a short period of time until the capacitor on V_BAT is full, after that less current is needed
 
-Looking at the BQ-Schematic: 
+Looking at the BQ-Schematic:
 
 ![BQ-Schematic](./media/BQ25570_schematic.png)
 
-The path from V_IN to V_BAT has an inductor and two mosfets. 
+The path from V_IN to V_BAT includes an inductor and two mosfets.
 The 2nd mosfet between V_Stor and V_Bat might be enabled, but the 1st (left) is disabled with a conducting diode in direction of V_BAT.
-While the voltage on the input drops, the current from the solar cell rises and therefor the voltage drop over the diode increases.
+While the voltage on the input drops, the current from the solar cell rises and therefore the voltage drop over the diode increases.
+This could explain the rising voltage difference between V_IN and V_BAT.
 
 ### V_Bat over-voltage protection is too low
 
-The same trace from above can also be interpreted differently. 
-The chosen solar cell would be fine if the maximum V_BAT would be higher.
+The same detailed trace from above can also be interpreted differently.
+The chosen solar cell would be sampled at MPPT if the maximum V_BAT would be higher.
 V_BAT is limited to < 4.2 V on the eval-board to protect a potential LiOn-battery.
 
 As a direct result of the low over-voltage-limit the set-point is too close to the V_Bat under-voltage-protection-limit.
-Trace "R1k, LED 700mA.sal" shows that the VOC-measurement has to be interrupted due to V_BAT falling below 2.0 V:
+Trace `R1k, LED 700mA.sal` shows that the VOC-measurement has to be interrupted due to V_BAT falling below 2.0 V:
 
 ![700mA_VOC](./media/R1k,%20LED%20700mA%20-%20detail%20VOC.png)
 
-Another side effect of the under-voltage-protection is that V_OUT of 1.8 V can't be maintained. 
+Another side effect of the under-voltage-protection is that V_OUT of 1.8 V can't be maintained.
 Every drop below V_BAT < 2.0 V shows a drop in V_OUT, even before the output is completely disconnected.
 When disconnected the trace shows the discharge of the 22 uF placed on the output.
 
-Typical boost-designs need a certain ratio between V_IN and V_STOR due to duty cycle limitations. 
-From the perspective of the boost converter a higher V_BAT / STOR would therefor be beneficial.
+NOTE: Typical boost-designs need a certain ratio between V_IN and V_STOR due to duty cycle limitations.
+From the perspective of the boost converter a higher V_BAT / STOR would therefore be beneficial.
 
 ### V_Out enabled by V_Stor
 
-This setup enables the buck-converter far too early and long. 
+This setup enables the buck-converter far too early and long.
 V_BAT moves between 2.8 V and 1.9 V (under voltage protection).
-The usable charge of the capacitor is far from good.
+The usable charge of the capacitor is far too small.
 
 ![700mACap](./media/R1k,%20LED%20700mA%20-%20detail%20cap.png)
 
-NOTE: having the capacity on V_STOR would be making the setup less complex. 
-The datasheet of the BQ-IC recommends 100 uF on V_BAT. 
-A solution could be to directly link V_STOR & V_BAT (shorten the mosfet) 
+NOTE: having the capacity on V_STOR would be making the setup less complex, as there would be no disconnecting anymore.
+The datasheet of the BQ-IC recommends 100 uF on V_BAT.
+A solution could be to directly link V_STOR & V_BAT (shorten the mosfet).
 
 ## Optimizing the Setup
 
