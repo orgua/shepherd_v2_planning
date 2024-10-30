@@ -131,7 +131,7 @@ A solution could be to directly link V_STOR & V_BAT (shorten the mosfet)
   - VBAT_OV = 3/2 * VBIAS * (1 + R1/R2), VBIAS = 1.21 V
   - 4.18 V setup: R1 = 7.5 M, R2 = 5.76 M -> EVM-Default
   - 5.00 V setup: change R1 = 10 M -> violates BQ-Req that R1 + R2 < 13 M
-  - 5.22 V setup: change R2 = 4 M (2x 2M soldered like V?)
+  - 5.22 V setup: change R2 = 4 M (preferred, 2x 2M soldered like V?)
 - adjust hysteresis of Bat_OK to 4 to 4.5 V
   - default: 2.79 V to 2.99 V for BAT_OK = ON
   - BATOK-PROG = VBIAS * (1 + R7 / R8)
