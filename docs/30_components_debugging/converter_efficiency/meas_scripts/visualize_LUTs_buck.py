@@ -16,7 +16,7 @@ with path_data.open() as file_data:
         grid_x = np.arange(12)
         plt.plot(grid_x, data_y, label=_name)
 
-    plt.suptitle(f"Efficiency LUTs_buck")
+    plt.suptitle("Efficiency LUTs_buck")
     plt.xlabel("I_Input [n]")
     plt.ylabel("Efficiency [n]")
     plt.yticks([y / 10 for y in range(11)])

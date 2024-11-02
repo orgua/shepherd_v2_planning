@@ -1,10 +1,9 @@
 from pathlib import Path
 
 import numpy as np
-
-from matplotlib import pyplot as plt
-from capacitor_shepherd import shp_cap_sim
 from capacitor_real import cap_real_chg
+from capacitor_shepherd import shp_cap_sim
+from matplotlib import pyplot as plt
 
 runtime = 1
 
@@ -21,12 +20,12 @@ plt.plot(cap_real_chg[4]["time"], cap_real_chg[4]["voltage"], label="100uF Tanta
 plt.plot(cap_real_chg[5]["time"], cap_real_chg[5]["voltage"], label="100uF Tantal run2 (RC, 1k)")
 # plt.plot(shp_cap2["time"], shp_cap2["voltage"], label="100uF shepherd (I_inp)")
 
-plt.suptitle(f"Charging of Capacitor-Models")
+plt.suptitle("Charging of Capacitor-Models")
 plt.xlabel("time [s]")
 plt.ylabel("voltage [V]")
-plt.xticks(np.arange(0.0, runtime+0.1, 0.1))
+plt.xticks(np.arange(0.0, runtime + 0.1, 0.1))
 plt.yticks(np.arange(0.0, 5.6, 0.5))
-plt.ylim(bottom=0.0) #, top=1.0)
+plt.ylim(bottom=0.0)  # , top=1.0)
 plt.grid(True)
 plt.legend(loc="lower right")
 plt.tight_layout()

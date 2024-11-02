@@ -9,13 +9,13 @@ from smu_measure import smu_measure_boost
 v_out = [2.50, 2.75, 3.00, 3.25]  # 2.52 .. 3.32
 
 # LUT
-v_inp_min = (2**17)*1e-6
+v_inp_min = (2**17) * 1e-6
 v_inp_low = [v_inp_min * x for x in range(12)]
-v_inp_mid = [v_inp_min/2 + v_inp_min * x for x in range(12)]
+v_inp_mid = [v_inp_min / 2 + v_inp_min * x for x in range(12)]
 v_inp_hig = [v_inp_min * (x + 1) for x in range(12)]
 
-i_inp_min = (2**13)*1e-9
-i_inp_mid = [i_inp_min/2 * 2**x for x in range(12)]
+i_inp_min = (2**13) * 1e-9
+i_inp_mid = [i_inp_min / 2 * 2**x for x in range(12)]
 
 # MAPPING
 vs_input = v_inp_mid

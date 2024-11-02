@@ -7,8 +7,7 @@ from shepherd_core.vsource.target_model import TargetABC
 
 
 class DiodeTarget(TargetABC):
-    """ Copy of shepherd-core with two bugfixes
-    """
+    """Copy of shepherd-core with two bugfixes"""
 
     def __init__(
         self,
@@ -63,11 +62,12 @@ def shp_diode_target_sim(diode: DiodeTarget, U_start_V: float, U_end_V: float) -
     voltages = np.arange(U_start_V, U_end_V, 1e-3)
     currents = np.zeros(shape=len(voltages))
     for idx in range(1, len(voltages)):
-        currents[idx] = diode.step(voltage_uV=int(voltages[idx]*1e6), pwr_good=True) * 1e-9
+        currents[idx] = diode.step(voltage_uV=int(voltages[idx] * 1e6), pwr_good=True) * 1e-9
     result = pd.DataFrame(columns=["voltage", "current"])
     result["voltage"] = voltages
     result["current"] = currents
     return result
+
 
 def shp_diode_sim(U_start_V: float, U_end_V: float) -> pd.DataFrame:
     V_drop = 0.3

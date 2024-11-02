@@ -12,7 +12,7 @@ with path_data.open() as file_data:
         if "LUT_input_efficiency" not in _data:
             continue
         grid_xy = np.asarray(_data["LUT_input_efficiency"])
-        #plt.plot(grid_xy)
+        # plt.plot(grid_xy)
         X = np.arange(12)
         Y = np.arange(12)
         Z = grid_xy
