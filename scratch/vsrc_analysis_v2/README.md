@@ -8,9 +8,10 @@ Components described from front to back
 	- controllable by percent-value
     - first run: 5 %, 10 %, 15 %, 20 %
     - lowest: 3 %
-    - second run: 4, 6, 8, 10, 12, 14, 16, 18, 20, 22
+    - second run: 4, 6, 8, 10, 12, 14, 16, 18, 20, 22 %
 - Solar cells in same box, exposed to the LEDs
-	- model: TBD
+	- model: IXYS SM141K06L 
+    - https://www.digikey.de/en/products/detail/anysolar-ltd/SM141K06L/9990462
     - VOC-MAX ~ 3.18 V
 - BQ25570 with said solar cells as input
 	- BQ25570 Eval Kit (Modded as described below)
@@ -27,8 +28,12 @@ Components described from front to back
 	- V_Out - output of buck-converter, input of load
 - BAT_OK signal was recorded digitally by the logic pro
 	- BAT_OK is also enable-signal for buck-converter of BQ
+- Capacitor charging / discharge-curve (RC-characteristic)
+  - 1k + capacitor from BQ-Board (de-soldered)
+  - programmable power-source 0V and 5V
+  - Logic Pro 16 to record trigger and voltage over capacitor
 
-# Changes to the BQ-Eval-Kit
+# Modifications to the BQ-Eval-Kit
 
 - lowering the VOC of the solar cell -> one cell, not two in series
 - adjust the V_Bat over-voltage limit to ~ 5.25 V (5.5 is the theoretical max)
@@ -47,8 +52,3 @@ Components described from front to back
   - 4.03 to 4.83: change R6 = 2 M, R8 = 3 M (showed some unwanted effects)
 - enable output with BAT_OK (enable JP6)
 - directly connect V_STOR = V_BAT (bridge the Mosfet)
-
-- Setpoint: on-off-behavior should be present
-  - double solar cell @ LED900mA can produce 4mW, so one cell should bring 2 mW
-  - 1 kOHms at 1.8 V draw 3.2 mW (most interesting)
-  - 100 Ohms at 1.8 V draw 32.4 mW
