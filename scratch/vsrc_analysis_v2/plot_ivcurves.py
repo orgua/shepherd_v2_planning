@@ -2,8 +2,8 @@ from pathlib import Path
 
 from matplotlib import pyplot as plt
 
-from solar import paths_ivcurve
-from solar import open_ivcurve
+from data_solar import paths_ivcurve
+from data_solar import open_ivcurve
 
 fig, axs = plt.subplots(3, 1, sharex="all", figsize=(10, 2 * 6), layout="tight")
 

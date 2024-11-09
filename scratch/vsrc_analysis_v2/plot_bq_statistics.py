@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from bq_kit import paths_digital, get_digital, get_analog, paths_analog
-from solar import paths_ivcurve, open_ivcurve
+from data_bq import paths_digital, get_digital, get_analog, paths_analog
+from data_solar import paths_ivcurve, open_ivcurve
 
 result_eval: dict = {
     "name": [],

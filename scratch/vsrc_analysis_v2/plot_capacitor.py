@@ -1,4 +1,4 @@
-from bq_cap import paths_analog, get_analog
+from data_bq import paths_analog, get_analog
 
 from pathlib import Path
 
