@@ -1,2 +1,0 @@
-- measured LUTs for the BQ25570 Eval Kit
-- ripped / copied from //docs/30_components_debugging/converter_efficiency
