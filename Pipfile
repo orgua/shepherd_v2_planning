@@ -6,19 +6,19 @@ name = "pypi"
 [packages]
 pre-commit = "*"
 schemdraw = "*"
-# DOCs
 sphinx = "*"
 sphinx-click = "*"
 sphinx-rtd-theme = "*"
 sphinx-sitemap = "*"
 sphinx-design = "*"
 sphinx-copybutton = "*"
-#sphinx-autodoc2  # TODO: https://myst-parser.readthedocs.io/en/latest/intro.html#extending-sphinx
 myst-parser = "*"
 matplotlib = "*"
 pandas = "*"
 keithley2600 = "*"
 tqdm = "*"
+scipy = "*"
+shepherd-core = "*"
 
 [dev-packages]
 
