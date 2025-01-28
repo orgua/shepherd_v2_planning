@@ -109,7 +109,7 @@
 - switch to smaller IC-Packages and 0402
 - order / add GPS
 - is the gps capable of alarm (wake up sys)
-- our 5V analogue should be stabilized more! Add A5V with 2 Stage Bead, or real coil
+- our 5V analog should be stabilized more! Add A5V with 2 Stage Bead, or real coil
 - add footprint for layer-windows
 - add footprint for shepherd-logo
 - give INA190 a negative supply (>1mV would be enough) on GND-pin, ref stays on common gnd, extra decouple

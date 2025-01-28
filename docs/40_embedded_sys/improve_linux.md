@@ -179,7 +179,7 @@ sudo nano /etc/ssh/sshd_config
 ### SCP Improvement
 
 ```
-# Idea: handshake is secure and fully crypted, after that the encryption could be lowered, maybe even with fast crypto-module-support
+# Idea: handshake is secure and fully encrypted, after that the encryption could be lowered, maybe even with fast crypto-module-support
 # switching crypto cipher ⇾ man ssh_config shows for local ``~/.ssh/config``, global ``/etc/ssh/ssh_config`` and ``sshd_config``
 
 Specifies the ciphers allowed and their order of preference.  Multiple ciphers must be comma-separated.  If the specified list begins with a

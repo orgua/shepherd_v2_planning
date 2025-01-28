@@ -44,7 +44,7 @@ A more detailed moved to [shepherd/docs/dev/v2_improvements.rst](https://github.
     - authentication via external services
     - E-Mail notifications
     - testbed status, topology
-    - (optional) grafana visualisation of recorded data
+    - (optional) grafana visualization of recorded data
     - (admins) server status, quota, testbed control
     - documentation and instructions
     - target-management (specify slots of nodes)

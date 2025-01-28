@@ -72,7 +72,7 @@ sudo sh -c 'echo cryptodev /etc/modules'
 
 ## Force OpenSSL to use Crypto-Module-Hardware
 
-**Note:** hard-coding openSSL-Version is stupidly unsecure)
+**Note:** hard-coding openSSL-Version is stupidly insecure)
 
 ```Shell
 # Check active OpenSSL Version

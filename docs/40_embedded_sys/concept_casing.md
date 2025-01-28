@@ -40,7 +40,7 @@
     - Y: 55
     - Z: 25 + 25 + 30
     - 120 x 55 x 80 (528 cm²)
-    - pro: more boxy, would better fit ontop of the cable canal
+    - pro: more boxy, would better fit on top of the cable canal
     - contra:
 
 ## Solutions

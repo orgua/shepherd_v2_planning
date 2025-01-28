@@ -36,7 +36,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - improvement: PRU could be limited to be GPIO-recorder (see previous requirement)
 - assessment:
    - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api (ok, because main purpose is monitoring)
-   - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins offen fall together and limit the available pins
+   - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins often fall together and limit the available pins
    - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
 
 ## User-provided Energy-Traces
@@ -94,7 +94,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - enabler: software-defined PRU-openOCD could try to probe, get chip-ID with various methods (jtag, swd), similar to JTAGulator
 - assessment:
     - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
-    - software could be more tricky ⇾ py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the choosen target
+    - software could be more tricky ⇾ py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the chosen target
     - with some effort even both targets could be powered, one with CV, to allow use as interferer (see next subject) or independent node
 
 ## Separate RF-Interferer

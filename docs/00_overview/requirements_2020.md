@@ -62,5 +62,5 @@
 - manipulation of target-firmware to individualize ID and TX-Power
 - results downloadable by user, for a certain time
 - feedback via e-mail - measurement start, data available, error, shortly before deletion
-- grafana-visualisation
+- grafana-visualization
 - documentation and instructions

@@ -29,7 +29,7 @@
 - scheduler for measurement, time to prepare and follow up (data transfer, conversion, compression, ...)
 - results downloadable by user, for a certain time (no hording)
 - feedback via e-mail - measurement start, data available, error, shortly before deletion
-- (optional) grafana-visualisation
+- (optional) grafana-visualization
 - documentation and instructions
     - landing page
     - "what is that thing in my office"
@@ -50,7 +50,7 @@
     - authentication via external services
     - E-Mail notifications
     - testbed status, topology
-    - (optional) grafana visualisation of recorded data
+    - (optional) grafana visualization of recorded data
     - (admins) server status, quota, testbed control
     - documentation and instructions
     - target-management (specify slots of nodes)
@@ -80,7 +80,7 @@
     - Protobuf
     - RabbitMQ
     - RPC
-- visualisation, analysis ⇾ dash?
+- visualization, analysis ⇾ dash?
 - option to sample down
 
 ## DB Decision

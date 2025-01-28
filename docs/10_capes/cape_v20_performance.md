@@ -19,7 +19,7 @@
     - 500 pA for OpAmp
     - < 40 nA for Diodes
     - < 50 nA for Mosfet
-    - ~1 nA for analogue switches
+    - ~1 nA for analog switches
     - 1-5 uA for level translators (behind switches)
 - extra low noise OpAmps, DAC and ADC
 - high speed, low power gpio to target

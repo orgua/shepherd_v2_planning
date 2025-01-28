@@ -116,7 +116,7 @@ VRefAA: ((R2*R3 + R1*R2) * VB - R1 * R2 * VFet) / (R1*R2 + R1*R3 + R2*R3);
 ## Alternatives
 
 - constraints: BiDir, Auto-sensing, one side 3v3, other side 1.7 - 5 V (nRF52)
-    - TXB ⇾ needs relativly high driving current
+    - TXB ⇾ needs relatively high driving current
     - TXS ⇾ has internal PU, but relies on VRef-Relation
     - LSF ⇾ only conducts on lowside, needs external PU
     - ICs from TI seem to always need special VRef-Relation

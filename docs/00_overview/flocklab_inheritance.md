@@ -15,7 +15,7 @@
 
     - observer: python 3.4 scripts, c programs, pru firmware (rocketlogger and one pru completely programmed in assembly)
     - server: python scripts, php web-frontend, mysql-database, xml-parsing
-    - flocklab-tools: python-lib for uploading experiments, analysing and visualizing data
+    - flocklab-tools: python-lib for uploading experiments, analyzing and visualizing data
 
 - some things to be aware of
 

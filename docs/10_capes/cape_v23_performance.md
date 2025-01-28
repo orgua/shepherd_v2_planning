@@ -3,7 +3,7 @@
 ## Tested
 
 - WD is fine now ⇾ Board gets turned on
-- BB boots with Shepard Cape on
+- BB boots with Shephard Cape on
 - BB-powered boot works, but turning Cape on crashes the 5V Rail (P9-7/8)
 - WD restarting BB works
 

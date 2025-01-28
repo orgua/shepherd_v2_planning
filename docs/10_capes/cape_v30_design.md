@@ -2,7 +2,7 @@
 
 ## Main-Changes
 
-- switch from Beaglebone to Rasberry Compute Module (CM4 for now)
+- switch from Beaglebone to Raspberry Compute Module (CM4 for now)
 - design modular sub-PCBs
 - allow 4 Targets
 
@@ -207,7 +207,7 @@ Pi5
   - sdio
 - Test:
   - RP2040 - serial usb firmware - max output - receive per terminal -
-    - rpi should ask interface regularily, buffer on rp2040 should not overflow
+    - rpi should ask interface regularly, buffer on rp2040 should not overflow
     -
 - SDIO is documented in https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf, Chapter 4, Page 60
 ```

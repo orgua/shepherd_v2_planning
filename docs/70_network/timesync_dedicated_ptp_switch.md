@@ -26,7 +26,7 @@
     - 4x SFP+ Uplink
     - Gigabit L3 Switch, 48 Ports, 505 W POE+
     - ptp seems to be supported: https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-9300-series-switches/q-and-a-c67-744007.pdf
-        - needs "network-advantage" paket
+        - needs "network-advantage" packet
         - <100ns is expected
 - juniper switches
 

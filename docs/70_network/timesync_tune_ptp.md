@@ -7,7 +7,7 @@
     - logs show a big jump in frequency and the node needs some minutes to recover
 - setup - like in last doc "timesync_pru_level"
 
-## Log of Loosing Sync
+## Log of Losing Sync
 
 ```Shell
 sudo journalctl -u ptp4l (Client)

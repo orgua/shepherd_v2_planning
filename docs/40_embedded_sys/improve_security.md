@@ -141,7 +141,7 @@ remove >>console=tty0 console=${console} <<
 # source: https://www.oreilly.com/library/view/linux-security-cookbook/0596003919/ch09s11.html
 # find & disable
 sudo find / -xdev -perm +o=w ! \( -type d -perm +o=t \) ! -type l -ok chmod -v o-w {} \;
-# prevent newly created files from beeing world writable, for current user
+# prevent newly created files from being world writable, for current user
 umask 002
 ```
 

@@ -43,7 +43,7 @@
 - sender was a nRF52840-DK Board with BLE Beacon example, 1 MBit,
     - tx power - 16 to 8 dBm, in this case 0 and 8 dBm
     - rx sensitivity is - 97 dBm
-- receiver was a phone, oneplus 3T, with visualisation of rx-power,
+- receiver was a phone, oneplus 3T, with visualization of rx-power,
     - rx sensitivity down to - 100 dBm
     - path loss in direct proximity was about 50 dB
 - measurement-mode: determine max range while using link-budget and keeping stable connection

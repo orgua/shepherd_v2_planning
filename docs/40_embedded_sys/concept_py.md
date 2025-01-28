@@ -14,7 +14,7 @@
       - traces are file based, there will be a default-folder with pre-selected ones (already on beagle)
    - harvesting-recorder: save-path, capture-duration, start-timestamp, sampling-rate
        - includes current-recorder and switch for dummy-load
-   - dc-emulation-modul: converter modell parameter, capacitor parameters, pre-charge ...
+   - dc-emulation-modul: converter model parameter, capacitor parameters, pre-charge ...
       - low-level model in PRU
    - target-module: path for trace-dumps,
       - submodules: firmware (+addressing by firmware-manipulation), uart, gpios

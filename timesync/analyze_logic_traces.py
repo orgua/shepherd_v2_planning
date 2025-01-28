@@ -6,7 +6,7 @@ import pandas as pd
 files = [
     # "sync_2BB_20_pi-64-128",
     "sync_2BB_19_smooth_ctrl",
-    "sync_2BB_18b_new_trigger",  # pru0 now only watches for interrupt and immediatly triggers a fresh adc sample
+    "sync_2BB_18b_new_trigger",  # pru0 now only watches for interrupt and immediately triggers a fresh adc sample
     # "sync_2BB_18_new_trigger",
     # "sync_2BB_17_tuning", #
     "sync_2BB_16_tuning",
