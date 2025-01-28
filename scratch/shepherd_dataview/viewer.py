@@ -55,7 +55,7 @@ if __name__ == "__main__":
     with h5py.File(infile, "r") as hf:
         ds_time = hf["data"]["time"][:] - hf["data"]["time"][0]
         fs_original = 1e9 / ((ds_time[10000] - ds_time[0]) / 10_000)
-        print(f"original sampling rate: {int(fs_original/1000)}kHz")
+        print(f"original sampling rate: {int(fs_original / 1000)}kHz")
         dc["time"] = ds_time / 1e9
 
         for var in ["voltage", "current"]:
@@ -67,7 +67,7 @@ if __name__ == "__main__":
             stat(dc[var], var)
         dc["power"] = dc["voltage"] * dc["current"]
         stat(dc["power"], "power")
-        print(f" energy [Ws]  = {np.sum(dc['power'])/fs_original}")
+        print(f" energy [Ws]  = {np.sum(dc['power']) / fs_original}")
 
     dpg.create_context()
     dpg.create_viewport(

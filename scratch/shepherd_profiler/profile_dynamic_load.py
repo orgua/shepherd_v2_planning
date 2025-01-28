@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-""" """
-
 import sys
 import time
 from pathlib import Path
@@ -121,7 +118,7 @@ def measure(host, user, password, smu_ip, harvester, emulator):
         kth.reset()
         cnx.sudo("systemctl restart shepherd-rpc", hide=True, warn=True)
         time.sleep(4)
-        rpc_client.connect(f"tcp://{ host }:4242")
+        rpc_client.connect(f"tcp://{host}:4242")
 
         voltage_V = 3.0
         currents_A = [1e-6, 10e-3, 1e-6, 40e-3, 1e-6, 10e-3, 40e-3]

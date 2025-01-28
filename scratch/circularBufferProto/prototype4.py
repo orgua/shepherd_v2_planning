@@ -2,7 +2,6 @@ import logging
 import sys
 import threading
 import time
-from typing import Optional
 
 import chromalog
 import numpy as np
@@ -33,10 +32,11 @@ console_handler = chromalog.ColorizingStreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
 log.addHandler(console_handler)
 
+
 class DataBuffer:
     def __init__(self):
-        self.idx_reader: int = IDX_OUT_OF_BOUND # position of next (not yet read) value
-        self.idx_writer: int = IDX_OUT_OF_BOUND # position of next (not yet written) value
+        self.idx_reader: int = IDX_OUT_OF_BOUND  # position of next (not yet read) value
+        self.idx_writer: int = IDX_OUT_OF_BOUND  # position of next (not yet written) value
         self.data = np.zeros(shape=config["buffer_size"], dtype=np.uint32)
         self.BLOCKS: int = config["buffer_size"] // config["block_size"]
         self.run_writer: bool = True
@@ -97,7 +97,9 @@ class Cache(threading.Thread):
             return 0
         cache_offset: int = (block_idx * config["block_size"]) % config["cache_size"]
         buffer_offset: int = (block_idx * config["block_size"]) % config["buffer_size"]
-        self._cache.data[cache_offset:cache_offset + config["block_size"]] = self._buffer.data[buffer_offset:buffer_offset + config["block_size"]]
+        self._cache.data[cache_offset : cache_offset + config["block_size"]] = self._buffer.data[
+            buffer_offset : buffer_offset + config["block_size"]
+        ]
         self._cache.flags[block_idx] = 1
         log.debug(f"[cache] cached block {block_idx}, fill = {self._block_fill + 1}")
         return 1
@@ -107,14 +109,13 @@ class Cache(threading.Thread):
             return 0
         self._cache.flags[block_idx] = 0
         cache_offset: int = (block_idx * config["block_size"]) % config["cache_size"]
-        self._cache.data[cache_offset:cache_offset + config["block_size"]] = 0
+        self._cache.data[cache_offset : cache_offset + config["block_size"]] = 0
         if self._block_fill < self._cache.BLOCKS:
             log.debug(f"[cache] cleared block {block_idx}, fill = {self._block_fill + 1}")
         return 1
 
 
 class Writer(threading.Thread):
-
     def __init__(self, buffer: DataBuffer):
         threading.Thread.__init__(self)
         self._buffer: DataBuffer = buffer
@@ -139,7 +140,7 @@ class Writer(threading.Thread):
         if self._buffer.idx_writer == IDX_OUT_OF_BOUND:
             return config["buffer_size"]
         if self._buffer.idx_reader == IDX_OUT_OF_BOUND:
-            return (config["buffer_size"] - self._buffer.idx_writer ) % config["buffer_size"]
+            return (config["buffer_size"] - self._buffer.idx_writer) % config["buffer_size"]
         return (self._buffer.idx_reader - self._buffer.idx_writer) % config["buffer_size"]
 
     def write_block(self) -> bool:
@@ -158,12 +159,11 @@ class Writer(threading.Thread):
 
 
 class Reader(threading.Thread):
-
     def __init__(self, buffer: DataBuffer, cache: DataCache):
         threading.Thread.__init__(self)
         self._buffer: DataBuffer = buffer
         self._cache: DataCache = cache
-        self._sample_last: Optional[int] = None
+        self._sample_last: int | None = None
 
     def run(self):
         log.debug("[reader] waiting to start")
