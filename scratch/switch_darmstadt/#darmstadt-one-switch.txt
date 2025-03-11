@@ -1,0 +1,5 @@
+V1 - One switch - ubiquity in piloty
+
+V2 - two switches - over main central
+
+channel 1 ist der 41 (switch2)
