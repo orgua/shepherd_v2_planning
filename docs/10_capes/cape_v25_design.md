@@ -63,7 +63,7 @@ Status 2024-02: still not produced - maybe skipped for switching platform
     - **729-PI5A4157ZUEX**: UDFN-Package, 1x1 mm, mouser totally hides out of life parts, is in stock
   - LP2989-3.3 not avail as VSSOP-8 / TSOP
     - switch to WSON?
-    - **926-LP2989AIMM33NOPB**, same but double the price 
+    - **926-LP2989AIMM33NOPB**, same but double the price
   - 10k 0402 667-ERJ-2GEJ103X -> 603-RC0402FR-7W10KL
   - 5.1k 0402 667-ERJ-2RKF5101X -> 603-RC0402FR-075K1L
 
@@ -79,11 +79,14 @@ Manual Mods (not final):
 - xp: 10mV Ref input - C149 - 1uF + 10uF
 
 TODO:
-
 - software changes
 - harvester seems a bit too fast - current is overswinging - see SM141K04LV ivcurve
 - disable GPIO IO if voltage is cut (due to low_threshold)
 - switch to usb PD with 12V?
+
+## Errors of v2.5d
+
+- button-connector has no paste on gnd-pads
 
 ## Pin Def
 
@@ -107,8 +110,8 @@ r30_09/out  TARGET_BAT_OK   P8_29	-
 
 ```
 pru_reg       name              BB_pin	sys_pin sys_reg
-pru1_r31_00   TARGET_GPIO0/uRx  P8_45	P9_26, g0[14] -> 14 (also Sys/PRU-UART)   
-pru1_r31_01   TARGET_GPIO1/uTx  P8_46	P9_24, g0[15] -> 15 (also Sys/PRU-UART)  
+pru1_r31_00   TARGET_GPIO0/uRx  P8_45	P9_26, g0[14] -> 14 (also Sys/PRU-UART)
+pru1_r31_01   TARGET_GPIO1/uTx  P8_46	P9_24, g0[15] -> 15 (also Sys/PRU-UART)
 pru1_r31_02   TARGET_GPIO2      P8_43	P8_16, g1[14] -> 46
 pru1_r31_03   TARGET_GPIO3      P8_44	P8_15, g1[15] -> 47
 pru1_r31_04   TARGET_GPIO4      P8_41	P8_26, g1[29] -> 61
@@ -128,7 +131,7 @@ pru0_r30_07   -                 P9_25     (was CS_ADC2_REC)
 # solder paste
 
 - loctite GC 10 only 100 g and more
-- chip quik 
+- chip quik
   - SMDLTLFP 15 T4, 15g, Sn42/Bi57.6/Ag0.4
   - TS391LT50, 50g, T4, Sn42/Bi57.6/Ag0.4, Lead Free, No Clean, Thermally Stable, LOW TEMP 140°C
   - TS391SNL50, 50g, T4, Sn96.5/Ag03/Cu0.5, Lead Free, No Clean, Thermally Stable, 220°C
@@ -136,7 +139,7 @@ pru0_r30_07   -                 P9_25     (was CS_ADC2_REC)
   - T5 (15-25 microns)
   - T6 (5-15)
   - SMDLTLFP10T5, 35g, T5, Sn42/Bi57.6/Ag0.4, Lead Free, Low Temperature
-  - SMD291SNL10T5, 35g, T5, 
+  - SMD291SNL10T5, 35g, T5,
   - good filters: https://www.chipquik.com/store/product_info.php?products_id=440012
 - msp430FR-datasheet states compliance to jedec j-std-020 reflow profile
 - ordered: 31 parts Target, SMD291SNL10T5, TS391LT50
@@ -145,4 +148,4 @@ pru0_r30_07   -                 P9_25     (was CS_ADC2_REC)
 
 - RP2350 - test - connector
 - harvesting frontends
-- 
+-
