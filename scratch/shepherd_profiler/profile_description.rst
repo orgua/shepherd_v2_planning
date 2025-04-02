@@ -52,16 +52,4 @@ Profiling of Frontends
 
 17 Bake off
 
-18 
-
-
-
-
-
-
-
-
-
-
-
-
+18

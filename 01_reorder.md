@@ -12,4 +12,3 @@ TODO:
 - presentation 2
 
 - collaboration
-- adapt issue -> hint to subprojects
