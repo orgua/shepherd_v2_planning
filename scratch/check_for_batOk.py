@@ -8,9 +8,7 @@ import numpy as np
 def cli(database):
     with h5py.File(database, "r") as db:
         print(f"File got {len(db['gpio']['value'])} entries for GPIO")
-        tt = db["gpio"]["value"][:] & (
-            int(2**9) + int(2**10)
-        )  # BitPosition r30_09/out  TARGET_BAT_OK
+        tt = db["gpio"]["value"][:] & ((2**9) + (2**10))  # BitPosition r30_09/out  TARGET_BAT_OK
         counts = np.unique(tt, return_counts=True)
         print("got the following result for BatOK:")
         print(counts)

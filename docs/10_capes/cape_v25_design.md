@@ -133,13 +133,13 @@ pru0_r30_07   -                 P9_25     (was CS_ADC2_REC)
 - loctite GC 10 only 100 g and more
 - chip quik
   - SMDLTLFP 15 T4, 15g, Sn42/Bi57.6/Ag0.4
-  - TS391LT50, 50g, T4, Sn42/Bi57.6/Ag0.4, Lead Free, No Clean, Thermally Stable, LOW TEMP 140°C
+  - **TS391LT50**, 50g, T4 (20-38 microns), Sn42/Bi57.6/Ag0.4, Lead Free, No Clean, Thermally Stable, LOW TEMP 140°C
   - TS391SNL50, 50g, T4, Sn96.5/Ag03/Cu0.5, Lead Free, No Clean, Thermally Stable, 220°C
   - T4 (20-38 microns)
   - T5 (15-25 microns)
   - T6 (5-15)
   - SMDLTLFP10T5, 35g, T5, Sn42/Bi57.6/Ag0.4, Lead Free, Low Temperature
-  - SMD291SNL10T5, 35g, T5,
+  - **SMD291SNL10T5**, 35g, T5 (15-25 microns), Sn96.5/Ag3.0/Cu0.5, Lead Free, 217-220C, refridge > 6 month, room > 2 month
   - good filters: https://www.chipquik.com/store/product_info.php?products_id=440012
 - msp430FR-datasheet states compliance to jedec j-std-020 reflow profile
 - ordered: 31 parts Target, SMD291SNL10T5, TS391LT50
